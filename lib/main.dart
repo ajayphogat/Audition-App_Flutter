@@ -1,5 +1,7 @@
 import 'package:first_app/homePage/homePage.dart';
+import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/loginPage.dart';
+import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/login/signUpPage.dart';
 import 'package:first_app/login/verifiedPage.dart';
 import 'package:first_app/login/verifyMobile.dart';
@@ -15,12 +17,12 @@ class MyAPP extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        "/": (context) =>
-            const VerifiedPage(), //FIXME: Change this Starting Screen
+        "/": (context) => ForgotPassword(), //FIXME: Change this Starting Screen
         LoginPage.routeName: (context) => const LoginPage(),
         SignupPage.routeName: (context) => const SignupPage(),
         VerifyMobile.routeName: (context) => const VerifyMobile(),
         VerifiedPage.routeName: (context) => const VerifiedPage(),
+        ForgotPassword.routeName: (context) => ForgotPassword(),
         HomePage.routeName: (context) => const HomePage(),
       },
       debugShowCheckedModeBanner: false,

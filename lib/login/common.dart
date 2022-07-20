@@ -7,7 +7,7 @@ Widget commonTextField(
     child: Stack(
       children: [
         Material(
-          elevation: 8,
+          elevation: 5,
           borderRadius: BorderRadius.circular(8),
           child: Container(
             width: MediaQuery.of(context).size.width - 120,
