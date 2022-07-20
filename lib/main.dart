@@ -1,6 +1,5 @@
 import 'package:first_app/homePage/homePage.dart';
 import 'package:first_app/login/loginPage.dart';
-import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/login/signUpPage.dart';
 import 'package:first_app/login/verifiedPage.dart';
 import 'package:first_app/login/verifyMobile.dart';

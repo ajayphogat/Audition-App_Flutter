@@ -1,4 +1,5 @@
 import 'package:first_app/homePage/homePage.dart';
+import 'package:first_app/login/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -53,26 +54,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
                 ],
               ),
               const SizedBox(height: 60),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, HomePage.routeName, (route) => false);
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width - 160,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: const Color(0xFFF9D422)),
-                  child: const Text(
-                    "Enter OTP",
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ),
+              longBasicButton(context, HomePage.routeName, "Enter OTP"),
             ],
           ),
         ),

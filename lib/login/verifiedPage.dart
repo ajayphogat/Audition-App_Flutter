@@ -1,3 +1,5 @@
+import 'package:first_app/homePage/homePage.dart';
+import 'package:first_app/login/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -9,19 +11,29 @@ class VerifiedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            AspectRatio(
-              aspectRatio: 2,
-              child: SvgPicture.asset(
-                  "asset/images/illustration/charm_circle-tick.svg"),
-            ),
-            const Text(
-              "Your mobile number is\nsuccessfully verified.",
-              style: TextStyle(),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.20),
+              AspectRatio(
+                aspectRatio: 2,
+                child: SvgPicture.asset(
+                    "asset/images/illustration/charm_circle-tick.svg"),
+              ),
+              const SizedBox(height: 60),
+              const Text(
+                "Your mobile number is\nsuccessfully verified.",
+                style: TextStyle(
+                  fontSize: 30,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 50),
+              longBasicButton(context, HomePage.routeName, "Go Home"),
+            ],
+          ),
         ),
       ),
     );

@@ -71,3 +71,25 @@ InkWell basicButton(BuildContext context, formKey, routeName, String text) {
     ),
   );
 }
+
+InkWell longBasicButton(BuildContext context, routeName, String text) {
+  return InkWell(
+    onTap: () {
+      Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false);
+    },
+    child: Container(
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width - 160,
+      height: 40,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: const Color(0xFFF9D422)),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 15,
+        ),
+      ),
+    ),
+  );
+}
