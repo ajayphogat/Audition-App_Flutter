@@ -182,58 +182,102 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 5),
             SizedBox(
-              height: screenHeight * 0.30,
+              height: screenHeight * 0.285,
               child: ListView(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 children: [
-                  Material(
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: screenWidth * 0.40,
-                            height: screenHeight * 0.23,
-                            color: Colors.orange,
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            "Ac rhoncus, sit aenean",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          const Text(
-                            "Rutrum ut vulputate nulla",
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            "Actor",
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  textContainer(
+                      screenWidth,
+                      screenHeight,
+                      "Ac rhoncus, sit aenean",
+                      "Rutrum ut vulputate nulla",
+                      "Actor"),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: textContainer(
+                        screenWidth,
+                        screenHeight,
+                        "Ac rhoncus, sit aenean",
+                        "Rutrum ut vulputate nulla",
+                        "Actor"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: textContainer(
+                        screenWidth,
+                        screenHeight,
+                        "Ac rhoncus, sit aenean",
+                        "Rutrum ut vulputate nulla",
+                        "Actor"),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
             const Text("Hello"),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Material textContainer(double screenWidth, double screenHeight, String s1,
+      String s2, String s3) {
+    return Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: screenWidth * 0.35,
+              height: screenHeight * 0.18,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+              ),
+              child: Image.asset("asset/images/uiImages/green_work.png"),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 5, right: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 5),
+                  Text(
+                    s1,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    s2,
+                    style: const TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    s3,
+                    style: const TextStyle(
+                      fontSize: 9,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
