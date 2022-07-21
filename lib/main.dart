@@ -1,3 +1,4 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/homePage/homePage.dart';
 import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/loginPage.dart';
@@ -17,13 +18,16 @@ class MyAPP extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        "/": (context) => ForgotPassword(), //FIXME: Change this Starting Screen
+        "/": (context) =>
+            const BottomNavigationPage(), //FIXME: Change this Starting Screen
         LoginPage.routeName: (context) => const LoginPage(),
         SignupPage.routeName: (context) => const SignupPage(),
         VerifyMobile.routeName: (context) => const VerifyMobile(),
         VerifiedPage.routeName: (context) => const VerifiedPage(),
         ForgotPassword.routeName: (context) => ForgotPassword(),
         HomePage.routeName: (context) => const HomePage(),
+        BottomNavigationPage.routeName: (context) =>
+            const BottomNavigationPage(),
       },
       debugShowCheckedModeBanner: false,
     );
