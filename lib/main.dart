@@ -1,5 +1,8 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
-import 'package:first_app/homePage/homePage.dart';
+import 'package:first_app/bottomNavigation/homePage.dart';
+import 'package:first_app/bottomNavigation/inbox.dart';
+import 'package:first_app/bottomNavigation/myApplication.dart';
+import 'package:first_app/bottomNavigation/myProfile.dart';
 import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/loginPage.dart';
 import 'package:first_app/login/mainPage.dart';
@@ -26,6 +29,9 @@ class MyAPP extends StatelessWidget {
         VerifiedPage.routeName: (context) => const VerifiedPage(),
         ForgotPassword.routeName: (context) => ForgotPassword(),
         HomePage.routeName: (context) => const HomePage(),
+        MyApplicationPage.routeName: (context) => const MyApplicationPage(),
+        InboxPage.routeName: (context) => const InboxPage(),
+        MyProfilePage.routeName: (context) => const MyProfilePage(),
         BottomNavigationPage.routeName: (context) =>
             const BottomNavigationPage(),
       },
