@@ -1,5 +1,7 @@
+import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/pages/categoryDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -184,7 +186,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 5),
             SizedBox(
-              height: screenHeight * 0.285,
+              height: screenHeight * 0.263,
               child: ListView(
                 padding: const EdgeInsets.only(
                     left: 20, right: 20, top: 10, bottom: 10),
@@ -196,15 +198,17 @@ class _HomePageState extends State<HomePage> {
                       screenHeight,
                       "Ac rhoncus, sit aenean",
                       "Rutrum ut vulputate nulla",
-                      "Actor"),
+                      "Actor",
+                      "green_work"),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: textContainer(
                         screenWidth,
                         screenHeight,
-                        "Ac rhoncus, sit aenean",
-                        "Rutrum ut vulputate nulla",
-                        "Actor"),
+                        "Tincidunt dui elit eu",
+                        "Venenatis sed pell",
+                        "Dancer",
+                        "black_dance"),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
@@ -213,67 +217,54 @@ class _HomePageState extends State<HomePage> {
                         screenHeight,
                         "Ac rhoncus, sit aenean",
                         "Rutrum ut vulputate nulla",
-                        "Actor"),
+                        "Actor",
+                        "black_band"),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            const Text("Hello"),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Material textContainer(double screenWidth, double screenHeight, String s1,
-      String s2, String s3) {
-    return Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
             Container(
-              width: screenWidth * 0.35,
-              height: screenHeight * 0.18,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+              padding: EdgeInsets.only(left: screenWidth * 0.04),
+              width: screenWidth,
+              child: const Text(
+                "More",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              child: Image.asset("asset/images/uiImages/green_work.png"),
             ),
-            Container(
-              padding: const EdgeInsets.only(left: 5, right: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 5),
+            SizedBox(
+              height: screenHeight * 0.263,
+              child: ListView(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
                 children: [
-                  const SizedBox(height: 5),
-                  Text(
-                    s1,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                  textContainer(screenWidth, screenHeight, "Tincidunt commodo",
+                      "Tristique ac sit bibendum", "Musician", "red_shooting"),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: textContainer(
+                        screenWidth,
+                        screenHeight,
+                        "Lesi a imperdiet",
+                        "Magna egpulvinar eget",
+                        "Dancer",
+                        "white_dress_dance"),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    s2,
-                    style: const TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    s3,
-                    style: const TextStyle(
-                      fontSize: 9,
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: textContainer(
+                        screenWidth,
+                        screenHeight,
+                        "Ac rhoncus aenean",
+                        "Diam enim, lacus, amet",
+                        "Musician",
+                        "colorfull_band"),
                   ),
                 ],
               ),
@@ -285,23 +276,30 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget gridContainer(String name) {
-    return Material(
-      borderRadius: BorderRadius.circular(10),
-      elevation: 5,
-      child: Container(
-        width: (MediaQuery.of(context).size.width - 40) / 3,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color(0xFFFDF5F2),
-        ),
-        child: Column(
-          children: [
-            AspectRatio(
-                aspectRatio: 1,
-                child: Image.asset("asset/images/categoryImages/$name.png")),
-            Text(name),
-            const SizedBox(height: 10),
-          ],
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, CategoryDetailPage.routeName);
+      },
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        elevation: 5,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          width: (MediaQuery.of(context).size.width - 40) / 3,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: const Color(0xFFFDF5F2),
+          ),
+          child: Column(
+            children: [
+              AspectRatio(
+                  aspectRatio: 0.89,
+                  child: Image.asset("asset/images/categoryImages/$name.png")),
+              const SizedBox(height: 5),
+              Text(name),
+              const SizedBox(height: 5),
+            ],
+          ),
         ),
       ),
     );

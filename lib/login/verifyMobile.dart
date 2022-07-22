@@ -1,5 +1,6 @@
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/login/verifiedPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -54,7 +55,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
                 ],
               ),
               const SizedBox(height: 60),
-              longBasicButton(context, HomePage.routeName, "Enter OTP"),
+              longBasicButton(context, VerifiedPage.routeName, "Enter OTP"),
             ],
           ),
         ),

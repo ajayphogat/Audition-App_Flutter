@@ -1,3 +1,4 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/common/common.dart';
@@ -125,7 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              basicButton(context, _formKey, HomePage.routeName, "Login"),
+              basicButton(
+                  context, _formKey, BottomNavigationPage.routeName, "Login"),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

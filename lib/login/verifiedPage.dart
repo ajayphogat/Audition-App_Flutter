@@ -1,3 +1,4 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/common/common.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,8 @@ class VerifiedPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 50),
-              longBasicButton(context, HomePage.routeName, "Go Home"),
+              longBasicButton(
+                  context, BottomNavigationPage.routeName, "Go Home"),
             ],
           ),
         ),
