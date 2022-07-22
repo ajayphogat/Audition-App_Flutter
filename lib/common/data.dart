@@ -7,6 +7,28 @@ const List<String> categoryData = [
   "Chirographer",
 ];
 
+const List<String> myApplicationData = [
+  "Applied",
+  "Shortlisted",
+  "Accepted",
+  "Declined",
+  "Pending",
+  "Draft",
+];
+
+const List<List<String>> applicationAppliedData = [
+  [
+    "Esther Howard",
+    "Egestas eget gravida dui neque, eu nunc.",
+    "asset/images/uiImages/1.png",
+  ],
+  [
+    "Savannah Nguyen",
+    "Morbi semper risus aliquet nunc orci scelerisque sed elit, sodales.",
+    "asset/images/uiImages/3.png",
+  ],
+];
+
 const List<List<String>> actorData = [
   [
     "Diam ullamcorper",
