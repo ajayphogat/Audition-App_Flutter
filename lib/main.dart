@@ -11,6 +11,7 @@ import 'package:first_app/login/verifiedPage.dart';
 import 'package:first_app/login/verifyMobile.dart';
 import 'package:first_app/pages/categoryDetailPage.dart';
 import 'package:first_app/pages/categoryPageGrid.dart';
+import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +25,7 @@ class MyAPP extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        "/": (context) =>
-            const BottomNavigationPage(), //FIXME: Change this Starting Screen
+        "/": (context) => const MainPage(), //FIXME: Change this Starting Screen
         LoginPage.routeName: (context) => const LoginPage(),
         SignupPage.routeName: (context) => const SignupPage(),
         VerifyMobile.routeName: (context) => const VerifyMobile(),
@@ -39,7 +39,7 @@ class MyAPP extends StatelessWidget {
         CategoryGirdPage.routeName: (context) => const CategoryGirdPage(),
         MyApplicationAppliedPage.routeName: (context) =>
             const MyApplicationAppliedPage(),
-
+        InboxMessagePage.routeName: (context) => const InboxMessagePage(),
         BottomNavigationPage.routeName: (context) =>
             const BottomNavigationPage(),
       },

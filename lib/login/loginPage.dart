@@ -1,7 +1,7 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/login/forgotPassword.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  bool isObscure = false;
+  bool isObscure = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -117,7 +117,9 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.topRight,
                 width: MediaQuery.of(context).size.width - 120,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, ForgotPassword.routeName);
+                  },
                   style: ButtonStyle(
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.black),

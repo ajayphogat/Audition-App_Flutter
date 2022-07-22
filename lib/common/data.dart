@@ -29,6 +29,29 @@ const List<List<String>> applicationAppliedData = [
   ],
 ];
 
+const List<String> inboxData = [
+  "Messages",
+  "Notifications",
+];
+
+const List<List<String>> inboxMessageData = [
+  [
+    "Cameron Williamson",
+    "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
+    "asset/images/uiImages/8.png",
+  ],
+  [
+    "Dianne Russell",
+    "Auctor arcu, vulputate tempor elementum malesuada.",
+    "asset/images/uiImages/10.png",
+  ],
+  [
+    "Jerome Bell",
+    "Diam fementum molestie odio faucibus hendrerit volutpat sit.",
+    "asset/images/uiImages/2.png",
+  ],
+];
+
 const List<List<String>> actorData = [
   [
     "Diam ullamcorper",

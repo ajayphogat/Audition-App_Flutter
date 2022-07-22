@@ -1,28 +1,27 @@
 import 'package:first_app/common/data.dart';
 import 'package:flutter/material.dart';
 
-class MyApplicationAppliedPage extends StatefulWidget {
-  const MyApplicationAppliedPage({Key? key}) : super(key: key);
+class InboxMessagePage extends StatefulWidget {
+  const InboxMessagePage({Key? key}) : super(key: key);
 
-  static const String routeName = "/myApplicationApplied-page";
+  static const String routeName = "/inboxMessage-page";
 
   @override
-  State<MyApplicationAppliedPage> createState() =>
-      _MyApplicationAppliedPageState();
+  State<InboxMessagePage> createState() => _InboxMessagePageState();
 }
 
-class _MyApplicationAppliedPageState extends State<MyApplicationAppliedPage> {
+class _InboxMessagePageState extends State<InboxMessagePage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 25),
         child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: applicationAppliedData.length,
+          itemCount: inboxMessageData.length,
           itemBuilder: (context, index) {
-            List<String> data = applicationAppliedData[index];
+            List<String> data = inboxMessageData[index];
             return SizedBox(
               child: Column(
                 children: [
