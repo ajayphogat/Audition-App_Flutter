@@ -38,7 +38,7 @@ class _MyApplicationState extends State<MyApplicationPage>
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: basicAppBar2(screenHeight, screenWidth, context, _searchEdit,
+      appBar: basicAppBar(screenHeight, screenWidth, context, _searchEdit,
           _tabController, myApplicationData),
       body: TabBarView(
         controller: _tabController,

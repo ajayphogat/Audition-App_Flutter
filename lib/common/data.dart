@@ -104,3 +104,39 @@ const List<List<String>> actorData = [
     "asset/images/uiImages/10.png",
   ],
 ];
+
+List<String> profileData = [
+  "Basic Info",
+  "Appearance",
+  "Website/Social Media",
+  "Union Membership",
+  "Skills",
+  "Credits",
+  "Subscription",
+  "Create Another Profile",
+];
+
+List<String> profileMediaData = [
+  "Photos",
+  "Videos",
+  "Audios",
+  "Documents",
+  "Draft",
+];
+
+List<String> mediaPicData = [
+  "asset/images/uiImages/m1.png",
+  "asset/images/uiImages/m2.png",
+  "asset/images/uiImages/face.png",
+  "asset/images/uiImages/m3.png",
+  "asset/images/uiImages/m4.png",
+  "asset/images/uiImages/m5.png",
+  "asset/images/uiImages/m6.png",
+  "asset/images/uiImages/m7.png",
+];
+
+List<String> mediaVideoData = [
+  "asset/images/uiImages/mv1.png",
+  "asset/images/uiImages/mv2.png",
+  "asset/images/uiImages/mv3.png",
+];

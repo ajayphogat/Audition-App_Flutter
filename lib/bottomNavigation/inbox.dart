@@ -1,3 +1,4 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
@@ -39,26 +40,31 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      //we have not used basicAppBar() because this inbox has only 2 Tabs and basicAppBar() have 5 by default
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.10,
         backgroundColor: Colors.white,
         actions: [
-          Container(
+          SizedBox(
             width: screenWidth,
             height: screenHeight * 0.10,
-            padding: EdgeInsets.only(
-              left: screenWidth * 0.05,
-              right: screenWidth * 0.01,
-            ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                IconButton(
+                  icon: const Icon(MyFlutterApp.bi_arrow_down,
+                      color: Colors.black),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, BottomNavigationPage.routeName);
+                  },
+                ),
                 Material(
                   elevation: 5,
                   borderRadius: BorderRadius.circular(4),
                   child: Container(
-                    width: screenWidth * 0.80,
+                    width: screenWidth * 0.75,
                     height: screenHeight * 0.045,
+                    // padding: const EdgeInsets.only(bottom: 2),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
                       color: Colors.white,
@@ -91,7 +97,6 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
                   ),
                 ),
                 IconButton(
-                  padding: EdgeInsets.zero,
                   onPressed: () {},
                   icon: const Icon(MyFlutterApp.filter),
                   color: Colors.black,

@@ -1,3 +1,4 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/main.dart';
@@ -234,7 +235,11 @@ AppBar basicAppBar(
             IconButton(
               icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
               onPressed: () {
-                Navigator.pop(context);
+                if (data == categoryData) {
+                  Navigator.pop(context);
+                }
+                Navigator.pushReplacementNamed(
+                    context, BottomNavigationPage.routeName);
               },
             ),
             Material(

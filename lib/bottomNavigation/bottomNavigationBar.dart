@@ -21,7 +21,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     const HomePage(),
     const MyApplicationPage(),
     const InboxPage(),
-    const MyProfilePage(),
+    const MyProfile(),
   ];
 
   void updatePage(int page) {
