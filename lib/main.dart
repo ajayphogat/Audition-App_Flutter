@@ -9,11 +9,19 @@ import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/login/signUpPage.dart';
 import 'package:first_app/login/verifiedPage.dart';
 import 'package:first_app/login/verifyMobile.dart';
-import 'package:first_app/pages/categoryDetailPage.dart';
-import 'package:first_app/pages/categoryPageGrid.dart';
+import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
+import 'package:first_app/pages/categorySection/categoryPageGrid.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
+import 'package:first_app/pages/myProfilePages/detailMenuPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/createProfilePage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/creditsPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/membershipPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/skillsPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:flutter/material.dart';
@@ -37,24 +45,52 @@ class MyAPP extends StatelessWidget {
         initialRoute: "/",
         routes: {
           "/": (context) =>
-              const BasicInfoPage(), //FIXME: Change this Starting Screen
+              const MainPage(), //FIXME: Change this Starting Screen
+          // Authentication Page Section
           LoginPage.routeName: (context) => const LoginPage(),
           SignupPage.routeName: (context) => const SignupPage(),
           VerifyMobile.routeName: (context) => const VerifyMobile(),
           VerifiedPage.routeName: (context) => const VerifiedPage(),
           ForgotPassword.routeName: (context) => ForgotPassword(),
+
+          // Home Page Section
           HomePage.routeName: (context) => const HomePage(),
-          MyApplicationPage.routeName: (context) => const MyApplicationPage(),
-          InboxPage.routeName: (context) => const InboxPage(),
-          MyProfile.routeName: (context) => const MyProfile(),
+          // Home Page - Category Pages
           CategoryDetailPage.routeName: (context) => const CategoryDetailPage(),
           CategoryGirdPage.routeName: (context) => const CategoryGirdPage(),
+
+          // My Application Page Section
+          MyApplicationPage.routeName: (context) => const MyApplicationPage(),
           MyApplicationAppliedPage.routeName: (context) =>
               const MyApplicationAppliedPage(),
+
+          // Inbox Page Section
+          InboxPage.routeName: (context) => const InboxPage(),
           InboxMessagePage.routeName: (context) => const InboxMessagePage(),
+
+          // My Profile Page Section
+          MyProfile.routeName: (context) => const MyProfile(),
           MyProfilePage.routeName: (context) => const MyProfilePage(),
+          DetailMenuPage.routeName: (context) => const DetailMenuPage(),
           MediaProfilePage.routeName: (context) => const MediaProfilePage(),
+          // My Profile Page - Basic Page
           BasicInfoPage.routeName: (context) => const BasicInfoPage(),
+          // My Profile Page - Appearance Page
+          AppearancePage.routeName: (context) => const AppearancePage(),
+          // My Profile Page - Social Media Page
+          SocialMediaPage.routeName: (context) => const SocialMediaPage(),
+          // My Profile Page - Membership Page
+          MembershipPage.routeName: (context) => const MembershipPage(),
+          // My Profile Page - Skills Page
+          SkillsPage.routeName: (context) => const SkillsPage(),
+          // My Profile Page - Credits Page
+          CreditsPage.routeName: (context) => const CreditsPage(),
+          // My Profile Page - Subscription Page
+          SubscriptionPage.routeName: (context) => const SubscriptionPage(),
+          // My Profile Page - Create Profile Page
+          CreateProfilePage.routeName: (context) => const CreateProfilePage(),
+
+          // Bottom Navigation Bar
           BottomNavigationPage.routeName: (context) =>
               const BottomNavigationPage(),
         },

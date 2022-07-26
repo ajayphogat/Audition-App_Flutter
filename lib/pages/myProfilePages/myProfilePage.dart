@@ -1,5 +1,7 @@
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/pages/myProfilePages/detailMenuPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -16,6 +18,8 @@ class MyProfilePage extends StatefulWidget {
 class _MyProfilePageState extends State<MyProfilePage>
     with TickerProviderStateMixin {
   late TabController _tabController;
+
+  List<String> _data = [];
 
   @override
   void initState() {
@@ -133,52 +137,15 @@ class _MyProfilePageState extends State<MyProfilePage>
               margin: const EdgeInsets.only(top: 15),
               child: TabBarView(
                 controller: _tabController,
-                children: [
-                  detailsMenu(screenWidth, screenHeight),
-                  const MediaProfilePage(),
+                children: const [
+                  DetailMenuPage(),
+                  MediaProfilePage(),
                 ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  ListView detailsMenu(double screenWidth, double screenHeight) {
-    return ListView.builder(
-      itemCount: profileData.length,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.only(top: 19, left: 15, right: 15),
-          child: Material(
-            elevation: 4,
-            borderRadius: BorderRadius.circular(5),
-            child: InkWell(
-              onTap: () {
-                print("Bye-Bye, $index");
-              },
-              child: Container(
-                alignment: Alignment.center,
-                width: screenWidth,
-                height: screenHeight * 0.042,
-                padding: const EdgeInsets.only(left: 15, right: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFDF5F2),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(profileData[index]),
-                    const Icon(MyFlutterApp.arrow_right_2),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }

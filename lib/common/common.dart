@@ -485,7 +485,7 @@ Material basicTextFormField(double screenWidth, double screenHeight,
 
 Container basicDropDown(double screenHeight, String title, String subTitle) {
   return Container(
-    margin: EdgeInsets.only(top: screenHeight * 0.03),
+    margin: EdgeInsets.only(bottom: screenHeight * 0.03),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -522,5 +522,138 @@ TextButton appBarTextButton(String text) {
         color: Color(0xFF30319D),
       ),
     ),
+  );
+}
+
+Widget detailsMenu(BuildContext context, double screenWidth,
+    double screenHeight, String text, String routeName) {
+  return Container(
+    margin: const EdgeInsets.only(top: 19, left: 15, right: 15),
+    child: Material(
+      elevation: 4,
+      borderRadius: BorderRadius.circular(5),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, routeName);
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: screenWidth,
+          height: screenHeight * 0.042,
+          padding: const EdgeInsets.only(left: 15, right: 10),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFDF5F2),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(text),
+              const Icon(MyFlutterApp.arrow_right_2),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+AppBar profileAppBar(double screenHeight, double screenWidth,
+    BuildContext context, String headline) {
+  return AppBar(
+    backgroundColor: Colors.white,
+    toolbarHeight: screenHeight * 0.1015,
+    actions: [
+      SizedBox(
+        width: screenWidth,
+        height: screenHeight * 0.08,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  left: screenWidth * 0.02,
+                  right: screenWidth * 0.02,
+                  top: screenHeight * 0.02,
+                  bottom: screenHeight * 0.005),
+              height: screenHeight * 0.02,
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                alignment: Alignment.centerLeft,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon:
+                    const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  appBarTextButton("Cancel"),
+                  Text(
+                    headline,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                  appBarTextButton("Save"),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+Column newColumn(
+    double screenHeight, String text1, String text2, String buttonText) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      AspectRatio(
+        aspectRatio: 2,
+        child: SvgPicture.asset("asset/images/illustration/innovation.svg"),
+      ),
+      SizedBox(height: screenHeight * 0.03),
+      Text(
+        text1,
+        style: const TextStyle(
+          fontSize: 20,
+          color: Color(0xFF979797),
+        ),
+      ),
+      SizedBox(height: screenHeight * 0.015),
+      Text(
+        text2,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 14,
+          color: Color(0xFF979797),
+        ),
+      ),
+      SizedBox(height: screenHeight * 0.03),
+      InkWell(
+        onTap: () {},
+        child: Container(
+          alignment: Alignment.center,
+          width: 150,
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: const Color(0xFFF9D422),
+          ),
+          child: Text(
+            buttonText,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
+      ),
+    ],
   );
 }

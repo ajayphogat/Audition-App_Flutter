@@ -1,9 +1,7 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
-import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/pages/categoryPageGrid.dart';
+import 'package:first_app/pages/categorySection/categoryPageGrid.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryDetailPage extends StatefulWidget {
   const CategoryDetailPage({Key? key}) : super(key: key);

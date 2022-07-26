@@ -140,3 +140,14 @@ List<String> mediaVideoData = [
   "asset/images/uiImages/mv2.png",
   "asset/images/uiImages/mv3.png",
 ];
+
+List<String> membershipData = [
+  "Nonunion",
+  "SAG-AFTRA",
+  "Equity (U.S.)",
+  "Equity (U.K.)",
+  "Equity (Canada)",
+  "Equity (Ireland)",
+  "Equity (Australia)",
+  "Equity (New Zealand)",
+];

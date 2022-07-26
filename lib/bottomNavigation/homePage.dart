@@ -1,7 +1,6 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
-import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/pages/categoryDetailPage.dart';
+import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
