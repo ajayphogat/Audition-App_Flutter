@@ -229,7 +229,6 @@ AppBar basicAppBar(
     actions: [
       SizedBox(
         width: screenWidth,
-        height: screenHeight * 0.10,
         child: Row(
           children: [
             IconButton(
@@ -442,6 +441,85 @@ AppBar basicAppBar2(
             ),
           ],
         ),
+      ),
+    ),
+  );
+}
+
+Material basicTextFormField(double screenWidth, double screenHeight,
+    TextEditingController controller, String hintText) {
+  return Material(
+    elevation: 5,
+    borderRadius: BorderRadius.circular(8),
+    child: Container(
+      width: screenWidth,
+      height: screenHeight * 0.05,
+      alignment: Alignment.center,
+      padding:
+          EdgeInsets.only(left: screenWidth * 0.04, bottom: screenWidth * 0.01),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: const Color(0xFFFDF5F2),
+      ),
+      child: TextFormField(
+        controller: controller,
+        // validator: (String? value) {
+        //   if (value == null || value.isEmpty) {
+        //     return "Please fill this";
+        //   } else {
+        //     return null;
+        //   }
+        // },
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(
+            fontSize: 15,
+            color: Color(0xFF979797),
+          ),
+          border: InputBorder.none,
+        ),
+      ),
+    ),
+  );
+}
+
+Container basicDropDown(double screenHeight, String title, String subTitle) {
+  return Container(
+    margin: EdgeInsets.only(top: screenHeight * 0.03),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: screenHeight * 0.005),
+            Text(
+              subTitle,
+              style: const TextStyle(
+                color: Color(0xFF979797),
+              ),
+            ),
+          ],
+        ),
+        const Icon(MyFlutterApp.arrow_right_2),
+      ],
+    ),
+  );
+}
+
+TextButton appBarTextButton(String text) {
+  return TextButton(
+    onPressed: () {},
+    child: Text(
+      text,
+      style: const TextStyle(
+        color: Color(0xFF30319D),
       ),
     ),
   );

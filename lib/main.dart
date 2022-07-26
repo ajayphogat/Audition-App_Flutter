@@ -13,6 +13,7 @@ import 'package:first_app/pages/categoryDetailPage.dart';
 import 'package:first_app/pages/categoryPageGrid.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
+import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:flutter/material.dart';
@@ -24,31 +25,41 @@ class MyAPP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: "/",
-      routes: {
-        "/": (context) =>
-            const BottomNavigationPage(), //FIXME: Change this Starting Screen
-        LoginPage.routeName: (context) => const LoginPage(),
-        SignupPage.routeName: (context) => const SignupPage(),
-        VerifyMobile.routeName: (context) => const VerifyMobile(),
-        VerifiedPage.routeName: (context) => const VerifiedPage(),
-        ForgotPassword.routeName: (context) => ForgotPassword(),
-        HomePage.routeName: (context) => const HomePage(),
-        MyApplicationPage.routeName: (context) => const MyApplicationPage(),
-        InboxPage.routeName: (context) => const InboxPage(),
-        MyProfile.routeName: (context) => const MyProfile(),
-        CategoryDetailPage.routeName: (context) => const CategoryDetailPage(),
-        CategoryGirdPage.routeName: (context) => const CategoryGirdPage(),
-        MyApplicationAppliedPage.routeName: (context) =>
-            const MyApplicationAppliedPage(),
-        InboxMessagePage.routeName: (context) => const InboxMessagePage(),
-        MyProfilePage.routeName: (context) => const MyProfilePage(),
-        MediaProfilePage.routeName: (context) => const MediaProfilePage(),
-        BottomNavigationPage.routeName: (context) =>
-            const BottomNavigationPage(),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
       },
-      debugShowCheckedModeBanner: false,
+      child: MaterialApp(
+        initialRoute: "/",
+        routes: {
+          "/": (context) =>
+              const BasicInfoPage(), //FIXME: Change this Starting Screen
+          LoginPage.routeName: (context) => const LoginPage(),
+          SignupPage.routeName: (context) => const SignupPage(),
+          VerifyMobile.routeName: (context) => const VerifyMobile(),
+          VerifiedPage.routeName: (context) => const VerifiedPage(),
+          ForgotPassword.routeName: (context) => ForgotPassword(),
+          HomePage.routeName: (context) => const HomePage(),
+          MyApplicationPage.routeName: (context) => const MyApplicationPage(),
+          InboxPage.routeName: (context) => const InboxPage(),
+          MyProfile.routeName: (context) => const MyProfile(),
+          CategoryDetailPage.routeName: (context) => const CategoryDetailPage(),
+          CategoryGirdPage.routeName: (context) => const CategoryGirdPage(),
+          MyApplicationAppliedPage.routeName: (context) =>
+              const MyApplicationAppliedPage(),
+          InboxMessagePage.routeName: (context) => const InboxMessagePage(),
+          MyProfilePage.routeName: (context) => const MyProfilePage(),
+          MediaProfilePage.routeName: (context) => const MediaProfilePage(),
+          BasicInfoPage.routeName: (context) => const BasicInfoPage(),
+          BottomNavigationPage.routeName: (context) =>
+              const BottomNavigationPage(),
+        },
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
