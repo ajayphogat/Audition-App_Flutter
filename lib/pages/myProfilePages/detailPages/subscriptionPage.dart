@@ -1,4 +1,5 @@
 import 'package:first_app/common/common.dart';
+import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +13,17 @@ class SubscriptionPage extends StatefulWidget {
 }
 
 class _SubscriptionPageState extends State<SubscriptionPage> {
-  bool three = false;
-  bool six = true;
-  bool twelve = false;
+  bool _three = false;
+  bool _six = true;
+  bool _twelve = false;
+  List<String> _plans = [];
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         toolbarHeight: screenHeight * 0.1015,
@@ -89,6 +92,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                //TODO: Seperate Pages for all the subscription plan(right now only for 6 Month Plan is done)
                 subscriptionPlan3Container(
                     screenWidth, screenHeight, "3 Months"),
                 subscriptionPlan6Container(
@@ -98,17 +102,83 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ],
             ),
           ),
-          SizedBox(height: screenHeight * 0.10),
-          Container(
-            width: screenWidth,
-            height: screenHeight * 0.60,
+          SizedBox(height: screenHeight * 0.06),
+          SizedBox(
+            height: screenHeight * 0.50,
             child: ListView.builder(
-              itemCount: 2,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.10,
+                  vertical: screenHeight * 0.03),
+              physics: const BouncingScrollPhysics(),
+              itemCount: subscriptionPlans.length,
               itemBuilder: (context, index) {
-                return Container(
-                  width: screenWidth * 0.85,
-                  height: screenHeight * 0.50,
-                  color: Colors.orange,
+                _plans = subscriptionPlans[index];
+                return Padding(
+                  padding: EdgeInsets.only(right: screenWidth * 0.04),
+                  child: Material(
+                    elevation: 4,
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      width: screenWidth * 0.78,
+                      height: screenHeight * 0.50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey.shade100,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: screenHeight * 0.03,
+                                left: screenWidth * 0.05,
+                                right: screenWidth * 0.05),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _plans[0],
+                                  style: const TextStyle(fontSize: 22),
+                                ),
+                                Text(
+                                  _plans[1],
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
+                          planDetails(screenHeight, screenWidth, _plans[2]),
+                          planDetails(screenHeight, screenWidth, _plans[3]),
+                          planDetails(screenHeight, screenWidth, _plans[4]),
+                          SizedBox(height: screenHeight * 0.04),
+                          Divider(
+                            thickness: 1,
+                            color: Colors.black,
+                            indent: screenWidth * 0.03,
+                            endIndent: screenWidth * 0.03,
+                          ),
+                          SizedBox(height: screenHeight * 0.04),
+                          InkWell(
+                            //TODO: Assign a function to perform with this buttom
+                            onTap: () {},
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 150,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: const Color(0xFFF9D422),
+                              ),
+                              child: const Text(
+                                "PAY NOW",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
@@ -118,14 +188,73 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     );
   }
 
+  Widget planDetails(
+      double screenHeight, double screenWidth, String detailText) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(
+            top: screenHeight * 0.03,
+            left: screenWidth * 0.04,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                    right: screenWidth * 0.02, top: screenHeight * 0.0035),
+                child: Icon(
+                  Icons.circle,
+                  color: const Color(0xFFF9D422),
+                  size: screenWidth * 0.025,
+                ),
+              ),
+              Text(
+                detailText,
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+        // RichText(
+        //   text: TextSpan(
+        //     children: [
+        //       WidgetSpan(
+        //         alignment: PlaceholderAlignment.middle,
+        //         child: Icon(
+        //           Icons.circle,
+        //           color: const Color(0xFFF9D422),
+        //           size: screenWidth * 0.025,
+        //         ),
+        //       ),
+        //       WidgetSpan(
+        //         child: SizedBox(width: screenWidth * 0.02),
+        //       ),
+        //       TextSpan(
+        //         text: detailText,
+        //         style: const TextStyle(
+        //           fontSize: 14,
+        //           color: Colors.black,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+      ],
+    );
+  }
+
   Widget subscriptionPlan3Container(
       double screenWidth, double screenHeight, String text) {
     return InkWell(
       onTap: () {
         setState(() {
-          three = true;
-          six = false;
-          twelve = false;
+          _three = true;
+          _six = false;
+          _twelve = false;
         });
       },
       child: Material(
@@ -137,7 +266,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: three ? const Color(0xFFF9D422) : Colors.grey.shade300,
+            color: _three ? const Color(0xFFF9D422) : Colors.grey.shade100,
           ),
           child: Text(text),
         ),
@@ -150,9 +279,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     return InkWell(
       onTap: () {
         setState(() {
-          three = false;
-          six = true;
-          twelve = false;
+          _three = false;
+          _six = true;
+          _twelve = false;
         });
       },
       child: Material(
@@ -164,7 +293,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: six ? const Color(0xFFF9D422) : Colors.grey.shade300,
+            color: _six ? const Color(0xFFF9D422) : Colors.grey.shade100,
           ),
           child: Text(text),
         ),
@@ -177,9 +306,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     return InkWell(
       onTap: () {
         setState(() {
-          three = false;
-          six = false;
-          twelve = true;
+          _three = false;
+          _six = false;
+          _twelve = true;
         });
       },
       child: Material(
@@ -191,7 +320,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: twelve ? const Color(0xFFF9D422) : Colors.grey.shade300,
+            color: _twelve ? const Color(0xFFF9D422) : Colors.grey.shade100,
           ),
           child: Text(text),
         ),
@@ -199,3 +328,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     );
   }
 }
+
+
+
+// ListTile(
+//       minLeadingWidth: 0,
+//       horizontalTitleGap: screenWidth * 0.02,
+//       leading: Icon(
+//         Icons.circle,
+//         color: const Color(0xFFF9D422),
+//         size: screenWidth * 0.025,
+//       ),
+//       title: Text(
+//         detailText,
+//         style: const TextStyle(
+//           fontSize: 14,
+//         ),
+//       ),
+//     );

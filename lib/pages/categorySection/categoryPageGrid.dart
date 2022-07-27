@@ -1,5 +1,6 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:flutter/material.dart';
 
 class CategoryGirdPage extends StatefulWidget {
@@ -30,8 +31,13 @@ class _CategoryGirdPageState extends State<CategoryGirdPage> {
         itemCount: actorData.length,
         itemBuilder: (context, index) {
           List<String> data = actorData[index];
-          return gridViewContainer(
-              screenWidth, screenHeight, data[0], data[1], data[2]);
+          return InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, DescriptionPage.routeName);
+            },
+            child: gridViewContainer(
+                screenWidth, screenHeight, data[0], data[1], data[2]),
+          );
         },
       ),
     );

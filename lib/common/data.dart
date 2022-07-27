@@ -105,7 +105,7 @@ const List<List<String>> actorData = [
   ],
 ];
 
-List<String> profileData = [
+const List<String> profileData = [
   "Basic Info",
   "Appearance",
   "Website/Social Media",
@@ -116,7 +116,7 @@ List<String> profileData = [
   "Create Another Profile",
 ];
 
-List<String> profileMediaData = [
+const List<String> profileMediaData = [
   "Photos",
   "Videos",
   "Audios",
@@ -124,7 +124,7 @@ List<String> profileMediaData = [
   "Draft",
 ];
 
-List<String> mediaPicData = [
+const List<String> mediaPicData = [
   "asset/images/uiImages/m1.png",
   "asset/images/uiImages/m2.png",
   "asset/images/uiImages/face.png",
@@ -135,13 +135,13 @@ List<String> mediaPicData = [
   "asset/images/uiImages/m7.png",
 ];
 
-List<String> mediaVideoData = [
+const List<String> mediaVideoData = [
   "asset/images/uiImages/mv1.png",
   "asset/images/uiImages/mv2.png",
   "asset/images/uiImages/mv3.png",
 ];
 
-List<String> membershipData = [
+const List<String> membershipData = [
   "Nonunion",
   "SAG-AFTRA",
   "Equity (U.S.)",
@@ -150,4 +150,26 @@ List<String> membershipData = [
   "Equity (Ireland)",
   "Equity (Australia)",
   "Equity (New Zealand)",
+];
+
+const List<List<String>> subscriptionPlans = [
+  [
+    "Gold",
+    "ERD872",
+    "Faucibus diam lorem diam tellus libero.",
+    "Diam nisi faucibus vivamus vitae aenean\nmus morbi.",
+    "Vel vestibulum, pharetra diam nullam\ndiam commodo.",
+  ],
+  [
+    "Platinum",
+    "ERD872",
+    "Faucibus diam lorem diam tellus libero.",
+    "Diam nisi faucibus vivamus vitae aenean\nmus morbi.",
+    "Vel vestibulum, pharetra diam nullam\ndiam commodo.",
+  ],
+];
+
+const List<String> descriptionData = [
+  "\"Commodo pretium consectetur pharetra, id dictum nisi rhoncus. Quis a posuere scelerisque et, mi gravida non est mollis. Lorem molestie pulvinar consectetur massa. Fringilla risus, facillsi pulvinar luctus adipiscing. Massa iaculis sed egestas risus in sit. Urna, gravida amet a pellenstesque id nullam. Potenti ac, purus eget quam set imperdiet quam sagittis, semper. Phasellus justo, mattis leo, mattis conseq.\" Massa iaculis sed egestas risus in sit. Urna, gravida amet a pellenstesque id nullam. Potenti ac, purus eget quam set imperdiet quam sagittis, semper. Phasellus justo, mattis leo, mattis conseq.",
+  "\"Molestie pulvinar consectetur massa. Fringilla risus, facilisi pulvinar luctus adipiscing. Massa iaculis sed egestas risus in sit. Urna, gravida amet a pellentesque id nullam. Potenti ac, purus eget quam sed imperdiet\"",
 ];

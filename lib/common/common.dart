@@ -657,3 +657,57 @@ Column newColumn(
     ],
   );
 }
+
+AppBar descriptionAppBar(
+    double screenHeight, double screenWidth, BuildContext context) {
+  return AppBar(
+    toolbarHeight: screenHeight * 0.07,
+    backgroundColor: Colors.white,
+    actions: [
+      Container(
+        width: screenWidth,
+        margin: EdgeInsets.only(top: screenHeight * 0.02),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(MyFlutterApp.bookmark, color: Colors.black),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon:
+                      const Icon(MyFlutterApp.share_fill, color: Colors.black),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+Container yellowCircleButton(double screenHeight, IconData icon) {
+  return Container(
+    width: screenHeight * 0.03,
+    height: screenHeight * 0.03,
+    decoration: const BoxDecoration(
+      shape: BoxShape.circle,
+      color: Color(0xFFF9D422),
+    ),
+    child: Icon(
+      icon,
+      color: Colors.black,
+      size: screenHeight * 0.025,
+    ),
+  );
+}

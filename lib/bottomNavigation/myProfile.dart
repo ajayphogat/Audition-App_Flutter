@@ -1,3 +1,4 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,10 @@ class _MyProfileState extends State<MyProfile> {
                       IconButton(
                         icon: const Icon(MyFlutterApp.bi_arrow_down,
                             color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, BottomNavigationPage.routeName);
+                        },
                       ),
                       const Text(
                         "Actor Profile",

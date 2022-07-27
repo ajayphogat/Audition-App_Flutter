@@ -11,6 +11,7 @@ import 'package:first_app/login/verifiedPage.dart';
 import 'package:first_app/login/verifyMobile.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:first_app/pages/categorySection/categoryPageGrid.dart';
+import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
 import 'package:first_app/pages/myProfilePages/detailMenuPage.dart';
@@ -58,6 +59,9 @@ class MyAPP extends StatelessWidget {
           // Home Page - Category Pages
           CategoryDetailPage.routeName: (context) => const CategoryDetailPage(),
           CategoryGirdPage.routeName: (context) => const CategoryGirdPage(),
+
+          // Description Page
+          DescriptionPage.routeName: (context) => const DescriptionPage(),
 
           // My Application Page Section
           MyApplicationPage.routeName: (context) => const MyApplicationPage(),
