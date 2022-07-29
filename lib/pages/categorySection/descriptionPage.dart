@@ -1,8 +1,9 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/main.dart';
+import 'package:first_app/pages/categorySection/appliedPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:readmore/readmore.dart';
 
 class DescriptionPage extends StatefulWidget {
@@ -14,39 +15,169 @@ class DescriptionPage extends StatefulWidget {
   State<DescriptionPage> createState() => _DescriptionPageState();
 }
 
-class _DescriptionPageState extends State<DescriptionPage> {
+class _DescriptionPageState extends State<DescriptionPage>
+    with TickerProviderStateMixin {
+  late ScrollController _scrollController;
+
+  // final GlobalKey<State> _key = GlobalKey();
+  bool isVisible = false;
+  double x = 0;
+  double y = 2.8;
+
+  int _activePage = 0;
+  double opacityValue = 1.0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        setState(() {
+          y = 1;
+        });
+      } else if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        setState(() {
+          y = 2.8;
+        });
+      }
+
+      // var currentContext = _key.currentContext;
+      // var renderObject = currentContext?.findRenderObject();
+      // var viewport = RenderAbstractViewport.of(renderObject);
+      // var offsetToRevealBottom =
+      //     viewport!.getOffsetToReveal(renderObject!, 1.0);
+      // var offsetToRevealTop = viewport.getOffsetToReveal(renderObject, 0.0);
+
+      // if (_scrollController.position.userScrollDirection ==
+      //     ScrollDirection.reverse) {
+      //   if (offsetToRevealTop.offset <= _scrollController.position.pixels) {
+      //     setState(() {
+      //       y = 1;
+      //     });
+      //   }
+      // }
+      // if (_scrollController.position.userScrollDirection ==
+      //     ScrollDirection.forward) {
+      //   if (-(offsetToRevealBottom.offset) >=
+      //       _scrollController.position.pixels) {
+      //     setState(() {
+      //       y = 2.8;
+      //     });
+      //   }
+      // }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      appBar: descriptionAppBar(screenHeight, screenWidth, context),
+      appBar: AppBar(
+        toolbarHeight: screenHeight * 0.07,
+        backgroundColor: Colors.white,
+        actions: [
+          Container(
+            width: screenWidth,
+            margin: EdgeInsets.only(top: screenHeight * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Icon(MyFlutterApp.bi_arrow_down,
+                      color: Colors.black),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                // Row(
+                //   children: [
+                //     IconButton(
+                //       onPressed: () {},
+                //       icon: const Icon(MyFlutterApp.bookmark,
+                //           color: Colors.black),
+                //     ),
+                //     IconButton(
+                //       onPressed: () {},
+                //       icon: const Icon(MyFlutterApp.share_fill,
+                //           color: Colors.black),
+                //     ),
+                //   ],
+                // ),
+              ],
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
+        controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             AspectRatio(
               aspectRatio: 1.167,
-              child: Image.asset(
-                "asset/images/uiImages/rr.png",
-                fit: BoxFit.fill,
+              child: Stack(
+                children: [
+                  PageView(
+                    children: [
+                      Image.asset("asset/images/uiImages/rr.png"),
+                      Image.asset("asset/images/uiImages/rr.png"),
+                      Image.asset("asset/images/uiImages/rr.png"),
+                    ],
+                    onPageChanged: (page) {
+                      setState(() {
+                        _activePage = page;
+                      });
+                    },
+                  ),
+                  Positioned(
+                    bottom: 30,
+                    left: (screenWidth - 39) / 2,
+                    child: Row(
+                      children: List<Widget>.generate(3, (index) {
+                        return Container(
+                          margin: EdgeInsets.all(3),
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _activePage == index
+                                ? Colors.white
+                                : Colors.white60,
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: screenHeight * 0.025),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: screenWidth * 0.25,
-                    height: screenHeight * 0.03,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: const Color(0xFFF9D422),
-                    ),
-                    child: const Text("APPLY"),
-                  ),
+                  // InkWell(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     key: _key,
+                  //     alignment: Alignment.center,
+                  //     width: screenWidth * 0.25,
+                  //     height: screenHeight * 0.03,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(8),
+                  //       color: const Color(0xFFF9D422),
+                  //     ),
+                  //     child: const Text("APPLY"),
+                  //   ),
+                  // ),
                   Row(
                     children: [
                       yellowCircleButton(screenHeight, MyFlutterApp.bookmark),
@@ -268,28 +399,129 @@ class _DescriptionPageState extends State<DescriptionPage> {
               color: Colors.black,
             ),
             SizedBox(height: screenHeight * 0.025),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+              child: Row(
+                children: const [
+                  Text(
+                    "Compensation & Contract Details",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: screenWidth * 0.03,
+                right: screenWidth * 0.03,
+                top: screenHeight * 0.02,
+                bottom: screenHeight * 0.025,
+              ),
+              child: Text(
+                descriptionData[2],
+                style: const TextStyle(
+                  fontSize: 11,
+                ),
+              ),
+            ),
+            const Divider(
+              thickness: 1,
+              height: 0,
+              color: Colors.black,
+            ),
+            SizedBox(height: screenHeight * 0.02),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+              child: Row(
+                children: const [
+                  Text(
+                    "Key Details",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: screenWidth * 0.03,
+                right: screenWidth * 0.03,
+                top: screenHeight * 0.02,
+                bottom: screenHeight * 0.02,
+              ),
+              child: Text(
+                descriptionData[2],
+                style: const TextStyle(
+                  fontSize: 11,
+                ),
+              ),
+            ),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: InkWell(
-        //TODO: assign a function in this button
-        onTap: () {},
-        child: Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(bottom: 5),
-          width: 150,
-          height: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: const Color(0xFFF9D422),
-          ),
-          child: const Text(
-            "APPLY",
-            style: TextStyle(fontSize: 16),
+      floatingActionButton: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        width: 150,
+        height: 100,
+        alignment: Alignment(x, y),
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, AppliedPage.routeName);
+          },
+          child: Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(bottom: 5),
+            width: 150,
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: const Color(0xFFF9D422),
+            ),
+            child: const Text(
+              "APPLY",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+
+// var renderObject = currentContext.findRenderObject();
+//           var viewport = RenderAbstractViewport.of(renderObject);
+//           var offsetToRevealBottom =
+//               viewport!.getOffsetToReveal(renderObject!, 1.0);
+//           var offsetToRevealTop = viewport.getOffsetToReveal(renderObject, 0.0);
+
+//           print(scroll);
+
+          // if (scroll.metrics.axisDirection == AxisDirection.down) {
+          //   print("up");
+          //   if (offsetToRevealTop.offset <= scroll.metrics.pixels) {
+          //     setState(() {
+          //       y = 1;
+          //     });
+          //   } else {
+          //     setState(() {
+          //       y = 2.8;
+          //     });
+          //   }
+          // } else if (scroll.metrics.axisDirection == AxisDirection.up) {
+          //   print("down");
+          //   if (offsetToRevealTop.offset < scroll.metrics.pixels &&
+          //       offsetToRevealBottom.offset >= scroll.metrics.pixels) {
+          //     setState(() {
+          //       y = 2.8;
+          //     });
+          //   } else {
+          //     setState(() {
+          //       y = 1;
+          //     });
+          //   }
+          // }

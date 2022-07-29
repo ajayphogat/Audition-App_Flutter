@@ -9,6 +9,7 @@ import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/login/signUpPage.dart';
 import 'package:first_app/login/verifiedPage.dart';
 import 'package:first_app/login/verifyMobile.dart';
+import 'package:first_app/pages/categorySection/appliedPage.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:first_app/pages/categorySection/categoryPageGrid.dart';
 import 'package:first_app/pages/categorySection/descriptionPage.dart';
@@ -25,6 +26,8 @@ import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart'
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
+import 'package:first_app/pages/splashScreen/firstScreen.dart';
+import 'package:first_app/pages/splashScreen/secondScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyAPP());
@@ -46,8 +49,12 @@ class MyAPP extends StatelessWidget {
         initialRoute: "/",
         routes: {
           "/": (context) =>
-              const MainPage(), //FIXME: Change this Starting Screen
+              const FirstSplashScreen(), //FIXME: Change this Starting Screen
+
+          SecondSplashScreen.routeName: (context) => const SecondSplashScreen(),
+
           // Authentication Page Section
+          MainPage.routeName: (context) => const MainPage(),
           LoginPage.routeName: (context) => const LoginPage(),
           SignupPage.routeName: (context) => const SignupPage(),
           VerifyMobile.routeName: (context) => const VerifyMobile(),
@@ -62,6 +69,7 @@ class MyAPP extends StatelessWidget {
 
           // Description Page
           DescriptionPage.routeName: (context) => const DescriptionPage(),
+          AppliedPage.routeName: (context) => const AppliedPage(),
 
           // My Application Page Section
           MyApplicationPage.routeName: (context) => const MyApplicationPage(),
