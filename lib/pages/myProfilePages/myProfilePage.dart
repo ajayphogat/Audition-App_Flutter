@@ -19,18 +19,14 @@ class _MyProfilePageState extends State<MyProfilePage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
-  List<String> _data = [];
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _tabController.dispose();
   }

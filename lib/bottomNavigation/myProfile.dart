@@ -130,9 +130,9 @@ class _MyProfileState extends State<MyProfile> {
                 ),
                 Row(
                   children: const [
-                    Icon(MyFlutterApp.fluent_add_circle_24_filled),
+                    Icon(MyFlutterApp.switchuser),
                     SizedBox(width: 15),
-                    Text("Add Account"),
+                    Text("Switch Account"),
                   ],
                 ),
               ],

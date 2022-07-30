@@ -46,6 +46,7 @@ class MyFlutterApp {
   static const IconData profile_outline = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData paper_outline = IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData message_outline = IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData switchuser = IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData clarity_attachment_line = IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData share_fill = IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bookmark = IconData(0xe81e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
