@@ -1,4 +1,5 @@
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:flutter/material.dart';
 
 class MyApplicationAppliedPage extends StatefulWidget {
@@ -36,12 +37,18 @@ class _MyApplicationAppliedPageState extends State<MyApplicationAppliedPage> {
                     ),
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 5),
-                      child: Text(data[0]),
+                      child: Text(
+                        data[0],
+                        style: const TextStyle(
+                          fontFamily: fontFamily,
+                        ),
+                      ),
                     ),
                     subtitle: Text(
                       data[1],
                       style: const TextStyle(
                         fontSize: 13,
+                        fontFamily: fontFamily,
                         color: Colors.black,
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         "Subscription Plan",
                         style: TextStyle(
                           fontSize: 25,
-                          color: Color(0xFF30319D),
+                          fontFamily: fontFamily,
+                          color: thirdColor,
                         ),
                       ),
                     ],
@@ -79,7 +81,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 left: screenWidth * 0.04, top: screenHeight * 0.02),
             child: const Text(
               "Plans",
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25, fontFamily: fontFamily),
             ),
           ),
           const Divider(
@@ -266,9 +268,14 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: _three ? const Color(0xFFF9D422) : Colors.grey.shade100,
+            color: _three ? secondoryColor : Colors.grey.shade100,
           ),
-          child: Text(text),
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontFamily: fontFamily,
+            ),
+          ),
         ),
       ),
     );
@@ -293,9 +300,14 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: _six ? const Color(0xFFF9D422) : Colors.grey.shade100,
+            color: _six ? secondoryColor : Colors.grey.shade100,
           ),
-          child: Text(text),
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontFamily: fontFamily,
+            ),
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,11 @@ class _MyProfileState extends State<MyProfile> {
                       ),
                       const Text(
                         "Actor Profile",
-                        style: TextStyle(color: Colors.black, fontSize: 18),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontFamily: fontFamily,
+                        ),
                       ),
                       IconButton(
                         icon: const Icon(MyFlutterApp.arrow_down_2,
@@ -73,7 +78,10 @@ class _MyProfileState extends State<MyProfile> {
             color: const Color(0xFF30319D),
             child: const Text(
               "Gold Subscriber",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: fontFamily,
+              ),
             ),
           ),
         ),

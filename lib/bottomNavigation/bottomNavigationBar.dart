@@ -1,6 +1,7 @@
 import 'package:first_app/bottomNavigation/inbox.dart';
 import 'package:first_app/bottomNavigation/myApplication.dart';
 import 'package:first_app/bottomNavigation/myProfile.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:flutter/material.dart';
@@ -41,16 +42,18 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         height: screenHeight * 0.065,
         child: BottomNavigationBar(
           key: _key,
-          backgroundColor: const Color(0xFFFFFFFF),
+          backgroundColor: primaryColor,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: const Color(0xFF30319D),
+          selectedItemColor: thirdColor,
           unselectedItemColor: Colors.black,
-          selectedIconTheme: const IconThemeData(color: Color(0xFF30319D)),
+          selectedIconTheme: const IconThemeData(color: thirdColor),
           unselectedIconTheme: const IconThemeData(color: Colors.black),
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
+          selectedLabelStyle: const TextStyle(fontFamily: fontFamily),
+          unselectedLabelStyle: const TextStyle(fontFamily: fontFamily),
+          selectedFontSize: 11.5,
+          unselectedFontSize: 11.5,
           currentIndex: _page,
           onTap: updatePage,
           items: [

@@ -1,6 +1,7 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
                   child: Container(
                     width: screenWidth * 0.75,
                     height: screenHeight * 0.045,
-                    // padding: const EdgeInsets.only(bottom: 2),
+                    padding: const EdgeInsets.only(bottom: 2),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
                       color: Colors.white,
@@ -75,7 +76,8 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
                         hintText: "Search here....",
                         hintStyle: const TextStyle(
                           fontSize: 15,
-                          color: Color(0xFF979797),
+                          fontFamily: fontFamily,
+                          color: placeholderTextColor,
                         ),
                         border: InputBorder.none,
                         prefixIcon: Padding(
@@ -90,7 +92,7 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
                             icon: const Icon(
                               MyFlutterApp.gridicons_cross,
                               size: 20,
-                              color: Color(0xFF979797),
+                              color: placeholderTextColor,
                             )),
                       ),
                     ),
@@ -114,8 +116,8 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
-              indicatorColor: const Color(0xFF30319D),
-              labelColor: const Color(0xFF30319D),
+              indicatorColor: thirdColor,
+              labelColor: thirdColor,
               unselectedLabelColor: Colors.black,
               indicatorSize: TabBarIndicatorSize.label,
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
@@ -123,6 +125,7 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
                 horizontal: screenWidth * 0.03,
               ),
               labelStyle: const TextStyle(
+                fontFamily: fontFamily,
                 fontSize: 16,
               ),
               tabs: [

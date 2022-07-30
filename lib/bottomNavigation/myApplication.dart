@@ -19,7 +19,6 @@ class _MyApplicationState extends State<MyApplicationPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 6, vsync: this);
     _searchEdit = TextEditingController();
@@ -27,7 +26,6 @@ class _MyApplicationState extends State<MyApplicationPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _tabController.dispose();
     _searchEdit.dispose();

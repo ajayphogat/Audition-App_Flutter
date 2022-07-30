@@ -1,3 +1,4 @@
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/login/verifyMobile.dart';
@@ -28,6 +29,7 @@ class ForgotPassword extends StatelessWidget {
               "Forgot Password",
               style: TextStyle(
                 fontSize: 37,
+                fontFamily: fontFamily,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -37,6 +39,7 @@ class ForgotPassword extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF979797),
+                fontFamily: fontFamily,
                 fontSize: 18,
               ),
             ),

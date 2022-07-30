@@ -18,8 +18,12 @@ class _SkillsPageState extends State<SkillsPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: profileAppBar(screenHeight, screenWidth, context, profileData[4]),
-      body: newColumn(screenHeight, "You don't have any skills added yet",
-          "Add your performance skills", "ADD SKILL"),
+      body: newColumn(
+          screenHeight,
+          screenWidth,
+          "You don't have any skills added yet",
+          "Add your performance skills",
+          "ADD SKILL"),
     );
   }
 }

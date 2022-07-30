@@ -1,5 +1,6 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/main.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +8,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 Widget commonTextField(
     BuildContext context, controller, String hintText, icon, bool isPassword) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.width;
   return SizedBox(
-    width: MediaQuery.of(context).size.width - 120,
+    width: screenWidth - screenWidth * 0.305,
     child: Stack(
       children: [
         Material(
           elevation: 5,
           borderRadius: BorderRadius.circular(8),
           child: Container(
-            width: MediaQuery.of(context).size.width - 120,
+            width: screenWidth - screenWidth * 0.305,
             height: 40,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: const Color(0xFFFDF5F2),
+              color: placeholderColor,
             ),
           ),
         ),
@@ -37,15 +40,22 @@ Widget commonTextField(
             hintText: hintText,
             hintStyle: const TextStyle(
               fontSize: 15,
-              color: Color(0xFF979797),
+              fontFamily: fontFamily,
+              color: placeholderTextColor,
             ),
             errorStyle: const TextStyle(
+              fontFamily: fontFamily,
               height: 0.1,
             ),
             border: InputBorder.none,
             prefixIcon: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 5),
-              child: Icon(icon, color: Colors.black, size: 30),
+              padding: EdgeInsets.only(
+                  left: 20,
+                  right: icon == MyFlutterApp.message ? 12 : 5,
+                  bottom: 8),
+              child: Icon(icon,
+                  color: Colors.black,
+                  size: icon == MyFlutterApp.message ? 28 : 35),
             ),
           ),
         ),
@@ -55,6 +65,8 @@ Widget commonTextField(
 }
 
 InkWell basicButton(BuildContext context, formKey, routeName, String text) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.width;
   return InkWell(
     onTap: () {
       if (formKey.currentState!.validate()) {
@@ -66,32 +78,41 @@ InkWell basicButton(BuildContext context, formKey, routeName, String text) {
     },
     child: Container(
       alignment: Alignment.center,
-      width: 150,
+      width: screenWidth * 0.383,
       height: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFFF9D422),
+        color: secondoryColor,
       ),
-      child: Text(text),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: fontFamily,
+        ),
+      ),
     ),
   );
 }
 
 InkWell longBasicButton(BuildContext context, routeName, String text) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.width;
   return InkWell(
     onTap: () {
       Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false);
     },
     child: Container(
       alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width - 160,
+      width: screenWidth * 0.59,
       height: 40,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: const Color(0xFFF9D422)),
+        borderRadius: BorderRadius.circular(8),
+        color: secondoryColor,
+      ),
       child: Text(
         text,
         style: const TextStyle(
+          fontFamily: fontFamily,
           fontSize: 15,
         ),
       ),
@@ -135,6 +156,7 @@ Material textContainer(double screenWidth, double screenHeight, String s1,
                   s1,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontFamily: fontFamily,
                     fontSize: 12,
                   ),
                 ),
@@ -142,6 +164,7 @@ Material textContainer(double screenWidth, double screenHeight, String s1,
                 Text(
                   s2,
                   style: const TextStyle(
+                    fontFamily: fontFamily,
                     fontSize: 10,
                   ),
                 ),
@@ -149,6 +172,7 @@ Material textContainer(double screenWidth, double screenHeight, String s1,
                 Text(
                   s3,
                   style: const TextStyle(
+                    fontFamily: fontFamily,
                     fontSize: 9,
                   ),
                 ),
@@ -197,6 +221,7 @@ Material gridViewContainer(
                 Text(
                   s1,
                   style: const TextStyle(
+                    fontFamily: fontFamily,
                     fontWeight: FontWeight.w500,
                     fontSize: 17,
                   ),
@@ -204,8 +229,11 @@ Material gridViewContainer(
                 const SizedBox(height: 2),
                 Text(
                   s2,
-                  style:
-                      const TextStyle(fontSize: 15, color: Color(0xFF979797)),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: placeholderTextColor,
+                    fontFamily: fontFamily,
+                  ),
                 ),
               ],
             ),
@@ -247,7 +275,7 @@ AppBar basicAppBar(
               child: Container(
                 width: screenWidth * 0.75,
                 height: screenHeight * 0.045,
-                // padding: const EdgeInsets.only(bottom: 2),
+                padding: const EdgeInsets.only(bottom: 2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   color: Colors.white,
@@ -258,13 +286,16 @@ AppBar basicAppBar(
                     hintText: "Search here....",
                     hintStyle: const TextStyle(
                       fontSize: 15,
-                      color: Color(0xFF979797),
+                      fontFamily: fontFamily,
+                      color: placeholderTextColor,
                     ),
                     border: InputBorder.none,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.asset(
-                          "asset/images/illustration/bytesize_search.svg"),
+                        "asset/images/illustration/bytesize_search.svg",
+                        color: placeholderTextColor,
+                      ),
                     ),
                     suffixIcon: IconButton(
                         onPressed: () {
@@ -273,7 +304,7 @@ AppBar basicAppBar(
                         icon: const Icon(
                           MyFlutterApp.gridicons_cross,
                           size: 20,
-                          color: Color(0xFF979797),
+                          color: placeholderTextColor,
                         )),
                   ),
                 ),
@@ -296,8 +327,8 @@ AppBar basicAppBar(
         child: TabBar(
           controller: tabController,
           isScrollable: true,
-          indicatorColor: const Color(0xFF30319D),
-          labelColor: const Color(0xFF30319D),
+          indicatorColor: thirdColor,
+          labelColor: thirdColor,
           unselectedLabelColor: Colors.black,
           indicatorSize: TabBarIndicatorSize.label,
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
@@ -305,6 +336,7 @@ AppBar basicAppBar(
             horizontal: screenWidth * 0.03,
           ),
           labelStyle: const TextStyle(
+            fontFamily: fontFamily,
             fontSize: 16,
           ),
           tabs: [
@@ -459,7 +491,7 @@ Material basicTextFormField(double screenWidth, double screenHeight,
           EdgeInsets.only(left: screenWidth * 0.04, bottom: screenWidth * 0.01),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFFFDF5F2),
+        color: placeholderColor,
       ),
       child: TextFormField(
         controller: controller,
@@ -474,7 +506,7 @@ Material basicTextFormField(double screenWidth, double screenHeight,
           hintText: hintText,
           hintStyle: const TextStyle(
             fontSize: 15,
-            color: Color(0xFF979797),
+            color: placeholderTextColor,
           ),
           border: InputBorder.none,
         ),
@@ -495,6 +527,7 @@ Container basicDropDown(double screenHeight, String title, String subTitle) {
             Text(
               title,
               style: const TextStyle(
+                fontFamily: fontFamily,
                 fontSize: 18,
               ),
             ),
@@ -502,7 +535,8 @@ Container basicDropDown(double screenHeight, String title, String subTitle) {
             Text(
               subTitle,
               style: const TextStyle(
-                color: Color(0xFF979797),
+                fontFamily: fontFamily,
+                color: placeholderTextColor,
               ),
             ),
           ],
@@ -519,7 +553,8 @@ TextButton appBarTextButton(String text) {
     child: Text(
       text,
       style: const TextStyle(
-        color: Color(0xFF30319D),
+        fontFamily: fontFamily,
+        color: thirdColor,
       ),
     ),
   );
@@ -548,7 +583,12 @@ Widget detailsMenu(BuildContext context, double screenWidth,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(text),
+              Text(
+                text,
+                style: const TextStyle(
+                  fontFamily: fontFamily,
+                ),
+              ),
               const Icon(MyFlutterApp.arrow_right_2),
             ],
           ),
@@ -583,8 +623,10 @@ AppBar profileAppBar(double screenHeight, double screenWidth,
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon:
-                    const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
+                icon: const Icon(
+                  MyFlutterApp.bi_arrow_down,
+                  color: Colors.black,
+                ),
               ),
             ),
             Padding(
@@ -597,6 +639,7 @@ AppBar profileAppBar(double screenHeight, double screenWidth,
                     headline,
                     style: const TextStyle(
                       fontSize: 20,
+                      fontFamily: fontFamily,
                       color: Colors.black,
                     ),
                   ),
@@ -611,8 +654,8 @@ AppBar profileAppBar(double screenHeight, double screenWidth,
   );
 }
 
-Column newColumn(
-    double screenHeight, String text1, String text2, String buttonText) {
+Column newColumn(double screenHeight, double screenWidth, String text1,
+    String text2, String buttonText) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -625,7 +668,8 @@ Column newColumn(
         text1,
         style: const TextStyle(
           fontSize: 20,
-          color: Color(0xFF979797),
+          fontFamily: fontFamily,
+          color: placeholderTextColor,
         ),
       ),
       SizedBox(height: screenHeight * 0.015),
@@ -634,7 +678,8 @@ Column newColumn(
         textAlign: TextAlign.center,
         style: const TextStyle(
           fontSize: 14,
-          color: Color(0xFF979797),
+          fontFamily: fontFamily,
+          color: placeholderTextColor,
         ),
       ),
       SizedBox(height: screenHeight * 0.03),
@@ -642,15 +687,15 @@ Column newColumn(
         onTap: () {},
         child: Container(
           alignment: Alignment.center,
-          width: 150,
+          width: screenWidth * 0.383,
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: const Color(0xFFF9D422),
+            color: secondoryColor,
           ),
           child: Text(
             buttonText,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16, fontFamily: fontFamily),
           ),
         ),
       ),

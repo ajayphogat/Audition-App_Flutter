@@ -1,5 +1,6 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,13 +46,15 @@ class _HomePageState extends State<HomePage> {
                         const Text(
                           "Hi, John!",
                           style: TextStyle(
+                            fontFamily: fontFamily,
                             fontSize: 35,
                           ),
                         ),
                         const Text(
                           "Welcome.........",
                           style: TextStyle(
-                            color: Color(0xFF979797),
+                            fontFamily: fontFamily,
+                            color: placeholderTextColor,
                             fontSize: 16,
                           ),
                         ),
@@ -69,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                                 hintText: "Search here....",
                                 hintStyle: const TextStyle(
                                   fontSize: 18,
-                                  color: Color(0xFF979797),
+                                  color: placeholderTextColor,
                                 ),
                                 border: InputBorder.none,
                                 prefixIcon: Padding(
@@ -95,6 +98,7 @@ class _HomePageState extends State<HomePage> {
               child: const Text(
                 "Popular",
                 style: TextStyle(
+                  fontFamily: fontFamily,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -179,6 +183,7 @@ class _HomePageState extends State<HomePage> {
                 "Recently",
                 style: TextStyle(
                   fontSize: 25,
+                  fontFamily: fontFamily,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -230,6 +235,7 @@ class _HomePageState extends State<HomePage> {
                 "More",
                 style: TextStyle(
                   fontSize: 25,
+                  fontFamily: fontFamily,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -295,7 +301,13 @@ class _HomePageState extends State<HomePage> {
                   aspectRatio: 0.89,
                   child: Image.asset("asset/images/categoryImages/$name.png")),
               const SizedBox(height: 5),
-              Text(name),
+              Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontFamily: fontFamily,
+                ),
+              ),
               const SizedBox(height: 5),
             ],
           ),

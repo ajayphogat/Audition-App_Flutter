@@ -1,5 +1,6 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:flutter/material.dart';
 
 class MembershipPage extends StatefulWidget {
@@ -37,7 +38,10 @@ class _MembershipPageState extends State<MembershipPage> {
                         children: [
                           Text(
                             membershipData[index],
-                            style: const TextStyle(fontSize: 16),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontFamily: fontFamily,
+                            ),
                           ),
                           const Icon(Icons.check),
                         ],

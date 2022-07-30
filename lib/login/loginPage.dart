@@ -1,7 +1,9 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/login/forgotPassword.dart';
+import 'package:first_app/login/signUpPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,6 +26,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -32,33 +36,37 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+              SizedBox(height: screenHeight * 0.15),
               AspectRatio(
                   aspectRatio: 2.5,
                   child:
                       SvgPicture.asset("asset/images/illustration/login.svg")),
-              const SizedBox(height: 40),
+              SizedBox(height: screenHeight * 0.047),
               const Text(
                 "LOGIN",
-                style: TextStyle(fontSize: 40),
+                style: TextStyle(
+                  fontSize: 40,
+                  fontFamily: fontFamily,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 50),
               commonTextField(context, _email, "Email/Phone No.",
                   MyFlutterApp.username, false),
-              const SizedBox(height: 35),
+              SizedBox(height: screenHeight * 0.041),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 120,
+                width: screenWidth - screenWidth * 0.305,
                 child: Stack(
                   children: [
                     Material(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(8),
                       child: Container(
-                        width: MediaQuery.of(context).size.width - 120,
+                        width: screenWidth - screenWidth * 0.305,
                         height: 40,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: const Color(0xFFFDF5F2),
+                          color: placeholderColor,
                         ),
                       ),
                     ),
@@ -79,13 +87,15 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Password",
                         hintStyle: const TextStyle(
                           fontSize: 15,
-                          color: Color(0xFF979797),
+                          fontFamily: fontFamily,
+                          color: placeholderTextColor,
                         ),
                         border: InputBorder.none,
                         prefixIcon: const Padding(
-                          padding: EdgeInsets.only(left: 20, right: 5),
+                          padding:
+                              EdgeInsets.only(left: 20, right: 5, bottom: 8),
                           child: Icon(MyFlutterApp.lock,
-                              color: Colors.black, size: 30),
+                              color: Colors.black, size: 35),
                         ),
                         suffixIcon: isObscure
                             ? IconButton(
@@ -96,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                   });
                                 },
                                 iconSize: 20,
-                                color: Colors.grey,
+                                color: placeholderTextColor,
                               )
                             : IconButton(
                                 icon: const Icon(MyFlutterApp.hide),
@@ -105,8 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                                     isObscure = !isObscure;
                                   });
                                 },
-                                iconSize: 25,
-                                color: Colors.grey,
+                                iconSize: 28,
+                                color: placeholderTextColor,
                               ),
                       ),
                     ),
@@ -115,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 alignment: Alignment.topRight,
-                width: MediaQuery.of(context).size.width - 120,
+                width: screenWidth - screenWidth * 0.305,
                 child: TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, ForgotPassword.routeName);
@@ -124,7 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.black),
                   ),
-                  child: const Text("Forgot Password?"),
+                  child: const Text(
+                    "Forgot Password?",
+                    style: TextStyle(
+                      fontFamily: fontFamily,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -133,16 +148,25 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Don't have an account? ",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: fontFamily,
+                    ),
                   ),
-                  Text("Sign up",
-                      style: TextStyle(
-                        fontSize: 16,
-                        decoration: TextDecoration.underline,
-                      )),
+                  InkWell(
+                    onTap: () {
+                      Navigator.popAndPushNamed(context, SignupPage.routeName);
+                    },
+                    child: const Text("Sign up",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: fontFamily,
+                          decoration: TextDecoration.underline,
+                        )),
+                  ),
                 ],
               ),
             ],

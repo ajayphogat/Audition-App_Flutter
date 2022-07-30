@@ -27,7 +27,6 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _searchEdit.dispose();
     _tabController.dispose();

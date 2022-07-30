@@ -17,12 +17,14 @@ class _CreditsPageState extends State<CreditsPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar:
-            profileAppBar(screenHeight, screenWidth, context, profileData[5]),
-        body: newColumn(
-            screenHeight,
-            "You don't have any credits added yet",
-            "Add credits from your past performance and\njobs in the entertainment industry.",
-            "ADD CREDIT"));
+      appBar: profileAppBar(screenHeight, screenWidth, context, profileData[5]),
+      body: newColumn(
+        screenHeight,
+        screenWidth,
+        "You don't have any credits added yet",
+        "Add credits from your past performance and\njobs in the entertainment industry.",
+        "ADD CREDIT",
+      ),
+    );
   }
 }

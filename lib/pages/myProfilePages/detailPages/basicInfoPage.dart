@@ -1,6 +1,7 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,6 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _nameController = TextEditingController();
     _urlController = TextEditingController();
@@ -32,7 +32,6 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _nameController.dispose();
     _urlController.dispose();
@@ -57,6 +56,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
                 "Name",
                 style: TextStyle(
                   fontSize: 18,
+                  fontFamily: fontFamily,
                 ),
               ),
               SizedBox(height: screenHeight * 0.005),
@@ -70,6 +70,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
               const Text(
                 "Profile URL",
                 style: TextStyle(
+                  fontFamily: fontFamily,
                   fontSize: 18,
                 ),
               ),
@@ -80,6 +81,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
               const Text(
                 "Professional/Working Title",
                 style: TextStyle(
+                  fontFamily: fontFamily,
                   fontSize: 18,
                 ),
               ),
@@ -90,6 +92,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
               const Text(
                 "Profile Visibility",
                 style: TextStyle(
+                  fontFamily: fontFamily,
                   fontSize: 18,
                 ),
               ),
@@ -111,7 +114,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
                   SizedBox(width: screenWidth * 0.02),
                   const Text(
                     "Public",
-                    style: TextStyle(fontSize: 17),
+                    style: TextStyle(fontSize: 17, fontFamily: fontFamily),
                   ),
                 ],
               ),

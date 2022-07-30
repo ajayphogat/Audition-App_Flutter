@@ -1,6 +1,7 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -27,6 +28,7 @@ class VerifiedPage extends StatelessWidget {
               const Text(
                 "Your mobile number is\nsuccessfully verified.",
                 style: TextStyle(
+                  fontFamily: fontFamily,
                   fontSize: 30,
                 ),
                 textAlign: TextAlign.center,

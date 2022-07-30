@@ -1,3 +1,4 @@
+import 'package:first_app/constants.dart';
 import 'package:first_app/login/loginPage.dart';
 import 'package:first_app/login/signUpPage.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,14 @@ class MainPage extends StatelessWidget {
                   height: 35,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: const Color(0xFFF9D422),
+                    color: secondoryColor,
                   ),
                   child: const Text(
                     "Login",
                     style: TextStyle(
                       fontSize: 17,
+                      fontFamily: fontFamily,
+                      fontWeight: FontWeight.normal,
                       color: Colors.black,
                     ),
                   ),
@@ -62,8 +65,8 @@ class MainPage extends StatelessWidget {
                     "Sign up",
                     style: TextStyle(
                       fontSize: 17,
+                      fontFamily: fontFamily,
                       color: Colors.black,
-                      //TODO: Find the light orange design
                     ),
                   ),
                 ),

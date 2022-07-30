@@ -3,6 +3,7 @@ import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/bottomNavigation/inbox.dart';
 import 'package:first_app/bottomNavigation/myApplication.dart';
 import 'package:first_app/bottomNavigation/myProfile.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/loginPage.dart';
 import 'package:first_app/login/mainPage.dart';
@@ -46,6 +47,11 @@ class MyAPP extends StatelessWidget {
         }
       },
       child: MaterialApp(
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: primaryColor,
+          fontFamily: fontFamily,
+        ),
         initialRoute: "/",
         routes: {
           "/": (context) =>

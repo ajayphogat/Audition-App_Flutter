@@ -1,3 +1,4 @@
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/login/verifyMobile.dart';
@@ -36,6 +37,8 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -56,6 +59,8 @@ class _SignupPageState extends State<SignupPage> {
                   "SIGN UP",
                   style: TextStyle(
                     fontSize: 40,
+                    fontFamily: fontFamily,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 50),
@@ -76,11 +81,11 @@ class _SignupPageState extends State<SignupPage> {
                         elevation: 5,
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
-                          width: MediaQuery.of(context).size.width - 120,
+                          width: screenWidth - screenWidth * 0.305,
                           height: 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: const Color(0xFFFDF5F2),
+                            color: placeholderColor,
                           ),
                         ),
                       ),
@@ -103,17 +108,20 @@ class _SignupPageState extends State<SignupPage> {
                           hintText: "Password",
                           hintStyle: const TextStyle(
                             fontSize: 15,
-                            color: Color(0xFF979797),
+                            fontFamily: fontFamily,
+                            color: placeholderTextColor,
                           ),
                           border: InputBorder.none,
                           prefixIcon: const Padding(
-                            padding: EdgeInsets.only(left: 20, right: 5),
+                            padding:
+                                EdgeInsets.only(left: 20, right: 5, bottom: 8),
                             child: Icon(MyFlutterApp.lock,
-                                color: Colors.black, size: 30),
+                                color: Colors.black, size: 35),
                           ),
                           suffixIcon: isObscure
                               ? IconButton(
                                   icon: const Icon(MyFlutterApp.show),
+                                  padding: const EdgeInsets.only(bottom: 5),
                                   onPressed: () {
                                     setState(() {
                                       isObscure = !isObscure;
@@ -123,13 +131,14 @@ class _SignupPageState extends State<SignupPage> {
                                   color: Colors.grey,
                                 )
                               : IconButton(
+                                  padding: const EdgeInsets.only(bottom: 5),
                                   icon: const Icon(MyFlutterApp.hide),
                                   onPressed: () {
                                     setState(() {
                                       isObscure = !isObscure;
                                     });
                                   },
-                                  iconSize: 25,
+                                  iconSize: 28,
                                   color: Colors.grey,
                                 ),
                         ),

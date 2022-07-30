@@ -1,4 +1,5 @@
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/detailMenuPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
@@ -54,7 +55,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                       alignment: Alignment.bottomCenter,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: const Color(0xFFFDF5F2),
+                        color: placeholderColor,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,11 +65,15 @@ class _MyProfilePageState extends State<MyProfilePage>
                             "Leslie Alexander",
                             style: TextStyle(
                               fontSize: 20,
+                              fontFamily: fontFamily,
                             ),
                           ),
                           const Text(
                             "Your Profile Strength",
-                            style: TextStyle(color: Color(0xFF979797)),
+                            style: TextStyle(
+                              color: placeholderTextColor,
+                              fontFamily: fontFamily,
+                            ),
                           ),
                           Container(
                             height: screenHeight * 0.035,
@@ -77,10 +82,11 @@ class _MyProfilePageState extends State<MyProfilePage>
                             child: TabBar(
                               controller: _tabController,
                               labelStyle: const TextStyle(
+                                fontFamily: fontFamily,
                                 fontWeight: FontWeight.w500,
                               ),
-                              indicatorColor: const Color(0xFF30319D),
-                              labelColor: const Color(0xFF30319D),
+                              indicatorColor: thirdColor,
+                              labelColor: thirdColor,
                               unselectedLabelColor: Colors.black,
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: const [

@@ -1,5 +1,6 @@
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/login/verifiedPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,32 @@ class VerifyMobile extends StatefulWidget {
 }
 
 class _VerifyMobileState extends State<VerifyMobile> {
+  late TextEditingController _controller0;
+  late TextEditingController _controller1;
+  late TextEditingController _controller2;
+  late TextEditingController _controller3;
+
+  late bool autofocus;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller0 = TextEditingController();
+    _controller1 = TextEditingController();
+    _controller2 = TextEditingController();
+    _controller3 = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _controller0 = TextEditingController();
+    _controller1 = TextEditingController();
+    _controller2 = TextEditingController();
+    _controller3 = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +60,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
                 "Verify Your Mobile",
                 style: TextStyle(
                   fontSize: 35,
+                  fontFamily: fontFamily,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -41,6 +69,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
                 "Please enter code",
                 style: TextStyle(
                   fontSize: 25,
+                  fontFamily: fontFamily,
                   color: Colors.grey[400],
                 ),
               ),
@@ -48,10 +77,10 @@ class _VerifyMobileState extends State<VerifyMobile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  circleNumber(),
-                  circleNumber(),
-                  circleNumber(),
-                  circleNumber(),
+                  circleNumber(_controller0, true),
+                  circleNumber(_controller1, false),
+                  circleNumber(_controller2, false),
+                  circleNumber(_controller3, false),
                 ],
               ),
               const SizedBox(height: 60),
@@ -63,7 +92,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
     );
   }
 
-  Container circleNumber() {
+  Container circleNumber(TextEditingController controller, bool autofocus) {
     return Container(
       margin: const EdgeInsets.only(right: 5),
       width: 30,
@@ -72,7 +101,23 @@ class _VerifyMobileState extends State<VerifyMobile> {
         shape: BoxShape.circle,
         color: Colors.grey[300],
       ),
-      //TODO: Add widget for Single Number Code
+      child: TextFormField(
+        scrollPadding: EdgeInsets.zero,
+        textAlign: TextAlign.center,
+        controller: controller,
+        autofocus: autofocus,
+        keyboardType: TextInputType.number,
+        maxLength: 1,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          counterText: '',
+        ),
+        onChanged: (String value) {
+          if (value.length == 1) {
+            FocusScope.of(context).nextFocus();
+          }
+        },
+      ),
     );
   }
 }

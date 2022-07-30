@@ -1,3 +1,4 @@
+import 'package:first_app/constants.dart';
 import 'package:first_app/pages/splashScreen/secondScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,7 @@ class FirstSplashScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 45,
+                    fontFamily: fontFamily,
                     color: Colors.white,
                   ),
                 ),
@@ -51,6 +53,8 @@ class FirstSplashScreen extends StatelessWidget {
                     "Get started",
                     style: TextStyle(
                       fontSize: 17,
+                      fontFamily: fontFamily,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                 ),

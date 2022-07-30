@@ -1,5 +1,6 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,8 +31,9 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
           const Text(
             "You don't have any links added yet",
             style: TextStyle(
+              fontFamily: fontFamily,
               fontSize: 20,
-              color: Color(0xFF979797),
+              color: placeholderTextColor,
             ),
           ),
           SizedBox(height: screenHeight * 0.015),
@@ -40,7 +42,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF979797),
+              fontFamily: fontFamily,
+              color: placeholderTextColor,
             ),
           ),
           SizedBox(height: screenHeight * 0.03),
@@ -52,11 +55,14 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: const Color(0xFFF9D422),
+                color: secondoryColor,
               ),
               child: const Text(
                 "ADD LINK",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: fontFamily,
+                ),
               ),
             ),
           ),

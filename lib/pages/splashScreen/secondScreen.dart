@@ -1,4 +1,6 @@
+import 'package:first_app/constants.dart';
 import 'package:first_app/login/mainPage.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class SecondSplashScreen extends StatefulWidget {
@@ -31,10 +33,9 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
             ? () {}
             : () {
                 setState(() {
-                  print(_activePage);
                   _activePage = _activePage + 1;
                   _pageController.animateToPage(_activePage,
-                      duration: const Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 1000),
                       curve: Curves.linear);
                 });
               },
@@ -62,6 +63,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 45,
+                      fontFamily: fontFamily,
                       color: Colors.white,
                     ),
                   ),
@@ -76,6 +78,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                         top: screenHeight * 0.173),
                     child: PageView(
                       controller: _pageController,
+                      pageSnapping: true,
                       children: [
                         welcomeMessage(screenHeight),
                         discoverMessage(screenHeight),
@@ -126,7 +129,12 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                   primary: Colors.black,
                   textStyle: const TextStyle(fontSize: 18),
                 ),
-                child: const Text("Skip >>"),
+                child: const Text(
+                  "Skip >>",
+                  style: TextStyle(
+                    fontFamily: fontFamily,
+                  ),
+                ),
               ),
             ),
           ],
@@ -143,6 +151,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 40,
+            fontFamily: fontFamily,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -151,6 +160,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           "Sapien sapien ut integer at risus. Dis dignissim habitasse mattis aliquam maecenas ut vel metus.",
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: 15,
           ),
         ),
@@ -165,6 +175,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           "Discover",
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: 40,
             fontWeight: FontWeight.bold,
           ),
@@ -174,6 +185,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           "Sapien sapien ut integer at risus. Dis dignissim habitasse mattis aliquam maecenas ut vel metus.",
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: 15,
           ),
         ),
@@ -189,6 +201,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 40,
+            fontFamily: fontFamily,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -197,6 +210,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           "Sapien sapien ut integer at risus. Dis dignissim habitasse mattis aliquam maecenas ut vel metus.",
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: 15,
           ),
         ),
@@ -211,6 +225,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           "Apply",
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: 40,
             fontWeight: FontWeight.bold,
           ),
@@ -220,6 +235,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
           "Sapien sapien ut integer at risus. Dis dignissim habitasse mattis aliquam maecenas ut vel metus.",
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: 15,
           ),
         ),

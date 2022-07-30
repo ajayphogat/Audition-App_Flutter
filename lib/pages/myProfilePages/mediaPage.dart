@@ -1,4 +1,5 @@
 import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,14 +19,12 @@ class _MediaProfilePageState extends State<MediaProfilePage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _tabController.dispose();
   }
@@ -44,12 +43,13 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               controller: _tabController,
               physics: const BouncingScrollPhysics(),
               labelStyle: const TextStyle(
+                fontFamily: fontFamily,
                 fontWeight: FontWeight.normal,
                 fontSize: 18,
               ),
               isScrollable: true,
-              indicatorColor: const Color(0xFF30319D),
-              labelColor: const Color(0xFF30319D),
+              indicatorColor: thirdColor,
+              labelColor: thirdColor,
               unselectedLabelColor: Colors.black,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: [
@@ -102,14 +102,14 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 children: const [
                   Icon(
                     MyFlutterApp.live_fill,
-                    color: Color(0xFF979797),
+                    color: placeholderTextColor,
                     size: 15,
                   ),
                   SizedBox(width: 5),
                   Text(
                     "0 Draft",
                     style: TextStyle(
-                      color: Color(0xFF979797),
+                      color: placeholderTextColor,
                       fontSize: 15,
                     ),
                   ),
@@ -131,7 +131,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               ),
               const Text(
                 "You don't have any draft",
-                style: TextStyle(fontSize: 18, color: Color(0xFF979797)),
+                style: TextStyle(fontSize: 18, color: placeholderTextColor),
               ),
             ],
           ),
@@ -153,14 +153,14 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 children: const [
                   Icon(
                     MyFlutterApp.live_fill,
-                    color: Color(0xFF979797),
+                    color: placeholderTextColor,
                     size: 15,
                   ),
                   SizedBox(width: 5),
                   Text(
                     "0 Document",
                     style: TextStyle(
-                      color: Color(0xFF979797),
+                      color: placeholderTextColor,
                       fontSize: 15,
                     ),
                   ),
@@ -182,7 +182,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               ),
               const Text(
                 "You don't have any document added yet",
-                style: TextStyle(fontSize: 18, color: Color(0xFF979797)),
+                style: TextStyle(fontSize: 18, color: placeholderTextColor),
               ),
             ],
           ),
@@ -204,14 +204,15 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 children: const [
                   Icon(
                     MyFlutterApp.live_fill,
-                    color: Color(0xFF979797),
+                    color: placeholderTextColor,
                     size: 15,
                   ),
                   SizedBox(width: 5),
                   Text(
                     "0 Audios",
                     style: TextStyle(
-                      color: Color(0xFF979797),
+                      color: placeholderTextColor,
+                      fontFamily: fontFamily,
                       fontSize: 15,
                     ),
                   ),
@@ -233,7 +234,11 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               ),
               const Text(
                 "You don't have any audio added yet",
-                style: TextStyle(fontSize: 18, color: Color(0xFF979797)),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: placeholderTextColor,
+                  fontFamily: fontFamily,
+                ),
               ),
             ],
           ),
@@ -255,14 +260,15 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 children: const [
                   Icon(
                     MyFlutterApp.live_fill,
-                    color: Color(0xFF979797),
+                    color: placeholderTextColor,
                     size: 15,
                   ),
                   SizedBox(width: 5),
                   Text(
                     "3 Videos",
                     style: TextStyle(
-                      color: Color(0xFF979797),
+                      color: placeholderTextColor,
+                      fontFamily: fontFamily,
                       fontSize: 15,
                     ),
                   ),
@@ -317,14 +323,15 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 children: const [
                   Icon(
                     MyFlutterApp.camera_2_fill,
-                    color: Color(0xFF979797),
+                    color: placeholderTextColor,
                     size: 15,
                   ),
                   SizedBox(width: 5),
                   Text(
                     "8 Pictures",
                     style: TextStyle(
-                      color: Color(0xFF979797),
+                      color: placeholderTextColor,
+                      fontFamily: fontFamily,
                       fontSize: 15,
                     ),
                   ),
