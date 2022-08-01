@@ -31,7 +31,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_chat_bubble: ^2.0.0
   flutter_svg: ^1.1.1+1
+  page_transition: ^2.0.9
   readmore: ^2.2.0
 
 dev_dependencies:
@@ -73,7 +75,6 @@ flutter:
       fonts:
         - asset: asset/fonts/AirbnbCereal_W_Md.otf
         - asset: asset/fonts/AirbnbCereal_W_Bd.otf
-
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

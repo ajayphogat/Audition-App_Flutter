@@ -15,6 +15,7 @@ import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:first_app/pages/categorySection/categoryPageGrid.dart';
 import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
+import 'package:first_app/pages/inboxPages/messagePage.dart';
 import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
 import 'package:first_app/pages/myProfilePages/detailMenuPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
@@ -85,6 +86,7 @@ class MyAPP extends StatelessWidget {
           // Inbox Page Section
           InboxPage.routeName: (context) => const InboxPage(),
           InboxMessagePage.routeName: (context) => const InboxMessagePage(),
+          MessagePage.routeName: (context) => const MessagePage(),
 
           // My Profile Page Section
           MyProfile.routeName: (context) => const MyProfile(),
