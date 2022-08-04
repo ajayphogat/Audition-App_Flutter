@@ -192,6 +192,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: screenHeight * 0.263,
               child: ListView(
+                //FIXME: implement screenWidth and screenHeight here in padding.
                 padding: const EdgeInsets.only(
                     left: 20, right: 20, top: 10, bottom: 10),
                 physics: const BouncingScrollPhysics(),

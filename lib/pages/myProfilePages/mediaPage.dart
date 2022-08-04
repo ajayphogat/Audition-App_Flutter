@@ -290,18 +290,23 @@ class _MediaProfilePageState extends State<MediaProfilePage>
             ),
             itemCount: mediaVideoData.length,
             itemBuilder: (context, index) {
-              return Stack(
-                children: [
-                  Image.asset(
-                    mediaVideoData[index],
-                  ),
-                  const Center(
-                      child: Icon(
-                    Icons.play_circle_outline_sharp,
-                    size: 60,
-                    color: Colors.white,
-                  )),
-                ],
+              return InkWell(
+                onLongPress: () {
+                  newDialogDelete(context, screenHeight, screenWidth);
+                },
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      mediaVideoData[index],
+                    ),
+                    const Center(
+                        child: Icon(
+                      Icons.play_circle_outline_sharp,
+                      size: 60,
+                      color: Colors.white,
+                    )),
+                  ],
+                ),
               );
             },
           ),
@@ -353,11 +358,70 @@ class _MediaProfilePageState extends State<MediaProfilePage>
             ),
             itemCount: mediaPicData.length,
             itemBuilder: (context, index) {
-              return Image.asset(mediaPicData[index]);
+              return InkWell(
+                onLongPress: () {
+                  newDialogDelete(context, screenHeight, screenWidth);
+                },
+                child: Image.asset(mediaPicData[index]),
+              );
             },
           ),
         ),
       ],
     );
+  }
+
+  Future<dynamic> newDialogDelete(
+      BuildContext context, double screenHeight, double screenWidth) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            insetPadding: EdgeInsets.only(top: screenHeight * 0.20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Container(
+              width: screenWidth * 0.80,
+              height: screenHeight * 0.18,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      print("Picture Deleted");
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Delete",
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      print("Picture Edited");
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Edit",
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      print("Picture Changed");
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Change",
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

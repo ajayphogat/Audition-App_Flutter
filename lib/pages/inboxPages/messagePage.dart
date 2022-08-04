@@ -1,19 +1,9 @@
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_10.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_2.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_3.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_6.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_7.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_8.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_9.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
@@ -25,6 +15,15 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
+  late TextEditingController _textController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _textController = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -45,7 +44,6 @@ class _MessagePageState extends State<MessagePage> {
                       icon: const Icon(MyFlutterApp.bi_arrow_down,
                           color: Colors.black),
                       onPressed: () {
-                        print("Hello");
                         Navigator.pop(context);
                       },
                     ),
@@ -98,46 +96,85 @@ class _MessagePageState extends State<MessagePage> {
       body: Stack(
         clipBehavior: Clip.none,
         children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: screenHeight * 0.10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30),
-                        child: ChatBubble(
-                          clipper:
-                              ChatBubbleClipper10(type: BubbleType.sendBubble),
-                          alignment: Alignment.topRight,
-                          backGroundColor: secondoryColor,
-                          child: Container(
-                            constraints: BoxConstraints(
-                              maxWidth: screenWidth * 0.7,
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: ChatBubble(
+                        clipper:
+                            ChatBubbleClipper1(type: BubbleType.sendBubble),
+                        alignment: Alignment.topRight,
+                        backGroundColor: secondoryColor,
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: screenWidth * 0.7,
+                          ),
+                          child: const Text(
+                            "Quisque elementum tristique sapien viverra leo quisque in.",
+                            style: TextStyle(
+                              color: Colors.black,
                             ),
-                            child: const Text(
-                                "Quisque elementum tristique sapien viverra leo quisque in."),
                           ),
                         ),
                       ),
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(32),
-                          child: Image.asset("asset/images/uiImages/face.png",
-                              fit: BoxFit.cover),
+                    ),
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(32),
+                        child: Image.asset("asset/images/uiImages/face.png",
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(32),
+                        child: Image.asset("asset/images/uiImages/girlFace.jpg",
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: ChatBubble(
+                        clipper:
+                            ChatBubbleClipper1(type: BubbleType.receiverBubble),
+                        alignment: Alignment.topLeft,
+                        backGroundColor: secondoryColor,
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: screenWidth * 0.7,
+                          ),
+                          child: const Text(
+                            "Quisque elementum tristique sapien viverra leo quisque in.",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           Column(
@@ -162,6 +199,7 @@ class _MessagePageState extends State<MessagePage> {
                       color: Colors.grey[200],
                     ),
                     child: TextFormField(
+                      controller: _textController,
                       decoration: InputDecoration(
                         hintText: "Type your message here",
                         hintStyle: const TextStyle(
@@ -175,7 +213,56 @@ class _MessagePageState extends State<MessagePage> {
                             MyFlutterApp.clarity_attachment_line,
                             color: Colors.black,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              barrierColor: Colors.transparent,
+                              context: context,
+                              builder: ((context) {
+                                return Dialog(
+                                  insetPadding:
+                                      EdgeInsets.only(top: screenHeight * 0.49),
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Container(
+                                    width: screenWidth * 0.95,
+                                    height: screenHeight * 0.30,
+                                    padding: EdgeInsets.all(screenWidth * 0.05),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.grey[200],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            sendDocumentButton(screenWidth,
+                                                MyFlutterApp.camera_2_fill),
+                                            sendDocumentButton(screenWidth,
+                                                MyFlutterApp.live_fill),
+                                            sendDocumentButton(screenWidth,
+                                                MyFlutterApp.mic_fill),
+                                          ],
+                                        ),
+                                        SizedBox(height: screenHeight * 0.02),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            sendDocumentButton(screenWidth,
+                                                MyFlutterApp.paper),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -185,6 +272,24 @@ class _MessagePageState extends State<MessagePage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget sendDocumentButton(double screenWidth, IconData icon) {
+    return InkWell(
+      onTap: () {
+        print("Hello");
+      },
+      child: Container(
+        width: screenWidth * 0.15,
+        height: screenWidth * 0.15,
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: secondoryColor,
+        ),
+        child: Icon(icon),
       ),
     );
   }

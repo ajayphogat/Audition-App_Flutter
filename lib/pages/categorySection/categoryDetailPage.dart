@@ -19,7 +19,6 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 6, vsync: this);
     _searchEdit = TextEditingController();
