@@ -151,7 +151,7 @@ Material textContainer(double screenWidth, double screenHeight, String s1,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 5),
+                SizedBox(height: screenHeight * 0.005),
                 Text(
                   s1,
                   style: const TextStyle(
@@ -160,7 +160,7 @@ Material textContainer(double screenWidth, double screenHeight, String s1,
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: screenHeight * 0.002),
                 Text(
                   s2,
                   style: const TextStyle(
@@ -168,7 +168,7 @@ Material textContainer(double screenWidth, double screenHeight, String s1,
                     fontSize: 10,
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: screenHeight * 0.003),
                 Text(
                   s3,
                   style: const TextStyle(
@@ -603,7 +603,7 @@ AppBar profileAppBar(double screenHeight, double screenWidth,
     BuildContext context, String headline) {
   return AppBar(
     backgroundColor: Colors.white,
-    toolbarHeight: screenHeight * 0.1015,
+    toolbarHeight: screenHeight * 0.105,
     actions: [
       SizedBox(
         width: screenWidth,

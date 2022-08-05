@@ -2,6 +2,7 @@ import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/pages/paymentPage/paymentPage.dart';
 import 'package:flutter/material.dart';
 
 class SubscriptionPage extends StatefulWidget {
@@ -162,7 +163,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           SizedBox(height: screenHeight * 0.04),
                           InkWell(
                             //TODO: Assign a function to perform with this buttom
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, PaymentPage.routeName);
+                            },
                             child: Container(
                               alignment: Alignment.center,
                               width: 150,

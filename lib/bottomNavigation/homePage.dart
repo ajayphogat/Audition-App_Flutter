@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.only(
                         left: screenWidth * 0.05,
                         right: screenWidth * 0.05,
-                        top: screenHeight * 0.093,
+                        top: screenHeight * 0.085,
                         bottom: screenHeight * 0.03),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.01),
             Container(
               padding: EdgeInsets.only(left: screenWidth * 0.04),
               width: screenWidth,

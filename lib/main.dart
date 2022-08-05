@@ -28,6 +28,7 @@ import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart'
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
+import 'package:first_app/pages/paymentPage/paymentPage.dart';
 import 'package:first_app/pages/splashScreen/firstScreen.dart';
 import 'package:first_app/pages/splashScreen/secondScreen.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class MyAPP extends StatelessWidget {
         initialRoute: "/",
         routes: {
           "/": (context) =>
-              const FirstSplashScreen(), //FIXME: Change this Starting Screen
+              const PaymentPage(), //FIXME: Change this Starting Screen
 
           SecondSplashScreen.routeName: (context) => const SecondSplashScreen(),
 
@@ -109,6 +110,9 @@ class MyAPP extends StatelessWidget {
           SubscriptionPage.routeName: (context) => const SubscriptionPage(),
           // My Profile Page - Create Profile Page
           CreateProfilePage.routeName: (context) => const CreateProfilePage(),
+
+          // Payment Page
+          PaymentPage.routeName: (context) => const PaymentPage(),
 
           // Bottom Navigation Bar
           BottomNavigationPage.routeName: (context) =>

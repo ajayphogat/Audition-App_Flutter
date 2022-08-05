@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class _MessagePageState extends State<MessagePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        toolbarHeight: screenHeight * 0.095,
+        toolbarHeight: screenHeight * 0.1,
         actions: [
           Column(
             children: [
@@ -193,7 +194,7 @@ class _MessagePageState extends State<MessagePage> {
                     height: screenHeight * 0.06,
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(
-                        left: screenWidth * 0.06, right: screenWidth * 0.02),
+                        left: screenWidth * 0.02, right: screenWidth * 0.02),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.grey[200],
@@ -208,11 +209,7 @@ class _MessagePageState extends State<MessagePage> {
                           color: placeholderTextColor,
                         ),
                         border: InputBorder.none,
-                        suffixIcon: IconButton(
-                          icon: const Icon(
-                            MyFlutterApp.clarity_attachment_line,
-                            color: Colors.black,
-                          ),
+                        prefixIcon: IconButton(
                           onPressed: () {
                             showDialog(
                               barrierColor: Colors.transparent,
@@ -263,6 +260,12 @@ class _MessagePageState extends State<MessagePage> {
                               }),
                             );
                           },
+                          icon: const Icon(MyFlutterApp.clarity_attachment_line,
+                              color: Colors.black),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: SvgPicture.asset("asset/icons/send_button.svg"),
+                          onPressed: () {},
                         ),
                       ),
                     ),
