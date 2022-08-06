@@ -57,7 +57,7 @@ class MyAPP extends StatelessWidget {
         initialRoute: "/",
         routes: {
           "/": (context) =>
-              const PaymentPage(), //FIXME: Change this Starting Screen
+              const FirstSplashScreen(), //FIXME: Change this Starting Screen
 
           SecondSplashScreen.routeName: (context) => const SecondSplashScreen(),
 

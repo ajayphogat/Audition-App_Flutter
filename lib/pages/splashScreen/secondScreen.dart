@@ -1,3 +1,5 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/login/mainPage.dart';
 import 'package:flutter/gestures.dart';
@@ -30,12 +32,14 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
     return Scaffold(
       body: GestureDetector(
         onTap: _activePage == 3
-            ? () {}
+            ? () {
+                Navigator.pushNamed(context, BottomNavigationPage.routeName);
+              }
             : () {
                 setState(() {
                   _activePage = _activePage + 1;
                   _pageController.animateToPage(_activePage,
-                      duration: const Duration(milliseconds: 1000),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.linear);
                 });
               },
@@ -84,11 +88,15 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                         discoverMessage(screenHeight),
                         saveMessage(screenHeight),
                         applyMessage(screenHeight),
+                        const Text("swipe right"),
                       ],
                       onPageChanged: (value) {
-                        setState(() {
-                          _activePage = value;
-                        });
+                        value > 3
+                            ? Navigator.pushNamed(
+                                context, BottomNavigationPage.routeName)
+                            : setState(() {
+                                _activePage = value;
+                              });
                       },
                     ),
                   ),
@@ -117,26 +125,26 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                 }),
               ),
             ),
-            Positioned(
-              top: screenHeight * 0.04,
-              right: 0,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, MainPage.routeName, (route) => false);
-                },
-                style: TextButton.styleFrom(
-                  primary: Colors.black,
-                  textStyle: const TextStyle(fontSize: 18),
-                ),
-                child: const Text(
-                  "Skip >>",
-                  style: TextStyle(
-                    fontFamily: fontFamily,
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   top: screenHeight * 0.04,
+            //   right: 0,
+            //   child: TextButton(
+            //     onPressed: () {
+            //       Navigator.pushNamedAndRemoveUntil(
+            //           context, MainPage.routeName, (route) => false);
+            //     },
+            //     style: TextButton.styleFrom(
+            //       primary: Colors.black,
+            //       textStyle: const TextStyle(fontSize: 18),
+            //     ),
+            //     child: const Text(
+            //       "Skip >>",
+            //       style: TextStyle(
+            //         fontFamily: fontFamily,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
