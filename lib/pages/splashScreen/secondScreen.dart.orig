@@ -1,5 +1,8 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/constants.dart';
+import 'package:first_app/login/mainPage.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class SecondSplashScreen extends StatefulWidget {
@@ -17,6 +20,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     _pageController = PageController(initialPage: _activePage, keepPage: true);
   }
@@ -84,7 +88,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                         discoverMessage(screenHeight),
                         saveMessage(screenHeight),
                         applyMessage(screenHeight),
-                        const Text(""),
+                        const Text("swipe right"),
                       ],
                       onPageChanged: (value) {
                         value > 3
