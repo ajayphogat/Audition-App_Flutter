@@ -33,6 +33,9 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   @override
   Widget build(BuildContext context) {
+    var _page = ModalRoute.of(context)!.settings.arguments as int;
+    _tabController.index = _page;
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(

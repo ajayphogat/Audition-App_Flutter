@@ -57,12 +57,23 @@ class _MyProfileState extends State<MyProfile> {
                   ),
                 ),
                 SizedBox(
-                  child: IconButton(
-                    icon: const Icon(
-                      MyFlutterApp.setting_black,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.share,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          MyFlutterApp.setting_black,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
                 ),
               ],

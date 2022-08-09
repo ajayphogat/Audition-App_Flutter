@@ -109,15 +109,33 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: gridContainer(categoryData[0]),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, CategoryDetailPage.routeName,
+                          arguments: 0);
+                    },
+                    child: gridContainer(categoryData[0]),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: gridContainer(categoryData[1]),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, CategoryDetailPage.routeName,
+                            arguments: 1);
+                      },
+                      child: gridContainer(categoryData[1])),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: gridContainer(categoryData[2]),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, CategoryDetailPage.routeName,
+                            arguments: 2);
+                      },
+                      child: gridContainer(categoryData[2])),
                 ),
               ],
             ),
@@ -126,15 +144,33 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: gridContainer(categoryData[3]),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, CategoryDetailPage.routeName,
+                            arguments: 3);
+                      },
+                      child: gridContainer(categoryData[3])),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: gridContainer(categoryData[4]),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, CategoryDetailPage.routeName,
+                            arguments: 4);
+                      },
+                      child: gridContainer(categoryData[4])),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: gridContainer(categoryData[5]),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, CategoryDetailPage.routeName,
+                            arguments: 5);
+                      },
+                      child: gridContainer(categoryData[5])),
                 ),
               ],
             ),
@@ -282,36 +318,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget gridContainer(String name) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, CategoryDetailPage.routeName);
-      },
-      child: Material(
-        borderRadius: BorderRadius.circular(10),
-        elevation: 5,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          width: (MediaQuery.of(context).size.width - 40) / 3,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFFFDF5F2),
-          ),
-          child: Column(
-            children: [
-              AspectRatio(
-                  aspectRatio: 0.89,
-                  child: Image.asset("asset/images/categoryImages/$name.png")),
-              const SizedBox(height: 5),
-              Text(
-                name,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontFamily: fontFamily,
-                ),
+    return Material(
+      borderRadius: BorderRadius.circular(10),
+      elevation: 5,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        width: (MediaQuery.of(context).size.width - 40) / 3,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: const Color(0xFFFDF5F2),
+        ),
+        child: Column(
+          children: [
+            AspectRatio(
+                aspectRatio: 0.89,
+                child: Image.asset("asset/images/categoryImages/$name.png")),
+            const SizedBox(height: 5),
+            Text(
+              name,
+              style: const TextStyle(
+                fontSize: 14,
+                fontFamily: fontFamily,
               ),
-              const SizedBox(height: 5),
-            ],
-          ),
+            ),
+            const SizedBox(height: 5),
+          ],
         ),
       ),
     );
