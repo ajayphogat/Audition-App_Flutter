@@ -5,6 +5,7 @@ import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 Widget commonTextField(
     BuildContext context, controller, String hintText, icon, bool isPassword) {
@@ -755,5 +756,63 @@ Container yellowCircleButton(double screenHeight, IconData icon) {
       color: Colors.black,
       size: screenHeight * 0.025,
     ),
+  );
+}
+
+Future<dynamic> newDialogBox(BuildContext context, double screenWidth,
+    double screenHeight, String text, String text2, bool a, String routeName) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        title: Container(
+          width: screenWidth * 0.50,
+          height: screenHeight * 0.30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: screenWidth * 0.40,
+                height: screenWidth * 0.40,
+                child: Lottie.asset(
+                  "asset/lottie/successfully_done.json",
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Text(text),
+              InkWell(
+                onTap: () {
+                  a
+                      ? Navigator.pushNamed(context, routeName)
+                      : Navigator.pop(context);
+                },
+                child: Container(
+                  width: screenWidth * 0.38,
+                  height: screenHeight * 0.047,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: secondoryColor,
+                  ),
+                  child: Text(
+                    text2,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
   );
 }

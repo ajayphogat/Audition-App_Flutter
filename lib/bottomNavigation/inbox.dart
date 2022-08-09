@@ -22,7 +22,6 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _searchEdit = TextEditingController();
@@ -30,7 +29,6 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _tabController.dispose();
     _searchEdit.dispose();
@@ -99,7 +97,30 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            title: Container(
+                              width: screenWidth * 0.30,
+                              height: screenHeight * 0.20,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                              ),
+                              child: const Text(
+                                "Filter area is under construction",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                        });
+                  },
                   icon: const Icon(MyFlutterApp.filter),
                   color: Colors.black,
                   iconSize: 33,

@@ -28,6 +28,7 @@ import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart'
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
+import 'package:first_app/pages/myProfilePages/settingsPage.dart';
 import 'package:first_app/pages/paymentPage/paymentPage.dart';
 import 'package:first_app/pages/splashScreen/firstScreen.dart';
 import 'package:first_app/pages/splashScreen/secondScreen.dart';
@@ -110,6 +111,8 @@ class MyAPP extends StatelessWidget {
           SubscriptionPage.routeName: (context) => const SubscriptionPage(),
           // My Profile Page - Create Profile Page
           CreateProfilePage.routeName: (context) => const CreateProfilePage(),
+          // My Profile Page - Settings Page
+          SettingsPage.routeName: (context) => const SettingsPage(),
 
           // Payment Page
           PaymentPage.routeName: (context) => const PaymentPage(),

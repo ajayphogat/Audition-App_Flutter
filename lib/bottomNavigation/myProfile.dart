@@ -1,8 +1,11 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
+import 'package:first_app/pages/myProfilePages/settingsPage.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
@@ -64,14 +67,19 @@ class _MyProfileState extends State<MyProfile> {
                           Icons.share,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          newDialogBox(context, screenWidth, screenHeight,
+                              "Profile Shared", "GO BACK", false, "");
+                        },
                       ),
                       IconButton(
                         icon: const Icon(
                           MyFlutterApp.setting_black,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, SettingsPage.routeName);
+                        },
                       ),
                     ],
                   ),

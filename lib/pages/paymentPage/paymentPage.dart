@@ -1,4 +1,5 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -61,61 +62,14 @@ class _PaymentPageState extends State<PaymentPage> {
               SizedBox(height: screenHeight * 0.03),
               InkWell(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        title: Container(
-                          width: screenWidth * 0.50,
-                          height: screenHeight * 0.30,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: screenWidth * 0.40,
-                                height: screenWidth * 0.40,
-                                child: Lottie.asset(
-                                  "asset/lottie/successfully_done.json",
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              const Text("Payment Successfull"),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      BottomNavigationPage.routeName,
-                                      (route) => false);
-                                },
-                                child: Container(
-                                  width: screenWidth * 0.38,
-                                  height: screenHeight * 0.047,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: secondoryColor,
-                                  ),
-                                  child: const Text(
-                                    "GO HOME",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                  newDialogBox(
+                      context,
+                      screenWidth,
+                      screenHeight,
+                      "Payment Successfull",
+                      "GO HOME",
+                      true,
+                      BottomNavigationPage.routeName);
                 },
                 child: Container(
                   alignment: Alignment.center,
