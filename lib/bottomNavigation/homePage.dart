@@ -4,6 +4,7 @@ import 'package:first_app/constants.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -174,44 +176,46 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: (screenWidth / 2) - 25,
-                  height: 2,
-                  decoration: const BoxDecoration(
+            SizedBox(height: screenHeight * 0.015),
+            SizedBox(
+              width: screenWidth,
+              height: screenWidth * 0.15,
+              // color: Colors.orange,
+              child: Stack(
+                fit: StackFit.loose,
+                alignment: Alignment.center,
+                children: [
+                  const Divider(
                     color: Colors.grey,
+                    thickness: 2,
                   ),
-                ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                      ),
+                  Container(
+                    width: screenWidth * 0.13,
+                    height: 3,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.white,
                     ),
-                    SvgPicture.asset("asset/icons/down_arrow.svg",
-                        color: Colors.grey),
-                  ],
-                ),
-                Container(
-                  width: (screenWidth / 2) - 25,
-                  height: 2,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
                   ),
-                ),
-              ],
+                  Container(
+                    width: screenWidth * 0.09,
+                    height: screenWidth * 0.09,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.grey,
+                      ),
+                      color: Colors.white,
+                    ),
+                  ),
+                  Lottie.asset(
+                    "asset/lottie/down-arrow.json",
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
+                  )
+                ],
+              ),
             ),
-            SizedBox(height: screenHeight * 0.01),
             Container(
               padding: EdgeInsets.only(left: screenWidth * 0.04),
               width: screenWidth,
