@@ -145,6 +145,10 @@ class _MyProfilePageState extends State<MyProfilePage>
                 ],
               ),
             ),
+            // Divider(
+            //   color: Colors.grey.shade300,
+            //   thickness: 10,
+            // ),
             Container(
               alignment: Alignment.topCenter,
               height: screenHeight * 0.54,

@@ -55,9 +55,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -85,9 +85,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -137,9 +137,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -159,9 +159,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -189,9 +189,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -210,9 +210,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
             InkWell(
                 onTap: () {
@@ -220,9 +220,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
                 },
                 child: simpleArrowColumn(
                     screenHeight, screenWidth, "Subscription")),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
             InkWell(
               onTap: () {
@@ -231,9 +231,9 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
               child: simpleArrowColumn(
                   screenHeight, screenWidth, "Create Another Profile"),
             ),
-            const Divider(
-              color: placeholderTextColor,
-              thickness: 1,
+            Divider(
+              color: Colors.grey.shade300,
+              thickness: 10,
             ),
           ],
         ),
