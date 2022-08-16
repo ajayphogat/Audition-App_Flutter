@@ -1,8 +1,10 @@
+import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/detailMenuPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -140,6 +142,29 @@ class _MyProfilePageState extends State<MyProfilePage>
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: PopupMenuButton(
+                      padding: EdgeInsets.zero,
+                      icon: SvgPicture.asset("asset/icons/vertical_menu.svg"),
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(
+                            height: 25,
+                            child: const Text("Report"),
+                            onTap: () {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                newDialogBox(context, screenWidth, screenHeight,
+                                    "Account Reported!", "GO BACK", false, "");
+                              });
+                            },
+                          ),
+                        ];
+                      },
+                      offset: Offset(0, screenHeight * 0.042),
                     ),
                   ),
                 ],

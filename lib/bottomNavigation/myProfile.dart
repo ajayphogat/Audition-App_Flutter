@@ -5,7 +5,6 @@ import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:first_app/pages/myProfilePages/settingsPage.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
