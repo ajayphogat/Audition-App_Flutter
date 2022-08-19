@@ -1,5 +1,5 @@
-import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/constants.dart';
+import 'package:first_app/login/mainPage.dart';
 import 'package:flutter/material.dart';
 
 class SecondSplashScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
       body: GestureDetector(
         onTap: _activePage == 3
             ? () {
-                Navigator.pushNamed(context, BottomNavigationPage.routeName);
+                Navigator.pushNamed(context, MainPage.routeName);
               }
             : () {
                 setState(() {
@@ -88,8 +88,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                       ],
                       onPageChanged: (value) {
                         value > 3
-                            ? Navigator.pushNamed(
-                                context, BottomNavigationPage.routeName)
+                            ? Navigator.pushNamed(context, MainPage.routeName)
                             : setState(() {
                                 _activePage = value;
                               });
