@@ -2,6 +2,7 @@ import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
@@ -64,16 +65,22 @@ Widget commonTextField(
   );
 }
 
-InkWell basicButton(BuildContext context, formKey, routeName, String text) {
+InkWell basicButton(
+    BuildContext context, formKey, routeName, String text, String password) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.width;
   return InkWell(
     onTap: () {
       if (formKey.currentState!.validate()) {
-        routeName == "/bottomNavigation-Page"
-            ? Navigator.pushNamedAndRemoveUntil(
-                context, routeName, (route) => false)
-            : Navigator.pushNamed(context, routeName);
+        if (password == "studio") {
+          Navigator.pushNamedAndRemoveUntil(
+              context, SBottomNavigationPage.routeName, (route) => false);
+        } else {
+          routeName == "/bottomNavigation-Page"
+              ? Navigator.pushNamedAndRemoveUntil(
+                  context, routeName, (route) => false)
+              : Navigator.pushNamed(context, routeName);
+        }
       }
     },
     child: Container(

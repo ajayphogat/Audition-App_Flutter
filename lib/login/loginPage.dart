@@ -143,8 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              basicButton(
-                  context, _formKey, BottomNavigationPage.routeName, "Login"),
+              basicButton(context, _formKey, BottomNavigationPage.routeName,
+                  "Login", _password.text),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -32,6 +32,24 @@ import 'package:first_app/pages/myProfilePages/settingsPage.dart';
 import 'package:first_app/pages/paymentPage/paymentPage.dart';
 import 'package:first_app/pages/splashScreen/firstScreen.dart';
 import 'package:first_app/pages/splashScreen/secondScreen.dart';
+import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
+import 'package:first_app/studio_code/sbottomNavigation/shomePage.dart';
+import 'package:first_app/studio_code/sbottomNavigation/sinbox.dart';
+import 'package:first_app/studio_code/sbottomNavigation/smyApplication.dart';
+import 'package:first_app/studio_code/sbottomNavigation/smyProfile.dart';
+import 'package:first_app/studio_code/spages/sinboxPages/sinboxPage.dart';
+import 'package:first_app/studio_code/spages/sinboxPages/smessagePage.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sactorProfilePage.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sallJobs.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sdancerProfilePage.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sdesignationPage.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/swriterProfilePage.dart';
+import 'package:first_app/studio_code/spages/sprofilePages/sinviteFriends.dart';
+import 'package:first_app/studio_code/spages/sprofilePages/smyProfilePage.dart';
+import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/sprojectPage.dart';
+import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/saddCard.dart';
+import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/spaymentPage.dart';
+import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/ssubscriptionPage.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyAPP());
@@ -120,6 +138,48 @@ class MyAPP extends StatelessWidget {
           // Bottom Navigation Bar
           BottomNavigationPage.routeName: (context) =>
               const BottomNavigationPage(),
+
+          // Studio Part
+
+          // Home Page
+          SHomePage.routeName: (context) => const SHomePage(),
+
+          // MyApplication Page
+          SMyApplicationPage.routeName: (context) => const SMyApplicationPage(),
+          // MyApplication Page - All Jobs Page
+          SAllJobsPage.routeName: (context) => const SAllJobsPage(),
+          // My Application Page - Actor Profile Page
+          SActorProfilePage.routeName: (context) => const SActorProfilePage(),
+          // My Application Page - Designation Page
+          SDesignationPage.routeName: (context) => const SDesignationPage(),
+          // My Application Page - Dancer Profile Page
+          SDancerProfilePage.routeName: (context) => const SDancerProfilePage(),
+          // My Application Page - Writer Page
+          SWriterProfilePage.routeName: (context) => const SWriterProfilePage(),
+
+          // Inbox Page
+          SInboxPage.routeName: (context) => const SInboxPage(),
+          // Inbox Page - Message Page
+          SInboxMessagePage.routeName: (context) => const SInboxMessagePage(),
+          // Inbox Page - Chat Page
+          SMessagePage.routeName: (context) => const SMessagePage(),
+
+          // My Profile Page
+          SMyProfile.routeName: (context) => const SMyProfile(),
+          // My Profile Page - Project Page
+          SMyProfilePage.routeName: (context) => const SMyProfilePage(),
+          // My Profile Page - Subscription Page
+          SSubscriptionPage.routeName: (context) => const SSubscriptionPage(),
+          // My Profile Page - Payment Page
+          SPaymentPage.routeName: (context) => const SPaymentPage(),
+          // My Profile Page - Payment Page - Add Card
+          SAddCardPage.routeName: (context) => const SAddCardPage(),
+          // My Profile Page - Invite Page
+          SInviteFriendsPage.routeName: (context) => const SInviteFriendsPage(),
+
+          // Studio Bottom Navigation Bar
+          SBottomNavigationPage.routeName: (context) =>
+              const SBottomNavigationPage(),
         },
         debugShowCheckedModeBanner: false,
       ),

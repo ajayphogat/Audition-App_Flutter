@@ -148,7 +148,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 const SizedBox(height: 45),
                 basicButton(
-                    context, _formKey, VerifyMobile.routeName, "Sign Up"),
+                    context, _formKey, VerifyMobile.routeName, "Sign Up", ""),
               ],
             ),
           ),
