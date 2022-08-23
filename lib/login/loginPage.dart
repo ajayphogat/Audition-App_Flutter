@@ -4,6 +4,7 @@ import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/signUpPage.dart';
+import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -143,8 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              basicButton(context, _formKey, BottomNavigationPage.routeName,
-                  "Login", _password.text),
+              loginButton(context, screenWidth),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -170,6 +170,35 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  InkWell loginButton(BuildContext context, double screenWidth) {
+    return InkWell(
+      onTap: () {
+        if (_formKey.currentState!.validate()) {
+          _password.text == "studio"
+              ? Navigator.pushNamedAndRemoveUntil(
+                  context, SBottomNavigationPage.routeName, (route) => false)
+              : Navigator.pushNamedAndRemoveUntil(
+                  context, BottomNavigationPage.routeName, (route) => false);
+        }
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: screenWidth * 0.383,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: secondoryColor,
+        ),
+        child: const Text(
+          "Login",
+          style: TextStyle(
+            fontFamily: fontFamily,
           ),
         ),
       ),

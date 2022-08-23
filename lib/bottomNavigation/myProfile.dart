@@ -4,6 +4,7 @@ import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:first_app/pages/myProfilePages/settingsPage.dart';
+import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 
 class MyProfile extends StatefulWidget {
@@ -154,12 +155,18 @@ class _MyProfileState extends State<MyProfile> {
                     ),
                   ],
                 ),
-                Row(
-                  children: const [
-                    Icon(MyFlutterApp.switchuser),
-                    SizedBox(width: 15),
-                    Text("Switch Account"),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(context,
+                        SBottomNavigationPage.routeName, (route) => false);
+                  },
+                  child: Row(
+                    children: const [
+                      Icon(MyFlutterApp.switchuser),
+                      SizedBox(width: 15),
+                      Text("Switch Account"),
+                    ],
+                  ),
                 ),
               ],
             ),

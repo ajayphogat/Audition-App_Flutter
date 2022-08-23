@@ -1,3 +1,4 @@
+import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:first_app/studio_code/sconstants.dart';
@@ -127,12 +128,18 @@ class _SMyProfileState extends State<SMyProfile> {
                     ),
                   ],
                 ),
-                Row(
-                  children: const [
-                    Icon(MyFlutterApp.switchuser),
-                    SizedBox(width: 15),
-                    Text("Switch Account"),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(context,
+                        BottomNavigationPage.routeName, (route) => false);
+                  },
+                  child: Row(
+                    children: const [
+                      Icon(MyFlutterApp.switchuser),
+                      SizedBox(width: 15),
+                      Text("Switch Account"),
+                    ],
+                  ),
                 ),
               ],
             ),

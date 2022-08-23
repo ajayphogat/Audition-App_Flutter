@@ -66,12 +66,13 @@ Widget commonTextField(
 }
 
 InkWell basicButton(
-    BuildContext context, formKey, routeName, String text, String password) {
+    BuildContext context, formKey, routeName, String text, password) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.width;
   return InkWell(
     onTap: () {
       if (formKey.currentState!.validate()) {
+        print(password);
         if (password == "studio") {
           Navigator.pushNamedAndRemoveUntil(
               context, SBottomNavigationPage.routeName, (route) => false);
