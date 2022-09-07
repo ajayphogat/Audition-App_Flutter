@@ -5,6 +5,9 @@ const List<String> categoryData = [
   "Musician",
   "Painter",
   "Chirographer",
+  "Singer",
+  "Designer",
+  "Chef",
 ];
 
 const List<String> myApplicationData = [

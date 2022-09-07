@@ -36,157 +36,197 @@ class _MyProfilePageState extends State<MyProfilePage>
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: screenHeight * 0.10,
-                left: screenWidth * 0.0636,
-                right: screenWidth * 0.0636,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: screenWidth,
+                height: screenHeight * 0.50,
+                decoration: const BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(70),
+                    )),
               ),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Material(
-                    elevation: 4,
-                    borderRadius: BorderRadius.circular(15),
-                    child: Container(
-                      width: screenWidth,
-                      height: screenHeight * 0.15,
-                      alignment: Alignment.bottomCenter,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: placeholderColor,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const Text(
-                            "Leslie Alexander",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: fontFamily,
-                            ),
-                          ),
-                          const Text(
-                            "Your Profile Strength",
-                            style: TextStyle(
-                              color: placeholderTextColor,
-                              fontFamily: fontFamily,
-                            ),
-                          ),
-                          Container(
-                            height: screenHeight * 0.035,
-                            width: screenWidth * 0.50,
-                            margin: const EdgeInsets.only(top: 20),
-                            child: TabBar(
-                              controller: _tabController,
-                              labelStyle: const TextStyle(
-                                fontFamily: fontFamily,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              indicatorColor: thirdColor,
-                              labelColor: thirdColor,
-                              unselectedLabelColor: Colors.black,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              tabs: const [
-                                Tab(
-                                  text: "Details",
-                                ),
-                                Tab(
-                                  text: "Media",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+              Container(
+                color: Colors.orange,
+                height: screenHeight * 0.04,
+                margin: EdgeInsets.only(
+                    top: screenHeight * 0.02,
+                    left: screenWidth * 0.15,
+                    right: screenWidth * 0.15),
+                child: TabBar(
+                  controller: _tabController,
+                  labelStyle: const TextStyle(
+                    fontSize: 16,
+                    fontFamily: fontFamily,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Positioned(
-                    top: -screenHeight * 0.08,
-                    left: (screenWidth / 2) - (screenHeight * 0.05) - 25,
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: screenHeight * 0.05,
-                          child: ClipRRect(
-                            clipBehavior: Clip.hardEdge,
-                            borderRadius: BorderRadius.circular(100),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Image.asset(
-                                  "asset/images/uiImages/girlFace.jpg",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            width: screenWidth * 0.065,
-                            height: screenWidth * 0.065,
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              MyFlutterApp.camera_black,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ),
-                        ),
-                      ],
+                  indicatorColor: thirdColor,
+                  labelColor: thirdColor,
+                  unselectedLabelColor: Colors.black,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  tabs: const [
+                    Tab(
+                      text: "Details",
                     ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: PopupMenuButton(
-                      padding: EdgeInsets.zero,
-                      icon: SvgPicture.asset("asset/icons/vertical_menu.svg"),
-                      itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(
-                            height: 25,
-                            child: const Text("Report"),
-                            onTap: () {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                newDialogBox(context, screenWidth, screenHeight,
-                                    "Account Reported!", "GO BACK", false, "");
-                              });
-                            },
-                          ),
-                        ];
-                      },
-                      offset: Offset(0, screenHeight * 0.042),
+                    Tab(
+                      text: "Media",
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // Divider(
-            //   color: Colors.grey.shade300,
-            //   thickness: 10,
-            // ),
-            Container(
-              alignment: Alignment.topCenter,
-              height: screenHeight * 0.54,
-              margin: const EdgeInsets.only(top: 15),
-              child: TabBarView(
-                controller: _tabController,
-                children: const [
-                  DetailMenuPage(),
-                  MediaProfilePage(),
-                ],
-              ),
-            ),
-          ],
+
+              // Padding(
+              //   padding: EdgeInsets.only(
+              //     top: screenHeight * 0.10,
+              //     left: screenWidth * 0.0636,
+              //     right: screenWidth * 0.0636,
+              //   ),
+              //   child: Stack(
+              //     clipBehavior: Clip.none,
+              //     children: [
+              //       Material(
+              //         elevation: 4,
+              //         borderRadius: BorderRadius.circular(15),
+              //         child: Container(
+              //           width: screenWidth,
+              //           height: screenHeight * 0.15,
+              //           alignment: Alignment.bottomCenter,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(15),
+              //             color: placeholderColor,
+              //           ),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             mainAxisAlignment: MainAxisAlignment.end,
+              //             children: [
+              //               const Text(
+              //                 "Leslie Alexander",
+              //                 style: TextStyle(
+              //                   fontSize: 20,
+              //                   fontFamily: fontFamily,
+              //                 ),
+              //               ),
+              //               const Text(
+              //                 "Your Profile Strength",
+              //                 style: TextStyle(
+              //                   color: placeholderTextColor,
+              //                   fontFamily: fontFamily,
+              //                 ),
+              //               ),
+              //               Container(
+              //                 height: screenHeight * 0.035,
+              //                 width: screenWidth * 0.50,
+              //                 margin: const EdgeInsets.only(top: 20),
+              //                 child: TabBar(
+              //                   controller: _tabController,
+              //                   labelStyle: const TextStyle(
+              //                     fontFamily: fontFamily,
+              //                     fontWeight: FontWeight.w500,
+              //                   ),
+              //                   indicatorColor: thirdColor,
+              //                   labelColor: thirdColor,
+              //                   unselectedLabelColor: Colors.black,
+              //                   indicatorSize: TabBarIndicatorSize.label,
+              //                   tabs: const [
+              //                     Tab(
+              //                       text: "Details",
+              //                     ),
+              //                     Tab(
+              //                       text: "Media",
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       Positioned(
+              //         top: -screenHeight * 0.08,
+              //         left: (screenWidth / 2) - (screenHeight * 0.05) - 25,
+              //         child: Stack(
+              //           children: [
+              //             CircleAvatar(
+              //               radius: screenHeight * 0.05,
+              //               child: ClipRRect(
+              //                 clipBehavior: Clip.hardEdge,
+              //                 borderRadius: BorderRadius.circular(100),
+              //                 child: AspectRatio(
+              //                   aspectRatio: 1,
+              //                   child: Image.asset(
+              //                       "asset/images/uiImages/girlFace.jpg",
+              //                       fit: BoxFit.cover),
+              //                 ),
+              //               ),
+              //             ),
+              //             Positioned(
+              //               bottom: 0,
+              //               right: 0,
+              //               child: Container(
+              //                 width: screenWidth * 0.065,
+              //                 height: screenWidth * 0.065,
+              //                 alignment: Alignment.center,
+              //                 decoration: const BoxDecoration(
+              //                   color: Colors.black,
+              //                   shape: BoxShape.circle,
+              //                 ),
+              //                 child: const Icon(
+              //                   MyFlutterApp.camera_black,
+              //                   color: Colors.white,
+              //                   size: 16,
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Positioned(
+              //         top: 0,
+              //         right: 0,
+              //         child: PopupMenuButton(
+              //           padding: EdgeInsets.zero,
+              //           icon: SvgPicture.asset("asset/icons/vertical_menu.svg"),
+              //           itemBuilder: (context) {
+              //             return [
+              //               PopupMenuItem(
+              //                 height: 25,
+              //                 child: const Text("Report"),
+              //                 onTap: () {
+              //                   WidgetsBinding.instance.addPostFrameCallback((_) {
+              //                     newDialogBox(context, screenWidth, screenHeight,
+              //                         "Account Reported!", "GO BACK", false, "");
+              //                   });
+              //                 },
+              //               ),
+              //             ];
+              //           },
+              //           offset: Offset(0, screenHeight * 0.042),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // // Divider(
+              // //   color: Colors.grey.shade300,
+              // //   thickness: 10,
+              // // ),
+              // Container(
+              //   alignment: Alignment.topCenter,
+              //   height: screenHeight * 0.54,
+              //   margin: const EdgeInsets.only(top: 15),
+              //   child: TabBarView(
+              //     controller: _tabController,
+              //     children: const [
+              //       DetailMenuPage(),
+              //       MediaProfilePage(),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );

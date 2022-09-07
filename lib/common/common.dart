@@ -128,66 +128,84 @@ InkWell longBasicButton(BuildContext context, routeName, String text) {
   );
 }
 
-Material textContainer(double screenWidth, double screenHeight, String s1,
+Widget textContainer(double screenWidth, double screenHeight, String s1,
     String s2, String s3, picture) {
-  return Material(
-    elevation: 5,
-    borderRadius: BorderRadius.circular(5),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Colors.white,
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: screenHeight * 0.175,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+  return Padding(
+    padding: const EdgeInsets.only(right: 10),
+    child: Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: screenHeight * 0.26,
+              width: screenHeight * 0.26,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+              ),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: Image.asset(
+                "asset/images/uiImages/$picture.png",
+                fit: BoxFit.cover,
+              ),
             ),
-            child: Image.asset(
-              "asset/images/uiImages/$picture.png",
-              isAntiAlias: true,
-              fit: BoxFit.contain,
+            Container(
+              padding: const EdgeInsets.only(left: 5, right: 5, top: 2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: screenHeight * 0.005),
+                  Text(
+                    s1,
+                    style: const TextStyle(
+                      // fontWeight: FontWeight.bold,
+                      fontFamily: fontFamily,
+                      fontSize: 15,
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.01),
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset("asset/images/uiImages/logo.png"),
+                        ],
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            s2,
+                            style: const TextStyle(
+                              fontFamily: fontFamily,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            s3,
+                            style: const TextStyle(
+                              fontFamily: fontFamily,
+                              fontSize: 9,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 5, right: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: screenHeight * 0.005),
-                Text(
-                  s1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: fontFamily,
-                    fontSize: 12,
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.002),
-                Text(
-                  s2,
-                  style: const TextStyle(
-                    fontFamily: fontFamily,
-                    fontSize: 10,
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.003),
-                Text(
-                  s3,
-                  style: const TextStyle(
-                    fontFamily: fontFamily,
-                    fontSize: 9,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
@@ -253,6 +271,137 @@ Material gridViewContainer(
 }
 
 AppBar basicAppBar(
+    double screenHeight,
+    double screenWidth,
+    BuildContext context,
+    TextEditingController searchEdit,
+    TabController tabController,
+    List<String> data) {
+  return AppBar(
+    toolbarHeight: screenHeight * 0.10,
+    backgroundColor: Colors.white,
+    actions: [
+      SizedBox(
+        width: screenWidth,
+        child: Row(
+          children: [
+            IconButton(
+              icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
+              onPressed: () {
+                // print(tabController.index);
+                if (data == categoryData) {
+                  Navigator.pop(context);
+                }
+                Navigator.pushReplacementNamed(
+                    context, BottomNavigationPage.routeName);
+              },
+            ),
+            Material(
+              elevation: 5,
+              borderRadius: BorderRadius.circular(4),
+              child: Container(
+                width: screenWidth * 0.75,
+                height: screenHeight * 0.045,
+                padding: const EdgeInsets.only(bottom: 2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white,
+                ),
+                child: TextFormField(
+                  controller: searchEdit,
+                  decoration: InputDecoration(
+                    hintText: "Search here....",
+                    hintStyle: const TextStyle(
+                      fontSize: 15,
+                      fontFamily: fontFamily,
+                      color: placeholderTextColor,
+                    ),
+                    border: InputBorder.none,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset(
+                        "asset/images/illustration/bytesize_search.svg",
+                        color: placeholderTextColor,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          searchEdit.text = "";
+                        },
+                        icon: const Icon(
+                          MyFlutterApp.gridicons_cross,
+                          size: 20,
+                          color: placeholderTextColor,
+                        )),
+                  ),
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(MyFlutterApp.filter),
+              color: Colors.black,
+              iconSize: 33,
+            ),
+          ],
+        ),
+      ),
+    ],
+    bottom: PreferredSize(
+      preferredSize: Size.fromHeight(screenHeight * 0.01),
+      child: SizedBox(
+        height: screenHeight * 0.035,
+        child: TabBar(
+          controller: tabController,
+          isScrollable: true,
+          indicatorColor: thirdColor,
+          labelColor: thirdColor,
+          unselectedLabelColor: Colors.black,
+          indicatorSize: TabBarIndicatorSize.label,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
+          labelPadding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.03,
+          ),
+          labelStyle: const TextStyle(
+            fontFamily: fontFamily,
+            fontSize: 16,
+          ),
+          tabs: [
+            Tab(
+              text: data[0],
+            ),
+            Tab(
+              text: data[1],
+            ),
+            Tab(
+              text: data[2],
+            ),
+            Tab(
+              text: data[3],
+            ),
+            Tab(
+              text: data[4],
+            ),
+            Tab(
+              text: data[5],
+            ),
+            Tab(
+              text: data[6],
+            ),
+            Tab(
+              text: data[7],
+            ),
+            Tab(
+              text: data[8],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+AppBar basicAppBarApp(
     double screenHeight,
     double screenWidth,
     BuildContext context,

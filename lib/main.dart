@@ -46,11 +46,11 @@ import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sdesig
 import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/swriterProfilePage.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sinviteFriends.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/smyProfilePage.dart';
-import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/sprojectPage.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/saddCard.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/spaymentPage.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/ssubscriptionPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() => runApp(const MyAPP());
 
@@ -59,6 +59,16 @@ class MyAPP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    precachePicture(
+        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+            "asset/images/illustration/blog.svg"),
+        context);
+    precacheImage(
+        const AssetImage("asset/images/illustration/fg.png"), context);
+    precachePicture(
+        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+            "asset/images/illustration/d.svg"),
+        context);
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -75,8 +85,7 @@ class MyAPP extends StatelessWidget {
         ),
         initialRoute: "/",
         routes: {
-          "/": (context) =>
-              const FirstSplashScreen(), //FIXME: Change this Starting Screen
+          "/": (context) => const FirstSplashScreen(),
 
           SecondSplashScreen.routeName: (context) => const SecondSplashScreen(),
 
@@ -109,7 +118,7 @@ class MyAPP extends StatelessWidget {
           MessagePage.routeName: (context) => const MessagePage(),
 
           // My Profile Page Section
-          MyProfile.routeName: (context) => const MyProfile(),
+          // MyProfile.routeName: (context) => const MyProfile(),
           MyProfilePage.routeName: (context) => const MyProfilePage(),
           DetailMenuPage.routeName: (context) => const DetailMenuPage(),
           MediaProfilePage.routeName: (context) => const MediaProfilePage(),

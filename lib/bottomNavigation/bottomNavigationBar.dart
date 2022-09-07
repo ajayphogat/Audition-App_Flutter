@@ -4,6 +4,7 @@ import 'package:first_app/bottomNavigation/myProfile.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
+import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationPage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     const HomePage(),
     const MyApplicationPage(),
     const InboxPage(),
-    const MyProfile(),
+    const MyProfilePage(),
   ];
 
   void updatePage(int page) {

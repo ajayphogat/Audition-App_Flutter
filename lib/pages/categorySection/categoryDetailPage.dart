@@ -20,7 +20,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 9, vsync: this);
     _searchEdit = TextEditingController();
   }
 
@@ -33,8 +33,8 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    var _page = ModalRoute.of(context)!.settings.arguments as int;
-    _tabController.index = _page;
+    var page = ModalRoute.of(context)!.settings.arguments as int;
+    _tabController.index = page;
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -44,6 +44,9 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
       body: TabBarView(
         controller: _tabController,
         children: const [
+          CategoryGirdPage(),
+          CategoryGirdPage(),
+          CategoryGirdPage(),
           CategoryGirdPage(),
           CategoryGirdPage(),
           CategoryGirdPage(),
