@@ -55,6 +55,15 @@ const List<List<String>> inboxMessageData = [
   ],
 ];
 
+const List<String> imageData = [
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://images.unsplash.com/photo-1531734510209-2da4a139a53a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+  "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=697&q=80",
+];
+
 const List<List<String>> actorData = [
   [
     "Diam ullamcorper",
@@ -158,17 +167,11 @@ const List<String> membershipData = [
 const List<List<String>> subscriptionPlans = [
   [
     "Gold",
-    "ERD872",
-    "Faucibus diam lorem diam tellus libero.",
-    "Diam nisi faucibus vivamus vitae aenean\nmus morbi.",
-    "Vel vestibulum, pharetra diam nullam\ndiam commodo.",
+    "Adipiscing lobortis fermentum, in parturient interdum sed sit augue pellentesque. Est metus, purus, at habitasse blandit cursus.",
   ],
   [
     "Platinum",
-    "ERD872",
-    "Faucibus diam lorem diam tellus libero.",
-    "Diam nisi faucibus vivamus vitae aenean\nmus morbi.",
-    "Vel vestibulum, pharetra diam nullam\ndiam commodo.",
+    "Adipiscing lobortis fermentum, in parturient interdum sed sit augue pellentesque. Est metus, purus, at habitasse blandit cursus.",
   ],
 ];
 

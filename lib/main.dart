@@ -2,7 +2,6 @@ import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/bottomNavigation/inbox.dart';
 import 'package:first_app/bottomNavigation/myApplication.dart';
-import 'package:first_app/bottomNavigation/myProfile.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/loginPage.dart';
@@ -17,7 +16,6 @@ import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/inboxPages/messagePage.dart';
 import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
-import 'package:first_app/pages/myProfilePages/detailMenuPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/createProfilePage.dart';
@@ -120,7 +118,6 @@ class MyAPP extends StatelessWidget {
           // My Profile Page Section
           // MyProfile.routeName: (context) => const MyProfile(),
           MyProfilePage.routeName: (context) => const MyProfilePage(),
-          DetailMenuPage.routeName: (context) => const DetailMenuPage(),
           MediaProfilePage.routeName: (context) => const MediaProfilePage(),
           // My Profile Page - Basic Page
           BasicInfoPage.routeName: (context) => const BasicInfoPage(),

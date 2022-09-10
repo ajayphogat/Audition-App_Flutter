@@ -2,6 +2,7 @@ import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MediaProfilePage extends StatefulWidget {
@@ -34,8 +35,138 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              MyFlutterApp.bi_arrow_down,
+              color: Colors.black,
+            )),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications_none_rounded,
+                  color: Colors.black)),
+        ],
+      ),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
+          Container(
+            width: screenWidth,
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Leslie Alexander",
+                  style: TextStyle(fontSize: 20),
+                ),
+                Container(
+                  width: screenWidth,
+                  height: screenHeight * 0.15,
+                  margin: EdgeInsets.only(top: screenHeight * 0.03),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: screenWidth * 0.25,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset("asset/images/uiImages/actor.jpg",
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.67,
+                        height: screenHeight * 0.20,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: screenWidth * 0.06),
+                                  child: const Text(
+                                    "Actor",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: const [
+                                    Text(
+                                      "12k",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Followers",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: const [
+                                    Text(
+                                      "2k",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Following",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: screenWidth * 0.25,
+                                  height: screenHeight * 0.025,
+                                  margin:
+                                      EdgeInsets.only(left: screenWidth * 0.05),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: secondoryColor,
+                                  ),
+                                  child: const Text("Follow"),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Container(
             margin: EdgeInsets.only(top: screenHeight * 0.03),
             height: screenHeight * 0.04,
@@ -72,7 +203,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
             ),
           ),
           SizedBox(
-            height: screenHeight * 0.45,
+            height: screenHeight * 0.61,
             child: TabBarView(
               controller: _tabController,
               children: [
@@ -279,25 +410,44 @@ class _MediaProfilePageState extends State<MediaProfilePage>
           ),
         ),
         Container(
-          height: screenHeight * 0.35,
+          height: screenHeight * 0.50,
           margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
           child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverWovenGridDelegate.count(
               crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 10,
-              childAspectRatio: 1.66,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              pattern: const [
+                WovenGridTile(1),
+                WovenGridTile(
+                  5 / 7,
+                  crossAxisRatio: 1,
+                  alignment: AlignmentDirectional.centerEnd,
+                ),
+              ],
             ),
-            itemCount: mediaVideoData.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onLongPress: () {
-                  newDialogDelete(context, screenHeight, screenWidth);
-                },
+            itemCount: imageData.length - 3,
+            itemBuilder: (context, index) => InkWell(
+              onLongPress: () {
+                newDialogDelete(context, screenHeight, screenWidth);
+              },
+              child: Container(
+                width: screenWidth,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: Stack(
+                  fit: StackFit.expand,
                   children: [
-                    Image.asset(
-                      mediaVideoData[index],
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.network(
+                        imageData[index],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white38,
                     ),
                     const Center(
                         child: Icon(
@@ -307,9 +457,38 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                     )),
                   ],
                 ),
-              );
-            },
+              ),
+            ),
           ),
+          // child: GridView.builder(
+          //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //     crossAxisCount: 2,
+          //     mainAxisSpacing: 15,
+          //     crossAxisSpacing: 10,
+          //     childAspectRatio: 1.66,
+          //   ),
+          //   itemCount: mediaVideoData.length,
+          //   itemBuilder: (context, index) {
+          //     return InkWell(
+          //       onLongPress: () {
+          //         newDialogDelete(context, screenHeight, screenWidth);
+          //       },
+          //       child: Stack(
+          //         children: [
+          //           Image.asset(
+          //             mediaVideoData[index],
+          //           ),
+          //           const Center(
+          //               child: Icon(
+          //             Icons.play_circle_outline_sharp,
+          //             size: 60,
+          //             color: Colors.white,
+          //           )),
+          //         ],
+          //       ),
+          //     );
+          //   },
+          // ),
         ),
       ],
     );
@@ -348,23 +527,38 @@ class _MediaProfilePageState extends State<MediaProfilePage>
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-          height: screenHeight * 0.35,
+          height: screenHeight * 0.50,
           child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              childAspectRatio: 0.83,
+            gridDelegate: SliverWovenGridDelegate.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              pattern: const [
+                WovenGridTile(1),
+                WovenGridTile(
+                  5 / 7,
+                  crossAxisRatio: 1,
+                  alignment: AlignmentDirectional.centerEnd,
+                ),
+              ],
             ),
-            itemCount: mediaPicData.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onLongPress: () {
-                  newDialogDelete(context, screenHeight, screenWidth);
-                },
-                child: Image.asset(mediaPicData[index]),
-              );
-            },
+            itemCount: imageData.length,
+            itemBuilder: (context, index) => InkWell(
+              onLongPress: () {
+                newDialogDelete(context, screenHeight, screenWidth);
+              },
+              child: Container(
+                width: screenWidth,
+                height: screenHeight * 0.05,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Image.network(
+                  imageData[index],
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
           ),
         ),
       ],
@@ -393,7 +587,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 children: [
                   TextButton(
                     onPressed: () {
-                      print("Picture Deleted");
                       Navigator.pop(context);
                     },
                     child: const Text(
@@ -402,7 +595,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ),
                   TextButton(
                     onPressed: () {
-                      print("Picture Edited");
                       Navigator.pop(context);
                     },
                     child: const Text(
@@ -411,7 +603,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ),
                   TextButton(
                     onPressed: () {
-                      print("Picture Changed");
                       Navigator.pop(context);
                     },
                     child: const Text(

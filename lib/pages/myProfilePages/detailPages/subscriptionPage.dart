@@ -1,9 +1,9 @@
-import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/paymentPage/paymentPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({Key? key}) : super(key: key);
@@ -27,75 +27,37 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        toolbarHeight: screenHeight * 0.1015,
-        actions: [
-          SizedBox(
-            width: screenWidth,
-            height: screenHeight * 0.08,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                      left: screenWidth * 0.02,
-                      right: screenWidth * 0.02,
-                      top: screenHeight * 0.02,
-                      bottom: screenHeight * 0.005),
-                  height: screenHeight * 0.02,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.centerLeft,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(MyFlutterApp.bi_arrow_down,
-                        color: Colors.black),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Subscription Plan",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontFamily: fontFamily,
-                          color: thirdColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
+        ),
+        title: const Text(
+          "Subscription Plan",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
           ),
-        ],
+        ),
+        centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: EdgeInsets.only(
-                left: screenWidth * 0.04, top: screenHeight * 0.02),
-            child: const Text(
-              "Plans",
-              style: TextStyle(fontSize: 25, fontFamily: fontFamily),
-            ),
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.04, vertical: screenHeight * 0.02),
+            child: Image.asset("asset/images/subscription_banner/banner.png"),
           ),
-          const Divider(
-            thickness: 1,
-            color: Colors.black,
-          ),
-          SizedBox(height: screenHeight * 0.02),
+          SizedBox(height: screenHeight * 0.01),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                //TODO: Seperate Pages for all the subscription plan(right now only for 6 Month Plan is done)
                 subscriptionPlan3Container(
                     screenWidth, screenHeight, "3 Months"),
                 subscriptionPlan6Container(
@@ -105,85 +67,80 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ],
             ),
           ),
-          SizedBox(height: screenHeight * 0.06),
+          SizedBox(height: screenHeight * 0.03),
           SizedBox(
-            height: screenHeight * 0.50,
+            height: screenHeight * 0.58,
             child: ListView.builder(
-              scrollDirection: Axis.horizontal,
+              scrollDirection: Axis.vertical,
               padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.10,
-                  vertical: screenHeight * 0.03),
+                  horizontal: screenWidth * 0.04,
+                  vertical: screenHeight * 0.01),
               physics: const BouncingScrollPhysics(),
               itemCount: subscriptionPlans.length,
               itemBuilder: (context, index) {
                 _plans = subscriptionPlans[index];
-                return Padding(
-                  padding: EdgeInsets.only(right: screenWidth * 0.04),
-                  child: Material(
-                    elevation: 4,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      width: screenWidth * 0.78,
-                      height: screenHeight * 0.50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey.shade100,
+                return Container(
+                  width: screenWidth,
+                  height: screenHeight * 0.11,
+                  margin: EdgeInsets.only(bottom: screenHeight * 0.02),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        offset: Offset(3, 3),
+                        blurRadius: 5,
+                        spreadRadius: 2,
+                        color: Colors.black12,
                       ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: screenHeight * 0.03,
-                                left: screenWidth * 0.05,
-                                right: screenWidth * 0.05),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  _plans[0],
-                                  style: const TextStyle(fontSize: 22),
-                                ),
-                                Text(
-                                  _plans[1],
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: screenWidth * 0.25,
+                        height: screenHeight * 0.12,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
                           ),
-                          planDetails(screenHeight, screenWidth, _plans[2]),
-                          planDetails(screenHeight, screenWidth, _plans[3]),
-                          planDetails(screenHeight, screenWidth, _plans[4]),
-                          SizedBox(height: screenHeight * 0.04),
-                          Divider(
-                            thickness: 1,
-                            color: Colors.black,
-                            indent: screenWidth * 0.03,
-                            endIndent: screenWidth * 0.03,
+                          color: Color(0xFFFFD0D0),
+                        ),
+                        child: Image.asset("asset/images/uiImages/yygg.png"),
+                      ),
+                      Container(
+                        width: screenWidth * 0.67,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.02),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
                           ),
-                          SizedBox(height: screenHeight * 0.04),
-                          InkWell(
-                            //TODO: Assign a function to perform with this buttom
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, PaymentPage.routeName);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 150,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: const Color(0xFFF9D422),
-                              ),
-                              child: const Text(
-                                "PAY NOW",
-                                style: TextStyle(fontSize: 16),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _plans[0],
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ],
+                            Text(
+                              _plans[1],
+                              style: const TextStyle(
+                                fontSize: 9,
+                                color: placeholderTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 );
               },
