@@ -68,51 +68,61 @@ const List<List<String>> actorData = [
   [
     "Diam ullamcorper",
     "Sed neque, ac",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/1.png",
   ],
   [
     "Leo ultrices",
     "Tincidunt pellentesque",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/2.png",
   ],
   [
     "Purus vestibulum",
     "Vitae a massa",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/3.png",
   ],
   [
     "Sed scelerisque",
     "Lacus, dui eu",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/4.png",
   ],
   [
     "Gravida luctus",
     "Nam varius eget",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/5.png",
   ],
   [
     "Dictum dui",
     "Risus posuere ipsum",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/6.png",
   ],
   [
     "Sapien, maecenas",
     "Amet dolor sit",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/7.png",
   ],
   [
     "Vivamus non",
     "Aliquam non id",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/8.png",
   ],
   [
     "Pulvinar eu",
     "Quis tempus sit",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/9.png",
   ],
   [
     "Faucibus tortor",
     "Tellus in egestas",
+    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
     "asset/images/uiImages/10.png",
   ],
 ];

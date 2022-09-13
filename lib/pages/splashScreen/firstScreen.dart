@@ -12,56 +12,38 @@ class FirstSplashScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox(
-            width: screenWidth,
-            height: screenHeight,
-            child: Image.asset("asset/images/uiImages/splashScreen1.png",
-                fit: BoxFit.cover),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: screenHeight * 0.10),
-                child: const Text(
-                  "Audition Portal",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 45,
-                    fontFamily: fontFamily,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, SecondSplashScreen.routeName);
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 40,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.20,
-                      vertical: screenHeight * 0.115),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: const Color(0xFFF9D422)),
-                  child: const Text(
-                    "Get started",
+      body: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, SecondSplashScreen.routeName);
+        },
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Container(
+              width: screenWidth,
+              height: screenHeight,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+              child: Image.asset("asset/images/illustration/find.png"),
+            ),
+            Positioned(
+              bottom: screenHeight * 0.20,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Made to be Found",
                     style: TextStyle(
-                      fontSize: 17,
-                      fontFamily: fontFamily,
-                      fontWeight: FontWeight.normal,
+                      fontSize: 35,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF979797).withOpacity(0.5),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

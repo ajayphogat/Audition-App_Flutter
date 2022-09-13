@@ -25,7 +25,7 @@ class _CategoryGirdPageState extends State<CategoryGirdPage> {
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
-          mainAxisExtent: screenHeight * 0.27,
+          mainAxisExtent: screenHeight * 0.385,
         ),
         physics: const BouncingScrollPhysics(),
         itemCount: actorData.length,
@@ -35,8 +35,8 @@ class _CategoryGirdPageState extends State<CategoryGirdPage> {
             onTap: () {
               Navigator.pushNamed(context, DescriptionPage.routeName);
             },
-            child: gridViewContainer(
-                screenWidth, screenHeight, data[0], data[1], data[2]),
+            child: gridViewContainer(context, screenWidth, screenHeight,
+                data[0], data[1], data[2], data[3]),
           );
         },
       ),

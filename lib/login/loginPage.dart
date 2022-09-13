@@ -52,19 +52,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 50),
-              commonTextField(context, _email, "Email/Phone No.",
-                  MyFlutterApp.username, false),
+              loginTextField(screenWidth, screenHeight, context, _email,
+                  "Email/Phone No.", MyFlutterApp.username, false),
               SizedBox(height: screenHeight * 0.041),
               SizedBox(
                 width: screenWidth - screenWidth * 0.305,
                 child: Stack(
+                  alignment: AlignmentDirectional.bottomCenter,
                   children: [
                     Material(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(8),
                       child: Container(
                         width: screenWidth - screenWidth * 0.305,
-                        height: 40,
+                        height: screenHeight * 0.06,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: placeholderColor,
@@ -80,6 +82,10 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         }
                       },
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontFamily: fontFamily,
+                      ),
                       obscureText: isObscure,
                       decoration: InputDecoration(
                         errorStyle: const TextStyle(
@@ -87,14 +93,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         hintText: "Password",
                         hintStyle: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                           fontFamily: fontFamily,
                           color: placeholderTextColor,
                         ),
                         border: InputBorder.none,
                         prefixIcon: const Padding(
                           padding:
-                              EdgeInsets.only(left: 20, right: 5, bottom: 8),
+                              EdgeInsets.only(left: 20, right: 5, bottom: 3),
                           child: Icon(MyFlutterApp.lock,
                               color: Colors.black, size: 35),
                         ),
@@ -124,6 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
+              SizedBox(height: screenHeight * 0.01),
               Container(
                 alignment: Alignment.topRight,
                 width: screenWidth - screenWidth * 0.305,
@@ -201,6 +208,70 @@ class _LoginPageState extends State<LoginPage> {
             fontFamily: fontFamily,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget loginTextField(
+      double screenWidth,
+      double screenHeight,
+      BuildContext context,
+      controller,
+      String hintText,
+      icon,
+      bool isPassword) {
+    return SizedBox(
+      width: screenWidth - screenWidth * 0.305,
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          Material(
+            elevation: 5,
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              width: screenWidth - screenWidth * 0.305,
+              height: screenHeight * 0.06,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: placeholderColor,
+              ),
+            ),
+          ),
+          TextFormField(
+            controller: controller,
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return "Please fill this";
+              } else {
+                return null;
+              }
+            },
+            style: const TextStyle(
+              fontSize: 18,
+              fontFamily: fontFamily,
+            ),
+            obscureText: isPassword,
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: const TextStyle(
+                fontSize: 18,
+                fontFamily: fontFamily,
+                color: placeholderTextColor,
+              ),
+              errorStyle: const TextStyle(
+                fontFamily: fontFamily,
+                height: 0.1,
+              ),
+              border: InputBorder.none,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 5, bottom: 0),
+                child: Icon(icon,
+                    color: Colors.black,
+                    size: icon == MyFlutterApp.message ? 28 : 35),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

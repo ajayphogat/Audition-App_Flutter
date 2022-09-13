@@ -2,75 +2,76 @@ import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
+import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:readmore/readmore.dart';
 
-class DescriptionPage extends StatefulWidget {
-  const DescriptionPage({Key? key}) : super(key: key);
+class StudioDescriptionPage extends StatefulWidget {
+  const StudioDescriptionPage({Key? key}) : super(key: key);
 
-  static const String routeName = "/description-page";
+  static const String routeName = "/studioDescription-page";
 
   @override
-  State<DescriptionPage> createState() => _DescriptionPageState();
+  State<StudioDescriptionPage> createState() => _StudioDescriptionPageState();
 }
 
-class _DescriptionPageState extends State<DescriptionPage>
+class _StudioDescriptionPageState extends State<StudioDescriptionPage>
     with TickerProviderStateMixin {
   late ScrollController _scrollController;
 
   // final GlobalKey<State> _key = GlobalKey();
-  bool isVisible = false;
-  double x = 0;
-  double y = 2.8;
+  // bool isVisible = false;
+  // double x = 0;
+  // double y = 2.8;
 
   int _activePage = 0;
-  double opacityValue = 1.0;
+  // double opacityValue = 1.0;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        setState(() {
-          y = 1;
-        });
-      } else if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        setState(() {
-          y = 2.8;
-        });
-      }
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   _scrollController = ScrollController();
+  //   _scrollController.addListener(() {
+  //     if (_scrollController.position.userScrollDirection ==
+  //         ScrollDirection.reverse) {
+  //       setState(() {
+  //         y = 1;
+  //       });
+  //     } else if (_scrollController.position.userScrollDirection ==
+  //         ScrollDirection.forward) {
+  //       setState(() {
+  //         y = 2.8;
+  //       });
+  //     }
 
-      // var currentContext = _key.currentContext;
-      // var renderObject = currentContext?.findRenderObject();
-      // var viewport = RenderAbstractViewport.of(renderObject);
-      // var offsetToRevealBottom =
-      //     viewport!.getOffsetToReveal(renderObject!, 1.0);
-      // var offsetToRevealTop = viewport.getOffsetToReveal(renderObject, 0.0);
+  // var currentContext = _key.currentContext;
+  // var renderObject = currentContext?.findRenderObject();
+  // var viewport = RenderAbstractViewport.of(renderObject);
+  // var offsetToRevealBottom =
+  //     viewport!.getOffsetToReveal(renderObject!, 1.0);
+  // var offsetToRevealTop = viewport.getOffsetToReveal(renderObject, 0.0);
 
-      // if (_scrollController.position.userScrollDirection ==
-      //     ScrollDirection.reverse) {
-      //   if (offsetToRevealTop.offset <= _scrollController.position.pixels) {
-      //     setState(() {
-      //       y = 1;
-      //     });
-      //   }
-      // }
-      // if (_scrollController.position.userScrollDirection ==
-      //     ScrollDirection.forward) {
-      //   if (-(offsetToRevealBottom.offset) >=
-      //       _scrollController.position.pixels) {
-      //     setState(() {
-      //       y = 2.8;
-      //     });
-      //   }
-      // }
-    });
-  }
+  // if (_scrollController.position.userScrollDirection ==
+  //     ScrollDirection.reverse) {
+  //   if (offsetToRevealTop.offset <= _scrollController.position.pixels) {
+  //     setState(() {
+  //       y = 1;
+  //     });
+  //   }
+  // }
+  // if (_scrollController.position.userScrollDirection ==
+  //     ScrollDirection.forward) {
+  //   if (-(offsetToRevealBottom.offset) >=
+  //       _scrollController.position.pixels) {
+  //     setState(() {
+  //       y = 2.8;
+  //     });
+  //   }
+  // }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -95,27 +96,29 @@ class _DescriptionPageState extends State<DescriptionPage>
                     Navigator.pop(context);
                   },
                 ),
-                // Row(
-                //   children: [
-                //     IconButton(
-                //       onPressed: () {},
-                //       icon: const Icon(MyFlutterApp.bookmark,
-                //           color: Colors.black),
-                //     ),
-                //     IconButton(
-                //       onPressed: () {},
-                //       icon: const Icon(MyFlutterApp.share_fill,
-                //           color: Colors.black),
-                //     ),
-                //   ],
-                // ),
+                Row(
+                  children: [
+                    Icon(
+                      MyFlutterApp.bookmark,
+                      color: Colors.black,
+                      size: screenHeight * 0.025,
+                    ),
+                    SizedBox(width: screenWidth * 0.05),
+                    Icon(
+                      MyFlutterApp.share_fill,
+                      color: Colors.black,
+                      size: screenHeight * 0.025,
+                    ),
+                    SizedBox(width: screenWidth * 0.05),
+                  ],
+                ),
               ],
             ),
           ),
         ],
       ),
       body: SingleChildScrollView(
-        controller: _scrollController,
+        // controller: _scrollController,
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
@@ -126,15 +129,15 @@ class _DescriptionPageState extends State<DescriptionPage>
                   PageView(
                     children: [
                       Image.asset(
-                        "asset/images/uiImages/rr.png",
+                        "asset/images/uiImages/1.png",
                         fit: BoxFit.cover,
                       ),
                       Image.asset(
-                        "asset/images/uiImages/rr.png",
+                        "asset/images/uiImages/2.png",
                         fit: BoxFit.cover,
                       ),
                       Image.asset(
-                        "asset/images/uiImages/rr.png",
+                        "asset/images/uiImages/3.png",
                         fit: BoxFit.cover,
                       ),
                     ],
@@ -150,7 +153,7 @@ class _DescriptionPageState extends State<DescriptionPage>
                     child: Row(
                       children: List<Widget>.generate(3, (index) {
                         return Container(
-                          margin: EdgeInsets.all(3),
+                          margin: const EdgeInsets.all(3),
                           width: 10,
                           height: 10,
                           decoration: BoxDecoration(
@@ -166,117 +169,175 @@ class _DescriptionPageState extends State<DescriptionPage>
                 ],
               ),
             ),
+            // SizedBox(height: screenHeight * 0.025),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       // InkWell(
+            //       //   onTap: () {},
+            //       //   child: Container(
+            //       //     key: _key,
+            //       //     alignment: Alignment.center,
+            //       //     width: screenWidth * 0.25,
+            //       //     height: screenHeight * 0.03,
+            //       //     decoration: BoxDecoration(
+            //       //       borderRadius: BorderRadius.circular(8),
+            //       //       color: const Color(0xFFF9D422),
+            //       //     ),
+            //       //     child: const Text("APPLY"),
+            //       //   ),
+            //       // ),
+            //       Row(
+            //         children: [
+            //           yellowCircleButton(screenHeight, MyFlutterApp.bookmark),
+            //           SizedBox(width: screenWidth * 0.08),
+            //           yellowCircleButton(screenHeight, MyFlutterApp.share_fill),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(height: screenHeight * 0.025),
+            // const Divider(
+            //   thickness: 1,
+            //   height: 0,
+            //   color: Colors.black,
+            // ),
             SizedBox(height: screenHeight * 0.025),
+
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // InkWell(
-                  //   onTap: () {},
-                  //   child: Container(
-                  //     key: _key,
-                  //     alignment: Alignment.center,
-                  //     width: screenWidth * 0.25,
-                  //     height: screenHeight * 0.03,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(8),
-                  //       color: const Color(0xFFF9D422),
-                  //     ),
-                  //     child: const Text("APPLY"),
-                  //   ),
-                  // ),
-                  Row(
-                    children: [
-                      yellowCircleButton(screenHeight, MyFlutterApp.bookmark),
-                      SizedBox(width: screenWidth * 0.08),
-                      yellowCircleButton(screenHeight, MyFlutterApp.share_fill),
-                    ],
-                  ),
-                ],
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.03,
               ),
-            ),
-            SizedBox(height: screenHeight * 0.025),
-            const Divider(
-              thickness: 1,
-              height: 0,
-              color: Colors.black,
-            ),
-            SizedBox(height: screenHeight * 0.025),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: screenWidth * 0.17,
-                        height: screenWidth * 0.17,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.black,
+                      const Text(
+                        "Studio Name",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: screenWidth * 0.03),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Wade Warren",
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(height: 3),
-                          Text(
-                            "200 Applicants",
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xFFF9D422),
-                            ),
-                          ),
-                          SizedBox(height: 3),
-                          Text(
-                            "Eleifend neque at",
-                            style: TextStyle(
-                              fontSize: 11,
-                            ),
-                          ),
-                          SizedBox(height: 3),
-                          Text(
-                            "instagram.com/hdjdm",
-                            style: TextStyle(
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
+                      SizedBox(height: screenHeight * 0.01),
+                      const Text(
+                        "Location",
+                        style: TextStyle(
+                          fontSize: 17,
+                        ),
                       ),
                     ],
                   ),
-                  Container(
-                    width: screenWidth * 0.18,
-                    height: screenHeight * 0.020,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: Colors.black,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const Text(
+                        "Followers: 2.5K",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      "Follow",
-                      style: TextStyle(
-                        fontSize: 12,
+                      SizedBox(height: screenHeight * 0.01),
+                      Container(
+                        width: screenWidth * 0.24,
+                        height: screenHeight * 0.03,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: secondoryColor,
+                        ),
+                        child: const Text(
+                          "Follow",
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
             ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Row(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Container(
+            //             width: screenWidth * 0.17,
+            //             height: screenWidth * 0.17,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(10),
+            //               color: Colors.black,
+            //             ),
+            //           ),
+            //           SizedBox(width: screenWidth * 0.03),
+            //           Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: const [
+            //               Text(
+            //                 "Wade Warren",
+            //                 style: TextStyle(
+            //                   fontSize: 16,
+            //                 ),
+            //               ),
+            //               SizedBox(height: 3),
+            //               Text(
+            //                 "200 Applicants",
+            //                 style: TextStyle(
+            //                   fontSize: 11,
+            //                   color: Color(0xFFF9D422),
+            //                 ),
+            //               ),
+            //               SizedBox(height: 3),
+            //               Text(
+            //                 "Eleifend neque at",
+            //                 style: TextStyle(
+            //                   fontSize: 11,
+            //                 ),
+            //               ),
+            //               SizedBox(height: 3),
+            //               Text(
+            //                 "instagram.com/hdjdm",
+            //                 style: TextStyle(
+            //                   fontSize: 11,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ],
+            //       ),
+            //       Container(
+            //         width: screenWidth * 0.18,
+            //         height: screenHeight * 0.020,
+            //         alignment: Alignment.center,
+            //         decoration: BoxDecoration(
+            //           borderRadius: BorderRadius.circular(5),
+            //           border: Border.all(
+            //             color: Colors.black,
+            //           ),
+            //         ),
+            //         child: const Text(
+            //           "Follow",
+            //           style: TextStyle(
+            //             fontSize: 12,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.only(
                 left: screenWidth * 0.03,
@@ -471,32 +532,32 @@ class _DescriptionPageState extends State<DescriptionPage>
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        width: 150,
-        height: 100,
-        alignment: Alignment(x, y),
-        child: InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, AppliedPage.routeName);
-          },
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(bottom: 5),
-            width: 150,
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: const Color(0xFFF9D422),
-            ),
-            child: const Text(
-              "APPLY",
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: AnimatedContainer(
+      //   duration: const Duration(milliseconds: 300),
+      //   width: 150,
+      //   height: 100,
+      //   alignment: Alignment(x, y),
+      //   child: InkWell(
+      //     onTap: () {
+      //       Navigator.pushNamed(context, AppliedPage.routeName);
+      //     },
+      //     child: Container(
+      //       alignment: Alignment.center,
+      //       margin: const EdgeInsets.only(bottom: 5),
+      //       width: 150,
+      //       height: 40,
+      //       decoration: BoxDecoration(
+      //         borderRadius: BorderRadius.circular(8),
+      //         color: const Color(0xFFF9D422),
+      //       ),
+      //       child: const Text(
+      //         "APPLY",
+      //         style: TextStyle(fontSize: 16),
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

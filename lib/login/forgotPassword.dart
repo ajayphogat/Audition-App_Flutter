@@ -14,6 +14,8 @@ class ForgotPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -44,8 +46,8 @@ class ForgotPassword extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 80),
-            commonTextField(
-                context, _phone, "Phone No.", MyFlutterApp.call, false),
+            commonTextField(screenWidth, screenHeight, context, _phone,
+                "Phone No.", MyFlutterApp.call, false),
             const SizedBox(height: 60),
             longBasicButton(context, VerifyMobile.routeName, "Verify"),
           ],

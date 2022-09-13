@@ -41,89 +41,95 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
     return Scaffold(
       //we have not used basicAppBar() because this inbox has only 2 Tabs and basicAppBar() have 5 by default
       appBar: AppBar(
-        toolbarHeight: screenHeight * 0.10,
+        toolbarHeight: screenHeight * 0.13,
         backgroundColor: Colors.white,
         actions: [
-          SizedBox(
-            width: screenWidth,
-            height: screenHeight * 0.10,
-            child: Row(
+          Padding(
+            padding: EdgeInsets.only(top: screenHeight * 0.03),
+            child: Column(
               children: [
-                IconButton(
-                  icon: const Icon(MyFlutterApp.bi_arrow_down,
-                      color: Colors.black),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, BottomNavigationPage.routeName);
-                  },
-                ),
-                Material(
-                  elevation: 5,
-                  borderRadius: BorderRadius.circular(4),
-                  child: Container(
-                    width: screenWidth * 0.75,
-                    height: screenHeight * 0.045,
-                    padding: const EdgeInsets.only(bottom: 2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: Colors.white,
-                    ),
-                    child: TextFormField(
-                      controller: _searchEdit,
-                      decoration: InputDecoration(
-                        hintText: "Search here....",
-                        hintStyle: const TextStyle(
-                          fontSize: 15,
-                          fontFamily: fontFamily,
-                          color: placeholderTextColor,
-                        ),
-                        border: InputBorder.none,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(
-                              "asset/images/illustration/bytesize_search.svg"),
-                        ),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              _searchEdit.text = "";
-                            },
-                            icon: const Icon(
-                              MyFlutterApp.gridicons_cross,
-                              size: 20,
-                              color: placeholderTextColor,
-                            )),
+                SizedBox(
+                  width: screenWidth,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(MyFlutterApp.bi_arrow_down,
+                            color: Colors.black),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, BottomNavigationPage.routeName);
+                        },
                       ),
-                    ),
+                      Material(
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(4),
+                        child: Container(
+                          width: screenWidth * 0.75,
+                          height: screenHeight * 0.045,
+                          padding: const EdgeInsets.only(bottom: 2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.white,
+                          ),
+                          child: TextFormField(
+                            controller: _searchEdit,
+                            decoration: InputDecoration(
+                              hintText: "Search here....",
+                              hintStyle: const TextStyle(
+                                fontSize: 15,
+                                fontFamily: fontFamily,
+                                color: placeholderTextColor,
+                              ),
+                              border: InputBorder.none,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                    "asset/images/illustration/bytesize_search.svg"),
+                              ),
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    _searchEdit.text = "";
+                                  },
+                                  icon: const Icon(
+                                    MyFlutterApp.gridicons_cross,
+                                    size: 20,
+                                    color: placeholderTextColor,
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  title: Container(
+                                    width: screenWidth * 0.30,
+                                    height: screenHeight * 0.20,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.white,
+                                    ),
+                                    child: const Text(
+                                      "Filter area is under construction",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
+                        icon: const Icon(MyFlutterApp.filter),
+                        color: Colors.black,
+                        iconSize: 33,
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            title: Container(
-                              width: screenWidth * 0.30,
-                              height: screenHeight * 0.20,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                              ),
-                              child: const Text(
-                                "Filter area is under construction",
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                  icon: const Icon(MyFlutterApp.filter),
-                  color: Colors.black,
-                  iconSize: 33,
                 ),
               ],
             ),

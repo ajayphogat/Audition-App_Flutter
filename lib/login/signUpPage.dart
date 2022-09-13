@@ -23,11 +23,12 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  String account = "Audition";
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _fullName.dispose();
     _phone.dispose();
@@ -38,12 +39,12 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
-          minimum: const EdgeInsets.only(top: 100),
+          minimum: const EdgeInsets.only(top: 70),
           child: Form(
             key: _formKey,
             child: Column(
@@ -63,26 +64,69 @@ class _SignupPageState extends State<SignupPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 50),
-                commonTextField(context, _fullName, "Full Name",
-                    MyFlutterApp.username, false),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Radio(
+                            value: "Audition",
+                            groupValue: account,
+                            onChanged: (String? value) {
+                              setState(() {
+                                account = value!;
+                              });
+                            },
+                          ),
+                          const Text(
+                            "Audition",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Radio(
+                            value: "Studio",
+                            groupValue: account,
+                            onChanged: (String? value) {
+                              setState(() {
+                                account = value!;
+                              });
+                            },
+                          ),
+                          const Text(
+                            "Studio",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                commonTextField(screenWidth, screenHeight, context, _fullName,
+                    "Full Name", MyFlutterApp.username, false),
                 const SizedBox(height: 35),
-                commonTextField(
-                    context, _phone, "Phone No.", MyFlutterApp.call, false),
+                commonTextField(screenWidth, screenHeight, context, _phone,
+                    "Phone No.", MyFlutterApp.call, false),
                 const SizedBox(height: 35),
-                commonTextField(
-                    context, _email, "Email", MyFlutterApp.message, false),
+                commonTextField(screenWidth, screenHeight, context, _email,
+                    "Email", MyFlutterApp.message, false),
                 const SizedBox(height: 35),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 120,
                   child: Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Material(
                         elevation: 5,
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
                           width: screenWidth - screenWidth * 0.305,
-                          height: 40,
+                          height: screenHeight * 0.06,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: placeholderColor,
@@ -100,6 +144,10 @@ class _SignupPageState extends State<SignupPage> {
                             return null;
                           }
                         },
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontFamily: fontFamily,
+                        ),
                         obscureText: isObscure,
                         decoration: InputDecoration(
                           errorStyle: const TextStyle(
@@ -107,21 +155,20 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           hintText: "Password",
                           hintStyle: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 18,
                             fontFamily: fontFamily,
                             color: placeholderTextColor,
                           ),
                           border: InputBorder.none,
                           prefixIcon: const Padding(
                             padding:
-                                EdgeInsets.only(left: 20, right: 5, bottom: 8),
+                                EdgeInsets.only(left: 20, right: 5, bottom: 5),
                             child: Icon(MyFlutterApp.lock,
                                 color: Colors.black, size: 35),
                           ),
                           suffixIcon: isObscure
                               ? IconButton(
                                   icon: const Icon(MyFlutterApp.show),
-                                  padding: const EdgeInsets.only(bottom: 5),
                                   onPressed: () {
                                     setState(() {
                                       isObscure = !isObscure;

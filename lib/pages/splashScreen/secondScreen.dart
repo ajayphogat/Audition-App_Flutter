@@ -32,45 +32,9 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _activePage = _activePage + 1;
-                      if (_activePage > 2) {
-                        Navigator.pushNamed(context, MainPage.routeName);
-                        _activePage = 2;
-                        // Future.delayed(const Duration(seconds: 1));
-                        // _activePage = 0;
-                        // _pageController.jumpToPage(_activePage);
-                      } else {
-                        _pageController.animateToPage(_activePage,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.linear);
-                      }
-                    });
-                  },
-                  child: SizedBox(
-                    child: Row(
-                      children: const [
-                        Text(
-                          "Next ",
-                          style: TextStyle(
-                            fontSize: 17,
-                          ),
-                        ),
-                        Icon(Icons.keyboard_double_arrow_right),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
             SizedBox(
               width: screenWidth,
-              height: screenHeight * 0.75,
+              height: screenHeight * 0.80,
               child: PageView(
                 controller: _pageController,
                 pageSnapping: true,
@@ -103,146 +67,68 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: screenHeight * 0.07,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List<Widget>.generate(3, (index) {
-                return Container(
-                  margin: const EdgeInsets.all(3),
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _activePage == index
-                        ? secondoryColor
-                        : const Color(0xFFF9D422).withOpacity(0.5),
+            // SizedBox(
+            //   height: screenHeight * 0.07,
+            // ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: List<Widget>.generate(3, (index) {
+                      return Container(
+                        margin: const EdgeInsets.all(3),
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _activePage == index
+                              ? thirdColor
+                              : const Color(0xFF30319D).withOpacity(0.5),
+                        ),
+                      );
+                    }),
                   ),
-                );
-              }),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _activePage = _activePage + 1;
+                        if (_activePage > 2) {
+                          Navigator.pushNamed(context, MainPage.routeName);
+                          _activePage = 2;
+                          // Future.delayed(const Duration(seconds: 1));
+                          // _activePage = 0;
+                          // _pageController.jumpToPage(_activePage);
+                        } else {
+                          _pageController.animateToPage(_activePage,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.linear);
+                        }
+                      });
+                    },
+                    child: Container(
+                      width: screenWidth * 0.14,
+                      height: screenWidth * 0.14,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: thirdColor,
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "Next",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-
-      // body: GestureDetector(
-      // onTap: _activePage == 3
-      //     ? () {
-      //         Navigator.pushNamed(context, MainPage.routeName);
-      //       }
-      //     : () {
-      //         setState(() {
-      //           _activePage = _activePage + 1;
-      //           _pageController.animateToPage(_activePage,
-      //               duration: const Duration(milliseconds: 500),
-      //               curve: Curves.linear);
-      //         });
-      //       },
-      //   child: Stack(
-      //     children: [
-      //       SizedBox(
-      //         width: screenWidth,
-      //         height: screenHeight,
-      //         child: Image.asset("asset/images/uiImages/splashScreen2.png",
-      //             fit: BoxFit.cover),
-      //       ),
-      //       Container(
-      //         width: screenWidth,
-      //         height: screenHeight,
-      //         color: Colors.black26,
-      //       ),
-      //       Column(
-      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //         crossAxisAlignment: CrossAxisAlignment.stretch,
-      //         children: [
-      //           Padding(
-      //             padding: EdgeInsets.only(top: screenHeight * 0.10),
-      //             child: const Text(
-      //               "Audition Portal",
-      //               textAlign: TextAlign.center,
-      //               style: TextStyle(
-      //                 fontSize: 45,
-      //                 fontFamily: fontFamily,
-      //                 color: Colors.white,
-      //               ),
-      //             ),
-      //           ),
-      //           SizedBox(
-      //             width: screenHeight,
-      //             height: screenWidth,
-      //             child: Padding(
-      //               padding: EdgeInsets.only(
-      //                   left: screenWidth * 0.05,
-      //                   right: screenWidth * 0.05,
-      //                   top: screenHeight * 0.173),
-      //               child: PageView(
-      //                 controller: _pageController,
-      //                 pageSnapping: true,
-      //                 children: [
-      //                   welcomeMessage(screenHeight),
-      //                   discoverMessage(screenHeight),
-      //                   saveMessage(screenHeight),
-      //                   applyMessage(screenHeight),
-      //                   const Text(""),
-      //                 ],
-      //                 onPageChanged: (value) {
-      //                   value > 3
-      //                       ? Navigator.pushNamed(context, MainPage.routeName)
-      //                       : setState(() {
-      //                           _activePage = value;
-      //                         });
-      //                 },
-      //               ),
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //       Positioned(
-      //         bottom: screenHeight * 0.105,
-      //         left: (screenWidth - 70) / 2,
-      //         child: Row(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: List<Widget>.generate(4, (index) {
-      //             return Container(
-      //                 margin: const EdgeInsets.all(3),
-      //                 width: _activePage == index ? 30 : 8,
-      //                 height: 8,
-      //                 decoration: _activePage == index
-      //                     ? BoxDecoration(
-      //                         borderRadius: BorderRadius.circular(10),
-      //                         color: Colors.black,
-      //                       )
-      //                     : BoxDecoration(
-      //                         shape: BoxShape.circle,
-      //                         color: Colors.grey.shade700,
-      //                       ));
-      //           }),
-      //         ),
-      //       ),
-      //       // Positioned(
-      //       //   top: screenHeight * 0.04,
-      //       //   right: 0,
-      //       //   child: TextButton(
-      //       //     onPressed: () {
-      //       //       Navigator.pushNamedAndRemoveUntil(
-      //       //           context, MainPage.routeName, (route) => false);
-      //       //     },
-      //       //     style: TextButton.styleFrom(
-      //       //       primary: Colors.black,
-      //       //       textStyle: const TextStyle(fontSize: 18),
-      //       //     ),
-      //       //     child: const Text(
-      //       //       "Skip >>",
-      //       //       style: TextStyle(
-      //       //         fontFamily: fontFamily,
-      //       //       ),
-      //       //     ),
-      //       //   ),
-      //       // ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 
@@ -251,8 +137,11 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.12, vertical: screenHeight * 0.07),
+          padding: EdgeInsets.only(
+              left: screenWidth * 0.08,
+              right: screenWidth * 0.16,
+              top: screenHeight * 0.15,
+              bottom: screenHeight * 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -261,6 +150,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: thirdColor,
                 ),
               ),
               SizedBox(

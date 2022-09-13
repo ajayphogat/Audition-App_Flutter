@@ -107,83 +107,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              // Row(
-              //   children: [
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 10),
-              //       child: InkWell(
-              //         onTap: () {
-              //           Navigator.pushNamed(context, CategoryDetailPage.routeName,
-              //               arguments: 0);
-              //         },
-              //         child: gridContainer(categoryData[0]),
-              //       ),
-              //     ),
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 10),
-              //       child: InkWell(
-              //           onTap: () {
-              //             Navigator.pushNamed(
-              //                 context, CategoryDetailPage.routeName,
-              //                 arguments: 1);
-              //           },
-              //           child: gridContainer(categoryData[1])),
-              //     ),
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 10),
-              //       child: InkWell(
-              //           onTap: () {
-              //             Navigator.pushNamed(
-              //                 context, CategoryDetailPage.routeName,
-              //                 arguments: 2);
-              //           },
-              //           child: gridContainer(categoryData[2])),
-              //     ),
-              //   ],
-              // ),
-              // const SizedBox(height: 20),
-              // Row(
-              //   children: [
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 10),
-              //       child: InkWell(
-              //           onTap: () {
-              //             Navigator.pushNamed(
-              //                 context, CategoryDetailPage.routeName,
-              //                 arguments: 3);
-              //           },
-              //           child: gridContainer(categoryData[3])),
-              //     ),
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 10),
-              //       child: InkWell(
-              //           onTap: () {
-              //             Navigator.pushNamed(
-              //                 context, CategoryDetailPage.routeName,
-              //                 arguments: 4);
-              //           },
-              //           child: gridContainer(categoryData[4])),
-              //     ),
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 10),
-              //       child: InkWell(
-              //           onTap: () {
-              //             Navigator.pushNamed(
-              //                 context, CategoryDetailPage.routeName,
-              //                 arguments: 5);
-              //           },
-              //           child: gridContainer(categoryData[5])),
-              //     ),
-              //   ],
-              // ),
               SizedBox(height: screenHeight * 0.01),
               SizedBox(
                 width: screenWidth,
                 height: screenHeight * 0.628,
                 child: GridView.builder(
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.02,
-                      vertical: screenHeight * 0.01),
+                    horizontal: screenWidth * 0.025,
+                    vertical: screenHeight * 0.01,
+                  ),
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -203,14 +135,6 @@ class _HomePageState extends State<HomePage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: placeholderColor,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(2, 2),
-                              blurRadius: 5,
-                              spreadRadius: 0.5,
-                            ),
-                          ],
                         ),
                         padding: EdgeInsets.only(
                           left: screenWidth * 0.01,
@@ -233,47 +157,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.04),
-              // SizedBox(
-              //   width: screenWidth,
-              //   height: screenWidth * 0.15,
-              //   // color: Colors.orange,
-              //   child: Stack(
-              //     fit: StackFit.loose,
-              //     alignment: Alignment.center,
-              //     children: [
-              //       const Divider(
-              //         color: Colors.grey,
-              //         thickness: 2,
-              //       ),
-              //       Container(
-              //         width: screenWidth * 0.13,
-              //         height: 3,
-              //         decoration: const BoxDecoration(
-              //           shape: BoxShape.rectangle,
-              //           color: Colors.white,
-              //         ),
-              //       ),
-              //       Container(
-              //         width: screenWidth * 0.09,
-              //         height: screenWidth * 0.09,
-              //         decoration: BoxDecoration(
-              //           shape: BoxShape.circle,
-              //           border: Border.all(
-              //             color: Colors.grey,
-              //           ),
-              //           color: Colors.white,
-              //         ),
-              //       ),
-              //       Lottie.asset(
-              //         "asset/lottie/down-arrow.json",
-              //         width: screenWidth * 0.15,
-              //         height: screenWidth * 0.15,
-              //       )
-              //     ],
-              //   ),
-              // ),
               Container(
                 padding: EdgeInsets.only(left: screenWidth * 0.04),
                 width: screenWidth,

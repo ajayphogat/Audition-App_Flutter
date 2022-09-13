@@ -2,25 +2,25 @@ import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/pages/categorySection/studio_description.dart';
 import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
-Widget commonTextField(
+Widget commonTextField(double screenWidth, double screenHeight,
     BuildContext context, controller, String hintText, icon, bool isPassword) {
-  double screenWidth = MediaQuery.of(context).size.width;
-  double screenHeight = MediaQuery.of(context).size.width;
   return SizedBox(
     width: screenWidth - screenWidth * 0.305,
     child: Stack(
+      alignment: AlignmentDirectional.bottomCenter,
       children: [
         Material(
           elevation: 5,
           borderRadius: BorderRadius.circular(8),
           child: Container(
             width: screenWidth - screenWidth * 0.305,
-            height: 40,
+            height: screenHeight * 0.06,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: placeholderColor,
@@ -36,11 +36,15 @@ Widget commonTextField(
               return null;
             }
           },
+          style: const TextStyle(
+            fontSize: 18,
+            fontFamily: fontFamily,
+          ),
           obscureText: isPassword,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: const TextStyle(
-              fontSize: 15,
+              fontSize: 18,
               fontFamily: fontFamily,
               color: placeholderTextColor,
             ),
@@ -53,7 +57,7 @@ Widget commonTextField(
               padding: EdgeInsets.only(
                   left: 20,
                   right: icon == MyFlutterApp.message ? 12 : 5,
-                  bottom: 8),
+                  bottom: 2),
               child: Icon(icon,
                   color: Colors.black,
                   size: icon == MyFlutterApp.message ? 28 : 35),
@@ -211,8 +215,8 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
   );
 }
 
-Material gridViewContainer(
-    double screenWidth, double screenHeight, String s1, String s2, String s3) {
+Material gridViewContainer(BuildContext context, double screenWidth,
+    double screenHeight, String s1, String s2, String s3, String s4) {
   return Material(
     elevation: 5,
     borderRadius: BorderRadius.circular(5),
@@ -226,41 +230,86 @@ Material gridViewContainer(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: screenHeight * 0.21,
+            height: screenHeight * 0.25,
             width: screenWidth * 0.50,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(5), topRight: Radius.circular(5)),
             ),
             child: Image.asset(
-              s3,
+              s4,
               isAntiAlias: true,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 5, right: 5),
+            padding:
+                EdgeInsets.only(left: 5, right: 5, top: screenHeight * 0.01),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 3),
-                Text(
-                  s1,
-                  style: const TextStyle(
-                    fontFamily: fontFamily,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
+                const Text(
+                  "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+                  style: TextStyle(
+                    fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  s2,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: placeholderTextColor,
-                    fontFamily: fontFamily,
+                Divider(
+                  color: placeholderTextColor,
+                  height: screenHeight * 0.02,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, StudioDescriptionPage.routeName);
+                  },
+                  child: Row(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset("asset/images/uiImages/logo.png"),
+                        ],
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            s1,
+                            style: const TextStyle(
+                              fontFamily: fontFamily,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            s2,
+                            style: const TextStyle(
+                              fontFamily: fontFamily,
+                              fontSize: 9,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
+                // Text(
+                //   s1,
+                //   style: const TextStyle(
+                //     fontFamily: fontFamily,
+                //     fontWeight: FontWeight.w500,
+                //     fontSize: 10,
+                //   ),
+                // ),
+                // const SizedBox(height: 2),
+                // Text(
+                //   s2,
+                //   style: const TextStyle(
+                //     fontSize: 10,
+                //     color: placeholderTextColor,
+                //     fontFamily: fontFamily,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -278,70 +327,101 @@ AppBar basicAppBar(
     TabController tabController,
     List<String> data) {
   return AppBar(
-    toolbarHeight: screenHeight * 0.10,
+    toolbarHeight: screenHeight * 0.13,
     backgroundColor: Colors.white,
     actions: [
-      SizedBox(
-        width: screenWidth,
-        child: Row(
+      Padding(
+        padding: EdgeInsets.only(top: screenHeight * 0.03),
+        child: Column(
           children: [
-            IconButton(
-              icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
-              onPressed: () {
-                // print(tabController.index);
-                if (data == categoryData) {
-                  Navigator.pop(context);
-                }
-                Navigator.pushReplacementNamed(
-                    context, BottomNavigationPage.routeName);
-              },
-            ),
-            Material(
-              elevation: 5,
-              borderRadius: BorderRadius.circular(4),
-              child: Container(
-                width: screenWidth * 0.75,
-                height: screenHeight * 0.045,
-                padding: const EdgeInsets.only(bottom: 2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.white,
-                ),
-                child: TextFormField(
-                  controller: searchEdit,
-                  decoration: InputDecoration(
-                    hintText: "Search here....",
-                    hintStyle: const TextStyle(
-                      fontSize: 15,
-                      fontFamily: fontFamily,
-                      color: placeholderTextColor,
-                    ),
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        "asset/images/illustration/bytesize_search.svg",
-                        color: placeholderTextColor,
+            SizedBox(
+              width: screenWidth,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(MyFlutterApp.bi_arrow_down,
+                        color: Colors.black),
+                    onPressed: () {
+                      // print(tabController.index);
+                      if (data == categoryData) {
+                        Navigator.pop(context);
+                      }
+                      Navigator.pushReplacementNamed(
+                          context, BottomNavigationPage.routeName);
+                    },
+                  ),
+                  Material(
+                    elevation: 5,
+                    borderRadius: BorderRadius.circular(4),
+                    child: Container(
+                      width: screenWidth * 0.75,
+                      height: screenHeight * 0.045,
+                      padding: const EdgeInsets.only(bottom: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: searchEdit,
+                        decoration: InputDecoration(
+                          hintText: "Search here....",
+                          hintStyle: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: fontFamily,
+                            color: placeholderTextColor,
+                          ),
+                          border: InputBorder.none,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset(
+                              "asset/images/illustration/bytesize_search.svg",
+                              color: placeholderTextColor,
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                searchEdit.text = "";
+                              },
+                              icon: const Icon(
+                                MyFlutterApp.gridicons_cross,
+                                size: 20,
+                                color: placeholderTextColor,
+                              )),
+                        ),
                       ),
                     ),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          searchEdit.text = "";
-                        },
-                        icon: const Icon(
-                          MyFlutterApp.gridicons_cross,
-                          size: 20,
-                          color: placeholderTextColor,
-                        )),
                   ),
-                ),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              title: Container(
+                                width: screenWidth * 0.30,
+                                height: screenHeight * 0.20,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                ),
+                                child: const Text(
+                                  "Filter area is under construction",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    icon: const Icon(MyFlutterApp.filter),
+                    color: Colors.black,
+                    iconSize: 33,
+                  ),
+                ],
               ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(MyFlutterApp.filter),
-              color: Colors.black,
-              iconSize: 33,
             ),
           ],
         ),
@@ -409,70 +489,101 @@ AppBar basicAppBarApp(
     TabController tabController,
     List<String> data) {
   return AppBar(
-    toolbarHeight: screenHeight * 0.10,
+    toolbarHeight: screenHeight * 0.13,
     backgroundColor: Colors.white,
     actions: [
-      SizedBox(
-        width: screenWidth,
-        child: Row(
+      Padding(
+        padding: EdgeInsets.only(top: screenHeight * 0.03),
+        child: Column(
           children: [
-            IconButton(
-              icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
-              onPressed: () {
-                // print(tabController.index);
-                if (data == categoryData) {
-                  Navigator.pop(context);
-                }
-                Navigator.pushReplacementNamed(
-                    context, BottomNavigationPage.routeName);
-              },
-            ),
-            Material(
-              elevation: 5,
-              borderRadius: BorderRadius.circular(4),
-              child: Container(
-                width: screenWidth * 0.75,
-                height: screenHeight * 0.045,
-                padding: const EdgeInsets.only(bottom: 2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.white,
-                ),
-                child: TextFormField(
-                  controller: searchEdit,
-                  decoration: InputDecoration(
-                    hintText: "Search here....",
-                    hintStyle: const TextStyle(
-                      fontSize: 15,
-                      fontFamily: fontFamily,
-                      color: placeholderTextColor,
-                    ),
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        "asset/images/illustration/bytesize_search.svg",
-                        color: placeholderTextColor,
+            SizedBox(
+              width: screenWidth,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(MyFlutterApp.bi_arrow_down,
+                        color: Colors.black),
+                    onPressed: () {
+                      // print(tabController.index);
+                      if (data == categoryData) {
+                        Navigator.pop(context);
+                      }
+                      Navigator.pushReplacementNamed(
+                          context, BottomNavigationPage.routeName);
+                    },
+                  ),
+                  Material(
+                    elevation: 5,
+                    borderRadius: BorderRadius.circular(4),
+                    child: Container(
+                      width: screenWidth * 0.75,
+                      height: screenHeight * 0.045,
+                      padding: const EdgeInsets.only(bottom: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: searchEdit,
+                        decoration: InputDecoration(
+                          hintText: "Search here....",
+                          hintStyle: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: fontFamily,
+                            color: placeholderTextColor,
+                          ),
+                          border: InputBorder.none,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset(
+                              "asset/images/illustration/bytesize_search.svg",
+                              color: placeholderTextColor,
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                searchEdit.text = "";
+                              },
+                              icon: const Icon(
+                                MyFlutterApp.gridicons_cross,
+                                size: 20,
+                                color: placeholderTextColor,
+                              )),
+                        ),
                       ),
                     ),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          searchEdit.text = "";
-                        },
-                        icon: const Icon(
-                          MyFlutterApp.gridicons_cross,
-                          size: 20,
-                          color: placeholderTextColor,
-                        )),
                   ),
-                ),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              title: Container(
+                                width: screenWidth * 0.30,
+                                height: screenHeight * 0.20,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                ),
+                                child: const Text(
+                                  "Filter area is under construction",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    icon: const Icon(MyFlutterApp.filter),
+                    color: Colors.black,
+                    iconSize: 33,
+                  ),
+                ],
               ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(MyFlutterApp.filter),
-              color: Colors.black,
-              iconSize: 33,
             ),
           ],
         ),
