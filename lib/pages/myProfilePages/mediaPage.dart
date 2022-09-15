@@ -202,8 +202,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               ],
             ),
           ),
-          SizedBox(
-            height: screenHeight * 0.61,
+          Container(
+            height: screenHeight * 0.6,
             child: TabBarView(
               controller: _tabController,
               children: [
@@ -251,8 +251,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
           ),
         ),
         Container(
-          height: screenHeight * 0.35,
-          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+          height: screenHeight * 0.52,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -302,8 +302,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
           ),
         ),
         Container(
-          height: screenHeight * 0.35,
-          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+          height: screenHeight * 0.52,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -354,8 +354,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
           ),
         ),
         Container(
-          height: screenHeight * 0.35,
-          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+          height: screenHeight * 0.52,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -410,7 +410,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
           ),
         ),
         Container(
-          height: screenHeight * 0.50,
+          height: screenHeight * 0.52,
           margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
           child: GridView.builder(
             gridDelegate: SliverWovenGridDelegate.count(
@@ -527,7 +527,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-          height: screenHeight * 0.50,
+          height: screenHeight * 0.52,
           child: GridView.builder(
             gridDelegate: SliverWovenGridDelegate.count(
               crossAxisCount: 2,

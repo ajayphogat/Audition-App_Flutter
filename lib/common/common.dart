@@ -135,7 +135,9 @@ InkWell longBasicButton(BuildContext context, routeName, String text) {
 Widget textContainer(double screenWidth, double screenHeight, String s1,
     String s2, String s3, picture) {
   return Padding(
-    padding: const EdgeInsets.only(right: 10),
+    padding: const EdgeInsets.only(
+      right: 10,
+    ),
     child: Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(5),
@@ -153,7 +155,9 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
               width: screenHeight * 0.26,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                ),
               ),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               child: Image.asset(
@@ -162,7 +166,8 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(left: 5, right: 5, top: 2),
+              padding:
+                  const EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -293,23 +298,6 @@ Material gridViewContainer(BuildContext context, double screenWidth,
                     ],
                   ),
                 ),
-                // Text(
-                //   s1,
-                //   style: const TextStyle(
-                //     fontFamily: fontFamily,
-                //     fontWeight: FontWeight.w500,
-                //     fontSize: 10,
-                //   ),
-                // ),
-                // const SizedBox(height: 2),
-                // Text(
-                //   s2,
-                //   style: const TextStyle(
-                //     fontSize: 10,
-                //     color: placeholderTextColor,
-                //     fontFamily: fontFamily,
-                //   ),
-                // ),
               ],
             ),
           ),

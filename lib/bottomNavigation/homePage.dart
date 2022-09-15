@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
               ),
               seeAllContainer(screenWidth, screenHeight),
               SizedBox(
-                height: screenHeight * 0.365,
+                height: screenHeight * 0.372,
                 child: ListView(
                   padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
                   physics: const BouncingScrollPhysics(),
@@ -218,7 +218,7 @@ class _HomePageState extends State<HomePage> {
               ),
               seeAllContainer(screenWidth, screenHeight),
               SizedBox(
-                height: screenHeight * 0.365,
+                height: screenHeight * 0.372,
                 child: ListView(
                   padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
                   physics: const BouncingScrollPhysics(),
