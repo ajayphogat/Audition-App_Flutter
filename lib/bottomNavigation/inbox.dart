@@ -1,5 +1,4 @@
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
-import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';

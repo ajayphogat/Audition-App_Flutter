@@ -1,12 +1,15 @@
+import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/signUpPage.dart';
+import 'package:first_app/provider/user_provider.dart';
 import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,14 +24,30 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  String account = "Audition";
+
   bool isObscure = true;
 
   final _formKey = GlobalKey<FormState>();
+
+  final AuthService authService = AuthService();
+  bool isLoading = false;
+
+  Future<void> loginUser() async {
+    await authService.loginUser(
+        context: context, email: _email.text, password: _password.text);
+  }
+
+  Future<void> loginStudio() async {
+    await authService.loginStudio(
+        context: context, email: _email.text, password: _password.text);
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -51,7 +70,49 @@ class _LoginPageState extends State<LoginPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 50),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Radio(
+                          value: "Audition",
+                          groupValue: account,
+                          onChanged: (String? value) {
+                            setState(() {
+                              account = value!;
+                            });
+                          },
+                        ),
+                        const Text(
+                          "Audition",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio(
+                          value: "Studio",
+                          groupValue: account,
+                          onChanged: (String? value) {
+                            setState(() {
+                              account = value!;
+                            });
+                          },
+                        ),
+                        const Text(
+                          "Studio",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.02),
               loginTextField(screenWidth, screenHeight, context, _email,
                   "Email/Phone No.", MyFlutterApp.username, false),
               SizedBox(height: screenHeight * 0.041),
@@ -151,7 +212,56 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              loginButton(context, screenWidth),
+              InkWell(
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    if (account == "Audition") {
+                      setState(() {
+                        isLoading = !isLoading;
+                      });
+                      await loginUser();
+                      // await Future.delayed(const Duration(seconds: 2));
+
+                      setState(() {
+                        isLoading = !isLoading;
+                      });
+                    } else {
+                      setState(() {
+                        isLoading = !isLoading;
+                      });
+                      await loginStudio();
+                      setState(() {
+                        isLoading = !isLoading;
+                      });
+                    }
+                  }
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  alignment: Alignment.center,
+                  width: isLoading ? screenHeight * 0.047 : screenWidth * 0.383,
+                  height: screenHeight * 0.047,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(isLoading ? 50 : 8),
+                    color: secondoryColor,
+                  ),
+                  child: isLoading
+                      ? SizedBox(
+                          height: screenHeight * 0.03,
+                          width: screenHeight * 0.03,
+                          child: const CircularProgressIndicator(
+                            backgroundColor: Colors.black,
+                            color: secondoryColor,
+                          ),
+                        )
+                      : const Text(
+                          "Login",
+                          style: TextStyle(
+                            fontFamily: fontFamily,
+                          ),
+                        ),
+                ),
+              ),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -187,7 +297,8 @@ class _LoginPageState extends State<LoginPage> {
     return InkWell(
       onTap: () {
         if (_formKey.currentState!.validate()) {
-          _password.text == "studio"
+          // _password.text == "studio"
+          account == "Studio"
               ? Navigator.pushNamedAndRemoveUntil(
                   context, SBottomNavigationPage.routeName, (route) => false)
               : Navigator.pushNamedAndRemoveUntil(
@@ -213,13 +324,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget loginTextField(
-      double screenWidth,
-      double screenHeight,
-      BuildContext context,
-      controller,
-      String hintText,
-      icon,
-      bool isPassword) {
+    double screenWidth,
+    double screenHeight,
+    BuildContext context,
+    controller,
+    String hintText,
+    icon,
+    bool isPassword,
+  ) {
     return SizedBox(
       width: screenWidth - screenWidth * 0.305,
       child: Stack(

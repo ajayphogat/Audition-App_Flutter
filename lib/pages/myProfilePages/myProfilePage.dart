@@ -1,3 +1,4 @@
+import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
@@ -10,8 +11,12 @@ import 'package:first_app/pages/myProfilePages/detailPages/skillsPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
+import 'package:first_app/provider/studio_provider.dart';
+import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import '../../provider/user_provider.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -27,10 +32,22 @@ class _MyProfilePageState extends State<MyProfilePage>
   late TabController _tabController;
   bool short = true;
 
+  late TextEditingController _bioController;
+  final AuthService authService = AuthService();
+
+  Future<void> changeBio() async {
+    await authService.changeBio(bio: _bioController.text, context: context);
+  }
+
+  Future<void> switchToStudio() async {
+    await authService.switchToStudio(context: context);
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _bioController = TextEditingController();
   }
 
   @override
@@ -43,30 +60,46 @@ class _MyProfilePageState extends State<MyProfilePage>
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    var user = Provider.of<UserProvider>(context).user;
+    var studioUser = Provider.of<StudioProvider>(context).user;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: screenWidth,
-                height: screenHeight * 0.55,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(60),
+              Stack(children: [
+                Container(
+                  width: screenWidth,
+                  height: screenHeight * 0.55,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(60),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(60),
+                    ),
+                    child: Image.asset(
+                      "asset/images/uiImages/actor.jpg",
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
                   ),
                 ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(60),
+                Positioned(
+                  right: 10,
+                  top: screenHeight * 0.02,
+                  child: InkWell(
+                    onTap: () {},
+                    child: const Icon(
+                      MyFlutterApp.camera_black,
+                      color: placeholderTextColor,
+                    ),
                   ),
-                  child: Image.asset(
-                    "asset/images/uiImages/actor.jpg",
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-              ),
+                )
+              ]),
               Container(
                 height: screenHeight * 0.03,
                 margin: EdgeInsets.only(
@@ -85,7 +118,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                         ),
                       ),
                       child: const Text(
-                        "Details",
+                        "Detail",
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -159,23 +192,29 @@ class _MyProfilePageState extends State<MyProfilePage>
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            "asset/icons/switchuser.svg",
-                            color: placeholderTextColor,
-                          ),
-                          SizedBox(
-                            width: screenWidth * 0.02,
-                          ),
-                          const Text(
-                            "Switch Account",
-                            style: TextStyle(
+                      InkWell(
+                        onTap: () async {
+                          circularProgressIndicatorNew(context);
+                          await switchToStudio();
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              "asset/icons/switchuser.svg",
                               color: placeholderTextColor,
-                              fontSize: 15,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: screenWidth * 0.02,
+                            ),
+                            const Text(
+                              "Switch Account",
+                              style: TextStyle(
+                                color: placeholderTextColor,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -186,27 +225,69 @@ class _MyProfilePageState extends State<MyProfilePage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const Text(
-                          "Leslie Alexander",
+                        Text(
+                          user.fname,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.005),
-                        const Text(
-                          "(Actor)",
-                          style: TextStyle(
+                        Text(
+                          "(${user.category})",
+                          style: const TextStyle(
                             color: placeholderTextColor,
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.01),
-                        const Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam diam sapien, elementum ut lectus quis, dignissim pretium ex. Duis gravida enim a ultricies vestibulum. Quisque dignissim posuere rutrum. Integer et neque sit amet sapien viverra lobortis ac vitae lacus.",
-                          style: TextStyle(
-                            fontSize: 11,
-                          ),
-                        ),
+                        user.bio.isEmpty
+                            ? InkWell(
+                                onTap: () {
+                                  _bioController.text = "";
+                                  showBio(context, screenWidth, screenHeight);
+                                },
+                                child: SizedBox(
+                                  height: screenHeight * 0.05,
+                                  child: const Text(
+                                    "Click to add Bio",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: placeholderTextColor,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Container(
+                                      width: screenWidth,
+                                      alignment: Alignment.topRight,
+                                      child: InkWell(
+                                        onTap: () {
+                                          _bioController.text = user.bio;
+                                          showBio(context, screenWidth,
+                                              screenHeight);
+                                        },
+                                        child: Icon(
+                                          MyFlutterApp.edit_black,
+                                          size: screenHeight * 0.02,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      user.bio,
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                       ],
                     ),
                   ),
@@ -258,19 +339,20 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       "Basic Info", BasicInfoPage.routeName),
                                   SizedBox(height: screenHeight * 0.008),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Name", "Leslie Alexander"),
+                                      "Name", user.fname),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Gender", "Female"),
+                                      "Gender", user.gender),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Location", "4866 Durgan Manor"),
+                                      "Location", user.location),
+                                  SizedBox(height: screenHeight * 0.005),
+                                  // TODO: A way to give profile url
+                                  smallSubTitles(screenWidth, screenHeight,
+                                      "Profile URL", user.profileUrl),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Profile URL", "https://kira.name"),
-                                  SizedBox(height: screenHeight * 0.005),
-                                  smallSubTitles(screenWidth, screenHeight,
-                                      "Working Title", "Actor"),
+                                      "Working Title", user.category),
                                 ],
                               ),
                             ),
@@ -288,23 +370,23 @@ class _MyProfilePageState extends State<MyProfilePage>
                                   normalTitles(screenHeight, context,
                                       "Appearance", AppearancePage.routeName),
                                   SizedBox(height: screenHeight * 0.008),
-                                  smallSubTitles(
-                                      screenWidth, screenHeight, "Age", "25"),
+                                  smallSubTitles(screenWidth, screenHeight,
+                                      "Age", user.age),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Height", "5.4\""),
+                                      "Height", user.height),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Weight", "45"),
+                                      "Weight", "${user.weight} kg"),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Body type", "Diamond"),
+                                      "Body type", user.bodyType),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Hair Color", "Brown"),
+                                      "Hair Color", user.hairColor),
                                   SizedBox(height: screenHeight * 0.005),
                                   smallSubTitles(screenWidth, screenHeight,
-                                      "Eye Color", "Brown"),
+                                      "Eye Color", user.eyeColor),
                                 ],
                               ),
                             ),
@@ -326,42 +408,46 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       SocialMediaPage.routeName),
                                   SizedBox(height: screenHeight * 0.008),
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      const Text(
-                                        "http://clementina.info",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.blue,
-                                        ),
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: user.socialMedia.map((e) {
+                                        return Text(e.toString());
+                                      }).toList()
+                                      // [
+
+                                      // const Text(
+                                      //   "http://clementina.info",
+                                      //   style: TextStyle(
+                                      //     fontSize: 16,
+                                      //     color: Colors.blue,
+                                      //   ),
+                                      // ),
+                                      // SizedBox(height: screenHeight * 0.005),
+                                      // const Text(
+                                      //   "https://axel.biz",
+                                      //   style: TextStyle(
+                                      //     fontSize: 16,
+                                      //     color: Colors.blue,
+                                      //   ),
+                                      // ),
+                                      // SizedBox(height: screenHeight * 0.005),
+                                      // const Text(
+                                      //   "https://elliot.name",
+                                      //   style: TextStyle(
+                                      //     fontSize: 16,
+                                      //     color: Colors.blue,
+                                      //   ),
+                                      // ),
+                                      // SizedBox(height: screenHeight * 0.005),
+                                      // const Text(
+                                      //   "https://esteil.name",
+                                      //   style: TextStyle(
+                                      //     fontSize: 16,
+                                      //     color: Colors.blue,
+                                      //   ),
+                                      // ),
+                                      // ],
                                       ),
-                                      SizedBox(height: screenHeight * 0.005),
-                                      const Text(
-                                        "https://axel.biz",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      SizedBox(height: screenHeight * 0.005),
-                                      const Text(
-                                        "https://elliot.name",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      SizedBox(height: screenHeight * 0.005),
-                                      const Text(
-                                        "https://esteil.name",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ],
                               ),
                             ),
@@ -382,11 +468,15 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       "Union Membership",
                                       MembershipPage.routeName),
                                   SizedBox(height: screenHeight * 0.008),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: const [
-                                      Text("Equity (U.S.)", style: textStyle),
-                                    ],
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: user.unionMembership.map((e) {
+                                      return Text(e.toString());
+                                    }).toList(),
+                                    // children: const [
+                                    //   Text("Equity (U.S.)", style: textStyle),
+                                    // ],
                                   ),
                                 ],
                               ),
@@ -408,20 +498,23 @@ class _MyProfilePageState extends State<MyProfilePage>
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
-                                    children: [
-                                      const Text("Ability to take direction",
-                                          style: textStyle),
-                                      SizedBox(height: screenHeight * 0.005),
-                                      const Text(
-                                          "Ability to work as a team and also individually",
-                                          style: textStyle),
-                                      SizedBox(height: screenHeight * 0.005),
-                                      const Text("Reliability",
-                                          style: textStyle),
-                                      SizedBox(height: screenHeight * 0.005),
-                                      const Text("Good time keeping skills",
-                                          style: textStyle),
-                                    ],
+                                    children: user.skills.map((e) {
+                                      return Text(e.toString());
+                                    }).toList(),
+                                    // children: [
+                                    //   const Text("Ability to take direction",
+                                    //       style: textStyle),
+                                    //   SizedBox(height: screenHeight * 0.005),
+                                    //   const Text(
+                                    //       "Ability to work as a team and also individually",
+                                    //       style: textStyle),
+                                    //   SizedBox(height: screenHeight * 0.005),
+                                    //   const Text("Reliability",
+                                    //       style: textStyle),
+                                    //   SizedBox(height: screenHeight * 0.005),
+                                    //   const Text("Good time keeping skills",
+                                    //       style: textStyle),
+                                    // ],
                                   ),
                                 ],
                               ),
@@ -440,11 +533,18 @@ class _MyProfilePageState extends State<MyProfilePage>
                                   normalTitles(screenHeight, context, "Credits",
                                       CreditsPage.routeName),
                                   SizedBox(height: screenHeight * 0.008),
-                                  const SizedBox(
-                                    child: Text(
-                                        "Add credits from your past performance and jobs in the entertainment industry.",
-                                        style: textStyle),
-                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: user.credits.map((e) {
+                                      return Text(e.toString());
+                                    }).toList(),
+                                  )
+                                  // const SizedBox(
+                                  //   child: Text(
+                                  //       "Add credits from your past performance and jobs in the entertainment industry.",
+                                  //       style: textStyle),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -509,6 +609,79 @@ class _MyProfilePageState extends State<MyProfilePage>
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> showBio(
+      BuildContext context, double screenWidth, double screenHeight) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          title: Container(
+            width: screenWidth * 0.80,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: screenWidth * 0.60,
+                  height: screenHeight * 0.30,
+                  // color: Colors.yellow[50],
+                  decoration: BoxDecoration(
+                      color: Colors.yellow[100],
+                      border: Border.all(
+                        color: secondoryColor,
+                      ),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: TextField(
+                    controller: _bioController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                      border: InputBorder.none,
+                      hintText: "Write your bio here...",
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Cancel",
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        navigatePop() => Navigator.pop(context);
+                        circularProgressIndicatorNew(context);
+                        await changeBio();
+                        navigatePop();
+                        navigatePop();
+                      },
+                      child: const Text(
+                        "Add",
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

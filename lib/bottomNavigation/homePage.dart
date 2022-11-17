@@ -2,9 +2,10 @@ import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
+import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    final user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,9 +48,9 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Hi, John!",
-                            style: TextStyle(
+                          Text(
+                            "Hi, ${user.fname.split(" ")[0]}",
+                            style: const TextStyle(
                               fontFamily: fontFamily,
                               fontSize: 35,
                             ),

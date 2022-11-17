@@ -1,6 +1,10 @@
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/model/studio_user_model.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/studio_provider.dart';
 
 class SHomePage extends StatefulWidget {
   const SHomePage({Key? key}) : super(key: key);
@@ -89,8 +93,8 @@ class _SHomePageState extends State<SHomePage> {
                     ),
                   ),
                   SizedBox(width: screenWidth * 0.03),
-                  const Text(
-                    "Name of Studio",
+                  Text(
+                    "name",
                   ),
                 ],
               ),

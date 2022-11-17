@@ -1,10 +1,14 @@
+import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/common/common.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/provider/user_provider.dart';
 import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/smyProfilePage.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/ssettingsPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SMyProfile extends StatefulWidget {
   const SMyProfile({Key? key}) : super(key: key);
@@ -16,10 +20,17 @@ class SMyProfile extends StatefulWidget {
 }
 
 class _SMyProfileState extends State<SMyProfile> {
+  final AuthService authService = AuthService();
+
+  Future<void> switchToAudition() async {
+    await authService.switchToAudition(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    var user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -52,7 +63,8 @@ class _SMyProfileState extends State<SMyProfile> {
                         icon: const Icon(MyFlutterApp.arrow_down_2,
                             color: Colors.black),
                         onPressed: () {
-                          bottomPageUp(context, screenHeight, screenWidth);
+                          bottomPageUp(context, screenHeight, screenWidth,
+                              user.token.isEmpty);
                         },
                       ),
                     ],
@@ -82,8 +94,8 @@ class _SMyProfileState extends State<SMyProfile> {
     );
   }
 
-  Future<dynamic> bottomPageUp(
-      BuildContext context, double screenHeight, double screenWidth) {
+  Future<dynamic> bottomPageUp(BuildContext context, double screenHeight,
+      double screenWidth, bool switched) {
     return showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -129,9 +141,14 @@ class _SMyProfileState extends State<SMyProfile> {
                   ],
                 ),
                 InkWell(
-                  onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(context,
-                        BottomNavigationPage.routeName, (route) => false);
+                  onTap: () async {
+                    navPop() => Navigator.pop(context);
+                    circularProgressIndicatorNew(context);
+                    await switchToAudition();
+                    navPop();
+
+                    // Navigator.pushNamedAndRemoveUntil(context,
+                    //     BottomNavigationPage.routeName, (route) => false);
                   },
                   child: Row(
                     children: const [

@@ -1,11 +1,28 @@
-import 'package:first_app/constants.dart';
 import 'package:first_app/pages/splashScreen/secondScreen.dart';
 import 'package:flutter/material.dart';
 
-class FirstSplashScreen extends StatelessWidget {
+class FirstSplashScreen extends StatefulWidget {
   const FirstSplashScreen({Key? key}) : super(key: key);
 
   static const String routeName = "/firstSplashScreen-page";
+
+  @override
+  State<FirstSplashScreen> createState() => _FirstSplashScreenState();
+}
+
+class _FirstSplashScreenState extends State<FirstSplashScreen> {
+  @override
+  void initState() {
+    navigateToNext();
+    super.initState();
+  }
+
+  void navigateToNext() async {
+    navToNext() =>
+        Navigator.pushReplacementNamed(context, SecondSplashScreen.routeName);
+    await Future.delayed(const Duration(milliseconds: 2000));
+    navToNext();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,9 @@
+import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/login/verifyMobile.dart';
+import 'package:first_app/utils/showSnackbar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +19,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool isObscure = true;
+  bool isLoading = false;
 
   final TextEditingController _fullName = TextEditingController();
   final TextEditingController _phone = TextEditingController();
@@ -26,6 +29,28 @@ class _SignupPageState extends State<SignupPage> {
   String account = "Audition";
 
   final _formKey = GlobalKey<FormState>();
+
+  final AuthService authService = AuthService();
+
+  Future<void> signUpAudition() async {
+    await authService.signUpUser(
+      context: context,
+      fname: _fullName.text,
+      email: _email.text,
+      number: _phone.text,
+      password: _password.text,
+    );
+  }
+
+  Future<void> signUpStudio() async {
+    await authService.signUpStudio(
+      context: context,
+      fname: _fullName.text,
+      email: _email.text,
+      number: _phone.text,
+      password: _password.text,
+    );
+  }
 
   @override
   void dispose() {
@@ -194,8 +219,58 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 const SizedBox(height: 45),
-                basicButton(
-                    context, _formKey, VerifyMobile.routeName, "Sign Up", ""),
+                InkWell(
+                  onTap: () async {
+                    if (_formKey.currentState!.validate()) {
+                      if (account == "Audition") {
+                        print("audition");
+                        setState(() {
+                          isLoading = !isLoading;
+                        });
+                        await signUpAudition();
+                        setState(() {
+                          isLoading = !isLoading;
+                        });
+                      } else {
+                        print("studio");
+                        // showSnackBar(context, "Not Now");
+                        setState(() {
+                          isLoading = !isLoading;
+                        });
+                        await signUpStudio();
+                        setState(() {
+                          isLoading = !isLoading;
+                        });
+                      }
+                    }
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    alignment: Alignment.center,
+                    width:
+                        isLoading ? screenHeight * 0.047 : screenWidth * 0.383,
+                    height: screenHeight * 0.047,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(isLoading ? 50 : 8),
+                      color: secondoryColor,
+                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            height: screenHeight * 0.03,
+                            width: screenHeight * 0.03,
+                            child: const CircularProgressIndicator(
+                              backgroundColor: Colors.black,
+                              color: secondoryColor,
+                            ),
+                          )
+                        : const Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontFamily: fontFamily,
+                            ),
+                          ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -203,4 +278,29 @@ class _SignupPageState extends State<SignupPage> {
       ),
     );
   }
+}
+
+InkWell signUpButton(BuildContext context, formKey, routeName, String text) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.width;
+  return InkWell(
+    onTap: () {
+      if (formKey.currentState!.validate()) {}
+    },
+    child: Container(
+      alignment: Alignment.center,
+      width: screenWidth * 0.383,
+      height: 40,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: secondoryColor,
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: fontFamily,
+        ),
+      ),
+    ),
+  );
 }

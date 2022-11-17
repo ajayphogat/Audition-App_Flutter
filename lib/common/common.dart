@@ -3,7 +3,6 @@ import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/categorySection/studio_description.dart';
-import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
@@ -75,18 +74,7 @@ InkWell basicButton(
   double screenHeight = MediaQuery.of(context).size.width;
   return InkWell(
     onTap: () {
-      if (formKey.currentState!.validate()) {
-        print(password);
-        if (password == "studio") {
-          Navigator.pushNamedAndRemoveUntil(
-              context, SBottomNavigationPage.routeName, (route) => false);
-        } else {
-          routeName == "/bottomNavigation-Page"
-              ? Navigator.pushNamedAndRemoveUntil(
-                  context, routeName, (route) => false)
-              : Navigator.pushNamed(context, routeName);
-        }
-      }
+      if (formKey.currentState!.validate()) {}
     },
     child: Container(
       alignment: Alignment.center,
@@ -817,6 +805,54 @@ TextButton appBarTextButton(String text) {
   );
 }
 
+TextButton appBarTextButton1(String text, Future<void> Function() onSave,
+    BuildContext context, double screenWidth, double screenHeight) {
+  void navigatePop() => Navigator.pop(context);
+  return TextButton(
+    onPressed: () async {
+      if (text == "Save") {
+        // print(screenHeight);
+        circularProgressIndicatorNew(context);
+        await onSave();
+        navigatePop();
+        navigatePop();
+      } else {
+        navigatePop();
+      }
+    },
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontFamily: fontFamily,
+        color: thirdColor,
+      ),
+    ),
+  );
+}
+
+Future<dynamic> circularProgressIndicatorNew(BuildContext context) {
+  return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Material(
+            elevation: 5,
+            borderRadius: BorderRadius.circular(5),
+            clipBehavior: Clip.antiAlias,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+              ),
+              child: const CircularProgressIndicator(),
+            ),
+          ),
+        );
+      });
+}
+
 Widget detailsMenu(BuildContext context, double screenWidth,
     double screenHeight, String text, String routeName) {
   return Container(
@@ -901,6 +937,54 @@ AppBar profileAppBar(double screenHeight, double screenWidth,
                     ),
                   ),
                   appBarTextButton("Save"),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+AppBar profileAppBar1(double screenHeight, double screenWidth,
+    BuildContext context, String headline, Future<void> Function() onSave) {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    backgroundColor: Colors.white,
+    toolbarHeight: screenHeight * 0.105,
+    actions: [
+      SizedBox(
+        width: screenWidth,
+        height: screenHeight * 0.08,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                  left: screenWidth * 0.02,
+                  right: screenWidth * 0.02,
+                  top: screenHeight * 0.02,
+                  bottom: screenHeight * 0.005),
+              height: screenHeight * 0.02,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  appBarTextButton1(
+                      "Cancel", onSave, context, screenWidth, screenHeight),
+                  Text(
+                    headline,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontFamily: fontFamily,
+                      color: Colors.black,
+                    ),
+                  ),
+                  appBarTextButton1(
+                      "Save", onSave, context, screenWidth, screenHeight),
                 ],
               ),
             ),
