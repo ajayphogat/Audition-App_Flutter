@@ -20,6 +20,7 @@ class _SHomePageState extends State<SHomePage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    final sUser = Provider.of<StudioProvider>(context).user;
 
     return Scaffold(
       appBar: AppBar(
@@ -94,7 +95,7 @@ class _SHomePageState extends State<SHomePage> {
                   ),
                   SizedBox(width: screenWidth * 0.03),
                   Text(
-                    "name",
+                    sUser.fname,
                   ),
                 ],
               ),
@@ -198,17 +199,22 @@ class _SHomePageState extends State<SHomePage> {
                           width: screenWidth * 0.05,
                         ),
                         newVerticalContainer(screenWidth, screenHeight,
-                            "Number of application received", "300"),
+                            "Number of total Applicants", "300"),
                         SizedBox(
                           width: screenWidth * 0.05,
                         ),
                         newVerticalContainer(screenWidth, screenHeight,
-                            "Number of application shortlisted", "37"),
+                            "Number of shortlisted Applicants", "37"),
                         SizedBox(
                           width: screenWidth * 0.05,
                         ),
                         newVerticalContainer(screenWidth, screenHeight,
-                            "Number of posted jobs", "45"),
+                            "Number of accepted Applicants", "45"),
+                        SizedBox(
+                          width: screenWidth * 0.05,
+                        ),
+                        newVerticalContainer(screenWidth, screenHeight,
+                            "Number of jobs bookmarked", "45"),
                       ],
                     ),
                   ),

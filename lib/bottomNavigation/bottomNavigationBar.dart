@@ -1,8 +1,11 @@
+import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/bottomNavigation/inbox.dart';
 import 'package:first_app/bottomNavigation/myApplication.dart';
+import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
+import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +33,11 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     setState(() {
       _page = page;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

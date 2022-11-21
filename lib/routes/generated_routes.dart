@@ -4,7 +4,16 @@ import 'package:first_app/bottomNavigation/inbox.dart';
 import 'package:first_app/bottomNavigation/myApplication.dart';
 import 'package:first_app/login/loginPage.dart';
 import 'package:first_app/login/signUpPage.dart';
+import 'package:first_app/pages/categorySection/actorPageGrid.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
+import 'package:first_app/pages/categorySection/chefPageGrid.dart';
+import 'package:first_app/pages/categorySection/chirographerPageGrid.dart';
+import 'package:first_app/pages/categorySection/dancerPageGrid.dart';
+import 'package:first_app/pages/categorySection/designerPageGrid.dart';
+import 'package:first_app/pages/categorySection/musicianPageGrid.dart';
+import 'package:first_app/pages/categorySection/painterPageGrid.dart';
+import 'package:first_app/pages/categorySection/singerPageGrid.dart';
+import 'package:first_app/pages/categorySection/writerPageGrid.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/inboxPages/messagePage.dart';
 import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
@@ -44,7 +53,6 @@ import '../login/mainPage.dart';
 import '../login/verifiedPage.dart';
 import '../login/verifyMobile.dart';
 import '../pages/categorySection/categoryDetailPage.dart';
-import '../pages/categorySection/categoryPageGrid.dart';
 import '../pages/categorySection/descriptionPage.dart';
 import '../pages/categorySection/studio_description.dart';
 import '../pages/splashScreen/firstScreen.dart';
@@ -122,11 +130,11 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
         builder: (_) => const CategoryDetailPage(),
       );
 
-    case CategoryGirdPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const CategoryGirdPage(),
-      );
+    // case CategoryGirdPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const CategoryGirdPage(),
+    //   );
 
     // Description Page
     case DescriptionPage.routeName:
@@ -388,6 +396,60 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const SBottomNavigationPage(),
+      );
+
+    case ActorGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ActorGridPage(),
+      );
+
+    case ChefGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ChefGridPage(),
+      );
+
+    case DancerGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const DancerGridPage(),
+      );
+
+    case DesignerGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const DesignerGridPage(),
+      );
+
+    case SingerGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SingerGridPage(),
+      );
+
+    case ChirographerGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ChirographerGridPage(),
+      );
+
+    case PainterGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const PainterGridPage(),
+      );
+
+    case MusicianGridPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const MusicianGridPage(),
+      );
+
+    case WriterGridpage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const WriterGridpage(),
       );
 
     default:

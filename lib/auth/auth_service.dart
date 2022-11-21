@@ -174,6 +174,7 @@ class AuthService {
 
           // print(jsonDecode(userResp.body));
         } else {
+          print("pop");
           navigatePush();
         }
       } else if ((tokenAudition == null || tokenAudition.isEmpty) &&
@@ -203,6 +204,7 @@ class AuthService {
       }
     } catch (e) {
       showSnackBar(context, e.toString());
+      // print(e.toString());
     }
   }
 
@@ -626,6 +628,12 @@ class AuthService {
         number: number,
         password: password,
         token: "",
+        location: "",
+        views: 0,
+        projectDesc: "",
+        aboutDesc: "",
+        followers: [],
+        post: [],
       );
 
       http.Response res = await http.post(Uri.parse("$url/api/studio/signup"),
@@ -662,6 +670,12 @@ class AuthService {
         number: "",
         password: password,
         token: "",
+        location: "",
+        views: 0,
+        projectDesc: "",
+        aboutDesc: "",
+        followers: [],
+        post: [],
       );
 
       http.Response res = await http.post(Uri.parse("$url/api/studio/login"),
@@ -684,6 +698,154 @@ class AuthService {
                 "x-studio-token", jsonDecode(res.body)['token']);
             await prefs.remove("x-auth-token");
             navigator(SBottomNavigationPage.routeName);
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> updateNameLoc({
+    required BuildContext context,
+    required String fname,
+    required String location,
+  }) async {
+    try {
+      var user = StudioModel(
+        id: "",
+        fname: fname,
+        email: "",
+        number: "",
+        password: "",
+        token: "",
+        location: location,
+        views: 0,
+        projectDesc: "",
+        aboutDesc: "",
+        followers: [],
+        post: [],
+      );
+      var userProvider = Provider.of<StudioProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString("x-studio-token");
+
+      if (token == null) {
+        await prefs.setString("x-studio-token", "");
+        token = prefs.getString("x-studio-token");
+      }
+
+      http.Response res = await http.post(
+          Uri.parse("$url/api/studio/updateNameLoc"),
+          body: user.toJson(),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-studio-token": token!,
+          });
+
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            userProvider.setUser(res.body);
+            showSnackBar(context, "Saved Successfully!");
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> updateProjectDesc({
+    required BuildContext context,
+    required String projectDesc,
+  }) async {
+    try {
+      var user = StudioModel(
+        id: "",
+        fname: "",
+        email: "",
+        number: "",
+        password: "",
+        token: "",
+        location: "",
+        views: 0,
+        projectDesc: projectDesc,
+        aboutDesc: "",
+        followers: [],
+        post: [],
+      );
+      var userProvider = Provider.of<StudioProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString("x-studio-token");
+
+      if (token == null) {
+        await prefs.setString("x-studio-token", "");
+        token = prefs.getString("x-studio-token");
+      }
+
+      http.Response res = await http.post(
+          Uri.parse("$url/api/studio/updateProjectDesc"),
+          body: user.toJson(),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-studio-token": token!,
+          });
+
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            userProvider.setUser(res.body);
+            showSnackBar(context, "Saved Successfully!");
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> updateAboutDesc({
+    required BuildContext context,
+    required String aboutDesc,
+  }) async {
+    try {
+      var user = StudioModel(
+        id: "",
+        fname: "",
+        email: "",
+        number: "",
+        password: "",
+        token: "",
+        location: "",
+        views: 0,
+        projectDesc: "",
+        aboutDesc: aboutDesc,
+        followers: [],
+        post: [],
+      );
+      var userProvider = Provider.of<StudioProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString("x-studio-token");
+
+      if (token == null) {
+        await prefs.setString("x-studio-token", "");
+        token = prefs.getString("x-studio-token");
+      }
+
+      http.Response res = await http.post(
+          Uri.parse("$url/api/studio/updateAboutDesc"),
+          body: user.toJson(),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-studio-token": token!,
+          });
+
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            userProvider.setUser(res.body);
+            showSnackBar(context, "Saved Successfully!");
           });
     } catch (e) {
       showSnackBar(context, e.toString());

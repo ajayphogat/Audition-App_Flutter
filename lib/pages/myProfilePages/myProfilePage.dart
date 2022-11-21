@@ -564,18 +564,18 @@ class _MyProfilePageState extends State<MyProfilePage>
                               color: Colors.grey.shade300,
                               thickness: 10,
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, CreateProfilePage.routeName);
-                              },
-                              child: simpleArrowColumn(screenHeight,
-                                  screenWidth, "Create Another Profile"),
-                            ),
-                            Divider(
-                              color: Colors.grey.shade300,
-                              thickness: 10,
-                            ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.pushNamed(
+                            //         context, CreateProfilePage.routeName);
+                            //   },
+                            //   child: simpleArrowColumn(screenHeight,
+                            //       screenWidth, "Create Another Profile"),
+                            // ),
+                            // Divider(
+                            //   color: Colors.grey.shade300,
+                            //   thickness: 10,
+                            // ),
                             InkWell(
                               onTap: () {
                                 setState(() {

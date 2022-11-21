@@ -64,68 +64,68 @@ const List<String> imageData = [
   "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=697&q=80",
 ];
 
-const List<List<String>> actorData = [
-  [
-    "Diam ullamcorper",
-    "Sed neque, ac",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/1.png",
-  ],
-  [
-    "Leo ultrices",
-    "Tincidunt pellentesque",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/2.png",
-  ],
-  [
-    "Purus vestibulum",
-    "Vitae a massa",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/3.png",
-  ],
-  [
-    "Sed scelerisque",
-    "Lacus, dui eu",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/4.png",
-  ],
-  [
-    "Gravida luctus",
-    "Nam varius eget",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/5.png",
-  ],
-  [
-    "Dictum dui",
-    "Risus posuere ipsum",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/6.png",
-  ],
-  [
-    "Sapien, maecenas",
-    "Amet dolor sit",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/7.png",
-  ],
-  [
-    "Vivamus non",
-    "Aliquam non id",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/8.png",
-  ],
-  [
-    "Pulvinar eu",
-    "Quis tempus sit",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/9.png",
-  ],
-  [
-    "Faucibus tortor",
-    "Tellus in egestas",
-    "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-    "asset/images/uiImages/10.png",
-  ],
-];
+// const List<List<String>> actorData = [
+//   [
+//     "Diam ullamcorper",
+//     "Sed neque, ac",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/1.png",
+//   ],
+//   [
+//     "Leo ultrices",
+//     "Tincidunt pellentesque",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/2.png",
+//   ],
+//   [
+//     "Purus vestibulum",
+//     "Vitae a massa",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/3.png",
+//   ],
+//   [
+//     "Sed scelerisque",
+//     "Lacus, dui eu",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/4.png",
+//   ],
+//   [
+//     "Gravida luctus",
+//     "Nam varius eget",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/5.png",
+//   ],
+//   [
+//     "Dictum dui",
+//     "Risus posuere ipsum",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/6.png",
+//   ],
+//   [
+//     "Sapien, maecenas",
+//     "Amet dolor sit",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/7.png",
+//   ],
+//   [
+//     "Vivamus non",
+//     "Aliquam non id",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/8.png",
+//   ],
+//   [
+//     "Pulvinar eu",
+//     "Quis tempus sit",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/9.png",
+//   ],
+//   [
+//     "Faucibus tortor",
+//     "Tellus in egestas",
+//     "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
+//     "asset/images/uiImages/10.png",
+//   ],
+// ];
 
 const List<String> profileData = [
   "Basic Info",

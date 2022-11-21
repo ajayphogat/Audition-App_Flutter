@@ -1,7 +1,10 @@
+import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
+import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:readmore/readmore.dart';
@@ -27,6 +30,18 @@ class _DescriptionPageState extends State<DescriptionPage>
   int _activePage = 0;
   double opacityValue = 1.0;
 
+  bool isfollowed = false;
+  bool isBookmarked = false;
+  final OtherService otherService = OtherService();
+
+  Future<void> followStudio(followId) async {
+    await otherService.followStudio(context: context, toFollowId: followId);
+  }
+
+  Future<void> unFollowStudio(followId) async {
+    await otherService.unfollowStudio(context: context, toFollowId: followId);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,39 +59,14 @@ class _DescriptionPageState extends State<DescriptionPage>
           y = 2.8;
         });
       }
-
-      // var currentContext = _key.currentContext;
-      // var renderObject = currentContext?.findRenderObject();
-      // var viewport = RenderAbstractViewport.of(renderObject);
-      // var offsetToRevealBottom =
-      //     viewport!.getOffsetToReveal(renderObject!, 1.0);
-      // var offsetToRevealTop = viewport.getOffsetToReveal(renderObject, 0.0);
-
-      // if (_scrollController.position.userScrollDirection ==
-      //     ScrollDirection.reverse) {
-      //   if (offsetToRevealTop.offset <= _scrollController.position.pixels) {
-      //     setState(() {
-      //       y = 1;
-      //     });
-      //   }
-      // }
-      // if (_scrollController.position.userScrollDirection ==
-      //     ScrollDirection.forward) {
-      //   if (-(offsetToRevealBottom.offset) >=
-      //       _scrollController.position.pixels) {
-      //     setState(() {
-      //       y = 2.8;
-      //     });
-      //   }
-      // }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    JobModel _argument = ModalRoute.of(context)!.settings.arguments as JobModel;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.07,
@@ -95,20 +85,6 @@ class _DescriptionPageState extends State<DescriptionPage>
                     Navigator.pop(context);
                   },
                 ),
-                // Row(
-                //   children: [
-                //     IconButton(
-                //       onPressed: () {},
-                //       icon: const Icon(MyFlutterApp.bookmark,
-                //           color: Colors.black),
-                //     ),
-                //     IconButton(
-                //       onPressed: () {},
-                //       icon: const Icon(MyFlutterApp.share_fill,
-                //           color: Colors.black),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -125,17 +101,17 @@ class _DescriptionPageState extends State<DescriptionPage>
                 children: [
                   PageView(
                     children: [
-                      Image.asset(
-                        "asset/images/uiImages/rr.png",
-                        fit: BoxFit.cover,
+                      Image.network(
+                        _argument.images[0],
+                        fit: BoxFit.contain,
                       ),
-                      Image.asset(
-                        "asset/images/uiImages/rr.png",
-                        fit: BoxFit.cover,
+                      Image.network(
+                        _argument.images[0],
+                        fit: BoxFit.contain,
                       ),
-                      Image.asset(
-                        "asset/images/uiImages/rr.png",
-                        fit: BoxFit.cover,
+                      Image.network(
+                        _argument.images[-0],
+                        fit: BoxFit.contain,
                       ),
                     ],
                     onPageChanged: (page) {
@@ -150,7 +126,7 @@ class _DescriptionPageState extends State<DescriptionPage>
                     child: Row(
                       children: List<Widget>.generate(3, (index) {
                         return Container(
-                          margin: EdgeInsets.all(3),
+                          margin: const EdgeInsets.all(3),
                           width: 10,
                           height: 10,
                           decoration: BoxDecoration(
@@ -189,7 +165,16 @@ class _DescriptionPageState extends State<DescriptionPage>
                   // ),
                   Row(
                     children: [
-                      yellowCircleButton(screenHeight, MyFlutterApp.bookmark),
+                      InkWell(
+                          onTap: () {
+                            isBookmarked = !isBookmarked;
+                            setState(() {});
+                          },
+                          child: yellowCircleButton(
+                              screenHeight,
+                              isBookmarked
+                                  ? Icons.bookmark_remove
+                                  : MyFlutterApp.bookmark)),
                       SizedBox(width: screenWidth * 0.08),
                       yellowCircleButton(screenHeight, MyFlutterApp.share_fill),
                     ],
@@ -224,32 +209,32 @@ class _DescriptionPageState extends State<DescriptionPage>
                       SizedBox(width: screenWidth * 0.03),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            "Wade Warren",
-                            style: TextStyle(
+                            _argument.studioName,
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
-                          SizedBox(height: 3),
+                          const SizedBox(height: 3),
                           Text(
-                            "200 Applicants",
-                            style: TextStyle(
+                            "${_argument.applicants.length} Applicants",
+                            style: const TextStyle(
                               fontSize: 11,
                               color: Color(0xFFF9D422),
                             ),
                           ),
-                          SizedBox(height: 3),
+                          const SizedBox(height: 3),
                           Text(
-                            "Eleifend neque at",
-                            style: TextStyle(
+                            _argument.jobType,
+                            style: const TextStyle(
                               fontSize: 11,
                             ),
                           ),
-                          SizedBox(height: 3),
+                          const SizedBox(height: 3),
                           Text(
-                            "instagram.com/hdjdm",
-                            style: TextStyle(
+                            _argument.socialMedia,
+                            style: const TextStyle(
                               fontSize: 11,
                             ),
                           ),
@@ -257,20 +242,38 @@ class _DescriptionPageState extends State<DescriptionPage>
                       ),
                     ],
                   ),
-                  Container(
-                    width: screenWidth * 0.18,
-                    height: screenHeight * 0.020,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: Colors.black,
+                  InkWell(
+                    onTap: () async {
+                      navigatorPop() => Navigator.pop(context);
+                      // TODO: bookmark api connect
+                      if (isfollowed == true) {
+                        CircularProgressIndicator();
+                        await unFollowStudio(_argument.studio);
+                        navigatorPop();
+                      } else {
+                        CircularProgressIndicator();
+                        await followStudio(_argument.studio);
+                        navigatorPop();
+                      }
+                      isfollowed = !isfollowed;
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: screenWidth * 0.18,
+                      height: screenHeight * 0.020,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                        color: isfollowed ? secondoryColor : Colors.white,
                       ),
-                    ),
-                    child: const Text(
-                      "Follow",
-                      style: TextStyle(
-                        fontSize: 12,
+                      child: Text(
+                        isfollowed ? "Unfollow" : "Follow",
+                        style: const TextStyle(
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),

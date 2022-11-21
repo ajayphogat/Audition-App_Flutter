@@ -3,6 +3,7 @@ import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/pages/splashScreen/firstScreen.dart';
 import 'package:first_app/pages/splashScreen/firstScreenNew.dart';
+import 'package:first_app/provider/job_post_provider.dart';
 import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/provider/user_provider.dart';
 import 'package:first_app/routes/generated_routes.dart';
@@ -18,6 +19,9 @@ void main() => runApp(MultiProvider(providers: [
       ),
       ChangeNotifierProvider(
         create: (context) => StudioProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => JobProvider(),
       ),
     ], child: const MyAPP()));
 

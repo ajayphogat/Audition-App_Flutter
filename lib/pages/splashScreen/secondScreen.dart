@@ -91,21 +91,23 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                     }),
                   ),
                   InkWell(
-                    onTap: () {
-                      setState(() {
-                        _activePage = _activePage + 1;
-                        if (_activePage > 2) {
-                          Navigator.pushNamed(context, MainPage.routeName);
-                          _activePage = 2;
-                          // Future.delayed(const Duration(seconds: 1));
-                          // _activePage = 0;
-                          // _pageController.jumpToPage(_activePage);
-                        } else {
-                          _pageController.animateToPage(_activePage,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.linear);
-                        }
-                      });
+                    onTap: () async {
+                      _activePage = _activePage + 1;
+
+                      if (_activePage > 2) {
+                        // setState(() {
+                        _activePage = 2;
+                        Navigator.pushNamed(context, MainPage.routeName);
+                        // });
+
+                      } else {
+                        await _pageController.nextPage(
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.decelerate);
+                        // await _pageController.animateToPage(_activePage,
+                        //     duration: const Duration(milliseconds: 200),
+                        //     curve: Curves.linear);
+                      }
                     },
                     child: Container(
                       width: screenWidth * 0.14,

@@ -1,11 +1,16 @@
+import 'package:first_app/auth/auth_service.dart';
+import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
+import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
+import '../pages/categorySection/descriptionPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,6 +22,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final OtherService otherService = OtherService();
+  List<JobModel>? allJobs;
+
+  getAllJobs() async {
+    allJobs = await otherService.getAllJobs(context: context);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getAllJobs();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -131,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.pushNamed(
                             context, CategoryDetailPage.routeName,
-                            arguments: index);
+                            arguments: [index, allJobs]);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -160,102 +179,99 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.04),
-              Container(
-                padding: EdgeInsets.only(left: screenWidth * 0.04),
-                width: screenWidth,
-                child: const Text(
-                  "Recently",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: fontFamily,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              seeAllContainer(screenWidth, screenHeight),
-              SizedBox(
-                height: screenHeight * 0.372,
-                child: ListView(
-                  padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    textContainer(
-                        screenWidth,
-                        screenHeight,
-                        "Ac rhoncus, sit aenean",
-                        "Rutrum ut vulputate nulla",
-                        "Actor",
-                        "green_work"),
-                    textContainer(
-                        screenWidth,
-                        screenHeight,
-                        "Tincidunt dui elit eu",
-                        "Venenatis sed pell",
-                        "Dancer",
-                        "black_dance"),
-                    textContainer(
-                        screenWidth,
-                        screenHeight,
-                        "Ac rhoncus, sit aenean",
-                        "Rutrum ut vulputate nulla",
-                        "Actor",
-                        "black_band"),
-                  ],
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.04),
-              Container(
-                padding: EdgeInsets.only(left: screenWidth * 0.04),
-                width: screenWidth,
-                height: screenHeight * 0.035,
-                child: const Text(
-                  "More",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: fontFamily,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              seeAllContainer(screenWidth, screenHeight),
-              SizedBox(
-                height: screenHeight * 0.372,
-                child: ListView(
-                  padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    textContainer(
-                        screenWidth,
-                        screenHeight,
-                        "Tincidunt commodo",
-                        "Tristique ac sit bibendum",
-                        "Musician",
-                        "red_shooting"),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: textContainer(
-                          screenWidth,
-                          screenHeight,
-                          "Lesi a imperdiet",
-                          "Magna egpulvinar eget",
-                          "Dancer",
-                          "white_dress_dance"),
+              ((allJobs == null) || (allJobs!.isEmpty))
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: screenWidth * 0.04),
+                          width: screenWidth,
+                          child: const Text(
+                            "Recently",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontFamily: fontFamily,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        seeAllContainer(screenWidth, screenHeight),
+                        SizedBox(
+                          height: screenHeight * 0.372,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(
+                                left: 10, top: 10, bottom: 10),
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              JobModel job = allJobs![index];
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, DescriptionPage.routeName,
+                                      arguments: job);
+                                },
+                                child: textContainer(
+                                    screenWidth,
+                                    screenHeight,
+                                    job.description.substring(0, 21),
+                                    job.studioName.length > 25
+                                        ? job.studioName.substring(0, 24)
+                                        : job.studioName,
+                                    job.jobType,
+                                    job.images),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.04),
+                        Container(
+                          padding: EdgeInsets.only(left: screenWidth * 0.04),
+                          width: screenWidth,
+                          height: screenHeight * 0.035,
+                          child: const Text(
+                            "More",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontFamily: fontFamily,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        seeAllContainer(screenWidth, screenHeight),
+                        SizedBox(
+                          height: screenHeight * 0.372,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(
+                                left: 10, top: 10, bottom: 10),
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              JobModel job = allJobs![index];
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, DescriptionPage.routeName,
+                                      arguments: job);
+                                },
+                                child: textContainer(
+                                    screenWidth,
+                                    screenHeight,
+                                    job.description.substring(0, 21),
+                                    job.studioName.length > 25
+                                        ? job.studioName.substring(0, 24)
+                                        : job.studioName,
+                                    job.jobType,
+                                    job.images),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: textContainer(
-                          screenWidth,
-                          screenHeight,
-                          "Ac rhoncus aenean",
-                          "Diam enim, lacus, amet",
-                          "Musician",
-                          "colorfull_band"),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
@@ -269,12 +285,18 @@ class _HomePageState extends State<HomePage> {
           right: screenWidth * 0.07, bottom: screenHeight * 0.02),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: const [
-          Text(
-            "See All",
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-              color: thirdColor,
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, CategoryDetailPage.routeName,
+                  arguments: [0, allJobs]);
+            },
+            child: const Text(
+              "See All",
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                color: thirdColor,
+              ),
             ),
           ),
         ],

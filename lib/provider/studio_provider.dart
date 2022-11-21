@@ -9,6 +9,12 @@ class StudioProvider extends ChangeNotifier {
     number: "",
     password: "",
     token: "",
+    location: "",
+    views: 0,
+    projectDesc: "",
+    aboutDesc: "",
+    followers: [],
+    post: [],
   );
 
   StudioModel get user => _user;

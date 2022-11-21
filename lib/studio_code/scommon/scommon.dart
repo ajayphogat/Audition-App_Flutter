@@ -883,7 +883,7 @@ Container yellowCircleButton(double screenHeight, IconData icon) {
   );
 }
 
-Future<dynamic> newDialogBox(BuildContext context, double screenWidth,
+Future<dynamic> newDialogBox1(BuildContext context, double screenWidth,
     double screenHeight, String text, String text2, bool a, String routeName) {
   return showDialog(
     context: context,

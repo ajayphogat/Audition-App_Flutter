@@ -1,44 +1,44 @@
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
-import 'package:first_app/provider/studio_provider.dart';
+import 'package:first_app/constants.dart';
+import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/studio_code/scommon/scommon.dart';
-import 'package:first_app/studio_code/sconstants.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/ssubscriptionPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../customize/my_flutter_app_icons.dart';
+import '../../../../provider/studio_provider.dart';
 
-class SProjectPage extends StatefulWidget {
-  const SProjectPage({Key? key}) : super(key: key);
+class SAboutPage extends StatefulWidget {
+  const SAboutPage({Key? key}) : super(key: key);
 
-  static const String routeName = "/project-page";
+  static const String routeName = "/about-page";
 
   @override
-  State<SProjectPage> createState() => _SProjectPageState();
+  State<SAboutPage> createState() => _SAboutPageState();
 }
 
-class _SProjectPageState extends State<SProjectPage> {
-  late TextEditingController _projectDesc;
+class _SAboutPageState extends State<SAboutPage> {
+  late TextEditingController _aboutDesc;
 
   final AuthService authService = AuthService();
 
-  Future<void> updateProjectDesc() async {
-    await authService.updateProjectDesc(
+  Future<void> updateAboutDesc() async {
+    await authService.updateAboutDesc(
       context: context,
-      projectDesc: _projectDesc.text,
+      aboutDesc: _aboutDesc.text,
     );
   }
 
   @override
   void initState() {
-    _projectDesc = TextEditingController();
+    _aboutDesc = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _projectDesc.dispose();
+    _aboutDesc.dispose();
     super.dispose();
   }
 
@@ -51,19 +51,19 @@ class _SProjectPageState extends State<SProjectPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            user.projectDesc.isEmpty
+            user.aboutDesc.isEmpty
                 ? InkWell(
                     onTap: () async {
-                      _projectDesc.text = user.projectDesc;
-                      await projectDescPopup(
-                          context, screenWidth, screenHeight, _projectDesc);
+                      _aboutDesc.text = user.aboutDesc;
+                      await aboutDescPopup(
+                          context, screenWidth, screenHeight, _aboutDesc);
                     },
                     child: Container(
                       width: screenWidth,
                       height: screenHeight * 0.10,
                       alignment: Alignment.center,
                       child: const Text(
-                        "Click to add Project Description",
+                        "Click to wirte about your studio",
                         style: TextStyle(
                           color: placeholderTextColor,
                         ),
@@ -79,9 +79,9 @@ class _SProjectPageState extends State<SProjectPage> {
                         margin: EdgeInsets.only(bottom: screenHeight * 0.01),
                         child: InkWell(
                           onTap: () async {
-                            _projectDesc.text = user.projectDesc;
-                            await projectDescPopup(context, screenWidth,
-                                screenHeight, _projectDesc);
+                            _aboutDesc.text = user.aboutDesc;
+                            await aboutDescPopup(
+                                context, screenWidth, screenHeight, _aboutDesc);
                           },
                           child: const Icon(
                             MyFlutterApp.edit_black,
@@ -98,7 +98,7 @@ class _SProjectPageState extends State<SProjectPage> {
                           bottom: screenHeight * 0.02,
                         ),
                         child: Text(
-                          user.projectDesc,
+                          user.aboutDesc,
                           style: const TextStyle(
                             fontSize: 12,
                           ),
@@ -127,7 +127,7 @@ class _SProjectPageState extends State<SProjectPage> {
     );
   }
 
-  Future<dynamic> projectDescPopup(BuildContext context, double screenWidth,
+  Future<dynamic> aboutDescPopup(BuildContext context, double screenWidth,
       double screenHeight, TextEditingController controller) {
     return showDialog(
       context: context,
@@ -148,7 +148,7 @@ class _SProjectPageState extends State<SProjectPage> {
                   maxLines: null,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Your Project Description...",
+                    hintText: "About your studio...",
                   ),
                 ),
               ),
@@ -165,7 +165,7 @@ class _SProjectPageState extends State<SProjectPage> {
                     onPressed: () async {
                       navigatePop() => Navigator.pop(context);
                       circularProgressIndicatorNew(context);
-                      await updateProjectDesc();
+                      await updateAboutDesc();
                       navigatePop();
                       navigatePop();
                     },

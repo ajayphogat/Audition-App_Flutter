@@ -121,7 +121,7 @@ InkWell longBasicButton(BuildContext context, routeName, String text) {
 }
 
 Widget textContainer(double screenWidth, double screenHeight, String s1,
-    String s2, String s3, picture) {
+    String s2, String s3, List<dynamic> picture) {
   return Padding(
     padding: const EdgeInsets.only(
       right: 10,
@@ -148,8 +148,8 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
                 ),
               ),
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Image.asset(
-                "asset/images/uiImages/$picture.png",
+              child: Image.network(
+                picture[0],
                 fit: BoxFit.cover,
               ),
             ),
@@ -229,7 +229,7 @@ Material gridViewContainer(BuildContext context, double screenWidth,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(5), topRight: Radius.circular(5)),
             ),
-            child: Image.asset(
+            child: Image.network(
               s4,
               isAntiAlias: true,
               fit: BoxFit.cover,
@@ -241,9 +241,9 @@ Material gridViewContainer(BuildContext context, double screenWidth,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Tempor ante ullamcorper tortor cras morbi urna vestibulum, se......",
-                  style: TextStyle(
+                Text(
+                  s3.substring(0, 60),
+                  style: const TextStyle(
                     fontSize: 12,
                   ),
                 ),

@@ -1,8 +1,7 @@
 import 'package:first_app/auth/auth_service.dart';
-import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/provider/user_provider.dart';
+import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/smyProfilePage.dart';
@@ -30,7 +29,7 @@ class _SMyProfileState extends State<SMyProfile> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    var user = Provider.of<UserProvider>(context).user;
+    var sUser = Provider.of<StudioProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -63,8 +62,11 @@ class _SMyProfileState extends State<SMyProfile> {
                         icon: const Icon(MyFlutterApp.arrow_down_2,
                             color: Colors.black),
                         onPressed: () {
-                          bottomPageUp(context, screenHeight, screenWidth,
-                              user.token.isEmpty);
+                          bottomPageUp(
+                            context,
+                            screenHeight,
+                            screenWidth,
+                          );
                         },
                       ),
                     ],
@@ -94,8 +96,8 @@ class _SMyProfileState extends State<SMyProfile> {
     );
   }
 
-  Future<dynamic> bottomPageUp(BuildContext context, double screenHeight,
-      double screenWidth, bool switched) {
+  Future<dynamic> bottomPageUp(
+      BuildContext context, double screenHeight, double screenWidth) {
     return showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(

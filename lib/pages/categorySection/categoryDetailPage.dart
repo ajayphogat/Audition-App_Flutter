@@ -1,6 +1,14 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
-import 'package:first_app/pages/categorySection/categoryPageGrid.dart';
+import 'package:first_app/pages/categorySection/actorPageGrid.dart';
+import 'package:first_app/pages/categorySection/chefPageGrid.dart';
+import 'package:first_app/pages/categorySection/chirographerPageGrid.dart';
+import 'package:first_app/pages/categorySection/dancerPageGrid.dart';
+import 'package:first_app/pages/categorySection/designerPageGrid.dart';
+import 'package:first_app/pages/categorySection/musicianPageGrid.dart';
+import 'package:first_app/pages/categorySection/painterPageGrid.dart';
+import 'package:first_app/pages/categorySection/singerPageGrid.dart';
+import 'package:first_app/pages/categorySection/writerPageGrid.dart';
 import 'package:flutter/material.dart';
 
 class CategoryDetailPage extends StatefulWidget {
@@ -33,8 +41,8 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    var page = ModalRoute.of(context)!.settings.arguments as int;
-    _tabController.index = page;
+    List<dynamic> argument = ModalRoute.of(context)!.settings.arguments as List;
+    _tabController.index = argument[0] as int;
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -44,15 +52,15 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
       body: TabBarView(
         controller: _tabController,
         children: const [
-          CategoryGirdPage(),
-          CategoryGirdPage(),
-          CategoryGirdPage(),
-          CategoryGirdPage(),
-          CategoryGirdPage(),
-          CategoryGirdPage(),
-          CategoryGirdPage(),
-          CategoryGirdPage(),
-          CategoryGirdPage(),
+          ActorGridPage(),
+          DancerGridPage(),
+          WriterGridpage(),
+          MusicianGridPage(),
+          PainterGridPage(),
+          ChirographerGridPage(),
+          SingerGridPage(),
+          DesignerGridPage(),
+          ChefGridPage(),
         ],
       ),
     );
