@@ -62,6 +62,10 @@ let auditionSchema = mongoose.Schema({
         trim: true,
         default: "",
     },
+    profilePic: {
+        type: schemaType.String,
+        default: "",
+    },
 
     visibility: {
         type: schemaType.String,
@@ -175,6 +179,30 @@ let auditionSchema = mongoose.Schema({
         {
             type: schemaType.ObjectId,
             ref: "post",
+        }
+    ],
+    photos: [
+        {
+            type: schemaType.String,
+            default: "",
+        }
+    ],
+    videos: [
+        {
+            type: schemaType.String,
+            default: "",
+        }
+    ],
+    audios: [
+        {
+            type: schemaType.String,
+            default: "",
+        }
+    ],
+    documents: [
+        {
+            type: schemaType.String,
+            default: "",
         }
     ],
 });

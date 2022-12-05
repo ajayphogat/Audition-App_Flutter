@@ -888,4 +888,20 @@ userAuth.post("/api/studio/getArtistData", sAuth, async (req, res) => {
 });
 
 
+
+// profilePic upload
+userAuth.post("api/upload/profilePic", auth, async (req, res) => {
+    try {
+        console.log(req.body.profilePicUrl);
+        await userModel.findByIdAndUpdate(req.user, { $set: { profileUrl: req.body.profilePicUrl } }, { new: true }, (error, result) => {
+            if (error) return res.status(401).json({ msg: error.message });
+            console.log(result);
+            return res.json(result);
+        });
+    } catch (error) {
+        res.status(501).json({ error: error.message });
+    }
+});
+
+
 module.exports = userAuth;
