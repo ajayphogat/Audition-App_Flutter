@@ -7,7 +7,7 @@ const switchAuth = require("./auth/switch_account_auth");
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; 
 const db = "mongodb+srv://hackingdna:password3@cluster0.uyol6gn.mongodb.net/AuditionDB";
 // const db = "mongodb://127.0.0.1:27017/AuditionDB";
 // const db = "mongodb://127.0.0.1:27017/AuditionDB";
