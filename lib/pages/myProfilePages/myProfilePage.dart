@@ -1,10 +1,11 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
-import 'package:first_app/pages/myProfilePages/detailPages/createProfilePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/creditsPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/membershipPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/skillsPage.dart';
@@ -12,11 +13,13 @@ import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart'
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/provider/studio_provider.dart';
-import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
+import 'package:first_app/utils/showSnackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../provider/user_provider.dart';
+import 'package:path/path.dart' as p;
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -31,9 +34,12 @@ class _MyProfilePageState extends State<MyProfilePage>
     with TickerProviderStateMixin {
   late TabController _tabController;
   bool short = true;
+  File? profilePic;
 
   late TextEditingController _bioController;
   final AuthService authService = AuthService();
+
+  final _firebaseStorage = FirebaseStorage.instance;
 
   Future<void> changeBio() async {
     await authService.changeBio(bio: _bioController.text, context: context);
@@ -41,6 +47,74 @@ class _MyProfilePageState extends State<MyProfilePage>
 
   Future<void> switchToStudio() async {
     await authService.switchToStudio(context: context);
+  }
+
+  Future<void> uploadImageGallary(String userId) async {
+    final imagePicker = ImagePicker();
+    File? image;
+    showsnack(e) => showSnackBar(context, e.toString());
+
+    image = await imagePicker.pickImage(source: ImageSource.gallery) as File;
+    var file = File(image.path);
+
+    if (image != null) {
+      final fileName = p.basename(file.path);
+      // setState(() {
+      //   profilePic = file;
+      // });
+
+      try {
+        //Upload to Firebase
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
+            .putFile(file);
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        print(downloadUrl);
+        await uploadProfilePic(downloadUrl);
+      } catch (e) {
+        showsnack(e);
+      }
+    } else {
+      showsnack("No Image Selected");
+    }
+  }
+
+  Future imgFromCamera(String userId) async {
+    final imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
+    showsnack(e) => showSnackBar(context, e.toString());
+
+    if (pickedFile != null) {
+      var file = File(pickedFile.path);
+      final fileName = p.basename(file.path);
+      setState(() {
+        profilePic = file;
+      });
+
+      try {
+        //Upload to Firebase
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
+            .putFile(file)
+            .whenComplete(() {
+          print("completed");
+        });
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        print(snapshot.state);
+        print(downloadUrl);
+        await uploadProfilePic(downloadUrl);
+      } catch (e) {
+        showsnack(e.toString());
+      }
+    } else {
+      showsnack("No image selected");
+    }
+  }
+
+  Future<void> uploadProfilePic(String url) async {
+    await authService.updateProfilePic(context: context, url: url);
   }
 
   @override
@@ -62,6 +136,8 @@ class _MyProfilePageState extends State<MyProfilePage>
     double screenWidth = MediaQuery.of(context).size.width;
     var user = Provider.of<UserProvider>(context).user;
     var studioUser = Provider.of<StudioProvider>(context).user;
+    print("profile pic");
+    print(user.profilePic.isEmpty);
 
     return Scaffold(
       body: SafeArea(
@@ -81,18 +157,28 @@ class _MyProfilePageState extends State<MyProfilePage>
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(60),
                     ),
-                    child: Image.asset(
-                      "asset/images/uiImages/actor.jpg",
-                      fit: BoxFit.cover,
-                      alignment: Alignment.topCenter,
-                    ),
+                    child: user.profilePic.isEmpty
+                        ? Container(
+                            color: Colors.black,
+                          )
+                        : Image.network(user.profilePic),
+
+                    // Image.asset(
+                    //   profilePic != null
+                    //       ? profilePic!.path
+                    //       : "asset/images/uiImages/actor.jpg",
+                    //   fit: BoxFit.cover,
+                    //   alignment: Alignment.topCenter,
+                    // ),
                   ),
                 ),
                 Positioned(
                   right: 10,
                   top: screenHeight * 0.02,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      _showPicker(context, user.id);
+                    },
                     child: const Icon(
                       MyFlutterApp.camera_black,
                       color: placeholderTextColor,
@@ -748,5 +834,39 @@ class _MyProfilePageState extends State<MyProfilePage>
         ),
       ],
     );
+  }
+
+  void _showPicker(context, String userId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: Icon(Icons.photo_library),
+                      title: Text('Gallery'),
+                      onTap: () async {
+                        circularProgressIndicatorNew(context);
+                        await uploadImageGallary(userId);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }),
+                  ListTile(
+                    leading: Icon(Icons.photo_camera),
+                    title: Text('Camera'),
+                    onTap: () async {
+                      circularProgressIndicatorNew(context);
+                      await imgFromCamera(userId);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

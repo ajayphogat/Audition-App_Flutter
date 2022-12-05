@@ -1,6 +1,10 @@
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
-import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
+import 'package:first_app/pages/myApplicationPages/acceptedJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/appliedJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/declinedJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/pendingJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/shortlistedJobPage.dart';
 import 'package:flutter/material.dart';
 
 class MyApplicationPage extends StatefulWidget {
@@ -20,7 +24,7 @@ class _MyApplicationState extends State<MyApplicationPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _searchEdit = TextEditingController();
   }
 
@@ -41,12 +45,11 @@ class _MyApplicationState extends State<MyApplicationPage>
       body: TabBarView(
         controller: _tabController,
         children: const [
-          MyApplicationAppliedPage(),
-          MyApplicationAppliedPage(),
-          MyApplicationAppliedPage(),
-          MyApplicationAppliedPage(),
-          MyApplicationAppliedPage(),
-          MyApplicationAppliedPage(),
+          AppliedJobPage(),
+          ShortlistedJobPage(),
+          AcceptedJobPage(),
+          DeclinedJobPage(),
+          // PendingJobPage(),
         ],
       ),
     );

@@ -72,21 +72,21 @@ class _SMyProfileState extends State<SMyProfile> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          MyFlutterApp.setting_black,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, SSettingsPage.routeName);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                // SizedBox(
+                //   child: Row(
+                //     children: [
+                //       IconButton(
+                //         icon: const Icon(
+                //           MyFlutterApp.setting_black,
+                //           color: Colors.black,
+                //         ),
+                //         onPressed: () {
+                //           Navigator.pushNamed(context, SSettingsPage.routeName);
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

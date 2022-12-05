@@ -6,9 +6,11 @@ import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:flutter/material.dart';
 
 class DancerGridPage extends StatefulWidget {
-  const DancerGridPage({Key? key}) : super(key: key);
+  const DancerGridPage({Key? key, required this.searchEdit}) : super(key: key);
 
   static const String routeName = "/dancerGrid-page";
+
+  final TextEditingController searchEdit;
 
   @override
   State<DancerGridPage> createState() => _DancerGridPageState();
@@ -22,8 +24,16 @@ class _DancerGridPageState extends State<DancerGridPage> {
     _categoryJobs = await otherService.categoryJobs(
       context: context,
       category: "Dancer",
+      search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
-    setState(() {});
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> getJobDetails(String jobId) async {
+    print("heyyyy");
+    await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
   @override
@@ -37,40 +47,45 @@ class _DancerGridPageState extends State<DancerGridPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: ((_categoryJobs == null) || (_categoryJobs!.isEmpty))
+      body: _categoryJobs == null
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : GridView.builder(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.04,
-                  vertical: screenHeight * 0.03),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                mainAxisExtent: screenHeight * 0.385,
-              ),
-              physics: const BouncingScrollPhysics(),
-              itemCount: _categoryJobs!.length,
-              itemBuilder: (context, index) {
-                JobModel data = _categoryJobs![index];
-                return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, DescriptionPage.routeName,
-                        arguments: data);
+          : _categoryJobs!.isEmpty
+              ? const Center(
+                  child: Text("No data found"),
+                )
+              : GridView.builder(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.04,
+                      vertical: screenHeight * 0.03),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    mainAxisExtent: screenHeight * 0.385,
+                  ),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: _categoryJobs!.length,
+                  itemBuilder: (context, index) {
+                    JobModel data = _categoryJobs![index];
+                    return InkWell(
+                      onTap: () async {
+                        print(data.id);
+                        circularProgressIndicatorNew(context);
+                        await getJobDetails(data.id.toString());
+                      },
+                      child: gridViewContainer(
+                          context,
+                          screenWidth,
+                          screenHeight,
+                          data.studioName,
+                          data.jobType,
+                          data.description,
+                          data.images[0]),
+                    );
                   },
-                  child: gridViewContainer(
-                      context,
-                      screenWidth,
-                      screenHeight,
-                      data.studioName,
-                      data.jobType,
-                      data.description,
-                      data.images[0]),
-                );
-              },
-            ),
+                ),
     );
   }
 }

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
@@ -9,6 +12,7 @@ import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/sproject
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../provider/studio_provider.dart';
 
@@ -109,11 +113,17 @@ class _SMyProfilePageState extends State<SMyProfilePage>
                               fontSize: 14,
                             ),
                           ),
-                          onTap: () {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              newDialogBox1(context, screenWidth, screenHeight,
-                                  "Account Reported!", "GO BACK", false, "");
-                            });
+                          onTap: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString("x-auth-token", "");
+                            prefs.setString("x-studio-token", "");
+                            await FirebaseAuth.instance.signOut();
+                            // WidgetsBinding.instance.addPostFrameCallback((_) {
+                            //   newDialogBox1(context, screenWidth, screenHeight,
+                            //       "Account Reported!", "GO BACK", false, "");
+                            // }
+                            // );
                           },
                         ),
                       ];

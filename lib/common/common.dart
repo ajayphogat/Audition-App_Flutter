@@ -2,6 +2,7 @@ import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
 import 'package:first_app/pages/categorySection/studio_description.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -332,7 +333,7 @@ AppBar basicAppBar(
                     child: Container(
                       width: screenWidth * 0.75,
                       height: screenHeight * 0.045,
-                      padding: const EdgeInsets.only(bottom: 2),
+                      padding: const EdgeInsets.only(left: 10, bottom: 2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         color: Colors.white,
@@ -347,22 +348,40 @@ AppBar basicAppBar(
                             color: placeholderTextColor,
                           ),
                           border: InputBorder.none,
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SvgPicture.asset(
-                              "asset/images/illustration/bytesize_search.svg",
-                              color: placeholderTextColor,
+                          suffixIcon: SizedBox(
+                            width: screenWidth * 0.20,
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    print(tabController.index);
+                                    print(searchEdit.text);
+                                    if (searchEdit.text.isNotEmpty) {
+                                      Navigator.pushNamed(
+                                          context, CategoryDetailPage.routeName,
+                                          arguments: [
+                                            tabController.index,
+                                            searchEdit.text
+                                          ]);
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                    "asset/images/illustration/bytesize_search.svg",
+                                    color: placeholderTextColor,
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      searchEdit.text = "";
+                                    },
+                                    icon: const Icon(
+                                      MyFlutterApp.gridicons_cross,
+                                      size: 20,
+                                      color: placeholderTextColor,
+                                    )),
+                              ],
                             ),
                           ),
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                searchEdit.text = "";
-                              },
-                              icon: const Icon(
-                                MyFlutterApp.gridicons_cross,
-                                size: 20,
-                                color: placeholderTextColor,
-                              )),
                         ),
                       ),
                     ),
@@ -529,35 +548,35 @@ AppBar basicAppBarApp(
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              title: Container(
-                                width: screenWidth * 0.30,
-                                height: screenHeight * 0.20,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.white,
-                                ),
-                                child: const Text(
-                                  "Filter area is under construction",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
-                          });
-                    },
-                    icon: const Icon(MyFlutterApp.filter),
-                    color: Colors.black,
-                    iconSize: 33,
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     showDialog(
+                  //         context: context,
+                  //         builder: (context) {
+                  //           return AlertDialog(
+                  //             shape: RoundedRectangleBorder(
+                  //               borderRadius: BorderRadius.circular(8),
+                  //             ),
+                  //             title: Container(
+                  //               width: screenWidth * 0.30,
+                  //               height: screenHeight * 0.20,
+                  //               alignment: Alignment.center,
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(8),
+                  //                 color: Colors.white,
+                  //               ),
+                  //               child: const Text(
+                  //                 "Filter area is under construction",
+                  //                 textAlign: TextAlign.center,
+                  //               ),
+                  //             ),
+                  //           );
+                  //         });
+                  //   },
+                  //   icon: const Icon(MyFlutterApp.filter),
+                  //   color: Colors.black,
+                  //   iconSize: 33,
+                  // ),
                 ],
               ),
             ),
@@ -597,12 +616,12 @@ AppBar basicAppBarApp(
             Tab(
               text: data[3],
             ),
-            Tab(
-              text: data[4],
-            ),
-            Tab(
-              text: data[5],
-            ),
+            // Tab(
+            //   text: data[4],
+            // ),
+            // Tab(
+            //   text: data[5],
+            // ),
           ],
         ),
       ),

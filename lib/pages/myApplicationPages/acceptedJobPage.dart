@@ -1,43 +1,38 @@
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
-import 'package:first_app/provider/user_provider.dart';
-import 'package:first_app/studio_code/sconstants.dart';
-import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sactorProfilePage.dart';
 import 'package:flutter/material.dart';
 
-class SAllJobsPage extends StatefulWidget {
-  const SAllJobsPage({Key? key}) : super(key: key);
+class AcceptedJobPage extends StatefulWidget {
+  const AcceptedJobPage({Key? key}) : super(key: key);
 
-  static const String routeName = "/sallJobs-page";
+  static const String routeName = "/acceptedJob-page";
 
   @override
-  State<SAllJobsPage> createState() => _SAllJobsPageState();
+  State<AcceptedJobPage> createState() => _AcceptedJobPageState();
 }
 
-class _SAllJobsPageState extends State<SAllJobsPage> {
+class _AcceptedJobPageState extends State<AcceptedJobPage> {
   final OtherService otherService = OtherService();
-  List<JobModel>? _allJobs;
+  List<JobModel1>? _appliedJobs;
 
   getWorkingJobs() async {
-    _allJobs = await otherService.getStudioJobs(
+    _appliedJobs = await otherService.showWorkingJobs(
       context: context,
+      working: "accepted",
     );
-    print(_allJobs);
+    print(_appliedJobs);
     if (this.mounted) {
       setState(() {});
     }
   }
 
-  Future<void> getStudioJobDetail_Studio(jobId) async {
-    await otherService.getStudioJobDetail_Studio(
-        context: context, jobId: jobId);
+  Future<void> getJobDetails(String jobId) async {
+    print("heyyyy");
+    await otherService.getJobDetails(context: context, jobId: jobId);
   }
-
-  // Future<void> getJobDetails(String jobId) async {
-  //   print("heyyyy");
-  //   await otherService.getStudioJobDetail(context: context, jobId: jobId);
-  // }
 
   @override
   void initState() {
@@ -49,55 +44,40 @@ class _SAllJobsPageState extends State<SAllJobsPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: _allJobs == null
+      body: (_appliedJobs == null)
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : _allJobs!.isEmpty
+          : (_appliedJobs!.isEmpty)
               ? const Center(
-                  child: Text("No data found"),
+                  child: Text("No Data Found"),
                 )
               : Padding(
                   padding: const EdgeInsets.only(top: 25),
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: _allJobs!.length,
+                    itemCount: _appliedJobs!.length,
                     itemBuilder: (context, index) {
-                      JobModel data = _allJobs![index];
+                      JobModel1 data = _appliedJobs![index];
                       return InkWell(
                         onTap: () async {
                           print(data.id);
                           circularProgressIndicatorNew(context);
-                          await getStudioJobDetail_Studio(data.id);
-                          // await Future.delayed(Duration(seconds: 1));
-                          // Navigator.pop(context);
-                          // Navigator.pushNamed(context, SActorProfilePage.routeName);
-                          // await getJobDetails(data.id);
-                          // await Future.delayed(Duration(seconds: 1));
-                          // Navigator.pushNamed(
-                          //     context, );
+                          await getJobDetails(data.id.toString());
                         },
                         child: SizedBox(
                           child: Column(
                             children: [
                               ListTile(
                                 leading: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
                                   radius: screenWidth * 0.0635,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: Image.network(
-                                        data.images[0],
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
+                                  backgroundImage: NetworkImage(data.images[0]),
                                 ),
                                 title: Padding(
                                   padding: const EdgeInsets.only(bottom: 5),
                                   child: Text(
-                                    data.jobType,
+                                    data.studioName,
                                     style: const TextStyle(
                                       fontFamily: fontFamily,
                                     ),

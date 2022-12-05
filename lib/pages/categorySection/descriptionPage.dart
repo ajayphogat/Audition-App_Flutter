@@ -4,9 +4,12 @@ import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
+import 'package:first_app/provider/job_post_provider.dart';
+import 'package:first_app/provider/user_provider.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 
 class DescriptionPage extends StatefulWidget {
@@ -30,17 +33,32 @@ class _DescriptionPageState extends State<DescriptionPage>
   int _activePage = 0;
   double opacityValue = 1.0;
 
-  bool isfollowed = false;
-  bool isBookmarked = false;
   final OtherService otherService = OtherService();
 
-  Future<void> followStudio(followId) async {
-    await otherService.followStudio(context: context, toFollowId: followId);
+  Future<void> followStudio(followId, jobId) async {
+    await otherService.followStudio(
+        context: context, toFollowId: followId, jobId: jobId);
   }
 
-  Future<void> unFollowStudio(followId) async {
-    await otherService.unfollowStudio(context: context, toFollowId: followId);
+  Future<void> unFollowStudio(followId, jobId) async {
+    await otherService.unfollowStudio(
+        context: context, toFollowId: followId, jobId: jobId);
   }
+
+  Future<void> bookmarked(bookmarkedId) async {
+    await otherService.bookmarked(context: context, toBookmarkId: bookmarkedId);
+  }
+
+  Future<void> undoBookmarked(bookmarkedId) async {
+    await otherService.unBookmarked(
+        context: context, toBookmarkId: bookmarkedId);
+  }
+
+  Future<void> applyJob(jobId) async {
+    await otherService.applyJob(context: context, jobId: jobId);
+  }
+
+  int status = 0;
 
   @override
   void initState() {
@@ -63,10 +81,21 @@ class _DescriptionPageState extends State<DescriptionPage>
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    JobModel _argument = ModalRoute.of(context)!.settings.arguments as JobModel;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    var jobData = Provider.of<JobProvider>(context).job;
+    print(jobData.id);
+    bool isBookmarked = jobData.isBookmarked!;
+    bool isfollowed = jobData.isFollowed!;
+    bool isApplied = jobData.isApplied!;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.07,
@@ -85,6 +114,39 @@ class _DescriptionPageState extends State<DescriptionPage>
                     Navigator.pop(context);
                   },
                 ),
+                Container(
+                  margin: const EdgeInsets.only(right: 15),
+                  child: Row(
+                    children: [
+                      InkWell(
+                          onTap: () async {
+                            navigatorPop() => Navigator.pop(context);
+                            if (isBookmarked == true) {
+                              circularProgressIndicatorNew(context);
+                              await undoBookmarked(jobData.id);
+
+                              setState(() {
+                                navigatorPop();
+                              });
+                            } else {
+                              circularProgressIndicatorNew(context);
+                              await bookmarked(jobData.id);
+
+                              setState(() {
+                                navigatorPop();
+                              });
+                            }
+                          },
+                          child: yellowCircleButton(
+                              screenHeight,
+                              isBookmarked
+                                  ? Icons.bookmark_remove
+                                  : MyFlutterApp.bookmark)),
+                      SizedBox(width: screenWidth * 0.08),
+                      yellowCircleButton(screenHeight, MyFlutterApp.share_fill),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -102,15 +164,15 @@ class _DescriptionPageState extends State<DescriptionPage>
                   PageView(
                     children: [
                       Image.network(
-                        _argument.images[0],
+                        jobData.images[0],
                         fit: BoxFit.contain,
                       ),
                       Image.network(
-                        _argument.images[0],
+                        jobData.images[0],
                         fit: BoxFit.contain,
                       ),
                       Image.network(
-                        _argument.images[-0],
+                        jobData.images[0],
                         fit: BoxFit.contain,
                       ),
                     ],
@@ -142,144 +204,106 @@ class _DescriptionPageState extends State<DescriptionPage>
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.025),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // InkWell(
-                  //   onTap: () {},
-                  //   child: Container(
-                  //     key: _key,
-                  //     alignment: Alignment.center,
-                  //     width: screenWidth * 0.25,
-                  //     height: screenHeight * 0.03,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(8),
-                  //       color: const Color(0xFFF9D422),
-                  //     ),
-                  //     child: const Text("APPLY"),
-                  //   ),
-                  // ),
-                  Row(
-                    children: [
-                      InkWell(
-                          onTap: () {
-                            isBookmarked = !isBookmarked;
-                            setState(() {});
-                          },
-                          child: yellowCircleButton(
-                              screenHeight,
-                              isBookmarked
-                                  ? Icons.bookmark_remove
-                                  : MyFlutterApp.bookmark)),
-                      SizedBox(width: screenWidth * 0.08),
-                      yellowCircleButton(screenHeight, MyFlutterApp.share_fill),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.025),
+            // SizedBox(height: screenHeight * 0.025),
+            // SizedBox(height: screenHeight * 0.025),
             const Divider(
               thickness: 1,
               height: 0,
               color: Colors.black,
             ),
-            SizedBox(height: screenHeight * 0.025),
+            SizedBox(height: screenHeight * 0.015),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: screenWidth * 0.17,
-                        height: screenWidth * 0.17,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.black,
+                      Text(
+                        jobData.studioName,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: screenWidth * 0.03),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _argument.studioName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            "${_argument.applicants.length} Applicants",
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: Color(0xFFF9D422),
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            _argument.jobType,
-                            style: const TextStyle(
-                              fontSize: 11,
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            _argument.socialMedia,
-                            style: const TextStyle(
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      navigatorPop() => Navigator.pop(context);
-                      // TODO: bookmark api connect
-                      if (isfollowed == true) {
-                        CircularProgressIndicator();
-                        await unFollowStudio(_argument.studio);
-                        navigatorPop();
-                      } else {
-                        CircularProgressIndicator();
-                        await followStudio(_argument.studio);
-                        navigatorPop();
-                      }
-                      isfollowed = !isfollowed;
-                      setState(() {});
-                    },
-                    child: Container(
-                      width: screenWidth * 0.18,
-                      height: screenHeight * 0.020,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
-                        color: isfollowed ? secondoryColor : Colors.white,
-                      ),
-                      child: Text(
-                        isfollowed ? "Unfollow" : "Follow",
+                      const SizedBox(height: 3),
+                      Text(
+                        jobData.location,
                         style: const TextStyle(
                           fontSize: 12,
                         ),
                       ),
-                    ),
+                      // const SizedBox(height: 3),
+                      // Text(
+                      //   jobData.socialMedia,
+                      //   style: const TextStyle(
+                      //     fontSize: 11,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const Text(
+                        "Followers: 2.5K",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      InkWell(
+                        onTap: () async {
+                          navigatorPop() => Navigator.pop(context);
+                          // TODO: bookmark api connect
+                          if (isfollowed == true) {
+                            print("completed true");
+                            circularProgressIndicatorNew(context);
+                            await unFollowStudio(
+                                jobData.studio["_id"], jobData.id);
+
+                            setState(() {
+                              navigatorPop();
+                            });
+                          } else {
+                            print("completed false");
+                            circularProgressIndicatorNew(context);
+                            await followStudio(
+                                jobData.studio["_id"], jobData.id);
+
+                            setState(() {
+                              navigatorPop();
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: screenWidth * 0.18,
+                          height: screenHeight * 0.020,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            color: isfollowed ? secondoryColor : Colors.white,
+                          ),
+                          child: Text(
+                            isfollowed ? "Unfollow" : "Follow",
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
+            SizedBox(height: screenHeight * 0.015),
             Padding(
               padding: EdgeInsets.only(
                 left: screenWidth * 0.03,
@@ -481,9 +505,18 @@ class _DescriptionPageState extends State<DescriptionPage>
         height: 100,
         alignment: Alignment(x, y),
         child: InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, AppliedPage.routeName);
-          },
+          onTap: isApplied
+              ? () {}
+              : () async {
+                  navigatorPop() => Navigator.pop(context);
+                  navigatorPush() =>
+                      Navigator.pushNamed(context, AppliedPage.routeName);
+                  circularProgressIndicatorNew(context);
+                  // function call
+                  await applyJob(jobData.id);
+                  navigatorPop();
+                  navigatorPush();
+                },
           child: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(bottom: 5),
@@ -493,9 +526,9 @@ class _DescriptionPageState extends State<DescriptionPage>
               borderRadius: BorderRadius.circular(8),
               color: const Color(0xFFF9D422),
             ),
-            child: const Text(
-              "APPLY",
-              style: TextStyle(fontSize: 16),
+            child: Text(
+              isApplied ? "Applied" : "APPLY",
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         ),
@@ -503,7 +536,6 @@ class _DescriptionPageState extends State<DescriptionPage>
     );
   }
 }
-
 
 // var renderObject = currentContext.findRenderObject();
 //           var viewport = RenderAbstractViewport.of(renderObject);
@@ -513,27 +545,27 @@ class _DescriptionPageState extends State<DescriptionPage>
 
 //           print(scroll);
 
-          // if (scroll.metrics.axisDirection == AxisDirection.down) {
-          //   print("up");
-          //   if (offsetToRevealTop.offset <= scroll.metrics.pixels) {
-          //     setState(() {
-          //       y = 1;
-          //     });
-          //   } else {
-          //     setState(() {
-          //       y = 2.8;
-          //     });
-          //   }
-          // } else if (scroll.metrics.axisDirection == AxisDirection.up) {
-          //   print("down");
-          //   if (offsetToRevealTop.offset < scroll.metrics.pixels &&
-          //       offsetToRevealBottom.offset >= scroll.metrics.pixels) {
-          //     setState(() {
-          //       y = 2.8;
-          //     });
-          //   } else {
-          //     setState(() {
-          //       y = 1;
-          //     });
-          //   }
-          // }
+// if (scroll.metrics.axisDirection == AxisDirection.down) {
+//   print("up");
+//   if (offsetToRevealTop.offset <= scroll.metrics.pixels) {
+//     setState(() {
+//       y = 1;
+//     });
+//   } else {
+//     setState(() {
+//       y = 2.8;
+//     });
+//   }
+// } else if (scroll.metrics.axisDirection == AxisDirection.up) {
+//   print("down");
+//   if (offsetToRevealTop.offset < scroll.metrics.pixels &&
+//       offsetToRevealBottom.offset >= scroll.metrics.pixels) {
+//     setState(() {
+//       y = 2.8;
+//     });
+//   } else {
+//     setState(() {
+//       y = 1;
+//     });
+//   }
+// }

@@ -6,33 +6,43 @@ import 'package:first_app/studio_code/sconstants.dart';
 import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sactorProfilePage.dart';
 import 'package:flutter/material.dart';
 
-class SAllJobsPage extends StatefulWidget {
-  const SAllJobsPage({Key? key}) : super(key: key);
+class SShortlistedJobPage extends StatefulWidget {
+  const SShortlistedJobPage({Key? key}) : super(key: key);
 
-  static const String routeName = "/sallJobs-page";
+  static const String routeName = "/sshortJob-page";
 
   @override
-  State<SAllJobsPage> createState() => _SAllJobsPageState();
+  State<SShortlistedJobPage> createState() => _SShortlistedJobPageState();
 }
 
-class _SAllJobsPageState extends State<SAllJobsPage> {
+class _SShortlistedJobPageState extends State<SShortlistedJobPage> {
   final OtherService otherService = OtherService();
-  List<JobModel>? _allJobs;
+  // List<JobModel>? _shortlistedJobs;
 
-  getWorkingJobs() async {
-    _allJobs = await otherService.getStudioJobs(
+  List<JobModel1>? _shortlistedJobs;
+
+  getAcceptedJobs() async {
+    print("start");
+    _shortlistedJobs = await otherService.showStudioJobs(
       context: context,
+      working: "shortlisted",
     );
-    print(_allJobs);
+    print("heyheyheyheyhey");
+    print(_shortlistedJobs);
     if (this.mounted) {
       setState(() {});
     }
   }
 
   Future<void> getStudioJobDetail_Studio(jobId) async {
-    await otherService.getStudioJobDetail_Studio(
+    await otherService.getShortlistedStudioJobDetails(
         context: context, jobId: jobId);
   }
+
+  // Future<void> getStudioJobDetail_Studio(jobId) async {
+  //   await otherService.getStudioJobDetail_Studio(
+  //       context: context, jobId: jobId);
+  // }
 
   // Future<void> getJobDetails(String jobId) async {
   //   print("heyyyy");
@@ -41,7 +51,7 @@ class _SAllJobsPageState extends State<SAllJobsPage> {
 
   @override
   void initState() {
-    getWorkingJobs();
+    getAcceptedJobs();
     super.initState();
   }
 
@@ -49,11 +59,11 @@ class _SAllJobsPageState extends State<SAllJobsPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: _allJobs == null
+      body: (_shortlistedJobs == null)
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : _allJobs!.isEmpty
+          : _shortlistedJobs!.isEmpty
               ? const Center(
                   child: Text("No data found"),
                 )
@@ -61,14 +71,17 @@ class _SAllJobsPageState extends State<SAllJobsPage> {
                   padding: const EdgeInsets.only(top: 25),
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: _allJobs!.length,
+                    itemCount: _shortlistedJobs!.length,
                     itemBuilder: (context, index) {
-                      JobModel data = _allJobs![index];
+                      JobModel1 data = _shortlistedJobs![index];
                       return InkWell(
                         onTap: () async {
                           print(data.id);
                           circularProgressIndicatorNew(context);
                           await getStudioJobDetail_Studio(data.id);
+                          // print(data.id);
+                          // circularProgressIndicatorNew(context);
+                          // await getStudioJobDetail_Studio(data.id);
                           // await Future.delayed(Duration(seconds: 1));
                           // Navigator.pop(context);
                           // Navigator.pushNamed(context, SActorProfilePage.routeName);

@@ -10,6 +10,7 @@ const List<String> categoryData = [
 const List<String> myApplicationData = [
   "All Jobs",
   "Applied",
+  "Accepted",
   "Shortlisted",
 ];
 

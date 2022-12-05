@@ -25,3 +25,33 @@ class StudioProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class StudioProvider1 extends ChangeNotifier {
+  var _user = StudioModel1(
+    id: "",
+    fname: "",
+    email: "",
+    number: "",
+    password: "",
+    token: "",
+    location: "",
+    views: 0,
+    projectDesc: "",
+    aboutDesc: "",
+    followers: [],
+    post: [],
+    totalApplicants: "",
+    totalAccepted: "",
+    totalBookmark: "",
+    totalShortlisted: "",
+    totalDeclined: "",
+  );
+
+  StudioModel1 get user => _user;
+
+  void setUser(String user) {
+    _user = StudioModel1.fromJson(user);
+
+    notifyListeners();
+  }
+}

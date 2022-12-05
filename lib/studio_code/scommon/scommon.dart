@@ -315,30 +315,30 @@ AppBar basicAppBar(
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Container(
-                          height: screenHeight * 0.10,
-                          alignment: Alignment.center,
-                          child: const Text(
-                            "Filter Area is under Construction",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      );
-                    });
-              },
-              icon: const Icon(MyFlutterApp.filter),
-              color: Colors.black,
-              iconSize: 33,
-            ),
+            // IconButton(
+            //   onPressed: () {
+            //     showDialog(
+            //         context: context,
+            //         builder: (context) {
+            //           return AlertDialog(
+            //             title: Container(
+            //               height: screenHeight * 0.10,
+            //               alignment: Alignment.center,
+            //               child: const Text(
+            //                 "Filter Area is under Construction",
+            //                 textAlign: TextAlign.center,
+            //                 style: TextStyle(
+            //                   fontSize: 20,
+            //                 ),
+            //               ),
+            //             ),
+            //           );
+            //         });
+            //   },
+            //   icon: const Icon(MyFlutterApp.filter),
+            //   color: Colors.black,
+            //   iconSize: 33,
+            // ),
           ],
         ),
       ),
@@ -373,9 +373,9 @@ AppBar basicAppBar(
             Tab(
               text: data[2],
             ),
-            // Tab(
-            //   text: data[3],
-            // ),
+            Tab(
+              text: data[3],
+            ),
             // Tab(
             //   text: data[4],
             // ),

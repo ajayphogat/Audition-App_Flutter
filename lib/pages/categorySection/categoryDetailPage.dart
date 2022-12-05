@@ -41,8 +41,10 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> argument = ModalRoute.of(context)!.settings.arguments as List;
-    _tabController.index = argument[0] as int;
+    List<dynamic> argument =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    _tabController.index = argument[0];
+    _searchEdit.text = argument[1];
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -51,16 +53,16 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
           _tabController, categoryData),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          ActorGridPage(),
-          DancerGridPage(),
-          WriterGridpage(),
-          MusicianGridPage(),
-          PainterGridPage(),
-          ChirographerGridPage(),
-          SingerGridPage(),
-          DesignerGridPage(),
-          ChefGridPage(),
+        children: [
+          ActorGridPage(searchEdit: _searchEdit),
+          DancerGridPage(searchEdit: _searchEdit),
+          WriterGridpage(searchEdit: _searchEdit),
+          MusicianGridPage(searchEdit: _searchEdit),
+          PainterGridPage(searchEdit: _searchEdit),
+          ChirographerGridPage(searchEdit: _searchEdit),
+          SingerGridPage(searchEdit: _searchEdit),
+          DesignerGridPage(searchEdit: _searchEdit),
+          ChefGridPage(searchEdit: _searchEdit),
         ],
       ),
     );

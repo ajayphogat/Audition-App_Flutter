@@ -1,5 +1,8 @@
 import 'package:first_app/studio_code/scommon/scommon.dart';
 import 'package:first_app/studio_code/scommon/sdata.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sAcceptedJob.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sAppliedJob.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sShortlistedJob.dart';
 import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sallJobs.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +23,7 @@ class _MyApplicationState extends State<SMyApplicationPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _searchEdit = TextEditingController();
   }
 
@@ -42,8 +45,9 @@ class _MyApplicationState extends State<SMyApplicationPage>
         controller: _tabController,
         children: const [
           SAllJobsPage(),
-          SAllJobsPage(),
-          SAllJobsPage(),
+          SAppliedJobPage(),
+          SAcceptedJobPage(),
+          SShortlistedJobPage(),
         ],
       ),
     );

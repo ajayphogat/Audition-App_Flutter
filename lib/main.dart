@@ -12,18 +12,32 @@ import 'package:first_app/utils/showSnackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (context) => UserProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => StudioProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => JobProvider(),
-      ),
-    ], child: const MyAPP()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => UserProvider1(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => StudioProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => StudioProvider1(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => JobProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => JobProvider1(),
+    ),
+  ], child: const MyAPP()));
+}
 
 class MyAPP extends StatefulWidget {
   const MyAPP({Key? key}) : super(key: key);

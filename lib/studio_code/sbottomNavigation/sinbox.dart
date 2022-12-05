@@ -18,6 +18,7 @@ class SInboxPage extends StatefulWidget {
 class _InboxState extends State<SInboxPage> with TickerProviderStateMixin {
   late TabController _tabController;
   late TextEditingController _searchEdit;
+  bool a = false;
 
   @override
   void initState() {
@@ -95,35 +96,35 @@ class _InboxState extends State<SInboxPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            title: Container(
-                              width: screenWidth * 0.30,
-                              height: screenHeight * 0.20,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                              ),
-                              child: const Text(
-                                "Filter area is under construction",
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                  icon: const Icon(MyFlutterApp.filter),
-                  color: Colors.black,
-                  iconSize: 33,
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     showDialog(
+                //         context: context,
+                //         builder: (context) {
+                //           return AlertDialog(
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(8),
+                //             ),
+                //             title: Container(
+                //               width: screenWidth * 0.30,
+                //               height: screenHeight * 0.20,
+                //               alignment: Alignment.center,
+                //               decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(8),
+                //                 color: Colors.white,
+                //               ),
+                //               child: const Text(
+                //                 "Filter area is under construction",
+                //                 textAlign: TextAlign.center,
+                //               ),
+                //             ),
+                //           );
+                //         });
+                //   },
+                //   icon: const Icon(MyFlutterApp.filter),
+                //   color: Colors.black,
+                //   iconSize: 33,
+                // ),
               ],
             ),
           ),
@@ -164,7 +165,7 @@ class _InboxState extends State<SInboxPage> with TickerProviderStateMixin {
         controller: _tabController,
         children: const [
           SInboxMessagePage(),
-          SInboxMessagePage(),
+          Center(child: CircularProgressIndicator()),
         ],
       ),
     );

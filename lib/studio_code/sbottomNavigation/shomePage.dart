@@ -1,5 +1,5 @@
+import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/model/studio_user_model.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,44 +16,57 @@ class SHomePage extends StatefulWidget {
 }
 
 class _SHomePageState extends State<SHomePage> {
+  final OtherService otherService = OtherService();
+  bool a = false;
+
+  void getStudioData() async {
+    await otherService.getStudioData(context: context);
+  }
+
+  @override
+  void initState() {
+    getStudioData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    final sUser = Provider.of<StudioProvider>(context).user;
+    final sUser = Provider.of<StudioProvider1>(context).user;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         toolbarHeight: screenHeight * 0.10,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {},
+        //   icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
+        // ),
         actions: [
-          IconButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Container(
-                        height: screenHeight * 0.10,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "Filter Area is under Construction",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    );
-                  });
-            },
-            icon:
-                const Icon(MyFlutterApp.filter, color: Colors.black, size: 30),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     showDialog(
+          //         context: context,
+          //         builder: (context) {
+          //           return AlertDialog(
+          //             title: Container(
+          //               height: screenHeight * 0.10,
+          //               alignment: Alignment.center,
+          //               child: const Text(
+          //                 "Filter Area is under Construction",
+          //                 textAlign: TextAlign.center,
+          //                 style: TextStyle(
+          //                   fontSize: 20,
+          //                 ),
+          //               ),
+          //             ),
+          //           );
+          //         });
+          //   },
+          //   icon:
+          //       const Icon(MyFlutterApp.filter, color: Colors.black, size: 30),
+          // ),
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(screenHeight * 0.01),
@@ -139,35 +152,44 @@ class _SHomePageState extends State<SHomePage> {
                 children: [
                   Stack(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: screenHeight * 0.04,
-                            horizontal: screenWidth * 0.10),
-                        child: Image.asset("asset/icons/graph.png"),
-                      ),
-                      Positioned(
-                        top: screenHeight * 0.15,
-                        left: screenWidth * 0.085,
-                        child: const RotatedBox(
-                          quarterTurns: -1,
-                          child: Text(
-                            "Pages",
-                            style: TextStyle(
-                              fontSize: 10,
+                      a
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenHeight * 0.04,
+                                  horizontal: screenWidth * 0.10),
+                              child: Image.asset("asset/icons/graph.png"),
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(100),
+                              width: screenHeight * 0.30,
+                              height: screenHeight * 0.30,
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: screenHeight * 0.345,
-                        left: (screenWidth - 40) / 2,
-                        child: const Text(
-                          "Timeline",
-                          style: TextStyle(
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
+                      // Positioned(
+                      //   top: screenHeight * 0.15,
+                      //   left: screenWidth * 0.085,
+                      //   child: const RotatedBox(
+                      //     quarterTurns: -1,
+                      //     child: Text(
+                      //       "Pages",
+                      //       style: TextStyle(
+                      //         fontSize: 10,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // Positioned(
+                      //   top: screenHeight * 0.345,
+                      //   left: (screenWidth - 40) / 2,
+                      //   child: const Text(
+                      //     "Timeline",
+                      //     style: TextStyle(
+                      //       fontSize: 10,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   Padding(
@@ -193,28 +215,58 @@ class _SHomePageState extends State<SHomePage> {
                           horizontal: screenWidth * 0.05,
                           vertical: screenHeight * 0.01),
                       children: [
-                        newVerticalContainer(screenWidth, screenHeight,
-                            "Number of posted jobs", "45"),
+                        sUser.post.isEmpty
+                            ? newVerticalContainer1(screenWidth, screenHeight,
+                                "Number of posted jobs")
+                            : newVerticalContainer(
+                                screenWidth,
+                                screenHeight,
+                                "Number of posted jobs",
+                                "${sUser.post.length}"),
                         SizedBox(
                           width: screenWidth * 0.05,
                         ),
-                        newVerticalContainer(screenWidth, screenHeight,
-                            "Number of total Applicants", "300"),
+                        sUser.post.isEmpty
+                            ? newVerticalContainer1(screenWidth, screenHeight,
+                                "Number of total Applicants")
+                            : newVerticalContainer(
+                                screenWidth,
+                                screenHeight,
+                                "Number of total Applicants",
+                                "${sUser.totalApplicants}"),
                         SizedBox(
                           width: screenWidth * 0.05,
                         ),
-                        newVerticalContainer(screenWidth, screenHeight,
-                            "Number of shortlisted Applicants", "37"),
+                        sUser.post.isEmpty
+                            ? newVerticalContainer1(screenWidth, screenHeight,
+                                "Number of shortlisted Applicants")
+                            : newVerticalContainer(
+                                screenWidth,
+                                screenHeight,
+                                "Number of shortlisted Applicants",
+                                "${sUser.totalShortlisted}"),
                         SizedBox(
                           width: screenWidth * 0.05,
                         ),
-                        newVerticalContainer(screenWidth, screenHeight,
-                            "Number of accepted Applicants", "45"),
+                        sUser.post.isEmpty
+                            ? newVerticalContainer1(screenWidth, screenHeight,
+                                "Number of accepted Applicants")
+                            : newVerticalContainer(
+                                screenWidth,
+                                screenHeight,
+                                "Number of accepted Applicants",
+                                "${sUser.totalAccepted}"),
                         SizedBox(
                           width: screenWidth * 0.05,
                         ),
-                        newVerticalContainer(screenWidth, screenHeight,
-                            "Number of jobs bookmarked", "45"),
+                        sUser.post.isEmpty
+                            ? newVerticalContainer1(screenWidth, screenHeight,
+                                "Number of jobs bookmarked")
+                            : newVerticalContainer(
+                                screenWidth,
+                                screenHeight,
+                                "Number of jobs bookmarked",
+                                "${sUser.totalBookmark}"),
                       ],
                     ),
                   ),
@@ -253,6 +305,49 @@ class _SHomePageState extends State<SHomePage> {
                 fontSize: 18,
               ),
               textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Material newVerticalContainer1(
+      double screenWidth, double screenHeight, String text1) {
+    return Material(
+      borderRadius: BorderRadius.circular(10),
+      elevation: 4,
+      child: Container(
+        width: screenWidth * 0.25,
+        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              text1,
+              textAlign: TextAlign.center,
+            ),
+            // Text(
+            //   text2,
+            //   style: const TextStyle(
+            //     fontSize: 18,
+            //   ),
+            //   textAlign: TextAlign.center,
+            // ),
+            Container(
+              // margin: EdgeInsets.symmetric(horizontal: 5),
+              // margin: EdgeInsets.symmetric(
+              //     horizontal: (screenWidth * 0.25) - (screenWidth * 0.02)),
+              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.095),
+              height: screenWidth * 0.06,
+              child: const CircularProgressIndicator(
+                color: Colors.black,
+              ),
             ),
           ],
         ),

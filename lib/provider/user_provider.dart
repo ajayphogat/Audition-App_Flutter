@@ -15,6 +15,7 @@ class UserProvider extends ChangeNotifier {
     gender: "",
     location: "",
     profileUrl: "",
+    profilePic: "",
     visibility: "",
     age: "",
     ethnicity: "",
@@ -38,13 +39,40 @@ class UserProvider extends ChangeNotifier {
   }
 }
 
-// class PerfectLogin extends ChangeNotifier {
-//   var _loginDone = "";
+class UserProvider1 extends ChangeNotifier {
+  var _user = UserModel1(
+    id: "",
+    fname: "",
+    email: "",
+    number: "",
+    password: "",
+    category: "",
+    token: "",
+    bio: "",
+    pronoun: "",
+    gender: "",
+    location: "",
+    profileUrl: "",
+    profilePic: "",
+    visibility: "",
+    age: "",
+    ethnicity: "",
+    height: "",
+    weight: "",
+    bodyType: "",
+    hairColor: "",
+    eyeColor: "",
+    socialMedia: [],
+    unionMembership: [],
+    skills: [],
+    credits: [],
+  );
 
-//   String get loginDone => _loginDone;
+  UserModel1 get user => _user;
 
-//   void setLoginDone(String value) {
-//     _loginDone = value;
-//     notifyListeners();
-//   }
-// }
+  void setUser(String user) {
+    _user = UserModel1.fromJson(user);
+
+    notifyListeners();
+  }
+}

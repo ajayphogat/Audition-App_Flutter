@@ -16,7 +16,11 @@ import 'package:first_app/pages/categorySection/singerPageGrid.dart';
 import 'package:first_app/pages/categorySection/writerPageGrid.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/inboxPages/messagePage.dart';
-import 'package:first_app/pages/myApplicationPages/myApplicationPage.dart';
+import 'package:first_app/pages/myApplicationPages/acceptedJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/appliedJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/declinedJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/pendingJobPage.dart';
+import 'package:first_app/pages/myApplicationPages/shortlistedJobPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/createProfilePage.dart';
@@ -36,6 +40,9 @@ import 'package:first_app/studio_code/sbottomNavigation/sinbox.dart';
 import 'package:first_app/studio_code/sbottomNavigation/smyProfile.dart';
 import 'package:first_app/studio_code/spages/sinboxPages/sinboxPage.dart';
 import 'package:first_app/studio_code/spages/sinboxPages/smessagePage.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sAcceptedJob.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sAppliedJob.dart';
+import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sShortlistedJob.dart';
 import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sactorProfilePage.dart';
 import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sallJobs.dart';
 import 'package:first_app/studio_code/spages/smyApplicationPages/sallJobs/sdancerProfilePage.dart';
@@ -162,10 +169,34 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
         builder: (_) => const MyApplicationPage(),
       );
 
-    case MyApplicationAppliedPage.routeName:
+    case AcceptedJobPage.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const MyApplicationAppliedPage(),
+        builder: (_) => const AcceptedJobPage(),
+      );
+
+    case AppliedJobPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AppliedJobPage(),
+      );
+
+    case DeclinedJobPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const DeclinedJobPage(),
+      );
+
+    case PendingJobPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const PendingJobPage(),
+      );
+
+    case ShortlistedJobPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ShortlistedJobPage(),
       );
 
     // Inbox Page Section
@@ -300,6 +331,23 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
         builder: (_) => const SAllJobsPage(),
       );
 
+    case SAppliedJobPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SAppliedJobPage(),
+      );
+    case SAcceptedJobPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SAcceptedJobPage(),
+      );
+
+    case SShortlistedJobPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SShortlistedJobPage(),
+      );
+
     // My Application Page - Actor Profile Page
     case SActorProfilePage.routeName:
       return MaterialPageRoute(
@@ -346,7 +394,8 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
     case SMessagePage.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const SMessagePage(),
+        builder: (_) =>
+            const SMessagePage(groupId: "", groupName: "", userName: ""),
       );
 
     // My Profile Page
@@ -398,59 +447,59 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
         builder: (_) => const SBottomNavigationPage(),
       );
 
-    case ActorGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const ActorGridPage(),
-      );
+    // case ActorGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => ActorGridPage(),
+    //   );
 
-    case ChefGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const ChefGridPage(),
-      );
+    // case ChefGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const ChefGridPage(),
+    //   );
 
-    case DancerGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const DancerGridPage(),
-      );
+    // case DancerGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const DancerGridPage(),
+    //   );
 
-    case DesignerGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const DesignerGridPage(),
-      );
+    // case DesignerGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const DesignerGridPage(),
+    //   );
 
-    case SingerGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const SingerGridPage(),
-      );
+    // case SingerGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const SingerGridPage(),
+    //   );
 
-    case ChirographerGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const ChirographerGridPage(),
-      );
+    // case ChirographerGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const ChirographerGridPage(),
+    //   );
 
-    case PainterGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const PainterGridPage(),
-      );
+    // case PainterGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const PainterGridPage(),
+    //   );
 
-    case MusicianGridPage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const MusicianGridPage(),
-      );
+    // case MusicianGridPage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const MusicianGridPage(),
+    //   );
 
-    case WriterGridpage.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const WriterGridpage(),
-      );
+    // case WriterGridpage.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const WriterGridpage(),
+    //   );
 
     default:
       return MaterialPageRoute(

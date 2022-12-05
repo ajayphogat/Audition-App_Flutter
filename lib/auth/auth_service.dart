@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/auth/databaseService.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/model/studio_user_model.dart';
@@ -27,6 +30,8 @@ class AuthService {
     required String number,
     required String password,
   }) async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User firebaseUser;
     try {
       var user = UserModel(
         id: "",
@@ -41,6 +46,7 @@ class AuthService {
         gender: "",
         location: "",
         profileUrl: "",
+        profilePic: "",
         visibility: "",
         age: "",
         ethnicity: "",
@@ -61,14 +67,28 @@ class AuthService {
             "Content-Type": "application/json; charset=UTF-8",
           });
 
+      if (res.statusCode == 200) {
+        firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
+                email: email.trim(), password: password))
+            .user!;
+        if (firebaseUser != null) {
+          await DatabaseService(uid: jsonDecode(res.body)['_id'])
+              .updateUserData(fname.trim(), email.trim());
+        } else {
+          showSnackBar(context, firebaseAuth.currentUser.toString());
+        }
+      }
+
       httpErrorHandel(
           context: context,
           res: res,
-          onSuccess: () {
-            showSnackBar(
-              context,
-              "Account created! Login with same Credentials",
-            );
+          onSuccess: () async {
+            showMessage() => showSnackBar(
+                  context,
+                  "Account created! Login with same Credentials",
+                );
+
+            showMessage();
           });
     } catch (e) {
       showSnackBar(context, e.toString());
@@ -81,6 +101,8 @@ class AuthService {
     required String email,
     required String password,
   }) async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User firebaseUser;
     try {
       var user = UserModel(
         id: "",
@@ -95,6 +117,7 @@ class AuthService {
         gender: "",
         location: "",
         profileUrl: "",
+        profilePic: "",
         visibility: "",
         age: "",
         ethnicity: "",
@@ -114,6 +137,18 @@ class AuthService {
           headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
+
+      if (res.statusCode == 200) {
+        firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
+                email: email.trim(), password: password))
+            .user!;
+
+        QuerySnapshot snapshot =
+            await DatabaseService(uid: jsonDecode(res.body)['_id'])
+                .gettingUserData(email.trim());
+        print("Here is snapshot");
+        print(snapshot);
+      }
 
       httpErrorHandel(
           context: context,
@@ -245,6 +280,45 @@ class AuthService {
     }
   }
 
+  // upload Profile Pic
+  Future<void> updateProfilePic({
+    required BuildContext context,
+    required String url,
+  }) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString("x-auth-token");
+
+      if (token == null) {
+        await prefs.setString("x-auth-token", "");
+        token = prefs.getString("x-auth-token");
+      }
+
+      print(url);
+      http.Response res =
+          await http.post(Uri.parse("$url/api/upload/profilePic"),
+              body: jsonEncode({
+                "profilePicUrl": url,
+              }),
+              headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-auth-token": token!,
+          });
+
+      print(res.statusCode);
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            userProvider.setUser(res.body);
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
   // update Basic Info
   Future<void> updateBasicInfo({
     required BuildContext context,
@@ -270,6 +344,7 @@ class AuthService {
           gender: gender,
           location: location,
           profileUrl: profileUrl,
+          profilePic: "",
           visibility: visibility,
           age: "",
           ethnicity: "",
@@ -337,6 +412,7 @@ class AuthService {
           gender: "",
           location: "",
           profileUrl: "",
+          profilePic: "",
           visibility: "",
           age: age,
           ethnicity: ethnicity,
@@ -620,6 +696,8 @@ class AuthService {
     required String number,
     required String password,
   }) async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User firebaseUser;
     try {
       var user = StudioModel(
         id: "",
@@ -642,6 +720,18 @@ class AuthService {
             "Content-Type": "application/json; charset=UTF-8",
           });
 
+      if (res.statusCode == 200) {
+        firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
+                email: email.trim(), password: password))
+            .user!;
+        if (firebaseUser != null) {
+          await DatabaseService(uid: jsonDecode(res.body)['_id'])
+              .updateUserData(fname.trim(), email.trim());
+        } else {
+          showSnackBar(context, firebaseAuth.currentUser.toString());
+        }
+      }
+
       httpErrorHandel(
           context: context,
           res: res,
@@ -662,6 +752,8 @@ class AuthService {
     required String email,
     required String password,
   }) async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User firebaseUser;
     try {
       var user = StudioModel(
         id: "",
@@ -683,6 +775,18 @@ class AuthService {
           headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
+
+      if (res.statusCode == 200) {
+        firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
+                email: email.trim(), password: password))
+            .user!;
+
+        QuerySnapshot snapshot =
+            await DatabaseService(uid: jsonDecode(res.body)['_id'])
+                .gettingUserData(email.trim());
+        print("Here is snapshot");
+        print(snapshot);
+      }
 
       httpErrorHandelForLoginSignup(
           context: context,

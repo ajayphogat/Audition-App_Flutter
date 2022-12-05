@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../customize/my_flutter_app_icons.dart';
 import '../pages/categorySection/descriptionPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,9 +26,18 @@ class _HomePageState extends State<HomePage> {
   final OtherService otherService = OtherService();
   List<JobModel>? allJobs;
 
+  final TextEditingController _searchEdit = TextEditingController();
+
   getAllJobs() async {
     allJobs = await otherService.getAllJobs(context: context);
-    setState(() {});
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> getJobDetails(String jobId) async {
+    print("heyyyy");
+    await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
   @override
@@ -37,10 +47,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    _searchEdit.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     final user = Provider.of<UserProvider>(context).user;
+    print("user");
+    print(user.id);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -87,11 +105,13 @@ class _HomePageState extends State<HomePage> {
                             elevation: 5,
                             borderRadius: BorderRadius.circular(8),
                             child: Container(
+                              padding: const EdgeInsets.only(left: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.white,
                               ),
                               child: TextFormField(
+                                controller: _searchEdit,
                                 decoration: InputDecoration(
                                   hintText: "Search here....",
                                   hintStyle: const TextStyle(
@@ -99,16 +119,43 @@ class _HomePageState extends State<HomePage> {
                                     color: placeholderTextColor,
                                   ),
                                   border: InputBorder.none,
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 15),
-                                    child: SvgPicture.asset(
-                                        "asset/images/illustration/bytesize_search.svg"),
+                                  suffixIcon: SizedBox(
+                                    width: screenWidth * 0.20,
+                                    child: Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            print(_searchEdit.text);
+                                            if (_searchEdit.text.isNotEmpty) {
+                                              Navigator.pushNamed(context,
+                                                  CategoryDetailPage.routeName,
+                                                  arguments: [
+                                                    0,
+                                                    _searchEdit.text
+                                                  ]);
+                                            }
+                                          },
+                                          child: SvgPicture.asset(
+                                            "asset/images/illustration/bytesize_search.svg",
+                                            color: placeholderTextColor,
+                                          ),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              _searchEdit.text = "";
+                                            },
+                                            icon: const Icon(
+                                              MyFlutterApp.gridicons_cross,
+                                              size: 20,
+                                              color: placeholderTextColor,
+                                            )),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -150,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.pushNamed(
                             context, CategoryDetailPage.routeName,
-                            arguments: [index, allJobs]);
+                            arguments: [index, ""]);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -208,10 +255,12 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (context, index) {
                               JobModel job = allJobs![index];
                               return InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, DescriptionPage.routeName,
-                                      arguments: job);
+                                onTap: () async {
+                                  circularProgressIndicatorNew(context);
+                                  await getJobDetails(job.id.toString());
+                                  // Navigator.pushNamed(
+                                  //     context, DescriptionPage.routeName,
+                                  //     arguments: job);
                                 },
                                 child: textContainer(
                                     screenWidth,
@@ -250,12 +299,15 @@ class _HomePageState extends State<HomePage> {
                             scrollDirection: Axis.horizontal,
                             itemCount: 3,
                             itemBuilder: (context, index) {
-                              JobModel job = allJobs![index];
+                              JobModel job = allJobs![
+                                  allJobs!.length > 10 ? index + 3 : index];
                               return InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, DescriptionPage.routeName,
-                                      arguments: job);
+                                onTap: () async {
+                                  circularProgressIndicatorNew(context);
+                                  await getJobDetails(job.id.toString());
+                                  // Navigator.pushNamed(
+                                  //     context, DescriptionPage.routeName,
+                                  //     arguments: job);
                                 },
                                 child: textContainer(
                                     screenWidth,
@@ -289,7 +341,7 @@ class _HomePageState extends State<HomePage> {
           InkWell(
             onTap: () {
               Navigator.pushNamed(context, CategoryDetailPage.routeName,
-                  arguments: [0, allJobs]);
+                  arguments: [0, ""]);
             },
             child: const Text(
               "See All",

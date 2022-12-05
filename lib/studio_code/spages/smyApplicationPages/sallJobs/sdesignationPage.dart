@@ -1,17 +1,70 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/auth/databaseService.dart';
+import 'package:first_app/auth/other_services.dart';
+import 'package:first_app/common/common.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/pages/inboxPages/messagePage.dart';
+import 'package:first_app/provider/job_post_provider.dart';
+import 'package:first_app/provider/studio_provider.dart';
+import 'package:first_app/provider/user_provider.dart';
 import 'package:first_app/studio_code/sconstants.dart';
+import 'package:first_app/studio_code/spages/sinboxPages/smessagePage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 
-class SDesignationPage extends StatelessWidget {
+class SDesignationPage extends StatefulWidget {
   const SDesignationPage({Key? key}) : super(key: key);
 
   static const String routeName = "/sdesignation-page";
 
   @override
+  State<SDesignationPage> createState() => _SDesignationPageState();
+}
+
+class _SDesignationPageState extends State<SDesignationPage> {
+  final OtherService otherService = OtherService();
+  bool isAccepted = false;
+  bool isShortlisted = false;
+  bool isDeclined = false;
+
+  Future<void> acceptedStudioJob(jobId, userId) async {
+    await otherService.acceptedStudioJob(
+        context: context, jobId: jobId, userId: userId, work: "Accepted");
+  }
+
+  Future<void> shortlistedStudioJob(jobId, userId) async {
+    await otherService.acceptedStudioJob(
+        context: context, jobId: jobId, userId: userId, work: "Shortlisted");
+  }
+
+  Future<void> declinedStudioJob(jobId, userId) async {
+    await otherService.acceptedStudioJob(
+        context: context, jobId: jobId, userId: userId, work: "Declined");
+  }
+
+  Future<void> studioAcceptJobData(jobId, userId) async {
+    await otherService.studioAcceptJobData(
+        context: context, jobId: jobId, userId: userId);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    var args = ModalRoute.of(context)!.settings.arguments as String;
+    var user = Provider.of<UserProvider1>(context).user;
+    var jobs = Provider.of<JobProvider1>(context).job;
+    var sUser = Provider.of<StudioProvider>(context).user;
+    isAccepted = jobs.isAccepted!;
+    isShortlisted = jobs.isShortlisted!;
+    isDeclined = jobs.isDeclined!;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -60,13 +113,13 @@ class SDesignationPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      title: const Text(
-                        "Name of the Candidate",
-                        style: TextStyle(
+                      title: Text(
+                        user.fname,
+                        style: const TextStyle(
                           fontSize: 12,
                         ),
                       ),
-                      subtitle: const Text("Location"),
+                      subtitle: Text(user.location),
                     ),
                     Padding(
                       padding:
@@ -77,20 +130,20 @@ class SDesignationPage extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              circleWithTextContainer(screenWidth, "58 Photos",
+                              circleWithTextContainer(screenWidth, "5 Photos",
                                   MyFlutterApp.camera_2_fill),
                               SizedBox(height: screenHeight * 0.02),
                               circleWithTextContainer(screenWidth,
-                                  "3 Documents", MyFlutterApp.paper),
+                                  "0 Documents", MyFlutterApp.paper),
                             ],
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              circleWithTextContainer(screenWidth, "75 Videos",
+                              circleWithTextContainer(screenWidth, "3 Videos",
                                   MyFlutterApp.live_fill),
                               SizedBox(height: screenHeight * 0.02),
-                              circleWithTextContainer(screenWidth, "9 Audios",
+                              circleWithTextContainer(screenWidth, "0 Audios",
                                   MyFlutterApp.mic_fill),
                             ],
                           ),
@@ -104,8 +157,36 @@ class SDesignationPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          simpleButton(screenWidth, screenHeight, "Save"),
-                          simpleButton(screenWidth, screenHeight, "Chat"),
+                          InkWell(
+                              onTap: () {
+                                circularProgressIndicatorNew(context);
+                              },
+                              child: simpleButton(
+                                  screenWidth, screenHeight, "Save")),
+                          InkWell(
+                              onTap: () async {
+                                navigatorPush(groupId, groupName, userName) =>
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (context) => SMessagePage(
+                                            groupId: groupId,
+                                            groupName: groupName,
+                                            userName: userName,
+                                          ),
+                                        ));
+                                navigatorPop() => Navigator.pop(context);
+                                circularProgressIndicatorNew(context);
+                                List<dynamic> a =
+                                    await DatabaseService(uid: sUser.id)
+                                        .createGroup(
+                                            sUser.fname, user.id, user.fname);
+
+                                navigatorPop();
+                                navigatorPush(a[0], a[1], a[2]);
+                              },
+                              child: simpleButton(
+                                  screenWidth, screenHeight, "Chat")),
                         ],
                       ),
                     ),
@@ -136,37 +217,53 @@ class SDesignationPage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: screenHeight * 0.03),
-                    const Text(
-                      "Skills: Skills of candidate",
-                      style: TextStyle(
+                    Row(
+                      children: [
+                        const Text(
+                          "Skills:",
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                        Container(
+                          width: screenWidth * 0.20,
+                          height: 15,
+                          margin: const EdgeInsets.only(left: 5),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: user.skills.length,
+                            itemBuilder: (context, index) {
+                              return Text(user.skills[index]);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "Location: ${user.location}",
+                      style: const TextStyle(
                         fontSize: 12,
                       ),
                     ),
-                    const Text(
-                      "Location: Job Location",
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                    const Text(
-                      "Experience: 2 year",
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
+                    // const Text(
+                    //   "Experience: 2 year",
+                    //   style: TextStyle(
+                    //     fontSize: 12,
+                    //   ),
+                    // ),
                     SizedBox(height: screenHeight * 0.02),
-                    const ReadMoreText(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas aliquet et cras magna velit diam adipiscing non. Cursus senectus nec eu, erat habitasse arcu tortor. Faucibus tempor semper enim sed dolor turpis. Quis urna cursus in a nulla. Id vestibulum varius ultricies bibendum commodo facilisi elementum eget enim. Erat auctor malesuada donec id imperdiet odio. Facilisi iaculis cursus lorem ac habitant volutpat lorem consequat. Amet condimentum lacus quis nulla sed tincidunt parturient sit ullamcorper. Eu mauris sed ut urna nulla morbi sed vulputate scelerisque. Erat amet, purus vel eu. Montes, eget adipiscing in nisi, purus lorem auctor egestas. Eu mauris sed ut urna nulla morbi sed vulputate scelerisque. Erat amet, purus vel eu. Montes, eget adipiscing in nisi, purus lorem auctor egestas. ",
+                    ReadMoreText(
+                      user.bio,
                       trimCollapsedText: "Show More",
                       trimExpandedText: "Show Less",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                       ),
-                      moreStyle: TextStyle(
+                      moreStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ),
-                      lessStyle: TextStyle(
+                      lessStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ),
@@ -179,6 +276,101 @@ class SDesignationPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        width: screenWidth * 0.95,
+        // color: Colors.red,
+        child: (isAccepted == false &&
+                isShortlisted == false &&
+                isDeclined == false)
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      navigatorPop() => Navigator.pop(context);
+                      circularProgressIndicatorNew(context);
+                      await acceptedStudioJob(args, user.id);
+                      navigatorPop();
+                      setState(() {});
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: screenWidth * 0.25,
+                      height: screenHeight * 0.04,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: secondoryColor,
+                      ),
+                      child: Text("Accept"),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      navigatorPop() => Navigator.pop(context);
+                      circularProgressIndicatorNew(context);
+                      await shortlistedStudioJob(args, user.id);
+                      navigatorPop();
+                      setState(() {});
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: screenWidth * 0.25,
+                      height: screenHeight * 0.04,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: secondoryColor,
+                      ),
+                      child: Text("Shortlist"),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      navigatorPop() => Navigator.pop(context);
+                      circularProgressIndicatorNew(context);
+                      await declinedStudioJob(args, user.id);
+                      navigatorPop();
+                      setState(() {});
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: screenWidth * 0.25,
+                      height: screenHeight * 0.04,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: secondoryColor,
+                      ),
+                      child: Text("Decline"),
+                    ),
+                  ),
+                ],
+              )
+            : InkWell(
+                onTap: () {},
+                child: Container(
+                  alignment: Alignment.center,
+                  width: screenWidth * 0.50,
+                  height: screenHeight * 0.04,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: secondoryColor,
+                  ),
+                  child: Text((isAccepted == true &&
+                          isShortlisted == false &&
+                          isDeclined == false)
+                      ? "Accepted"
+                      : (isAccepted == false &&
+                              isShortlisted == true &&
+                              isDeclined == false)
+                          ? "Shortlisted"
+                          : (isAccepted == false &&
+                                  isShortlisted == false &&
+                                  isDeclined == true)
+                              ? "Declined"
+                              : ""),
+                ),
+              ),
       ),
     );
   }

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/auth/databaseService.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +10,16 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SMessagePage extends StatefulWidget {
-  const SMessagePage({Key? key}) : super(key: key);
+  final String groupId;
+  final String groupName;
+  final String userName;
+
+  const SMessagePage(
+      {Key? key,
+      required this.groupId,
+      required this.groupName,
+      required this.userName})
+      : super(key: key);
 
   static const String routeName = "/smessage-page";
 
@@ -17,18 +29,48 @@ class SMessagePage extends StatefulWidget {
 
 class _SMessagePageState extends State<SMessagePage> {
   late TextEditingController _textController;
+  Stream<QuerySnapshot>? chats;
+  String admin = "";
+  Stream? members;
+
+  List<String> message = [];
+
+  getChatandAdmin() {
+    DatabaseService().getChats(widget.groupId).then((val) {
+      setState(() {
+        chats = val;
+      });
+    });
+
+    DatabaseService().getGroupAdmin(widget.groupId).then((val) {
+      setState(() {
+        admin = val;
+      });
+    });
+  }
+
+  getMembers() async {
+    DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .getMembers(widget.groupId)
+        .then((val) {
+      setState(() {
+        members = val;
+      });
+    });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _textController = TextEditingController();
+    getChatandAdmin();
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -80,9 +122,9 @@ class _SMessagePageState extends State<SMessagePage> {
                       ),
                     ),
                     SizedBox(width: screenWidth * 0.03),
-                    const Text(
-                      "Cameron Williamson",
-                      style: TextStyle(
+                    Text(
+                      widget.groupName,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
                       ),
@@ -97,399 +139,55 @@ class _SMessagePageState extends State<SMessagePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: screenHeight - (screenHeight * 0.213),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.sendBubble),
-                              alignment: Alignment.topRight,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
+            message.isEmpty
+                ? Container(
+                    height: screenHeight - (screenHeight * 0.213),
+                  )
+                : Container(
+                    height: screenHeight - (screenHeight * 0.213),
+                    child: ListView.builder(
+                      itemCount: message.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30),
+                              child: ChatBubble(
+                                clipper: ChatBubbleClipper1(
+                                    type: BubbleType.sendBubble),
+                                alignment: Alignment.topRight,
+                                backGroundColor: secondoryColor,
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                    maxWidth: screenWidth * 0.7,
+                                  ),
+                                  child: Text(
+                                    message[index],
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/face.png",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/girlFace.jpg",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.receiverBubble),
-                              alignment: Alignment.topLeft,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
+                            Container(
+                              width: 32,
+                              height: 32,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(32),
+                                child: Image.asset(
+                                    "asset/images/uiImages/face.png",
+                                    fit: BoxFit.cover),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.sendBubble),
-                              alignment: Alignment.topRight,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/face.png",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/girlFace.jpg",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.receiverBubble),
-                              alignment: Alignment.topLeft,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.sendBubble),
-                              alignment: Alignment.topRight,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/face.png",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/girlFace.jpg",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.receiverBubble),
-                              alignment: Alignment.topLeft,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.sendBubble),
-                              alignment: Alignment.topRight,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/face.png",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/girlFace.jpg",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.receiverBubble),
-                              alignment: Alignment.topLeft,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.sendBubble),
-                              alignment: Alignment.topRight,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/face.png",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
-                              child: Image.asset(
-                                  "asset/images/uiImages/girlFace.jpg",
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: ChatBubble(
-                              clipper: ChatBubbleClipper1(
-                                  type: BubbleType.receiverBubble),
-                              alignment: Alignment.topLeft,
-                              backGroundColor: secondoryColor,
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: screenWidth * 0.7,
-                                ),
-                                child: const Text(
-                                  "Quisque elementum tristique sapien viverra leo quisque in.",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                          ],
+                        );
+                      },
+                    )),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -580,7 +278,17 @@ class _SMessagePageState extends State<SMessagePage> {
                           suffixIcon: IconButton(
                             icon:
                                 SvgPicture.asset("asset/icons/send_button.svg"),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_textController.text.isNotEmpty) {
+                                print("hello");
+                                setState(() {
+                                  message.add(_textController.text);
+                                  _textController.clear();
+
+                                  print(message[0]);
+                                });
+                              }
+                            },
                           ),
                         ),
                       ),
@@ -613,3 +321,397 @@ class _SMessagePageState extends State<SMessagePage> {
     );
   }
 }
+
+
+
+
+// SingleChildScrollView(
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(bottom: 20),
+                    //     child: Column(
+                    //       mainAxisAlignment: MainAxisAlignment.end,
+                    //       children: [
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.end,
+                    //           children: [
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.sendBubble),
+                    //                 alignment: Alignment.topRight,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/face.png",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.start,
+                    //           children: [
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/girlFace.jpg",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.receiverBubble),
+                    //                 alignment: Alignment.topLeft,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.end,
+                    //           children: [
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.sendBubble),
+                    //                 alignment: Alignment.topRight,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/face.png",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.start,
+                    //           children: [
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/girlFace.jpg",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.receiverBubble),
+                    //                 alignment: Alignment.topLeft,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.end,
+                    //           children: [
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.sendBubble),
+                    //                 alignment: Alignment.topRight,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/face.png",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.start,
+                    //           children: [
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/girlFace.jpg",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.receiverBubble),
+                    //                 alignment: Alignment.topLeft,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.end,
+                    //           children: [
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.sendBubble),
+                    //                 alignment: Alignment.topRight,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/face.png",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.start,
+                    //           children: [
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/girlFace.jpg",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.receiverBubble),
+                    //                 alignment: Alignment.topLeft,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.end,
+                    //           children: [
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.sendBubble),
+                    //                 alignment: Alignment.topRight,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/face.png",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.start,
+                    //           children: [
+                    //             Container(
+                    //               width: 32,
+                    //               height: 32,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(32),
+                    //                 child: Image.asset(
+                    //                     "asset/images/uiImages/girlFace.jpg",
+                    //                     fit: BoxFit.cover),
+                    //               ),
+                    //             ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 30),
+                    //               child: ChatBubble(
+                    //                 clipper: ChatBubbleClipper1(
+                    //                     type: BubbleType.receiverBubble),
+                    //                 alignment: Alignment.topLeft,
+                    //                 backGroundColor: secondoryColor,
+                    //                 child: Container(
+                    //                   constraints: BoxConstraints(
+                    //                     maxWidth: screenWidth * 0.7,
+                    //                   ),
+                    //                   child: const Text(
+                    //                     "Quisque elementum tristique sapien viverra leo quisque in.",
+                    //                     style: TextStyle(
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),

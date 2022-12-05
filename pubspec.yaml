@@ -28,13 +28,20 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animated_bottom_navigation_bar: ^1.0.1
+  cloud_firestore: ^4.1.0
   cupertino_icons: ^1.0.2
+  equatable: ^2.0.5
+  firebase_auth: ^4.1.4
+  firebase_core: ^2.3.0
+  firebase_storage: ^11.0.6
   flutter:
     sdk: flutter
   flutter_chat_bubble: ^2.0.0
   flutter_staggered_grid_view: ^0.6.2
   flutter_svg: ^1.1.1+1
+  google_sign_in: ^5.4.2
   http: ^0.13.5
+  image_picker: ^0.8.6
   lottie: ^1.4.1
   page_transition: ^2.0.9
   provider: ^6.0.4
