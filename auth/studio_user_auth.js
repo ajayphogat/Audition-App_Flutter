@@ -203,6 +203,36 @@ studioAuth.get("/api/getStudioData", sAuth, async (req, res) => {
     } catch (error) {
 
     }
-})
+});
+
+
+// profilePic upload
+studioAuth.post("/api/upload/studio/profilePic", sAuth, async (req, res) => {
+    try {
+        console.log(req.body.profilePicUrl);
+        console.log("Studio");
+
+        await studioModel.findByIdAndUpdate(req.user, { $set: { profilePic: req.body.profilePicUrl } }).then(user => {
+            studioModel.findById(req.user).exec(function (error, result) {
+                console.log({ ...result._doc, token: "" });
+                res.json({ ...result._doc, token: req.token });
+            });
+        })
+
+        // await userModel.findByIdAndUpdate(req.user, { $set: { profilePic: req.body.profilePicUrl } }, { new: true }, (error, result) => {
+        //     if (error) return res.status(401).json({ msg: error.message });
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log(result);
+        //     console.log(req.body.profilePicUrl);
+        //     res.json({ "msg": yes });
+        // });
+    } catch (error) {
+        res.status(501).json({ error: error.message });
+    }
+});
 
 module.exports = studioAuth;

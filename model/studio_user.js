@@ -30,9 +30,15 @@ let studioSchema = mongoose.Schema({
         required: true,
         type: schemaType.String,
     },
+
     location: {
         type: schemaType.String,
         trim: true,
+        default: "",
+    },
+
+    profilePic: {
+        type: schemaType.String,
         default: "",
     },
 

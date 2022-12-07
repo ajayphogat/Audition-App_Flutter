@@ -890,14 +890,87 @@ userAuth.post("/api/studio/getArtistData", sAuth, async (req, res) => {
 
 
 // profilePic upload
-userAuth.post("api/upload/profilePic", auth, async (req, res) => {
+userAuth.post("/api/upload/profilePic", auth, async (req, res) => {
     try {
-        console.log(req.body.profilePicUrl);
-        await userModel.findByIdAndUpdate(req.user, { $set: { profileUrl: req.body.profilePicUrl } }, { new: true }, (error, result) => {
-            if (error) return res.status(401).json({ msg: error.message });
-            console.log(result);
-            return res.json(result);
-        });
+
+        await userModel.findByIdAndUpdate(req.user, { $set: { profilePic: req.body.profilePicUrl } }).then(user => {
+            userModel.findById(req.user).exec(function (error, result) {
+                console.log({ ...result._doc, token: "" });
+                res.json({ ...result._doc, token: req.token });
+            });
+        })
+
+        // await userModel.findByIdAndUpdate(req.user, { $set: { profilePic: req.body.profilePicUrl } }, { new: true }, (error, result) => {
+        //     if (error) return res.status(401).json({ msg: error.message });
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log("heheheheheh");
+        //     console.log(result);
+        //     console.log(req.body.profilePicUrl);
+        //     res.json({ "msg": yes });
+        // });
+    } catch (error) {
+        res.status(501).json({ error: error.message });
+    }
+});
+
+// Media upload
+userAuth.post("/api/upload/media", auth, async (req, res) => {
+    try {
+
+        if (req.body.mediaType == "photos") {
+            await userModel.findByIdAndUpdate(req.user, { $push: { photos: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+
+        else if (req.body.mediaType == "videos") {
+            console.log("inside video");
+            await userModel.findByIdAndUpdate(req.user, { $push: { videos: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+        else if (req.body.mediaType == "thumbnail") {
+            console.log("inside video");
+            await userModel.findByIdAndUpdate(req.user, { $push: { thumbnailVideo: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+
+
+
+    } catch (error) {
+        res.status(501).json({ error: error.message });
+    }
+});
+
+
+// Media delete
+userAuth.post("/api/delete/media", auth, async (req, res) => {
+    try {
+
+        if (req.body.mediaType == "photos") {
+            await userModel.findByIdAndUpdate(req.user, { $pull: { photos: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+
+
+
     } catch (error) {
         res.status(501).json({ error: error.message });
     }

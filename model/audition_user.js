@@ -205,6 +205,12 @@ let auditionSchema = mongoose.Schema({
             default: "",
         }
     ],
+    thumbnailVideo: [
+        {
+            type: schemaType.String,
+            default: "",
+        }
+    ],
 });
 
 const auditionModel = mongoose.model("audition", auditionSchema);
