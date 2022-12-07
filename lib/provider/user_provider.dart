@@ -28,6 +28,15 @@ class UserProvider extends ChangeNotifier {
     unionMembership: [],
     skills: [],
     credits: [],
+    photos: [],
+    videos: [],
+    audios: [],
+    documents: [],
+    applied: [],
+    shortlisted: [],
+    accepted: [],
+    declined: [],
+    following: [],
   );
 
   UserModel get user => _user;
@@ -66,6 +75,15 @@ class UserProvider1 extends ChangeNotifier {
     unionMembership: [],
     skills: [],
     credits: [],
+    photos: [],
+    videos: [],
+    audios: [],
+    documents: [],
+    applied: [],
+    shortlisted: [],
+    accepted: [],
+    declined: [],
+    following: [],
   );
 
   UserModel1 get user => _user;

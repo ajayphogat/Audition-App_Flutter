@@ -9,6 +9,7 @@ class StudioModel {
   final String password;
   final String token;
   final String location;
+  final String profilePic;
   final int views;
   final String projectDesc;
   final String aboutDesc;
@@ -22,6 +23,7 @@ class StudioModel {
     required this.password,
     required this.token,
     required this.location,
+    required this.profilePic,
     required this.views,
     required this.projectDesc,
     required this.aboutDesc,
@@ -38,6 +40,7 @@ class StudioModel {
       'password': password,
       'token': token,
       'location': location,
+      'profilePic': profilePic,
       'views': views,
       'projectDesc': projectDesc,
       'aboutDesc': aboutDesc,
@@ -55,6 +58,7 @@ class StudioModel {
       password: map['password'] as String,
       token: map['token'] == null ? map['token'] = "" : map['token'] as String,
       location: map['location'] as String,
+      profilePic: map['profilePic'] as String,
       views: map['views'] as int,
       projectDesc: map['projectDesc'] as String,
       aboutDesc: map['aboutDesc'] as String,
@@ -77,6 +81,7 @@ class StudioModel1 {
   final String password;
   String? token;
   final String location;
+  final String profilePic;
   final int views;
   final String projectDesc;
   final String aboutDesc;
@@ -95,6 +100,7 @@ class StudioModel1 {
     required this.password,
     required this.token,
     required this.location,
+    required this.profilePic,
     required this.views,
     required this.projectDesc,
     required this.aboutDesc,
@@ -116,6 +122,7 @@ class StudioModel1 {
       'password': password,
       'token': token,
       'location': location,
+      'profilePic': profilePic,
       'views': views,
       'projectDesc': projectDesc,
       'aboutDesc': aboutDesc,
@@ -138,6 +145,7 @@ class StudioModel1 {
       password: map['password'] as String,
       token: map['token'] != null ? map['token'] as String : null,
       location: map['location'] as String,
+      profilePic: map['profilePic'] as String,
       views: map['views'] as int,
       projectDesc: map['projectDesc'] as String,
       aboutDesc: map['aboutDesc'] as String,

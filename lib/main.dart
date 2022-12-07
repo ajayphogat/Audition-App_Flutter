@@ -48,9 +48,10 @@ class MyAPP extends StatefulWidget {
 
 class _MyAPPState extends State<MyAPP> {
   final AuthService authService = AuthService();
+  final _messangerKey = GlobalKey<ScaffoldMessengerState>();
 
   Future<dynamic> waitForToken() async {
-    return await authService.getUserData(context);
+    await authService.getUserData(context);
   }
 
   late Future<dynamic> _future;
@@ -85,6 +86,7 @@ class _MyAPPState extends State<MyAPP> {
         }
       },
       child: MaterialApp(
+        scaffoldMessengerKey: _messangerKey,
         theme: ThemeData(
           brightness: Brightness.light,
           primaryColor: primaryColor,
@@ -96,7 +98,15 @@ class _MyAPPState extends State<MyAPP> {
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
-                showSnackBar(context, snapshot.error.toString());
+                print(snapshot.error.toString());
+                // const FirstSplashScreen();
+                // showSnackBar(context, snapshot.error.toString());
+                // _messangerKey.currentState!.showSnackBar(
+                //   SnackBar(
+                //     content: Text(snapshot.error.toString()),
+                //   ),
+                // );
+                return const FirstSplashScreen();
               } else {
                 final data = snapshot.data.toString();
                 if (data == FirstSplashScreen.routeName) {

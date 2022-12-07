@@ -1,9 +1,24 @@
+import 'package:first_app/auth/auth_service.dart';
+import 'package:first_app/auth/other_services.dart';
+import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/model/job_post_model.dart';
+import 'package:first_app/pages/myProfilePages/videoPage.dart';
+import 'package:first_app/provider/studio_provider.dart';
+import 'package:first_app/provider/user_provider.dart';
+import 'package:first_app/utils/bottom_gallary_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
+import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'dart:io';
 
 class MediaProfilePage extends StatefulWidget {
   const MediaProfilePage({Key? key}) : super(key: key);
@@ -18,10 +33,64 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
+  final OtherService otherService = OtherService();
+  final AuthService authService = AuthService();
+  List<JobModel1>? _appliedJobs;
+  List<String?> videoThumbnailList = [];
+
+  // getWorkingJobs() async {
+  //   _appliedJobs = await otherService.showWorkingJobs(
+  //     context: context,
+  //     working: "applied",
+  //   );
+  //   print(_appliedJobs);
+  //   if (this.mounted) {
+  //     setState(() {});
+  //   }
+  // }
+
+  void generateThumbnail(List<String> userVideos) async {
+    for (var video in userVideos) {
+      final ab = await VideoThumbnail.thumbnailFile(
+          video: video,
+          imageFormat: ImageFormat.JPEG,
+          thumbnailPath: (await getTemporaryDirectory()).path);
+      print("ab");
+      print(ab);
+      videoThumbnailList.add(ab);
+    }
+    setState(() {});
+  }
+
+  // Future<void> generateThumbnail1(List<String> userVideos) async {
+  //   if (videoThumbnailList.length > 0) {
+  //     videoThumbnailList = [];
+  //   }
+  //   for (var video in userVideos) {
+  //     final ab = await VideoThumbnail.thumbnailFile(
+  //         video: video,
+  //         imageFormat: ImageFormat.JPEG,
+  //         thumbnailPath: (await getTemporaryDirectory()).path);
+  //     print("ab");
+  //     print(ab);
+  //     videoThumbnailList.add(ab);
+  //   }
+  //   setState(() {});
+  // }
+
+  Future<void> deletePhoto(String media) async {
+    await authService.deleteMedia(
+        context: context, media: media, mediaType: "photos");
+  }
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    // getWorkingJobs();
+    var vUser = Provider.of<UserProvider>(context, listen: false).user;
+    generateThumbnail(vUser.videos);
+
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -34,6 +103,11 @@ class _MediaProfilePageState extends State<MediaProfilePage>
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    var user = Provider.of<UserProvider>(context).user;
+    var sUser = Provider.of<StudioProvider>(context).user;
+    print(user.photos.length);
+    print("video");
+    print(videoThumbnailList.length);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -79,8 +153,16 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset("asset/images/uiImages/actor.jpg",
-                              fit: BoxFit.cover),
+                          child: user.profilePic.isEmpty
+                              ? Container(
+                                  color: Colors.black,
+                                )
+                              : Image.network(
+                                  user.profilePic,
+                                  fit: BoxFit.cover,
+                                ),
+                          // Image.asset("asset/images/uiImages/actor.jpg",
+                          //     fit: BoxFit.cover),
                         ),
                       ),
                       SizedBox(
@@ -96,9 +178,9 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                 Padding(
                                   padding:
                                       EdgeInsets.only(left: screenWidth * 0.06),
-                                  child: const Text(
-                                    "Actor",
-                                    style: TextStyle(
+                                  child: Text(
+                                    user.category,
+                                    style: const TextStyle(
                                       fontSize: 20,
                                     ),
                                   ),
@@ -109,15 +191,15 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Column(
-                                  children: const [
+                                  children: [
                                     Text(
-                                      "12k",
-                                      style: TextStyle(
+                                      user.applied.length.toString(),
+                                      style: const TextStyle(
                                         fontSize: 20,
                                       ),
                                     ),
-                                    Text(
-                                      "Followers",
+                                    const Text(
+                                      "Applied Jobs",
                                       style: TextStyle(
                                         fontSize: 15,
                                       ),
@@ -125,14 +207,14 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                   ],
                                 ),
                                 Column(
-                                  children: const [
+                                  children: [
                                     Text(
-                                      "2k",
-                                      style: TextStyle(
+                                      user.following.length.toString(),
+                                      style: const TextStyle(
                                         fontSize: 20,
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       "Following",
                                       style: TextStyle(
                                         fontSize: 15,
@@ -144,18 +226,21 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                             ),
                             Row(
                               children: [
-                                Container(
-                                  width: screenWidth * 0.25,
-                                  height: screenHeight * 0.025,
-                                  margin:
-                                      EdgeInsets.only(left: screenWidth * 0.05),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: secondoryColor,
-                                  ),
-                                  child: const Text("Follow"),
-                                ),
+                                sUser.id.isEmpty
+                                    ? Container()
+                                    : Container(
+                                        width: screenWidth * 0.25,
+                                        height: screenHeight * 0.025,
+                                        margin: EdgeInsets.only(
+                                            left: screenWidth * 0.05),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: secondoryColor,
+                                        ),
+                                        child: const Text("Follow"),
+                                      ),
                               ],
                             ),
                           ],
@@ -196,9 +281,9 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 Tab(
                   text: profileMediaData[3],
                 ),
-                Tab(
-                  text: profileMediaData[4],
-                ),
+                //   Tab(
+                //     text: profileMediaData[4],
+                //   ),
               ],
             ),
           ),
@@ -207,11 +292,12 @@ class _MediaProfilePageState extends State<MediaProfilePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                mediaPhotoSection(screenWidth, screenHeight),
-                mediaVideoSection(screenWidth, screenHeight),
-                mediaAudioSection(screenWidth, screenHeight),
-                mediaDocumentSection(screenWidth, screenHeight),
-                mediaDraftSection(screenWidth, screenHeight),
+                mediaPhotoSection(screenWidth, screenHeight, user),
+                // mediaVideoSection(screenWidth, screenHeight, user),
+                MediaVideoPage(),
+                mediaAudioSection(screenWidth, screenHeight, user),
+                mediaDocumentSection(screenWidth, screenHeight, user),
+                // mediaDraftSection(screenWidth, screenHeight),
               ],
             ),
           ),
@@ -271,7 +357,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     );
   }
 
-  Column mediaDocumentSection(double screenWidth, double screenHeight) {
+  Column mediaDocumentSection(double screenWidth, double screenHeight, user) {
     return Column(
       children: [
         Container(
@@ -322,7 +408,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     );
   }
 
-  Column mediaAudioSection(double screenWidth, double screenHeight) {
+  Column mediaAudioSection(double screenWidth, double screenHeight, user) {
     return Column(
       children: [
         Container(
@@ -353,32 +439,12 @@ class _MediaProfilePageState extends State<MediaProfilePage>
             ],
           ),
         ),
-        Container(
-          height: screenHeight * 0.52,
-          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "asset/images/illustration/mediaAudio.svg",
-                width: screenWidth * 0.40,
-              ),
-              const Text(
-                "You don't have any audio added yet",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: placeholderTextColor,
-                  fontFamily: fontFamily,
-                ),
-              ),
-            ],
-          ),
-        ),
+        emptyAudiosContainer(screenWidth, screenHeight, user, "audios"),
       ],
     );
   }
 
-  Column mediaVideoSection(double screenWidth, double screenHeight) {
+  Column mediaVideoSection(double screenWidth, double screenHeight, user) {
     return Column(
       children: [
         Container(
@@ -405,96 +471,31 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ),
                 ],
               ),
-              const Icon(MyFlutterApp.fluent_add_circle_24_filled),
+              InkWell(
+                onTap: () async {
+                  print(user.videos.length);
+                  // BottomMediaUp().showPickerMedia(context, user.id, "videos");
+                  navigatorPop() => Navigator.pop(context);
+                  circularProgressIndicatorNew(context);
+                  // videoThumbnailList = [];
+                  await BottomMediaUp().pickMedia(context, user.id, "videos");
+                  // setState(() {});
+                  // await generateThumbnail1(user.videos);
+                  print("user video length");
+                  print(user.videos.length);
+                  navigatorPop();
+                },
+                child: const Icon(MyFlutterApp.fluent_add_circle_24_filled),
+              ),
             ],
           ),
         ),
-        Container(
-          height: screenHeight * 0.52,
-          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-          child: GridView.builder(
-            gridDelegate: SliverWovenGridDelegate.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              pattern: const [
-                WovenGridTile(1),
-                WovenGridTile(
-                  5 / 7,
-                  crossAxisRatio: 1,
-                  alignment: AlignmentDirectional.centerEnd,
-                ),
-              ],
-            ),
-            itemCount: imageData.length - 3,
-            itemBuilder: (context, index) => InkWell(
-              onLongPress: () {
-                newDialogDelete(context, screenHeight, screenWidth);
-              },
-              child: Container(
-                width: screenWidth,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Image.network(
-                        imageData[index],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white38,
-                    ),
-                    const Center(
-                        child: Icon(
-                      Icons.play_circle_outline_sharp,
-                      size: 60,
-                      color: Colors.white,
-                    )),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // child: GridView.builder(
-          //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          //     crossAxisCount: 2,
-          //     mainAxisSpacing: 15,
-          //     crossAxisSpacing: 10,
-          //     childAspectRatio: 1.66,
-          //   ),
-          //   itemCount: mediaVideoData.length,
-          //   itemBuilder: (context, index) {
-          //     return InkWell(
-          //       onLongPress: () {
-          //         newDialogDelete(context, screenHeight, screenWidth);
-          //       },
-          //       child: Stack(
-          //         children: [
-          //           Image.asset(
-          //             mediaVideoData[index],
-          //           ),
-          //           const Center(
-          //               child: Icon(
-          //             Icons.play_circle_outline_sharp,
-          //             size: 60,
-          //             color: Colors.white,
-          //           )),
-          //         ],
-          //       ),
-          //     );
-          //   },
-          // ),
-        ),
+        emptyVideosContainer(screenWidth, screenHeight, user, "videos"),
       ],
     );
   }
 
-  Column mediaPhotoSection(double screenWidth, double screenHeight) {
+  Column mediaPhotoSection(double screenWidth, double screenHeight, user) {
     return Column(
       children: [
         Container(
@@ -521,52 +522,413 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ),
                 ],
               ),
-              const Icon(MyFlutterApp.fluent_add_circle_24_filled),
+              InkWell(
+                onTap: () {
+                  print(user.photos.length);
+                  BottomMediaUp().showPickerMedia(context, user.id, "photos");
+                },
+                child: const Icon(
+                  MyFlutterApp.fluent_add_circle_24_filled,
+                ),
+              ),
             ],
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-          height: screenHeight * 0.52,
-          child: GridView.builder(
-            gridDelegate: SliverWovenGridDelegate.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              pattern: const [
-                WovenGridTile(1),
-                WovenGridTile(
-                  5 / 7,
-                  crossAxisRatio: 1,
-                  alignment: AlignmentDirectional.centerEnd,
-                ),
-              ],
-            ),
-            itemCount: imageData.length,
-            itemBuilder: (context, index) => InkWell(
-              onLongPress: () {
-                newDialogDelete(context, screenHeight, screenWidth);
-              },
-              child: Container(
-                width: screenWidth,
-                height: screenHeight * 0.05,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Image.network(
-                  imageData[index],
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-        ),
+        emptyPhotosContainer(screenWidth, screenHeight, user, "photos"),
       ],
     );
   }
 
-  Future<dynamic> newDialogDelete(
-      BuildContext context, double screenHeight, double screenWidth) {
+  Container emptyPhotosContainer(
+      double screenWidth, double screenHeight, user, String text) {
+    return Container(
+      // decoration: const BoxDecoration(
+      //     border: Border(
+      //   top: BorderSide(color: Colors.grey),
+      // )),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+      height: screenHeight * 0.52,
+      child: user.photos.isEmpty
+          ? Container(
+              height: screenHeight * 0.52,
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "asset/images/illustration/mediaAudio.svg",
+                    width: screenWidth * 0.40,
+                  ),
+                  Text(
+                    "You don't have any $text added yet",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: placeholderTextColor,
+                      fontFamily: fontFamily,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : GridView.builder(
+              gridDelegate: SliverWovenGridDelegate.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                pattern: const [
+                  WovenGridTile(1),
+                  WovenGridTile(
+                    5 / 7,
+                    crossAxisRatio: 1,
+                    alignment: AlignmentDirectional.centerEnd,
+                  ),
+                ],
+              ),
+              itemCount: user.photos.length,
+              itemBuilder: (context, index) => InkWell(
+                onTap: () async {
+                  await showDialog(
+                      // barrierDismissible: false,
+                      context: context,
+                      builder: (context) {
+                        return Center(
+                          child: Material(
+                            elevation: 5,
+                            borderRadius: BorderRadius.circular(5),
+                            clipBehavior: Clip.antiAlias,
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              height: screenHeight * 0.60,
+                              width: screenWidth,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        icon: const Icon(Icons.close),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth,
+                                    height: screenHeight * 0.50,
+                                    child: PhotoViewGallery.builder(
+                                      itemCount: user.photos.length,
+                                      builder: (context, i) {
+                                        // i = index;
+                                        // print(i);
+                                        // print("i = index");
+                                        return PhotoViewGalleryPageOptions(
+                                          imageProvider: NetworkImage(
+                                            user.photos[index],
+                                          ),
+                                          minScale:
+                                              PhotoViewComputedScale.contained *
+                                                  0.8,
+                                          maxScale:
+                                              PhotoViewComputedScale.covered *
+                                                  2,
+                                        );
+                                      },
+                                      // onPageChanged: (value) {
+                                      //   print("jheyyyeyye");
+                                      //   print(value);
+                                      //   if (index == user.photos.length - 1) {
+                                      //     setState(() {
+                                      //       index = 0;
+                                      //     });
+                                      //   } else {
+                                      //     setState(() {
+                                      //       index = index + 1;
+                                      //     });
+                                      //   }
+                                      // },
+                                      scrollPhysics:
+                                          const NeverScrollableScrollPhysics(),
+                                      backgroundDecoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(20),
+                                        ),
+                                        color: Theme.of(context).canvasColor,
+                                      ),
+                                      enableRotation: true,
+                                      loadingBuilder: (context, event) =>
+                                          Center(
+                                        child: SizedBox(
+                                          width: 30.0,
+                                          height: 30.0,
+                                          child: CircularProgressIndicator(
+                                              backgroundColor: Colors.orange,
+                                              value: event == null
+                                                  ? 0
+                                                  : (event.cumulativeBytesLoaded
+                                                          .toDouble() /
+                                                      event.expectedTotalBytes!
+                                                          .toDouble())),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // child: Column(
+                              //   children: [
+                              //     Row(
+                              //       children: [
+                              //         IconButton(
+                              //           onPressed: () {
+                              //             Navigator.pop(context);
+                              //           },
+                              //           icon: const Icon(Icons.close),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     Expanded(
+                              //         child: Image.network(user.photos[index])),
+                              //   ],
+                              // ),
+
+                              // child: const CircularProgressIndicator(),
+                            ),
+                          ),
+                        );
+                      });
+                },
+                onLongPress: () {
+                  newDialogDelete(
+                      context, screenHeight, screenWidth, user.photos[index]);
+                },
+                child: Container(
+                  width: screenWidth,
+                  height: screenHeight * 0.05,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Image.network(
+                    user.photos[index],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+    );
+  }
+
+  Container emptyVideosContainer(
+      double screenWidth, double screenHeight, user, String text) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+      height: screenHeight * 0.52,
+      child: user.videos.isEmpty
+          ? Container(
+              height: screenHeight * 0.52,
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "asset/images/illustration/mediaAudio.svg",
+                    width: screenWidth * 0.40,
+                  ),
+                  Text(
+                    "You don't have any $text added yet",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: placeholderTextColor,
+                      fontFamily: fontFamily,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : videoThumbnailList.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : GridView.builder(
+                  gridDelegate: SliverWovenGridDelegate.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    pattern: const [
+                      WovenGridTile(1),
+                      WovenGridTile(
+                        5 / 7,
+                        crossAxisRatio: 1,
+                        alignment: AlignmentDirectional.centerEnd,
+                      ),
+                    ],
+                  ),
+                  itemCount: videoThumbnailList.length,
+                  itemBuilder: (context, index) {
+                    print("video thumbnail");
+                    print(videoThumbnailList[index]);
+                    return InkWell(
+                      onLongPress: () {
+                        newDialogDelete(context, screenHeight, screenWidth, "");
+                      },
+                      child: Container(
+                        width: screenWidth,
+                        height: screenHeight * 0.05,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.file(
+                              File(videoThumbnailList[index]!),
+                              fit: BoxFit.cover,
+                            ),
+                            // Container(
+                            //   color: Colors.grey.withOpacity(0.3),
+                            // ),
+                            Icon(
+                              Icons.play_circle_outline,
+                              color: Colors.white.withOpacity(0.8),
+                              size: 80,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+    );
+  }
+
+  Container emptyAudiosContainer(
+      double screenWidth, double screenHeight, user, String text) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+      height: screenHeight * 0.52,
+      child: user.audios.isEmpty
+          ? Container(
+              height: screenHeight * 0.52,
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "asset/images/illustration/mediaAudio.svg",
+                    width: screenWidth * 0.40,
+                  ),
+                  Text(
+                    "You don't have any $text added yet",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: placeholderTextColor,
+                      fontFamily: fontFamily,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : GridView.builder(
+              gridDelegate: SliverWovenGridDelegate.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                pattern: const [
+                  WovenGridTile(1),
+                  WovenGridTile(
+                    5 / 7,
+                    crossAxisRatio: 1,
+                    alignment: AlignmentDirectional.centerEnd,
+                  ),
+                ],
+              ),
+              itemCount: user.photos.length,
+              itemBuilder: (context, index) => InkWell(
+                onLongPress: () {
+                  newDialogDelete(context, screenHeight, screenWidth, "");
+                },
+                child: Container(
+                  width: screenWidth,
+                  height: screenHeight * 0.05,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Image.network(
+                    user.photos[index],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+    );
+  }
+
+  Container emptyDocumentsContainer(
+      double screenWidth, double screenHeight, user, String text) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+      height: screenHeight * 0.52,
+      child: user.photos.isEmpty
+          ? Container(
+              height: screenHeight * 0.52,
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "asset/images/illustration/mediaAudio.svg",
+                    width: screenWidth * 0.40,
+                  ),
+                  Text(
+                    "You don't have any $text added yet",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: placeholderTextColor,
+                      fontFamily: fontFamily,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : GridView.builder(
+              gridDelegate: SliverWovenGridDelegate.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                pattern: const [
+                  WovenGridTile(1),
+                  WovenGridTile(
+                    5 / 7,
+                    crossAxisRatio: 1,
+                    alignment: AlignmentDirectional.centerEnd,
+                  ),
+                ],
+              ),
+              itemCount: user.photos.length,
+              itemBuilder: (context, index) => InkWell(
+                onLongPress: () {
+                  newDialogDelete(context, screenHeight, screenWidth, "");
+                },
+                child: Container(
+                  width: screenWidth,
+                  height: screenHeight * 0.05,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Image.network(
+                    user.photos[index],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+    );
+  }
+
+  Future<dynamic> newDialogDelete(BuildContext context, double screenHeight,
+      double screenWidth, String photo) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -576,8 +938,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               borderRadius: BorderRadius.circular(20),
             ),
             child: Container(
-              width: screenWidth * 0.80,
-              height: screenHeight * 0.18,
+              width: screenWidth * 0.50,
+              height: screenHeight * 0.10,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
@@ -586,29 +948,33 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      navigatorPop() => Navigator.pop(context);
+                      circularProgressIndicatorNew(context);
+                      await deletePhoto(photo);
+                      navigatorPop();
+                      navigatorPop();
                     },
                     child: const Text(
                       "Delete",
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      "Edit",
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      "Change",
-                    ),
-                  ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.pop(context);
+                  //   },
+                  //   child: const Text(
+                  //     "Edit",
+                  //   ),
+                  // ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.pop(context);
+                  //   },
+                  //   child: const Text(
+                  //     "Change",
+                  //   ),
+                  // ),
                 ],
               ),
             ),

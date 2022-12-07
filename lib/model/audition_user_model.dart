@@ -28,6 +28,15 @@ class UserModel {
   final List<String> unionMembership;
   final List<String> skills;
   final List<String> credits;
+  final List<String> photos;
+  final List<String> videos;
+  final List<String> audios;
+  final List<String> documents;
+  final List<String> applied;
+  final List<String> shortlisted;
+  final List<String> accepted;
+  final List<String> declined;
+  final List<String> following;
   UserModel({
     required this.id,
     required this.fname,
@@ -54,6 +63,15 @@ class UserModel {
     required this.unionMembership,
     required this.skills,
     required this.credits,
+    required this.photos,
+    required this.videos,
+    required this.audios,
+    required this.documents,
+    required this.applied,
+    required this.shortlisted,
+    required this.accepted,
+    required this.declined,
+    required this.following,
   });
 
   Map<String, dynamic> toMap() {
@@ -83,6 +101,15 @@ class UserModel {
       'unionMembership': unionMembership,
       'skills': skills,
       'credits': credits,
+      'photos': photos,
+      'videos': videos,
+      'audios': audios,
+      'documents': documents,
+      'applied': applied,
+      'shortlisted': shortlisted,
+      'accepted': accepted,
+      'declined': declined,
+      'following': following,
     };
   }
 
@@ -113,6 +140,15 @@ class UserModel {
       unionMembership: List<String>.from(map['unionMembership']),
       skills: List<String>.from(map['skills']),
       credits: List<String>.from(map['credits']),
+      photos: List<String>.from(map['photos']),
+      videos: List<String>.from(map['videos']),
+      audios: List<String>.from(map['audios']),
+      documents: List<String>.from(map['documents']),
+      applied: List<String>.from(map['applied']),
+      shortlisted: List<String>.from(map['shortlisted']),
+      accepted: List<String>.from(map['accepted']),
+      declined: List<String>.from(map['declined']),
+      following: List<String>.from(map['following']),
     );
   }
 
@@ -149,6 +185,15 @@ class UserModel1 {
   final List<String> unionMembership;
   final List<String> skills;
   final List<String> credits;
+  final List<String> photos;
+  final List<String> videos;
+  final List<String> audios;
+  final List<String> documents;
+  final List<String> applied;
+  final List<String> shortlisted;
+  final List<String> accepted;
+  final List<String> declined;
+  final List<String> following;
   UserModel1({
     required this.id,
     required this.fname,
@@ -175,6 +220,15 @@ class UserModel1 {
     required this.unionMembership,
     required this.skills,
     required this.credits,
+    required this.photos,
+    required this.videos,
+    required this.audios,
+    required this.documents,
+    required this.applied,
+    required this.shortlisted,
+    required this.accepted,
+    required this.declined,
+    required this.following,
   });
 
   Map<String, dynamic> toMap() {
@@ -204,6 +258,15 @@ class UserModel1 {
       'unionMembership': unionMembership,
       'skills': skills,
       'credits': credits,
+      'photos': photos,
+      'videos': videos,
+      'audios': audios,
+      'documents': documents,
+      'applied': applied,
+      'shortlisted': shortlisted,
+      'accepted': accepted,
+      'declined': declined,
+      'following': following,
     };
   }
 
@@ -234,6 +297,15 @@ class UserModel1 {
       unionMembership: List<String>.from(map['unionMembership']),
       skills: List<String>.from(map['skills']),
       credits: List<String>.from(map['credits']),
+      photos: List<String>.from(map['photos']),
+      videos: List<String>.from(map['videos']),
+      audios: List<String>.from(map['audios']),
+      documents: List<String>.from(map['documents']),
+      applied: List<String>.from(map['applied']),
+      shortlisted: List<String>.from(map['shortlisted']),
+      accepted: List<String>.from(map['accepted']),
+      declined: List<String>.from(map['declined']),
+      following: List<String>.from(map['following']),
     );
   }
 

@@ -1,14 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/studio_code/scommon/scommon.dart';
+import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sinviteFriends.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/sAboutPage.dart';
 import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/sprojectPage.dart';
+import 'package:first_app/utils/bottom_gallary_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -114,11 +113,18 @@ class _SMyProfilePageState extends State<SMyProfilePage>
                             ),
                           ),
                           onTap: () async {
+                            circularProgressIndicatorNew(context);
+                            navigatorPop() => Navigator.pop(context);
+                            navigatorPush() =>
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    MainPage.routeName, (route) => false);
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             prefs.setString("x-auth-token", "");
                             prefs.setString("x-studio-token", "");
                             await FirebaseAuth.instance.signOut();
+                            navigatorPop();
+                            navigatorPush();
                             // WidgetsBinding.instance.addPostFrameCallback((_) {
                             //   newDialogBox1(context, screenWidth, screenHeight,
                             //       "Account Reported!", "GO BACK", false, "");
@@ -254,29 +260,44 @@ class _SMyProfilePageState extends State<SMyProfilePage>
                           child: ClipRRect(
                             clipBehavior: Clip.hardEdge,
                             borderRadius: BorderRadius.circular(100),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Image.asset(
-                                  "asset/images/uiImages/girlFace.jpg",
-                                  fit: BoxFit.cover),
-                            ),
+                            child: sUser.profilePic.isEmpty
+                                ? Container(
+                                    color: Colors.black,
+                                  )
+                                : Image.network(
+                                    sUser.profilePic,
+                                    fit: BoxFit.cover,
+                                  ),
+
+                            // AspectRatio(
+                            //   aspectRatio: 1,
+                            //   child: Image.asset(
+                            //       "asset/images/uiImages/girlFace.jpg",
+                            //       fit: BoxFit.cover),
+                            // ),
                           ),
                         ),
                         Positioned(
                           bottom: 0,
                           right: 0,
-                          child: Container(
-                            width: screenWidth * 0.065,
-                            height: screenWidth * 0.065,
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              MyFlutterApp.camera_black,
-                              color: Colors.white,
-                              size: 16,
+                          child: InkWell(
+                            onTap: () {
+                              BottomMediaUp()
+                                  .showPicker(context, sUser.id, "studio");
+                            },
+                            child: Container(
+                              width: screenWidth * 0.065,
+                              height: screenWidth * 0.065,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                MyFlutterApp.camera_black,
+                                color: Colors.white,
+                                size: 16,
+                              ),
                             ),
                           ),
                         ),

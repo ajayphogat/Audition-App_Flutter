@@ -59,6 +59,15 @@ class AuthService {
         unionMembership: [],
         skills: [],
         credits: [],
+        photos: [],
+        videos: [],
+        audios: [],
+        documents: [],
+        applied: [],
+        shortlisted: [],
+        accepted: [],
+        declined: [],
+        following: [],
       );
 
       http.Response res = await http.post(Uri.parse("$url/api/audition/signup"),
@@ -130,6 +139,15 @@ class AuthService {
         unionMembership: [],
         skills: [],
         credits: [],
+        photos: [],
+        videos: [],
+        audios: [],
+        documents: [],
+        applied: [],
+        shortlisted: [],
+        accepted: [],
+        declined: [],
+        following: [],
       );
 
       http.Response res = await http.post(Uri.parse("$url/api/audition/login"),
@@ -146,6 +164,7 @@ class AuthService {
         QuerySnapshot snapshot =
             await DatabaseService(uid: jsonDecode(res.body)['_id'])
                 .gettingUserData(email.trim());
+
         print("Here is snapshot");
         print(snapshot);
       }
@@ -160,6 +179,8 @@ class AuthService {
                 Navigator.pushNamed(context, routeName);
             SharedPreferences prefs = await SharedPreferences.getInstance();
             userProvider.setUser(res.body);
+            await prefs.setString(
+                "x-firebase-token", FirebaseAuth.instance.currentUser!.uid);
             await prefs.setString(
                 "x-auth-token", jsonDecode(res.body)['token']);
             await prefs.remove("x-studio-token");
@@ -201,6 +222,7 @@ class AuthService {
                 "Content-Type": "application/json; charset=UTF-8",
                 "x-auth-token": tokenAudition,
               });
+
           await prefs.setString(
               "x-auth-token", jsonDecode(userResp.body)['token']);
           await prefs.remove("x-studio-token");
@@ -239,6 +261,9 @@ class AuthService {
       }
     } catch (e) {
       showSnackBar(context, e.toString());
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, FirstSplashScreen.routeName, (route) => false);
       // print(e.toString());
     }
   }
@@ -283,7 +308,80 @@ class AuthService {
   // upload Profile Pic
   Future<void> updateProfilePic({
     required BuildContext context,
-    required String url,
+    required String profilePicUrl,
+    required String user,
+  }) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      var studioProvider = Provider.of<StudioProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString("x-auth-token");
+      String? studioToken = prefs.getString("x-studio-token");
+
+      if (token == null) {
+        await prefs.setString("x-auth-token", "");
+        token = prefs.getString("x-auth-token");
+      }
+
+      if (studioToken == null) {
+        await prefs.setString("x-studio-token", "");
+        studioToken = prefs.getString("x-studio-token");
+      }
+
+      print(profilePicUrl);
+
+      if (user == "audition") {
+        print("audition");
+        http.Response res =
+            await http.post(Uri.parse("$url/api/upload/profilePic"),
+                body: jsonEncode({
+                  "profilePicUrl": profilePicUrl,
+                }),
+                headers: <String, String>{
+              "Content-Type": "application/json; charset=UTF-8",
+              "x-auth-token": token!,
+            });
+
+        print(res.statusCode);
+        httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            userProvider.setUser(res.body);
+          },
+        );
+      } else {
+        print("studio");
+        http.Response res =
+            await http.post(Uri.parse("$url/api/upload/studio/profilePic"),
+                body: jsonEncode({
+                  "profilePicUrl": profilePicUrl,
+                }),
+                headers: <String, String>{
+              "Content-Type": "application/json; charset=UTF-8",
+              "x-studio-token": studioToken!,
+            });
+
+        print(res.statusCode);
+        httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            studioProvider.setUser(res.body);
+          },
+        );
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  // upload Media Files
+  Future<void> uploadMedia({
+    required BuildContext context,
+    required String media,
+    required String mediaType,
   }) async {
     try {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -296,24 +394,71 @@ class AuthService {
         token = prefs.getString("x-auth-token");
       }
 
-      print(url);
-      http.Response res =
-          await http.post(Uri.parse("$url/api/upload/profilePic"),
-              body: jsonEncode({
-                "profilePicUrl": url,
-              }),
-              headers: <String, String>{
+      print(media);
+      print("before res");
+      print(mediaType);
+      http.Response res = await http.post(Uri.parse("$url/api/upload/media"),
+          body: jsonEncode({
+            "media": media,
+            "mediaType": mediaType,
+          }),
+          headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
             "x-auth-token": token!,
           });
 
       print(res.statusCode);
       httpErrorHandel(
-          context: context,
-          res: res,
-          onSuccess: () {
-            userProvider.setUser(res.body);
+        context: context,
+        res: res,
+        onSuccess: () {
+          userProvider.setUser(res.body);
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  // delete Media Files
+  Future<void> deleteMedia({
+    required BuildContext context,
+    required String media,
+    required String mediaType,
+  }) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString("x-auth-token");
+
+      if (token == null) {
+        await prefs.setString("x-auth-token", "");
+        token = prefs.getString("x-auth-token");
+      }
+
+      print(media);
+      print("before res");
+      print(mediaType);
+      http.Response res = await http.post(Uri.parse("$url/api/delete/media"),
+          body: jsonEncode({
+            "media": media,
+            "mediaType": mediaType,
+          }),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-auth-token": token!,
           });
+
+      print(res.statusCode);
+      httpErrorHandel(
+        context: context,
+        res: res,
+        onSuccess: () {
+          userProvider.setUser(res.body);
+          showSnackBar(context, "Deleted Successfully");
+        },
+      );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -332,31 +477,41 @@ class AuthService {
   }) async {
     try {
       var user = UserModel(
-          id: "",
-          fname: fname,
-          email: "",
-          number: "",
-          password: "",
-          category: category,
-          token: "",
-          bio: "",
-          pronoun: pronoun,
-          gender: gender,
-          location: location,
-          profileUrl: profileUrl,
-          profilePic: "",
-          visibility: visibility,
-          age: "",
-          ethnicity: "",
-          height: "",
-          weight: "",
-          bodyType: "",
-          hairColor: "",
-          eyeColor: "",
-          socialMedia: [],
-          unionMembership: [],
-          skills: [],
-          credits: []);
+        id: "",
+        fname: fname,
+        email: "",
+        number: "",
+        password: "",
+        category: category,
+        token: "",
+        bio: "",
+        pronoun: pronoun,
+        gender: gender,
+        location: location,
+        profileUrl: profileUrl,
+        profilePic: "",
+        visibility: visibility,
+        age: "",
+        ethnicity: "",
+        height: "",
+        weight: "",
+        bodyType: "",
+        hairColor: "",
+        eyeColor: "",
+        socialMedia: [],
+        unionMembership: [],
+        skills: [],
+        credits: [],
+        photos: [],
+        videos: [],
+        audios: [],
+        documents: [],
+        applied: [],
+        shortlisted: [],
+        accepted: [],
+        declined: [],
+        following: [],
+      );
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -400,31 +555,41 @@ class AuthService {
   }) async {
     try {
       var user = UserModel(
-          id: "",
-          fname: "",
-          email: "",
-          number: "",
-          password: "",
-          category: "",
-          token: "",
-          bio: "",
-          pronoun: "",
-          gender: "",
-          location: "",
-          profileUrl: "",
-          profilePic: "",
-          visibility: "",
-          age: age,
-          ethnicity: ethnicity,
-          height: height,
-          weight: weight,
-          bodyType: bodyType,
-          hairColor: hairColor,
-          eyeColor: eyeColor,
-          socialMedia: [],
-          unionMembership: [],
-          skills: [],
-          credits: []);
+        id: "",
+        fname: "",
+        email: "",
+        number: "",
+        password: "",
+        category: "",
+        token: "",
+        bio: "",
+        pronoun: "",
+        gender: "",
+        location: "",
+        profileUrl: "",
+        profilePic: "",
+        visibility: "",
+        age: age,
+        ethnicity: ethnicity,
+        height: height,
+        weight: weight,
+        bodyType: bodyType,
+        hairColor: hairColor,
+        eyeColor: eyeColor,
+        socialMedia: [],
+        unionMembership: [],
+        skills: [],
+        credits: [],
+        photos: [],
+        videos: [],
+        audios: [],
+        documents: [],
+        applied: [],
+        shortlisted: [],
+        accepted: [],
+        declined: [],
+        following: [],
+      );
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -707,6 +872,7 @@ class AuthService {
         password: password,
         token: "",
         location: "",
+        profilePic: "",
         views: 0,
         projectDesc: "",
         aboutDesc: "",
@@ -763,6 +929,7 @@ class AuthService {
         password: password,
         token: "",
         location: "",
+        profilePic: "",
         views: 0,
         projectDesc: "",
         aboutDesc: "",
@@ -822,6 +989,7 @@ class AuthService {
         password: "",
         token: "",
         location: location,
+        profilePic: "",
         views: 0,
         projectDesc: "",
         aboutDesc: "",
@@ -871,6 +1039,7 @@ class AuthService {
         password: "",
         token: "",
         location: "",
+        profilePic: "",
         views: 0,
         projectDesc: projectDesc,
         aboutDesc: "",
@@ -920,6 +1089,7 @@ class AuthService {
         password: "",
         token: "",
         location: "",
+        profilePic: "",
         views: 0,
         projectDesc: "",
         aboutDesc: aboutDesc,

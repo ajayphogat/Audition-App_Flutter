@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/creditsPage.dart';
@@ -13,11 +16,13 @@ import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart'
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
 import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/provider/studio_provider.dart';
+import 'package:first_app/utils/bottom_gallary_up.dart';
 import 'package:first_app/utils/showSnackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../provider/user_provider.dart';
 import 'package:path/path.dart' as p;
 
@@ -49,73 +54,106 @@ class _MyProfilePageState extends State<MyProfilePage>
     await authService.switchToStudio(context: context);
   }
 
-  Future<void> uploadImageGallary(String userId) async {
-    final imagePicker = ImagePicker();
-    File? image;
-    showsnack(e) => showSnackBar(context, e.toString());
+  // Future pickImages(String userId) async {
+  //   showsnack(e) => showSnackBar(context, e.toString());
+  //   try {
+  //     var files = await FilePicker.platform.pickFiles(
+  //       type: FileType.custom,
+  //       allowMultiple: false,
+  //       allowedExtensions: ['jpeg', 'jpg', 'png'],
+  //     );
+  //     if (files != null && files.files.isNotEmpty) {
+  //       profilePic = File(files.files[0].path!);
+  //       final fileName = p.basename(profilePic!.path);
+  //       try {
+  //         //Upload to Firebase
+  //         var snapshot = await _firebaseStorage
+  //             .ref()
+  //             .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
+  //             .putFile(profilePic!)
+  //             .whenComplete(() {});
+  //         var downloadUrl = await snapshot.ref.getDownloadURL();
+  //         print(snapshot.state);
+  //         print(downloadUrl);
+  //         await uploadProfilePic(downloadUrl);
+  //       } catch (e) {
+  //         showsnack(e);
+  //       }
+  //     } else {
+  //       showsnack("No Image Selected");
+  //     }
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
-    image = await imagePicker.pickImage(source: ImageSource.gallery) as File;
-    var file = File(image.path);
+  // Future<void> uploadImageGallary(String userId) async {
+  //   final imagePicker = ImagePicker();
+  //   // File? image;
+  //   showsnack(e) => showSnackBar(context, e.toString());
 
-    if (image != null) {
-      final fileName = p.basename(file.path);
-      // setState(() {
-      //   profilePic = file;
-      // });
+  //   final image = await imagePicker.pickImage(source: ImageSource.gallery);
+  //   var file = File(image!.path);
 
-      try {
-        //Upload to Firebase
-        var snapshot = await _firebaseStorage
-            .ref()
-            .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
-            .putFile(file);
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-        print(downloadUrl);
-        await uploadProfilePic(downloadUrl);
-      } catch (e) {
-        showsnack(e);
-      }
-    } else {
-      showsnack("No Image Selected");
-    }
-  }
+  //   if (image != null) {
+  //     final fileName = p.basename(file.path);
+  //     // setState(() {
+  //     //   profilePic = file;
+  //     // });
 
-  Future imgFromCamera(String userId) async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
-    showsnack(e) => showSnackBar(context, e.toString());
+  //     try {
+  //       //Upload to Firebase
+  //       var snapshot = await _firebaseStorage
+  //           .ref()
+  //           .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
+  //           .putFile(file);
+  //       var downloadUrl = await snapshot.ref.getDownloadURL();
+  //       print(downloadUrl);
+  //       await uploadProfilePic(downloadUrl);
+  //     } catch (e) {
+  //       showsnack(e);
+  //     }
+  //   } else {
+  //     showsnack("No Image Selected");
+  //   }
+  // }
 
-    if (pickedFile != null) {
-      var file = File(pickedFile.path);
-      final fileName = p.basename(file.path);
-      setState(() {
-        profilePic = file;
-      });
+  // Future imgFromCamera(String userId) async {
+  //   final imagePicker = ImagePicker();
+  //   final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
+  //   showsnack(e) => showSnackBar(context, e.toString());
 
-      try {
-        //Upload to Firebase
-        var snapshot = await _firebaseStorage
-            .ref()
-            .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
-            .putFile(file)
-            .whenComplete(() {
-          print("completed");
-        });
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-        print(snapshot.state);
-        print(downloadUrl);
-        await uploadProfilePic(downloadUrl);
-      } catch (e) {
-        showsnack(e.toString());
-      }
-    } else {
-      showsnack("No image selected");
-    }
-  }
+  //   if (pickedFile != null) {
+  //     var file = File(pickedFile.path);
+  //     final fileName = p.basename(file.path);
+  //     setState(() {
+  //       profilePic = file;
+  //     });
 
-  Future<void> uploadProfilePic(String url) async {
-    await authService.updateProfilePic(context: context, url: url);
-  }
+  //     try {
+  //       //Upload to Firebase
+  //       var snapshot = await _firebaseStorage
+  //           .ref()
+  //           .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
+  //           .putFile(file)
+  //           .whenComplete(() {
+  //         print("completed");
+  //       });
+  //       var downloadUrl = await snapshot.ref.getDownloadURL();
+  //       print(snapshot.state);
+  //       print(downloadUrl);
+  //       await uploadProfilePic(downloadUrl);
+  //     } catch (e) {
+  //       showsnack(e.toString());
+  //     }
+  //   } else {
+  //     showsnack("No image selected");
+  //   }
+  // }
+
+  // Future<void> uploadProfilePic(String url) async {
+  //   await authService.updateProfilePic(context: context, profilePicUrl: url);
+  // }
 
   @override
   void initState() {
@@ -161,7 +199,10 @@ class _MyProfilePageState extends State<MyProfilePage>
                         ? Container(
                             color: Colors.black,
                           )
-                        : Image.network(user.profilePic),
+                        : Image.network(
+                            user.profilePic,
+                            fit: BoxFit.cover,
+                          ),
 
                     // Image.asset(
                     //   profilePic != null
@@ -177,7 +218,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                   top: screenHeight * 0.02,
                   child: InkWell(
                     onTap: () async {
-                      _showPicker(context, user.id);
+                      BottomMediaUp().showPicker(context, user.id, "audition");
                     },
                     child: const Icon(
                       MyFlutterApp.camera_black,
@@ -269,11 +310,35 @@ class _MyProfilePageState extends State<MyProfilePage>
                           SizedBox(
                             width: screenWidth * 0.01,
                           ),
-                          const Text(
-                            "Share",
-                            style: TextStyle(
-                              color: placeholderTextColor,
-                              fontSize: 15,
+                          InkWell(
+                            onTap: () async {
+                              print("hello");
+                              navigatorPop() => Navigator.pop(context);
+
+                              navigatorPush() =>
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      MainPage.routeName, (route) => false);
+                              circularProgressIndicatorNew(context);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("x-auth-token", "");
+                              prefs.setString("x-studio-token", "");
+                              await FirebaseAuth.instance.signOut();
+                              navigatorPop();
+                              navigatorPush();
+
+                              // WidgetsBinding.instance.addPostFrameCallback((_) {
+                              //   newDialogBox1(context, screenWidth, screenHeight,
+                              //       "Account Reported!", "GO BACK", false, "");
+                              // }
+                              // );
+                            },
+                            child: const Text(
+                              "Share",
+                              style: TextStyle(
+                                color: placeholderTextColor,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         ],
@@ -834,39 +899,5 @@ class _MyProfilePageState extends State<MyProfilePage>
         ),
       ],
     );
-  }
-
-  void _showPicker(context, String userId) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  ListTile(
-                      leading: Icon(Icons.photo_library),
-                      title: Text('Gallery'),
-                      onTap: () async {
-                        circularProgressIndicatorNew(context);
-                        await uploadImageGallary(userId);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      }),
-                  ListTile(
-                    leading: Icon(Icons.photo_camera),
-                    title: Text('Camera'),
-                    onTap: () async {
-                      circularProgressIndicatorNew(context);
-                      await imgFromCamera(userId);
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 }
