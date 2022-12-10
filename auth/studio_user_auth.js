@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const studioModel = require("../model/studio_user");
 const jwtKey = require("../constant/const_studio");
 const sAuth = require("../middleware/token_studio_validation");
+const userModel = require("../model/audition_user");
 
 const studioAuth = express.Router();
 
@@ -11,10 +12,18 @@ const studioAuth = express.Router();
 // Studio - Signup api
 studioAuth.post("/api/studio/signup", async (req, res) => {
     try {
+        let firebaseCreate;
         const { fname, number, email, password } = req.body;
         const existingUser = await studioModel.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ msg: "User with same email already exist!" });
+        }
+        const existingAudition = await userModel.findOne({ email });
+        if (existingAudition) {
+            firebaseCreate = false;
+        }
+        else {
+            firebaseCreate = true;
         }
         const hashedPassword = await bcryptjs.hash(password, 8);
 
@@ -26,7 +35,7 @@ studioAuth.post("/api/studio/signup", async (req, res) => {
         });
 
         user = await user.save();
-        res.json(user);
+        res.json({ ...user._doc, created: firebaseCreate });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -232,6 +241,24 @@ studioAuth.post("/api/upload/studio/profilePic", sAuth, async (req, res) => {
         // });
     } catch (error) {
         res.status(501).json({ error: error.message });
+    }
+});
+
+
+// get studio details with populate
+studioAuth.get("/api/showFollowers", sAuth, async (req, res) => {
+    try {
+        // const working = req.query.working;
+        studioModel.findById(req.user).then(user => {
+            studioModel.findById(req.user).populate("followers").exec(function (error, result) {
+                // if (error) return res.status(401).json({ msg: error.message });
+
+                console.log(result);
+                res.json(result);
+            })
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 

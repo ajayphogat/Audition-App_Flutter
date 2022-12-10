@@ -15,10 +15,18 @@ const userAuth = express.Router();
 // Audition - Signup api
 userAuth.post("/api/audition/signup", async (req, res) => {
     try {
+        let firebaseCreate;
         const { fname, number, email, password } = req.body;
         const existingUser = await userModel.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ msg: "User with same email already exist!" });
+        }
+        const existingStudio = await studioModel.findOne({ email });
+        if (existingStudio) {
+            firebaseCreate = false;
+        }
+        else {
+            firebaseCreate = true;
         }
         const hashedPassword = await bcryptjs.hash(password, 8);
 
@@ -30,7 +38,7 @@ userAuth.post("/api/audition/signup", async (req, res) => {
         });
 
         user = await user.save();
-        res.json(user);
+        res.json({ ...user._doc, created: firebaseCreate });
 
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -46,6 +54,10 @@ userAuth.post("/api/audition/login", async (req, res) => {
         if (!existingUser) {
             return res.status(400).json({ msg: "User not found!" });
         }
+        // const existingStudio = await studioModel.findOne({email});
+        // if(existingStudio){
+
+        // }
         const isMatch = await bcryptjs.compare(password, existingUser.password);
         if (!isMatch) {
             return res.status(400).json({ msg: "Incorrect Password!" });
@@ -938,9 +950,27 @@ userAuth.post("/api/upload/media", auth, async (req, res) => {
                 });
             })
         }
-        else if (req.body.mediaType == "thumbnail") {
-            console.log("inside video");
+        else if (req.body.mediaType == "thumbnails") {
+            console.log("inside thumbnail");
             await userModel.findByIdAndUpdate(req.user, { $push: { thumbnailVideo: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+        else if (req.body.mediaType == "audios") {
+            console.log("inside audio");
+            await userModel.findByIdAndUpdate(req.user, { $push: { audios: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+        else if (req.body.mediaType == "documents") {
+            console.log("inside audio");
+            await userModel.findByIdAndUpdate(req.user, { $push: { documents: req.body.media } }).then(user => {
                 userModel.findById(req.user).exec(function (error, result) {
                     console.log({ ...result._doc, token: "" });
                     res.json({ ...result._doc, token: req.token });
@@ -959,9 +989,42 @@ userAuth.post("/api/upload/media", auth, async (req, res) => {
 // Media delete
 userAuth.post("/api/delete/media", auth, async (req, res) => {
     try {
+        console.log(req.body.mediaType);
 
         if (req.body.mediaType == "photos") {
             await userModel.findByIdAndUpdate(req.user, { $pull: { photos: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+        else if (req.body.mediaType == "videos") {
+            await userModel.findByIdAndUpdate(req.user, { $pull: { videos: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+        else if (req.body.mediaType == "thumbnails") {
+            await userModel.findByIdAndUpdate(req.user, { $pull: { thumbnailVideo: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+        else if (req.body.mediaType == "audios") {
+            await userModel.findByIdAndUpdate(req.user, { $pull: { audios: req.body.media } }).then(user => {
+                userModel.findById(req.user).exec(function (error, result) {
+                    console.log({ ...result._doc, token: "" });
+                    res.json({ ...result._doc, token: req.token });
+                });
+            })
+        }
+        else if (req.body.mediaType == "documents") {
+            await userModel.findByIdAndUpdate(req.user, { $pull: { documents: req.body.media } }).then(user => {
                 userModel.findById(req.user).exec(function (error, result) {
                     console.log({ ...result._doc, token: "" });
                     res.json({ ...result._doc, token: req.token });
@@ -973,6 +1036,23 @@ userAuth.post("/api/delete/media", auth, async (req, res) => {
 
     } catch (error) {
         res.status(501).json({ error: error.message });
+    }
+});
+
+// get studio data in audition
+userAuth.get("/api/audition/getStudioData", auth, async (req, res) => {
+    try {
+        const user = await userModel.findById(req.user);
+        if (!user) {
+            return res.status(401).json({ msg: "No user found" });
+        }
+        const sUser = await studioModel.findById(req.query.studioId);
+        if (!sUser) return res.status(401).json({ msg: "No Studio user found" });
+
+        console.log({ ...sUser._doc, token: req.token });
+        res.json({ ...sUser._doc, token: req.token });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 

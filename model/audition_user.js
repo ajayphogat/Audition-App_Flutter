@@ -189,6 +189,14 @@ let auditionSchema = mongoose.Schema({
     ],
     videos: [
         {
+            // downloadUrl: {
+            //     type: schemaType.String,
+            //     default: ""
+            // },
+            // deleteUrl: {
+            //     type: schemaType.String,
+            //     default: "",
+            // }
             type: schemaType.String,
             default: "",
         }
