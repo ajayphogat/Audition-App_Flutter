@@ -73,28 +73,41 @@ postJob.get("/api/getJob", auth, async (req, res) => {
 });
 
 
+
+
 postJob.get("/api/getStudioJob", sAuth, async (req, res) => {
 
     try {
-        console.log("abcd");
-        console.log("abcd");
-        console.log("abcd");
-        console.log("abcd");
+        const search = req.query.search;
+        let newResult = [];
+        let user = await studioModel.findById(req.user);
+
+        if (!user) return res.status(401).json({ msg: "No user found" });
 
         studioModel.findById(req.user).then(result => {
 
             postModel.find({ studio: req.user }).populate("studio").exec(function (error, result) {
                 if (error) return res.status(401).json({ msg: error.message });
-                console.log("result");
-                console.log("result");
-                console.log("result");
-                console.log("result");
-                console.log("result");
-                console.log("result");
-                console.log(result);
+
+                if (search.length > 0) {
+                    result.forEach(element => {
+                        if (element.jobType.toLowerCase() == search.toLowerCase()) {
+                            newResult.push(element);
+                        }
+
+                    });
+                    // console.log(newResult);
+                    // console.log("New Results");
+                    return res.json(newResult);
+
+                }
+
+
+                // console.log(result);
+                // console.log("only results");
                 res.json(result);
-            })
-        })
+            });
+        });
 
         // res.json(allJobs);
     } catch (error) {

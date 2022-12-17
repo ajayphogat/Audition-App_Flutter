@@ -819,13 +819,27 @@ userAuth.post("/api/studioAcceptJobData", sAuth, async (req, res) => {
 
 userAuth.get("/api/showWorkingJobs", auth, async (req, res) => {
     try {
+        let newResult = [];
+        const search = req.query.search;
         const working = req.query.working;
         userModel.findById(req.user).then(user => {
             userModel.findById(req.user).populate(working).exec(function (error, result) {
-                // if (error) return res.status(401).json({ msg: error.message });
+                if (error) return res.status(401).json({ msg: error.message });
+                for (let index = 0; index < result[working].length; index++) {
+                    const element = result[working][index];
+                    if (search.length > 0) {
+                        if (element.studioName.toLowerCase() == search.toLowerCase()) {
+                            newResult.push(element);
+                        }
 
-                console.log(result);
-                res.json(result);
+                    }
+                    else {
+                        newResult.push(element);
+                    }
+                }
+
+                console.log(newResult);
+                res.json(newResult);
             })
         })
     } catch (error) {
@@ -838,6 +852,7 @@ userAuth.get("/api/studio/showWorkingJobs", sAuth, async (req, res) => {
     try {
         let newResult = [];
         const working = req.query.working;
+        const search = req.query.search;
         console.log(working);
         studioModel.findById(req.user).then(user => {
             postModel.find({ studio: req.user }).exec(function (error, result) {
@@ -849,21 +864,56 @@ userAuth.get("/api/studio/showWorkingJobs", sAuth, async (req, res) => {
                 console.log("hey hey hey hey");
                 result.forEach(element => {
                     if (working == "accepted") {
-                        if (element.accepted.length > 0) {
-                            console.log(element.accepted);
-                            newResult.push(element);
+
+                        if (search.length > 0) {
+                            if (element.accepted.length > 0 && element.jobType.toLowerCase() == search.toLowerCase()) {
+
+                                console.log(element.accepted);
+                                newResult.push(element);
+                            }
+
+                        }
+                        else {
+                            if (element.accepted.length > 0) {
+
+                                console.log(element.accepted);
+                                newResult.push(element);
+                            }
                         }
                     }
                     else if (working == "shortlisted") {
-                        if (element.shortlisted.length > 0) {
-                            console.log(element.shortlisted);
-                            newResult.push(element);
+
+                        if (search.length > 0) {
+                            if (element.shortlisted.length > 0 && element.jobType.toLowerCase() == search.toLowerCase()) {
+
+                                console.log(element.shortlisted);
+                                newResult.push(element);
+                            }
+
+                        }
+                        else {
+                            if (element.shortlisted.length > 0) {
+
+                                console.log(element.shortlisted);
+                                newResult.push(element);
+                            }
                         }
                     }
                     else if (working == "applied") {
-                        if (element.applicants.length > 0) {
-                            console.log(element.applicants);
-                            newResult.push(element);
+                        if (search.length > 0) {
+                            if (element.applicants.length > 0 && element.jobType.toLowerCase() == search.toLowerCase()) {
+
+                                console.log(element.applicants);
+                                newResult.push(element);
+                            }
+
+                        }
+                        else {
+                            if (element.applicants.length > 0) {
+
+                                console.log(element.applicants);
+                                newResult.push(element);
+                            }
                         }
                     }
 
@@ -912,17 +962,7 @@ userAuth.post("/api/upload/profilePic", auth, async (req, res) => {
             });
         })
 
-        // await userModel.findByIdAndUpdate(req.user, { $set: { profilePic: req.body.profilePicUrl } }, { new: true }, (error, result) => {
-        //     if (error) return res.status(401).json({ msg: error.message });
-        //     console.log("heheheheheh");
-        //     console.log("heheheheheh");
-        //     console.log("heheheheheh");
-        //     console.log("heheheheheh");
-        //     console.log("heheheheheh");
-        //     console.log(result);
-        //     console.log(req.body.profilePicUrl);
-        //     res.json({ "msg": yes });
-        // });
+
     } catch (error) {
         res.status(501).json({ error: error.message });
     }
