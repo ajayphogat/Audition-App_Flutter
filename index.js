@@ -4,15 +4,18 @@ const userAuth = require("./auth/audition_user_auth");
 const postJob = require("./auth/job_post_studio");
 const studioAuth = require("./auth/studio_user_auth");
 const switchAuth = require("./auth/switch_account_auth");
+const cors = require('cors');
 
 const app = express();
 
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 4400; 
 const db = "mongodb+srv://hackingdna:password3@cluster0.uyol6gn.mongodb.net/AuditionDB";
 // const db = "mongodb://127.0.0.1:27017/AuditionDB";
 // const db = "mongodb://127.0.0.1:27017/AuditionDB";
 
+
 // Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(userAuth);
 app.use(studioAuth);

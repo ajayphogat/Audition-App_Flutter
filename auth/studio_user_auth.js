@@ -44,6 +44,7 @@ studioAuth.post("/api/studio/signup", async (req, res) => {
 // Audition login api
 studioAuth.post("/api/studio/login", async (req, res) => {
     try {
+        console.log(req.body.email);
         const { email, password } = req.body;
         const existingUser = await studioModel.findOne({ email });
         if (!existingUser) {
