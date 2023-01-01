@@ -37,6 +37,15 @@ app.get("/a", async (req, res) => {
     res.send("<h1>Welcome</h1>");
 });
 
+app.get("/studentdata", async(req, res) => {
+    res.json({
+        "name": "Rahul Dey",
+        "roll": "30",
+        "cl": "5",
+        "hobby": "cooking",
+    });
+})
+
 
 
 app.listen(port, () => {
