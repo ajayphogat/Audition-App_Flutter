@@ -14,7 +14,9 @@ const postJob = express.Router();
 postJob.post("/api/postJob", sAuth, async (req, res) => {
 
     try {
-        const { studioName, jobType, socialMedia, description, productionDetail, date, location, contactNumber, keyDetails, images, applicants } = req.body;
+        const { studioName, jobType, socialMedia, description, productionDetail, date, location, contactNumber, keyDetails, images } = req.body;
+
+        console.log(images);
 
         let user = await studioModel.findById(req.user);
         console.log("Hello");
@@ -24,15 +26,15 @@ postJob.post("/api/postJob", sAuth, async (req, res) => {
 
         let newDate = Date(date);
 
-        const postNewJob = postModel({ studioName: studioName, jobType: jobType, socialMedia: socialMedia, description: description, productionDetail: productionDetail, date: newDate, location: location, contactNumber: contactNumber, keyDetails: keyDetails, images: images, studio: req.user, applicants: applicants });
+        const postNewJob = postModel({ studioName: studioName, jobType: jobType, socialMedia: socialMedia, description: description, productionDetail: productionDetail, date: newDate, location: location, contactNumber: contactNumber, keyDetails: keyDetails, images: images, studio: req.user });
         postNewJob.save().then(reUse => {
-            console.log(reUse);
+            console.log(`here is reuse -> ${reUse}`);
             studioModel.findByIdAndUpdate(req.user, { $push: { post: reUse._id } }, { new: true }, (error, result) => {
                 if (error) return res.status(401).json({ msg: error.message });
                 res.json(result);
             })
         }).catch((err) => {
-            console.log(err.message);
+            console.log(`here is the error ${err.message}`);
         });
 
 
