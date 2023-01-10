@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const schemaType = mongoose.Schema.Types;
 
 let postSchema = mongoose.Schema({
+    promoted: {
+        type: schemaType.Boolean,
+        default: false
+    },
     studioName: {
         type: schemaType.String,
         required: true,

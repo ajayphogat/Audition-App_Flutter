@@ -41,7 +41,7 @@ studioAuth.post("/api/studio/signup", async (req, res) => {
     }
 });
 
-// Audition login api
+// Studio login api
 studioAuth.post("/api/studio/login", async (req, res) => {
     try {
         console.log(req.body.email);
@@ -54,8 +54,28 @@ studioAuth.post("/api/studio/login", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ msg: "Incorrect Password!" });
         }
-        const token = jwt.sign({ id: existingUser._id }, jwtKey);
-        res.json({ token, ...existingUser._doc });
+
+        studioModel.findByIdAndUpdate(existingUser._id, { $set: { loggedInDate: new Date().toISOString(), status: true } }, { new: true }, (err, result) => {
+            if (err) return res.status(401).json({ msg: err.message });
+
+            const token = jwt.sign({ id: result._id }, jwtKey);
+            return res.json({ token, ...result._doc });
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Studio logout api
+studioAuth.post("/api/studio/logout", sAuth, async (req, res) => {
+    try {
+        studioModel.findByIdAndUpdate(req.user, { $set: { loggedOutDate: new Date().toISOString(), status: false } }, { new: true }, (err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            return res.json({ ...result._doc });
+        })
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -347,7 +367,7 @@ studioAuth.get("/api/showFollowers", sAuth, async (req, res) => {
         // const working = req.query.working;
         studioModel.findById(req.user).then(user => {
             studioModel.findById(req.user).populate("followers").exec(function (error, result) {
-                // if (error) return res.status(401).json({ msg: error.message });
+                if (error) return res.status(401).json({ msg: error.message });
 
                 console.log(result);
                 res.json(result);

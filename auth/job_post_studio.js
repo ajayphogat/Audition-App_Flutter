@@ -7,6 +7,7 @@ const sAuth = require("../middleware/token_studio_validation");
 const auth = require("../middleware/token_validation");
 const postModel = require("../model/job_post");
 const userModel = require("../model/audition_user");
+const adminModel = require("../model/admin_user");
 
 const postJob = express.Router();
 
@@ -70,6 +71,25 @@ postJob.get("/api/getJob", auth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 
+});
+
+
+// Promote the Job post
+postJob.post("/api/promoteJob", sAuth, async (req, res) => {
+    try {
+        const jobID = req.body.jobID;
+        postModel.findByIdAndUpdate(jobID, { $set: { promoted: true } }, { new: true }, (err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            adminModel.find({}, { $push: { promotionRequest: jobID } }, { new: true }, (err, resultss) => {
+                if (err) return res.status(400).json({ msg: err.message });
+
+                res.json({ ...result._doc });
+
+            })
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 

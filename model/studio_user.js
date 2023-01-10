@@ -3,6 +3,32 @@ const mongoose = require("mongoose");
 const schemaType = mongoose.Schema.Types;
 
 let studioSchema = mongoose.Schema({
+    daysLeft: {
+        type: schemaType.Number,
+        default: 92,
+    },
+    status: {
+        type: schemaType.Boolean,
+        default: false
+    },
+    createdDate: {
+        type: schemaType.Date,
+        default: new Date().toISOString(),
+    },
+    loggedInDate: {
+        type: schemaType.Date
+    },
+    loggedOutDate: {
+        type: schemaType.Date
+    },
+    subscriptionName: {
+        type: schemaType.String,
+        default: "Free"
+    },
+    subscriptionPrice: {
+        type: schemaType.Number,
+        default: 0
+    },
     fname: {
         required: true,
         type: schemaType.String,

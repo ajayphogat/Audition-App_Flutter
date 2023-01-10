@@ -4,7 +4,13 @@ const userAuth = require("./auth/audition_user_auth");
 const postJob = require("./auth/job_post_studio");
 const studioAuth = require("./auth/studio_user_auth");
 const switchAuth = require("./auth/switch_account_auth");
+const adminModel = require("./auth/admin_user");
 const cors = require('cors');
+
+//cron job like node-cron
+const cron = require("node-cron");
+
+mongoose.set('strictQuery', true);
 
 const app = express();
 
@@ -21,6 +27,7 @@ app.use(userAuth);
 app.use(studioAuth);
 app.use(switchAuth);
 app.use(postJob);
+app.use(adminModel);
 
 //connect to db
 mongoose.connect(db).then(
@@ -45,6 +52,8 @@ app.get("/studentdata", async(req, res) => {
         "hobby": "cooking",
     });
 })
+
+
 
 
 

@@ -7,9 +7,21 @@ const jwtKey = require("../constant/const_variable");
 const studioModel = require("../model/studio_user");
 const postModel = require("../model/job_post");
 const sAuth = require("../middleware/token_studio_validation");
+//cron job like node-cron
+const cron = require("node-cron");
 
 
 const userAuth = express.Router();
+
+
+
+// // scheduling a task to check the user's subscription plan
+// cron.schedule("* * * * *", () => {
+//     // console.log("here is my cron job");
+//     userModel.findOneAndUpdate({ email: "rahul@a.com" }, { subscriptionName: "Platinum", subscriptionPrice: 1000 }, { new: true }).then(user => {
+//         console.log({ ...user._doc });
+//     })
+// });
 
 
 // Audition - Signup api
@@ -62,8 +74,28 @@ userAuth.post("/api/audition/login", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ msg: "Incorrect Password!" });
         }
-        const token = jwt.sign({ id: existingUser._id }, jwtKey);
-        res.json({ token, ...existingUser._doc });
+        userModel.findByIdAndUpdate(existingUser._id, { $set: { loggedInDate: new Date().toISOString(), status: true } }, { new: true }, (err, result) => {
+            if (err) return res.status(401).json({ msg: err.message });
+
+            const token = jwt.sign({ id: result._id }, jwtKey);
+            return res.json({ token, ...result._doc });
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Audition logout api
+userAuth.post("/api/audition/logout", auth, async (req, res) => {
+    try {
+
+        userModel.findByIdAndUpdate(req.user, { $set: { loggedOutDate: new Date().toISOString(), status: false } }, { new: true }, (err, result) => {
+            if (err) return res.status(401).json({ msg: err.message });
+
+
+            return res.json({ ...result._doc });
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
