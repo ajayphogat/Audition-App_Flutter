@@ -185,6 +185,32 @@ studioAuth.get("/api/getStudioData", sAuth, async (req, res) => {
         let totalDeclined = 0;
         let totalBookmark = 0;
 
+        let janJob = 0;
+        let febJob = 0;
+        let marJob = 0;
+        let aprJob = 0;
+        let mayJob = 0;
+        let junJob = 0;
+        let julJob = 0;
+        let augJob = 0;
+        let sepJob = 0;
+        let octJob = 0;
+        let novJob = 0;
+        let decJob = 0;
+
+        let janApplicants = 0;
+        let febApplicants = 0;
+        let marApplicants = 0;
+        let aprApplicants = 0;
+        let mayApplicants = 0;
+        let junApplicants = 0;
+        let julApplicants = 0;
+        let augApplicants = 0;
+        let sepApplicants = 0;
+        let octApplicants = 0;
+        let novApplicants = 0;
+        let decApplicants = 0;
+
         studioModel.findById(req.user).then(user => {
             studioModel.findById(req.user).populate("post").exec(function (error, result) {
                 console.log("hey");
@@ -201,110 +227,93 @@ studioAuth.get("/api/getStudioData", sAuth, async (req, res) => {
                 console.log("yo yo yo yo")
                 console.log("yo yo yo yo")
                 console.log("yo yo yo yo")
+                console.log(result);
+                console.log(result.post.length);
 
-                for (let index = 0; index < result.post.length; index++) {
-                    totalApplicants = totalApplicants + result.post[index].applicants.length;
-                }
-                for (let index = 0; index < result.post.length; index++) {
-                    totalShortlisted = totalShortlisted + result.post[index].shortlisted.length;
-                }
-                for (let index = 0; index < result.post.length; index++) {
-                    totalAccepted = totalAccepted + result.post[index].accepted.length;
-                }
-                for (let index = 0; index < result.post.length; index++) {
-                    totalDeclined = totalDeclined + result.post[index].declined.length;
-                }
-                for (let index = 0; index < result.post.length; index++) {
-                    totalBookmark = totalBookmark + result.post[index].bookmark.length;
-                }
-
-                let newMonth = result.post[0].date.toISOString().split('T')[0].split('-')[1];
-                let newDay = result.post[0].date.toISOString().split('T')[0].split('-')[2];
-                let newYear = result.post[0].date.toISOString().split('T')[0].split('-')[0];
-                console.log(newMonth);
-                console.log(newDay);
-                console.log(newYear);
-
-                let janJob = 0;
-                let febJob = 0;
-                let marJob = 0;
-                let aprJob = 0;
-                let mayJob = 0;
-                let junJob = 0;
-                let julJob = 0;
-                let augJob = 0;
-                let sepJob = 0;
-                let octJob = 0;
-                let novJob = 0;
-                let decJob = 0;
-
-                let janApplicants = 0;
-                let febApplicants = 0;
-                let marApplicants = 0;
-                let aprApplicants = 0;
-                let mayApplicants = 0;
-                let junApplicants = 0;
-                let julApplicants = 0;
-                let augApplicants = 0;
-                let sepApplicants = 0;
-                let octApplicants = 0;
-                let novApplicants = 0;
-                let decApplicants = 0;
-
-                for (let index = 0; index < result.post.length; index++) {
-                    const element = result.post[index];
-                    if (element.date.toISOString().split('T')[0].split('-')[1] == 1) {
-                        janJob += 1;
-                        janApplicants += element.applicants.length;
+                if (result.post.length !== 0) {
+                    for (let index = 0; index < result.post.length; index++) {
+                        totalApplicants = totalApplicants + result.post[index].applicants.length;
                     }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 2) {
-                        febJob += 1;
-                        febApplicants += element.applicants.length;
+                    for (let index = 0; index < result.post.length; index++) {
+                        totalShortlisted = totalShortlisted + result.post[index].shortlisted.length;
                     }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 3) {
-                        marJob += 1;
-                        marApplicants += element.applicants.length;
+                    for (let index = 0; index < result.post.length; index++) {
+                        totalAccepted = totalAccepted + result.post[index].accepted.length;
                     }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 4) {
-                        aprJob += 1;
-                        aprApplicants += element.applicants.length;
+                    for (let index = 0; index < result.post.length; index++) {
+                        totalDeclined = totalDeclined + result.post[index].declined.length;
                     }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 5) {
-                        mayJob += 1;
-                        mayApplicants += element.applicants.length;
-                    }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 6) {
-                        junJob += 1;
-                        junApplicants += element.applicants.length;
-                    }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 7) {
-                        julJob += 1;
-                        julApplicants += element.applicants.length;
-                    }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 8) {
-                        augJob += 1;
-                        augApplicants += element.applicants.length;
-                    }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 9) {
-                        sepJob += 1;
-                        sepApplicants += element.applicants.length;
-                    }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 10) {
-                        octJob += 1;
-                        octApplicants += element.applicants.length;
-                    }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 11) {
-                        novJob += 1;
-                        novApplicants += element.applicants.length;
-                    }
-                    else if (element.date.toISOString().split('T')[0].split('-')[1] == 12) {
-                        decJob += 1;
-                        decApplicants += element.applicants.length;
-
+                    for (let index = 0; index < result.post.length; index++) {
+                        totalBookmark = totalBookmark + result.post[index].bookmark.length;
                     }
 
+                    // let newMonth = result.post[0].date.toISOString().split('T')[0].split('-')[1];
+                    // let newDay = result.post[0].date.toISOString().split('T')[0].split('-')[2];
+                    // let newYear = result.post[0].date.toISOString().split('T')[0].split('-')[0];
+                    // console.log(newMonth);
+                    // console.log(newDay);
+                    // console.log(newYear);
+
+
+
+                    for (let index = 0; index < result.post.length; index++) {
+                        const element = result.post[index];
+                        if (element.date.toISOString().split('T')[0].split('-')[1] == 1) {
+                            janJob += 1;
+                            janApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 2) {
+                            febJob += 1;
+                            febApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 3) {
+                            marJob += 1;
+                            marApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 4) {
+                            aprJob += 1;
+                            aprApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 5) {
+                            mayJob += 1;
+                            mayApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 6) {
+                            junJob += 1;
+                            junApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 7) {
+                            julJob += 1;
+                            julApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 8) {
+                            augJob += 1;
+                            augApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 9) {
+                            sepJob += 1;
+                            sepApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 10) {
+                            octJob += 1;
+                            octApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 11) {
+                            novJob += 1;
+                            novApplicants += element.applicants.length;
+                        }
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 12) {
+                            decJob += 1;
+                            decApplicants += element.applicants.length;
+
+                        }
+
+
+                    }
 
                 }
+
+
 
 
                 console.log(decJob);
