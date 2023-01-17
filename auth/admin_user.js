@@ -564,8 +564,9 @@ adminAuth.get("/admin/api/studio/getPromotionRequest", aAuth, async (req, res) =
 // Accept Promotion Request 
 adminAuth.post("/admin/api/studio/acceptPromotionReq", aAuth, async (req, res) => {
     try {
-        const { jobID } = req.body;
-        postModel.findByIdAndUpdate(jobID, { $set: { promoted: true } }, { new: true }, (err, result) => {
+        const { jobId } = req.body;
+        console.log(jobId);
+        postModel.findByIdAndUpdate(jobId, { $set: { promoted: true } }, { new: true }, (err, result) => {
             if (err) return res.status(400).json({ msg: err.message });
 
             adminModel.findById(req.user).populate("promotionRequest").exec((err, resultss) => {

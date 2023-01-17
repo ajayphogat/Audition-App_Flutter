@@ -8,6 +8,7 @@ const auth = require("../middleware/token_validation");
 const postModel = require("../model/job_post");
 const userModel = require("../model/audition_user");
 const adminModel = require("../model/admin_user");
+const adminAuth = require("./admin_user");
 
 const postJob = express.Router();
 
@@ -405,6 +406,35 @@ postJob.get("/api/studio/getOneShortlistedJobDetail", sAuth, async (req, res) =>
         res.status(500).json({ error: error.message });
     }
 
+});
+
+// update job details
+postJob.post("/api/studio/editJobDetails", sAuth, async (req, res) => {
+    try {
+        const { location, description, productionDetail, jobId } = req.body;
+        const existingUser = await studioModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "No User found!" });
+        postModel.findByIdAndUpdate(jobId, { $set: { location: location, description: description, productionDetail: productionDetail } }, { new: true }, (err, result) => {
+            console.log({ ...result._doc });
+            res.json({ ...result._doc });
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+postJob.post("/api/studio/promoteJobReqToAdmin", sAuth, async (req, res) => {
+    try {
+        const { jobId } = req.body;
+        const existingUser = await studioModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "No user found!" });
+        adminModel.updateMany({}, { $push: { promotionRequest: jobId } }).then((result) => {
+            console.log({ ...result._doc });
+            res.json({ msg: "Promotion Request Sent!" });
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 

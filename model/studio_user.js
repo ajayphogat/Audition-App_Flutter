@@ -69,7 +69,7 @@ let studioSchema = mongoose.Schema({
     },
 
     views: {
-        type: Number,
+        type: schemaType.Number,
         default: 0,
     },
     projectDesc: {
@@ -94,6 +94,12 @@ let studioSchema = mongoose.Schema({
             ref: "post",
         }
     ],
+    manager: [
+        {
+            type: schemaType.ObjectId,
+            ref: "manager",
+        }
+    ]
 });
 
 const studioModel = mongoose.model("studio", studioSchema);

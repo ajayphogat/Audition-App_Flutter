@@ -5,6 +5,7 @@ const postJob = require("./auth/job_post_studio");
 const studioAuth = require("./auth/studio_user_auth");
 const switchAuth = require("./auth/switch_account_auth");
 const adminModel = require("./auth/admin_user");
+const managerAuth = require("./auth/manager_user_auth");
 const cors = require('cors');
 
 //cron job like node-cron
@@ -28,6 +29,7 @@ app.use(studioAuth);
 app.use(switchAuth);
 app.use(postJob);
 app.use(adminModel);
+app.use(managerAuth);
 
 //connect to db
 mongoose.connect(db).then(

@@ -5,6 +5,8 @@ const studioModel = require("../model/studio_user");
 const jwtKey = require("../constant/const_studio");
 const sAuth = require("../middleware/token_studio_validation");
 const userModel = require("../model/audition_user");
+const managerAuth = require("./manager_user_auth");
+const managerModel = require("../model/manager_user");
 
 const studioAuth = express.Router();
 
@@ -80,6 +82,38 @@ studioAuth.post("/api/studio/logout", sAuth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// get all Managers List 
+studioAuth.get("/api/studio/getAllManagers", sAuth, async (req, res) => {
+    try {
+        studioModel.findById(req.user).populate("manager").exec((err, result) => {
+            console.log({ ...result._doc });
+            res.json({ ...result._doc });
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// manager delete api 
+studioAuth.post("/api/studio/deleteManager", sAuth, async (req, res) => {
+    try {
+        const { userId } = req.body;
+        managerModel.deleteOne({ _id: userId }).then((result) => {
+            studioModel.updateOne({ _id: req.user }, { $pull: { manager: userId } }, { new: true }, (error, result) => {
+                if (error) return res.status(400).json({ error: error.message });
+                studioModel.findById(req.user).populate("manager").exec((err, result) => {
+                    if (err) return res.status(400).json({ err: err.message });
+                    console.log({ ...result._doc });
+                    res.json({ ...result._doc });
+                });
+            });
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
 
 // token api validation
 studioAuth.post("/api/studio/tokenValid", async (req, res) => {
