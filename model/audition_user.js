@@ -4,6 +4,10 @@ const schemaType = mongoose.Schema.Types;
 
 
 let auditionSchema = mongoose.Schema({
+    reported: {
+        type: schemaType.Boolean,
+        default: false,
+    },
     daysLeft: {
         type: schemaType.Number,
         default: 92,

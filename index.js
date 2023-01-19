@@ -1,3 +1,4 @@
+// require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const userAuth = require("./auth/audition_user_auth");
@@ -7,6 +8,7 @@ const switchAuth = require("./auth/switch_account_auth");
 const adminModel = require("./auth/admin_user");
 const managerAuth = require("./auth/manager_user_auth");
 const cors = require('cors');
+
 
 //cron job like node-cron
 const cron = require("node-cron");

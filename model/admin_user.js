@@ -25,6 +25,11 @@ let adminSchema = mongoose.Schema({
             message: "Please enter a valid email!"
         },
     },
+    otpSaved: {
+        type: schemaType.String,
+        trim: true,
+        default: ""
+    },
     password: {
         required: true,
         type: schemaType.String,

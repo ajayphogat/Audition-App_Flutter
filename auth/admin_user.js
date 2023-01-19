@@ -10,6 +10,7 @@ const postModel = require("../model/job_post");
 const adminModel = require("../model/admin_user");
 const aAuth = require("../middleware/token_admin_validation");
 const studioAuth = require("./studio_user_auth");
+const nodeMailer = require("nodemailer");
 
 //cron job like node-cron
 const cron = require("node-cron");
@@ -42,9 +43,7 @@ cron.schedule("0 0 0 * * *", () => {
             })
         }
     })
-    // userModel.findOneAndUpdate({ email: "rahul@a.com" }, { subscriptionName: "Platinum", subscriptionPrice: 1000 }, { new: true }).then(user => {
-    //     console.log({ ...user._doc });
-    // })
+
 });
 
 adminAuth.post("/admin/api/signup", async (req, res) => {
@@ -93,7 +92,96 @@ adminAuth.post("/admin/api/login", async (req, res) => {
         res.status(500).json({ error: error.message });
 
     }
-})
+});
+
+adminAuth.post("/api/admin/forgotPassword", async (req, res) => {
+    try {
+        const { email } = req.body;
+        const otp1 = Math.floor(100000 + Math.random() * 900000);
+        console.log(`otp => ${otp1}`);
+        console.log(email);
+        const existingUser = await adminModel.findOne({ email: email });
+        console.log(email);
+        console.log(existingUser);
+
+        if (existingUser) {
+            const otp = Math.floor(100000 + Math.random() * 900000);
+            await adminModel.findOneAndUpdate({ email: email }, { $set: { otpSaved: otp } });
+            const transporter = nodeMailer.createTransport({
+                service: "gmail",
+                port: 587,
+                auth: {
+                    user: 'beverycoool@gmail.com',
+                    pass: "ntds kidk kqth uffs",
+                },
+            });
+
+            var mailOptions = {
+                from: "beverycoool@gmail.com",
+                to: email,
+                subject: "Reset Password OTP",
+                text: `To Reset Password use this OTP: ${otp}`
+            };
+
+
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ msg: err.message });
+                }
+                else {
+                    console.log(`email send: ${info.response}`);
+                    res.json({ msg: 'Email Sent!' });
+                }
+            })
+
+
+        }
+        else {
+            res.status(400).json({ msg: "Email is not Registered" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// verify otp 
+adminAuth.post("/api/admin/verifyOTP", async (req, res) => {
+    try {
+        const { email, otp, password } = req.body;
+        console.log(email);
+        console.log(otp);
+        console.log(password);
+        const existingUser = await adminModel.findOne({ email: email });
+        if (!existingUser) return res.status(400).json({ msg: "Email not Registered" });
+        if (otp != existingUser.otpSaved) {
+            res.status(400).json({ msg: "Wrong OTP" });
+        }
+        const hashedPassword = await bcryptjs.hash(password, 8);
+        await adminModel.findOneAndUpdate({ email: email }, { $set: { password: hashedPassword } });
+
+        res.json({ msg: "Password Changed" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+adminAuth.get("/admin/api/getReport", aAuth, async (req, res) => {
+    try {
+        studioModel.find({ reported: true }).exec((err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            console.log(result);
+            userModel.find({ reported: true }).exec((errr, resultt) => {
+                if (errr) return res.status(400).json({ msg: errr.message });
+                console.log(resultt);
+                res.json({ studio: result, audition: resultt });
+            });
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 adminAuth.get("/admin/api/getAllData", aAuth, async (req, res) => {
     try {

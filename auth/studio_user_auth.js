@@ -7,6 +7,7 @@ const sAuth = require("../middleware/token_studio_validation");
 const userModel = require("../model/audition_user");
 const managerAuth = require("./manager_user_auth");
 const managerModel = require("../model/manager_user");
+const nodeMailer = require("nodemailer");
 
 const studioAuth = express.Router();
 
@@ -69,6 +70,127 @@ studioAuth.post("/api/studio/login", async (req, res) => {
     }
 });
 
+// Studio help and support
+studioAuth.post("/api/studio/help", async (req, res) => {
+    try {
+        const { fullName, number, email, message } = req.body;
+
+        const transporter = nodeMailer.createTransport({
+            service: "gmail",
+            port: 587,
+            auth: {
+                user: 'beverycoool@gmail.com',
+                pass: "ntds kidk kqth uffs",
+            },
+        });
+
+        var mailOptions = {
+            from: "beverycoool@gmail.com",
+            to: email,
+            subject: "Help & Support",
+            text: `
+            Name: ${fullName}
+            Number: ${number}
+            Message: ${message}
+            `
+        };
+
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.log(err);
+                res.status(400).json({ msg: err.message });
+            }
+            else {
+                console.log(`email send: ${info.response}`);
+                res.json({ msg: 'Email Sent!' });
+            }
+        })
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
+
+
+// Studio forgot password api
+studioAuth.post("/api/studio/forgotPassword", async (req, res) => {
+    try {
+        const { email } = req.body;
+        const otp1 = Math.floor(100000 + Math.random() * 900000);
+        console.log(`otp => ${otp1}`);
+        console.log(email);
+        const existingUser = await studioModel.findOne({ email: email });
+        console.log(email);
+        console.log(existingUser);
+
+        if (existingUser) {
+            const otp = Math.floor(100000 + Math.random() * 900000);
+            await studioModel.findOneAndUpdate({ email: email }, { $set: { otpSaved: otp } });
+            const transporter = nodeMailer.createTransport({
+                service: "gmail",
+                port: 587,
+                auth: {
+                    user: 'beverycoool@gmail.com',
+                    pass: "ntds kidk kqth uffs",
+                },
+            });
+
+            var mailOptions = {
+                from: "beverycoool@gmail.com",
+                to: email,
+                subject: "Reset Password OTP",
+                text: `To Reset Password use this OTP: ${otp}`
+            };
+
+
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ msg: err.message });
+                }
+                else {
+                    console.log(`email send: ${info.response}`);
+                    res.json({ msg: 'Email Sent!' });
+                }
+            })
+
+
+        }
+        else {
+            res.status(400).json({ msg: "Email is not Registered" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// verify otp 
+studioAuth.post("/api/studio/verifyOTP", async (req, res) => {
+    try {
+        const { email, otp, password } = req.body;
+        console.log(email);
+        console.log(otp);
+        console.log(password);
+        const existingUser = await studioModel.findOne({ email: email });
+        console.log("a");
+        if (!existingUser) return res.status(400).json({ msg: "Email not Registered" });
+        console.log("b");
+        if (otp != existingUser.otpSaved) {
+            return res.status(400).json({ msg: "Wrong OTP" });
+        }
+        console.log("c");
+        const hashedPassword = await bcryptjs.hash(password, 8);
+        studioModel.findOneAndUpdate({ email: email }, { $set: { password: hashedPassword } }).then((result) => {
+            console.log("d");
+            res.json({ msg: "Password Changed" });
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 // Studio logout api
 studioAuth.post("/api/studio/logout", sAuth, async (req, res) => {
@@ -82,6 +204,22 @@ studioAuth.post("/api/studio/logout", sAuth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+
+// report studio api
+studioAuth.post("/api/studio/report", sAuth, async (req, res) => {
+    try {
+        studioModel.findByIdAndUpdate(req.user, { $set: { reported: true } }, { new: true }, (err, result) => {
+            studioModel.find({ reported: true }).exec((err, result) => {
+                if (err) return res.status(400).json({ msg: err.message });
+                res.json({ ...result._doc });
+            });
+
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
 
 // get all Managers List 
 studioAuth.get("/api/studio/getAllManagers", sAuth, async (req, res) => {

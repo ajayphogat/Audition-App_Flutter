@@ -125,6 +125,22 @@ userAuth.post("/api/tokenValid", async (req, res) => {
 
 });
 
+
+// audition report user api
+userAuth.post("/api/audition/report", async (req, res) => {
+    try {
+        userModel.findByIdAndUpdate(req.user, { $set: { reported: true } }, { new: true }, (err, result) => {
+            userModel.find({ reported: true }).exec((err, result) => {
+                if (err) return res.status(400).json({ msg: err.message });
+                res.json({ ...result._doc });
+            });
+
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Audition get user data api
 userAuth.get("/api/audition/getUserData", auth, async (req, res) => {
     try {

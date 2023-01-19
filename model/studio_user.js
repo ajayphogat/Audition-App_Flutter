@@ -56,7 +56,15 @@ let studioSchema = mongoose.Schema({
         required: true,
         type: schemaType.String,
     },
-
+    otpSaved: {
+        type: schemaType.String,
+        trim: true,
+        default: ""
+    },
+    reported: {
+        type: schemaType.Boolean,
+        default: false,
+    },
     location: {
         type: schemaType.String,
         trim: true,
