@@ -34,8 +34,12 @@ managerAuth.post("/api/manager/signup", async (req, res) => {
         user = await user.save();
         console.log(`here is user id => ${user._id}`);
         const abcd = await studioModel.findByIdAndUpdate(userId, { $push: { manager: user._id } });
+        managerModel.findByIdAndUpdate(user._id, { $set: { studio: abcd._id } }, { new: true }, (err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            res.json({ ...user._doc });
 
-        res.json({ ...user._doc });
+        })
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

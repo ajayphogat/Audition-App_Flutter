@@ -107,7 +107,11 @@ let studioSchema = mongoose.Schema({
             type: schemaType.ObjectId,
             ref: "manager",
         }
-    ]
+    ],
+    interview: {
+        type: schemaType.Number,
+        default: 0,
+    }
 });
 
 const studioModel = mongoose.model("studio", studioSchema);

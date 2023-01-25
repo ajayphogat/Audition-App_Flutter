@@ -9,8 +9,40 @@ const postModel = require("../model/job_post");
 const userModel = require("../model/audition_user");
 const adminModel = require("../model/admin_user");
 const adminAuth = require("./admin_user");
+const auditionModel = require("../model/audition_user");
+
+//cron job like node-cron
+const cron = require("node-cron");
 
 const postJob = express.Router();
+
+
+// scheduling a task to check the user's subscription plan
+cron.schedule("0 0 0 * * *", () => {
+    // console.log("here is my cron job");
+    postModel.updateMany({ daysLeft: { $gt: 0 } }, { $inc: { daysLeft: -1 } }, (err) => {
+        if (err) {
+            console.log(`here is the error -> ${err}`);
+        }
+        else {
+            userModel.find().then(user => {
+                console.log(user);
+            })
+        }
+    })
+
+    postModel.updateMany({ daysLeft: 0 }, { $set: { status: false } }, (err) => {
+        if (err) {
+            console.log(`here is the error -> ${err}`);
+        }
+        else {
+            studioModel.find().then(user => {
+                console.log(user);
+            })
+        }
+    })
+
+});
 
 postJob.post("/api/postJob", sAuth, async (req, res) => {
 
@@ -171,6 +203,12 @@ postJob.get("/api/getCategoryJob", auth, async (req, res) => {
             console.log(category);
             console.log("he");
             console.log(search);
+            for (let index = 0; index < result.length; index++) {
+                console.log(result[index]);
+
+            }
+            console.log("hehehe");
+            console.log(result.length);
             return res.json(result);
         })
         // res.json(allJobs);
@@ -273,7 +311,12 @@ postJob.get("/api/studio/getOneStudioJobDetail", sAuth, async (req, res) => {
         let user = await studioModel.findById(req.user);
         if (!user) return res.status(401).json({ msg: "No user found" });
 
-        let a = await postModel.findOne({ _id: jobId }).populate('applicants').exec(function (error, result) {
+        postModel.findOne({ _id: jobId }).populate({
+            path: "applicants",
+            populate: {
+                path: "interview"
+            }
+        }).exec(function (error, result) {
             if (error) return res.status(401).json({ msg: error.message });
             console.log(result.applicants);
             // if (result.studio.followers.filter(followers => followers.toString() === req.user).length == 1) {
@@ -432,6 +475,71 @@ postJob.post("/api/studio/promoteJobReqToAdmin", sAuth, async (req, res) => {
             console.log({ ...result._doc });
             res.json({ msg: "Promotion Request Sent!" });
         });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// schedule interview save details
+postJob.post("/api/postJob/interview", sAuth, async (req, res) => {
+    try {
+        const { userDate, userTime, userId, jobId } = req.body;
+        const userDData = {
+            date: userDate,
+            time: userTime,
+            user: userId
+        };
+
+        const jobDData = {
+            date: userDate,
+            time: userTime,
+            job: jobId
+        }
+
+        const existingUser = await studioModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "User not found" });
+        console.log("ababababababa");
+        postModel.findByIdAndUpdate(jobId, { $push: { interview: userDData } }, { new: true }, (err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            console.log("new new new");
+            console.log(result.interview.length);
+            console.log("new new new");
+            studioModel.findByIdAndUpdate(req.user, { $set: { interview: result.interview.length } }, { new: true }, (err, result) => {
+
+                auditionModel.findByIdAndUpdate(userId, { $push: { interview: jobDData } }, { new: true }, (err, result) => {
+                    if (err) return res.status(400).json({ msg: err.message });
+                    // console.log("a");
+                    // console.log(result);
+                    // console.log("b");
+                    res.json(result);
+                })
+            })
+        })
+    } catch (error) {
+        res.status(500).json({ error: error });
+    }
+});
+
+// get all schedule interviews
+postJob.get("/api/postJob/getInterviews", sAuth, async (req, res) => {
+    try {
+        const existingUser = await studioModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "User not found!" });
+        studioModel.findById(req.user).populate({
+            path: "post",
+            populate: {
+                path: "interview.user",
+            }
+        })
+            .exec((err, result) => {
+                if (err) return res.status(400).json({ msg: err.message });
+
+                console.log("YOOOOO Start");
+                console.log(result);
+                console.log("YYOOOOOO");
+                res.json(result);
+
+            })
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

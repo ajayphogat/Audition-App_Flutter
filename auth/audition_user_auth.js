@@ -902,7 +902,7 @@ userAuth.get("/api/studio/showWorkingJobs", sAuth, async (req, res) => {
         const working = req.query.working;
         const search = req.query.search;
         console.log(working);
-        studioModel.findById(req.user).then(user => {
+        studioModel.findOne({ _id: req.user, status: true }).then(user => {
             postModel.find({ studio: req.user }).exec(function (error, result) {
                 // if (error) return res.status(401).json({ msg: error.message });
                 console.log("hey hey hey hey");

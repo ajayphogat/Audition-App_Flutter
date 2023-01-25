@@ -249,6 +249,22 @@ let auditionSchema = mongoose.Schema({
             default: "",
         }
     ],
+    interview: [
+        {
+            date: {
+                type: schemaType.String,
+                default: "",
+            },
+            time: {
+                type: schemaType.String,
+                default: "",
+            },
+            job: {
+                type: schemaType.ObjectId,
+                ref: "post"
+            }
+        }
+    ]
 });
 
 const auditionModel = mongoose.model("audition", auditionSchema);

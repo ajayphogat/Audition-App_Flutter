@@ -3,6 +3,14 @@ const mongoose = require("mongoose");
 const schemaType = mongoose.Schema.Types;
 
 let postSchema = mongoose.Schema({
+    status: {
+        type: schemaType.Boolean,
+        default: true,
+    },
+    daysLeft: {
+        type: schemaType.Number,
+        default: 30,
+    },
     promoted: {
         type: schemaType.Boolean,
         default: false
@@ -90,6 +98,22 @@ let postSchema = mongoose.Schema({
             ref: "audition",
         }
     ],
+    interview: [
+        {
+            date: {
+                type: schemaType.String,
+                default: "",
+            },
+            time: {
+                type: schemaType.String,
+                default: "",
+            },
+            user: {
+                type: schemaType.ObjectId,
+                ref: "audition"
+            }
+        }
+    ]
 
 
 });

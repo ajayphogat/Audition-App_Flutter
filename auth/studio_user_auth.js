@@ -136,6 +136,7 @@ studioAuth.post("/api/studio/forgotPassword", async (req, res) => {
                 },
             });
 
+
             var mailOptions = {
                 from: "beverycoool@gmail.com",
                 to: email,
@@ -197,6 +198,7 @@ studioAuth.post("/api/studio/logout", sAuth, async (req, res) => {
     try {
         studioModel.findByIdAndUpdate(req.user, { $set: { loggedOutDate: new Date().toISOString(), status: false } }, { new: true }, (err, result) => {
             if (err) return res.status(400).json({ msg: err.message });
+            console.log(result);
             return res.json({ ...result._doc });
         })
 

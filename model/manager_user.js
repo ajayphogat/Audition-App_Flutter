@@ -38,7 +38,11 @@ let managerSchema = mongoose.Schema({
 
 
         }
-    ]
+    ],
+    studio: {
+        type: schemaType.ObjectId,
+        ref: "studio",
+    }
 });
 
 const managerModel = mongoose.model("manager", managerSchema);

@@ -14,6 +14,7 @@ const nodeMailer = require("nodemailer");
 
 //cron job like node-cron
 const cron = require("node-cron");
+const managerModel = require("../model/manager_user");
 
 
 
@@ -701,6 +702,42 @@ adminAuth.post("/admin/api/delete", aAuth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// get all managers 
+adminAuth.get("/api/admin/getAllManagers", aAuth, async (req, res) => {
+    try {
+        const existingUser = await adminModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "User not found" });
+        managerModel.find().populate("studio").exec((err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            console.log(result);
+            res.json(result);
+        })
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// delete Manager
+adminAuth.post("/api/admin/deleteManager", aAuth, async (req, res) => {
+    try {
+        const { studioId, managerId } = req.body;
+        const existingUser = await adminModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "User not found" });
+        managerModel.deleteOne({ _id: managerId }).then((result) => {
+            studioModel.updateOne({ _id: studioId }, { $pull: { manager: managerId } }, { new: true }, (error, result) => {
+                if (error) return res.status(400).json({ error: error.message });
+                managerModel.find().then((result) => {
+                    console.log(result);
+                    res.json(result);
+                });
+            });
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
 
 
 
