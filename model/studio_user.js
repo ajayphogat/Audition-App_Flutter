@@ -75,6 +75,10 @@ let studioSchema = mongoose.Schema({
         type: schemaType.String,
         default: "",
     },
+    profileUrl: {
+        type: schemaType.String,
+        default: "",
+    },
 
     views: {
         type: schemaType.Number,

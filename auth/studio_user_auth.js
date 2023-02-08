@@ -312,6 +312,24 @@ studioAuth.post("/api/studio/updateNameLoc", sAuth, async (req, res) => {
     }
 });
 
+studioAuth.post("/api/studio/profileURL", sAuth, async (req, res) => {
+    try {
+        const { profileUrl } = req.body;
+        let user = await studioModel.findById(req.user);
+        if (!user) {
+            return res.status(400).json({ msg: "No user found" });
+        }
+        const updateUrl = await studioModel.updateOne({ _id: req.user }, { $set: { profileUrl: profileUrl } });
+        if (updateUrl.acknowledged == false) {
+            return res.status(400).json({ msg: "Can't save! Try Again" });
+        }
+        user = await studioModel.findById(req.user);
+        res.json({ ...user._doc, token: req.token });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 studioAuth.post("/api/studio/updateProjectDesc", sAuth, async (req, res) => {
     try {

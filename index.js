@@ -8,6 +8,8 @@ const switchAuth = require("./auth/switch_account_auth");
 const adminModel = require("./auth/admin_user");
 const managerAuth = require("./auth/manager_user_auth");
 const cors = require('cors');
+const multer = require("multer");
+
 
 
 //cron job like node-cron
@@ -44,8 +46,22 @@ mongoose.connect(db).then(
     }
 );
 
-app.get("/a", async (req, res) => {
-    res.send("<h1>Welcome</h1>");
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "uploads/");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const uploadImages = multer({
+    storage: storage
+})
+
+app.post("/a", uploadImages.single("uploadImage"), async (req, res) => {
+    console.log(req.files);
+    res.json({msg: "Got it"});
 });
 
 app.get("/studentdata", async(req, res) => {
