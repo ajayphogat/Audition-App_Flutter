@@ -22,7 +22,6 @@ const adminAuth = express.Router();
 
 // scheduling a task to check the user's subscription plan
 cron.schedule("0 0 0 * * *", () => {
-    // console.log("here is my cron job");
     userModel.updateMany({}, { $inc: { daysLeft: -1 } }, (err) => {
         if (err) {
             console.log(`here is the error -> ${err}`);
