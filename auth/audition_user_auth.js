@@ -141,6 +141,21 @@ userAuth.post("/api/audition/report", async (req, res) => {
     }
 });
 
+// Audition subscription update api
+userAuth.get("/api/audition/subscriptionData", auth, async (req, res) => {
+    try {
+        const { subscriptionName, subscriptionPrice } = req.body;
+        const existingUser = await userModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "User not found!" });
+        userModel.findByIdAndUpdate(req.user, { $set: { subscriptionName, subscriptionPrice } }, { new: true }, (err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            res.json(result);
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Audition get user data api
 userAuth.get("/api/audition/getUserData", auth, async (req, res) => {
     try {

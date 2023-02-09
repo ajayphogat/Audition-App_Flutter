@@ -208,6 +208,24 @@ studioAuth.post("/api/studio/logout", sAuth, async (req, res) => {
 });
 
 
+
+
+// Studio subscription update api
+studioAuth.get("/api/studio/subscriptionData", sAuth, async (req, res) => {
+    try {
+        const { subscriptionName, subscriptionPrice } = req.body;
+        const existingUser = await studioModel.findById(req.user);
+        if (!existingUser) return res.status(400).json({ msg: "User not found!" });
+        studioModel.findByIdAndUpdate(req.user, { $set: { subscriptionName, subscriptionPrice } }, { new: true }, (err, result) => {
+            if (err) return res.status(400).json({ msg: err.message });
+            res.json(result);
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 // report studio api
 studioAuth.post("/api/studio/report", sAuth, async (req, res) => {
     try {
@@ -405,22 +423,6 @@ studioAuth.get("/api/getStudioData", sAuth, async (req, res) => {
 
         studioModel.findById(req.user).then(user => {
             studioModel.findById(req.user).populate("post").exec(function (error, result) {
-                console.log("hey");
-                console.log("hey");
-                console.log("hey");
-                console.log("hey");
-                console.log("hey");
-                console.log("hey");
-                // console.log(result.post.length);
-                console.log("yo yo yo yo")
-                console.log("yo yo yo yo")
-                console.log("yo yo yo yo")
-                console.log("yo yo yo yo")
-                console.log("yo yo yo yo")
-                console.log("yo yo yo yo")
-                console.log("yo yo yo yo")
-                console.log(result);
-                console.log(result.post.length);
 
                 if (result.post.length !== 0) {
                     for (let index = 0; index < result.post.length; index++) {
@@ -438,63 +440,66 @@ studioAuth.get("/api/getStudioData", sAuth, async (req, res) => {
                     for (let index = 0; index < result.post.length; index++) {
                         totalBookmark = totalBookmark + result.post[index].bookmark.length;
                     }
+                    console.log("start");
+                    let newMonth = result.post[0].date.toISOString().split('T')[0].split('-')[1];
+                    let newDay = result.post[0].date.toISOString().split('T')[0].split('-')[2];
+                    let newYear = result.post[0].date.toISOString().split('T')[0].split('-')[0];
+                    let pYear = new Date().toISOString().split('T')[0].split('-')[0];
 
-                    // let newMonth = result.post[0].date.toISOString().split('T')[0].split('-')[1];
-                    // let newDay = result.post[0].date.toISOString().split('T')[0].split('-')[2];
-                    // let newYear = result.post[0].date.toISOString().split('T')[0].split('-')[0];
-                    // console.log(newMonth);
-                    // console.log(newDay);
-                    // console.log(newYear);
+                    console.log(newMonth);
+                    console.log(newDay);
+                    console.log(newYear);
+                    console.log(pYear);
 
 
 
                     for (let index = 0; index < result.post.length; index++) {
                         const element = result.post[index];
-                        if (element.date.toISOString().split('T')[0].split('-')[1] == 1) {
+                        if (element.date.toISOString().split('T')[0].split('-')[1] == 1 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             janJob += 1;
                             janApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 2) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 2 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             febJob += 1;
                             febApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 3) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 3 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             marJob += 1;
                             marApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 4) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 4 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             aprJob += 1;
                             aprApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 5) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 5 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             mayJob += 1;
                             mayApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 6) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 6 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             junJob += 1;
                             junApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 7) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 7 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             julJob += 1;
                             julApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 8) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 8 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             augJob += 1;
                             augApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 9) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 9 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             sepJob += 1;
                             sepApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 10) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 10 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             octJob += 1;
                             octApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 11) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 11 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             novJob += 1;
                             novApplicants += element.applicants.length;
                         }
-                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 12) {
+                        else if (element.date.toISOString().split('T')[0].split('-')[1] == 12 && element.date.toISOString().split('T')[0].split('-')[0] == pYear) {
                             decJob += 1;
                             decApplicants += element.applicants.length;
 
