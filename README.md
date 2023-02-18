@@ -1,4 +1,4 @@
 # Audition-App-Backend
 Audition mobile app backend
 
-Studio app is merged in this Audition app
+Backend for Audition + Studio App, Studio Web pannel and Studio Admin pannel
