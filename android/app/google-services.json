@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "711950205955",
+    "project_id": "auditionportal-2597e",
+    "storage_bucket": "auditionportal-2597e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711950205955:android:28ab56aa1aae77df63ba36",
+        "android_client_info": {
+          "package_name": "com.example.first_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "711950205955-ivp3rvuuur6nnjnu21hakn80v6qufdel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGqfu2T43FsIT-39ILRxO-KTjlYAPSh2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "711950205955-ivp3rvuuur6nnjnu21hakn80v6qufdel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
