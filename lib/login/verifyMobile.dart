@@ -1,4 +1,3 @@
-import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/login/verifiedPage.dart';

@@ -1,5 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:first_app/constants.dart';
-import 'package:first_app/login/mainPage.dart';
+import 'package:first_app/login/loginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,109 +24,115 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
     _pageController = PageController(initialPage: _activePage, keepPage: true);
   }
 
+  void _changePage() {
+    if (_pageController.page == 2) {
+      Navigator.pushNamed(context, LoginPage.routeName);
+    }
+    _pageController.nextPage(
+        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    var mediaQuery = MediaQuery.of(context);
+    var width = mediaQuery.size.width;
+    var height = mediaQuery.size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
             SizedBox(
-              width: screenWidth,
-              height: screenHeight * 0.80,
-              child: PageView(
-                controller: _pageController,
-                pageSnapping: true,
-                onPageChanged: (value) {
-                  setState(() {
-                    _activePage = value;
-                  });
-                },
+              width: width,
+              height: height * 0.65,
+              child: Stack(
                 children: [
-                  screenContent(
-                      screenWidth,
-                      screenHeight,
-                      "One Day or Day One",
-                      "You can build your best pitch and launch a new chapter in your career.",
-                      "asset/images/illustration/blog.svg"),
-                  screenContent(
-                    screenWidth,
-                    screenHeight,
-                    "Finding your way",
-                    "We take you further than you've ever been by connecting you to the Artistic world",
-                    "asset/images/illustration/fg.png",
-                  ),
-                  screenContent(
-                    screenWidth,
-                    screenHeight,
-                    "The Big Break",
-                    "Taking you closer than ever to your dream job",
-                    "asset/images/illustration/d.svg",
-                  ),
-                ],
-              ),
-            ),
-            // SizedBox(
-            //   height: screenHeight * 0.07,
-            // ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: List<Widget>.generate(3, (index) {
-                      return Container(
-                        margin: const EdgeInsets.all(3),
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _activePage == index
-                              ? thirdColor
-                              : const Color(0xFF30319D).withOpacity(0.5),
-                        ),
-                      );
-                    }),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      _activePage = _activePage + 1;
-
-                      if (_activePage > 2) {
-                        // setState(() {
-                        _activePage = 2;
-                        Navigator.pushNamed(context, MainPage.routeName);
-                        // });
-
-                      } else {
-                        await _pageController.nextPage(
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.decelerate);
-                        // await _pageController.animateToPage(_activePage,
-                        //     duration: const Duration(milliseconds: 200),
-                        //     curve: Curves.linear);
-                      }
-                    },
-                    child: Container(
-                      width: screenWidth * 0.14,
-                      height: screenWidth * 0.14,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: thirdColor,
-                      ),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                  Image.asset("asset/images/uiImages/splashScreen.png"),
+                  Positioned(
+                    bottom: 0,
+                    child: SizedBox(
+                      width: width,
+                      height: height * 0.53,
+                      child: PageView.builder(
+                        itemCount: 3,
+                        onPageChanged: (value) {
+                          setState(() {
+                            _activePage = value;
+                          });
+                        },
+                        controller: _pageController,
+                        itemBuilder: (context, index) =>
+                            PageViewItem(width: width, height: height),
                       ),
                     ),
                   ),
                 ],
+              ),
+            ),
+            SizedBox(height: height * 0.02),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: width * (_activePage == 0 ? 0.08 : 0.05),
+                  height: width * 0.03,
+                  decoration: BoxDecoration(
+                    color: _activePage == 0
+                        ? const Color(0xff244330)
+                        : const Color(0xffD6D6D6),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                SizedBox(width: width * 0.025),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: width * (_activePage == 1 ? 0.08 : 0.05),
+                  height: width * 0.03,
+                  decoration: BoxDecoration(
+                    color: _activePage == 1
+                        ? const Color(0xff244330)
+                        : const Color(0xffD6D6D6),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+                SizedBox(width: width * 0.025),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: width * (_activePage == 2 ? 0.08 : 0.05),
+                  height: width * 0.03,
+                  decoration: BoxDecoration(
+                    color: _activePage == 2
+                        ? const Color(0xff244330)
+                        : const Color(0xffD6D6D6),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: height * 0.05),
+            InkWell(
+              onTap: () => _changePage(),
+              child: Container(
+                width: width * 0.7,
+                height: height * 0.065,
+                decoration: BoxDecoration(
+                  color: Color(0xff244330),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                alignment: Alignment.center,
+                child: AutoSizeText(
+                  "NEXT",
+                  maxLines: 1,
+                  maxFontSize: 20,
+                  minFontSize: 16,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
           ],
@@ -140,10 +147,11 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
       children: [
         Padding(
           padding: EdgeInsets.only(
-              left: screenWidth * 0.08,
-              right: screenWidth * 0.16,
-              top: screenHeight * 0.15,
-              bottom: screenHeight * 0.05),
+            left: screenWidth * 0.08,
+            right: screenWidth * 0.16,
+            top: screenHeight * 0.15,
+            bottom: screenHeight * 0.05,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -177,6 +185,80 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                   child: Image.asset("asset/images/illustration/abcd.png"),
                 )
               : Transform.scale(scale: 1, child: SvgPicture.asset(image)),
+        ),
+      ],
+    );
+  }
+}
+
+class PageViewItem extends StatelessWidget {
+  const PageViewItem({
+    super.key,
+    required this.width,
+    required this.height,
+  });
+
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: width,
+          height: height * 0.43,
+          alignment: Alignment.center,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                child: SizedBox(
+                  width: width,
+                  height: height * 0.4,
+                  child: Image.asset(
+                    "asset/images/illustration/screen1.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  width: width,
+                  height: height * 0.05,
+                  alignment: Alignment.center,
+                  child: const AutoSizeText(
+                    "One Day or Day One",
+                    maxLines: 1,
+                    maxFontSize: 30,
+                    minFontSize: 20,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,
+                      color: thirdColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: width,
+          height: height * 0.1,
+          alignment: Alignment.center,
+          child: const AutoSizeText(
+            "You can build your best pitch and\nlaunch a new chapter in your career.",
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            maxFontSize: 16,
+            minFontSize: 12,
+            style: TextStyle(
+              fontSize: 16,
+              color: Color(0xff4F647A),
+            ),
+          ),
         ),
       ],
     );

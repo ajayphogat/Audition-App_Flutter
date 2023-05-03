@@ -1,73 +1,245 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
-import 'package:first_app/pages/categorySection/studio_description.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
 Widget commonTextField(double screenWidth, double screenHeight,
     BuildContext context, controller, String hintText, icon, bool isPassword) {
-  return SizedBox(
-    width: screenWidth - screenWidth * 0.305,
-    child: Stack(
-      alignment: AlignmentDirectional.bottomCenter,
-      children: [
-        Material(
-          elevation: 5,
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            width: screenWidth - screenWidth * 0.305,
-            height: screenHeight * 0.06,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: placeholderColor,
-            ),
+  return Container(
+    // height: screenHeight * 0.05,
+    width: screenWidth,
+    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(
+        color: const Color(0xffDADADA),
+      ),
+    ),
+    child: TextFormField(
+      controller: controller,
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return "Please fill this";
+        } else {
+          return null;
+        }
+      },
+      textAlignVertical: TextAlignVertical.center,
+      style: const TextStyle(
+        fontSize: 14,
+        fontFamily: fontFamily,
+      ),
+      obscureText: isPassword,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(
+          fontSize: 14,
+          fontFamily: fontFamily,
+          color: placeholderTextColor,
+        ),
+        errorStyle: const TextStyle(
+          fontFamily: fontFamily,
+          height: 0.1,
+        ),
+        border: InputBorder.none,
+        prefixIcon: Container(
+          width: screenWidth * 0.025,
+          height: screenHeight * 0.025,
+          padding: const EdgeInsets.all(12),
+          child: SvgPicture.asset(
+            icon,
+            color: const Color(0xff0A4C7E),
           ),
         ),
-        TextFormField(
-          controller: controller,
-          validator: (String? value) {
-            if (value == null || value.isEmpty) {
-              return "Please fill this";
-            } else {
-              return null;
-            }
-          },
-          style: const TextStyle(
-            fontSize: 18,
-            fontFamily: fontFamily,
-          ),
-          obscureText: isPassword,
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: const TextStyle(
-              fontSize: 18,
-              fontFamily: fontFamily,
-              color: placeholderTextColor,
-            ),
-            errorStyle: const TextStyle(
-              fontFamily: fontFamily,
-              height: 0.1,
-            ),
-            border: InputBorder.none,
-            prefixIcon: Padding(
-              padding: EdgeInsets.only(
-                  left: 20,
-                  right: icon == MyFlutterApp.message ? 12 : 5,
-                  bottom: 2),
-              child: Icon(icon,
-                  color: Colors.black,
-                  size: icon == MyFlutterApp.message ? 28 : 35),
-            ),
-          ),
-        ),
-      ],
+        // prefixIcon: Padding(
+        //   padding: const EdgeInsets.only(left: 20, right: 5, bottom: 0),
+        //   child: Icon(icon,
+        //       color: Color(0xff0A4C7E),
+        //       size: icon == MyFlutterApp.message ? 28 : 35),
+        // ),
+      ),
     ),
   );
+  // return SizedBox(
+  //   width: screenWidth - screenWidth * 0.305,
+  //   child: Stack(
+  //     alignment: AlignmentDirectional.bottomCenter,
+  //     children: [
+  //       Material(
+  //         elevation: 5,
+  //         borderRadius: BorderRadius.circular(8),
+  //         child: Container(
+  //           width: screenWidth - screenWidth * 0.305,
+  //           height: screenHeight * 0.06,
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(8),
+  //             color: placeholderColor,
+  //           ),
+  //         ),
+  //       ),
+  //       TextFormField(
+  //         controller: controller,
+  //         validator: (String? value) {
+  //           if (value == null || value.isEmpty) {
+  //             return "Please fill this";
+  //           } else {
+  //             return null;
+  //           }
+  //         },
+  //         style: const TextStyle(
+  //           fontSize: 18,
+  //           fontFamily: fontFamily,
+  //         ),
+  //         obscureText: isPassword,
+  //         decoration: InputDecoration(
+  //           hintText: hintText,
+  //           hintStyle: const TextStyle(
+  //             fontSize: 18,
+  //             fontFamily: fontFamily,
+  //             color: placeholderTextColor,
+  //           ),
+  //           errorStyle: const TextStyle(
+  //             fontFamily: fontFamily,
+  //             height: 0.1,
+  //           ),
+  //           border: InputBorder.none,
+  //           prefixIcon: Padding(
+  //             padding: EdgeInsets.only(
+  //                 left: 20,
+  //                 right: icon == MyFlutterApp.message ? 12 : 5,
+  //                 bottom: 2),
+  //             child: Icon(icon,
+  //                 color: Colors.black,
+  //                 size: icon == MyFlutterApp.message ? 28 : 35),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   ),
+  // );
+}
+
+Widget commonTextField1(double screenWidth, double screenHeight,
+    BuildContext context, controller, String hintText, icon, bool isPassword) {
+  return Container(
+    // height: screenHeight * 0.05,
+    width: screenWidth,
+    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(
+        color: const Color(0xffDADADA),
+      ),
+    ),
+    child: TextFormField(
+      controller: controller,
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return "Please fill this";
+        } else {
+          return null;
+        }
+      },
+      textAlignVertical: TextAlignVertical.center,
+      style: const TextStyle(
+        fontSize: 14,
+        fontFamily: fontFamily,
+      ),
+      obscureText: isPassword,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(
+          fontSize: 14,
+          fontFamily: fontFamily,
+          color: placeholderTextColor,
+        ),
+        errorStyle: const TextStyle(
+          fontFamily: fontFamily,
+          height: 0.1,
+        ),
+        border: InputBorder.none,
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: icon == MyFlutterApp.message ? 12 : 5,
+            bottom: 2,
+          ),
+          child: Icon(icon,
+              color: Colors.black,
+              size: icon == MyFlutterApp.message ? 28 : 35),
+        ),
+        // prefixIcon: Padding(
+        //   padding: const EdgeInsets.only(left: 20, right: 5, bottom: 0),
+        //   child: Icon(icon,
+        //       color: Color(0xff0A4C7E),
+        //       size: icon == MyFlutterApp.message ? 28 : 35),
+        // ),
+      ),
+    ),
+  );
+  // return SizedBox(
+  //   width: screenWidth - screenWidth * 0.305,
+  //   child: Stack(
+  //     alignment: AlignmentDirectional.bottomCenter,
+  //     children: [
+  //       Material(
+  //         elevation: 5,
+  //         borderRadius: BorderRadius.circular(8),
+  //         child: Container(
+  //           width: screenWidth - screenWidth * 0.305,
+  //           height: screenHeight * 0.06,
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(8),
+  //             color: placeholderColor,
+  //           ),
+  //         ),
+  //       ),
+  //       TextFormField(
+  //         controller: controller,
+  //         validator: (String? value) {
+  //           if (value == null || value.isEmpty) {
+  //             return "Please fill this";
+  //           } else {
+  //             return null;
+  //           }
+  //         },
+  //         style: const TextStyle(
+  //           fontSize: 18,
+  //           fontFamily: fontFamily,
+  //         ),
+  //         obscureText: isPassword,
+  //         decoration: InputDecoration(
+  //           hintText: hintText,
+  //           hintStyle: const TextStyle(
+  //             fontSize: 18,
+  //             fontFamily: fontFamily,
+  //             color: placeholderTextColor,
+  //           ),
+  //           errorStyle: const TextStyle(
+  //             fontFamily: fontFamily,
+  //             height: 0.1,
+  //           ),
+  //           border: InputBorder.none,
+  //           prefixIcon: Padding(
+  //             padding: EdgeInsets.only(
+  //                 left: 20,
+  //                 right: icon == MyFlutterApp.message ? 12 : 5,
+  //                 bottom: 2),
+  //             child: Icon(icon,
+  //                 color: Colors.black,
+  //                 size: icon == MyFlutterApp.message ? 28 : 35),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   ),
+  // );
 }
 
 InkWell basicButton(
@@ -109,13 +281,18 @@ InkWell longBasicButton(BuildContext context, routeName, String text) {
       height: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: secondoryColor,
+        color: greenColor,
       ),
-      child: Text(
+      child: AutoSizeText(
         text,
+        maxLines: 1,
+        maxFontSize: 15,
+        minFontSize: 10,
         style: const TextStyle(
           fontFamily: fontFamily,
           fontSize: 15,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
         ),
       ),
     ),
