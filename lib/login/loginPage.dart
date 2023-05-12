@@ -151,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                             Radio(
                               activeColor: secondoryColor,
                               value: "Studio",
+                              
                               groupValue: account,
                               onChanged: (String? value) {
                                 setState(() {

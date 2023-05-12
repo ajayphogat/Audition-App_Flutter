@@ -58,16 +58,16 @@ class _ActorGridPageState extends State<ActorGridPage> {
                     "No data found",
                   ),
                 )
-              : GridView.builder(
+              : ListView.separated(
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
+                      // horizontal: screenWidth * 0.04,
                       vertical: screenHeight * 0.03),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    mainAxisExtent: screenHeight * 0.385,
-                  ),
+                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //   crossAxisCount: 2,
+                  //   crossAxisSpacing: 10,
+                  //   mainAxisSpacing: 10,
+                  //   mainAxisExtent: screenHeight * 0.385,
+                  // ),
                   physics: const BouncingScrollPhysics(),
                   itemCount: _categoryJobs!.length,
                   itemBuilder: (context, index) {
@@ -92,6 +92,8 @@ class _ActorGridPageState extends State<ActorGridPage> {
                           data.id),
                     );
                   },
+                  separatorBuilder: (context, index) =>
+                      SizedBox(height: screenHeight * 0.02),
                 ),
     );
   }

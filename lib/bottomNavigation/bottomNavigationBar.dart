@@ -8,6 +8,7 @@ import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/bottomNavigation/homePage.dart';
 import 'package:first_app/model/job_post_model.dart';
+import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/utils/showSnackbar.dart';
@@ -31,7 +32,8 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     const HomePage(),
     const MyApplicationPage(),
     const InboxPage(),
-    const MyProfilePage(),
+    // const MyProfilePage(),
+    const MediaProfilePage()
   ];
 
   DateTime pre_backPress = DateTime.now();
@@ -58,8 +60,24 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         index: _page,
         children: pages,
       ),
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: Container(
+        width: screenWidth,
         height: screenHeight * 0.065,
+        margin: EdgeInsets.only(bottom: screenHeight * 0.01),
+        // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(3, 3),
+              blurRadius: 5,
+              spreadRadius: 2,
+              color: Colors.black12,
+            ),
+          ],
+          // color: Colors.red,
+        ),
+        clipBehavior: Clip.antiAlias,
         child: WillPopScope(
           onWillPop: () async {
             if (_page > 0) {
@@ -90,38 +108,64 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
             unselectedItemColor: Colors.black,
             selectedIconTheme: const IconThemeData(color: thirdColor),
             unselectedIconTheme: const IconThemeData(color: Colors.black),
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
             selectedLabelStyle: const TextStyle(fontFamily: fontFamily),
             unselectedLabelStyle: const TextStyle(fontFamily: fontFamily),
-            selectedFontSize: 11.5,
-            unselectedFontSize: 11.5,
+            selectedFontSize: 1,
+            unselectedFontSize: 1,
             currentIndex: _page,
             onTap: updatePage,
             items: [
-              const BottomNavigationBarItem(
-                icon: Icon(MyFlutterApp.home_outline),
-                activeIcon: Icon(
-                  MyFlutterApp.home,
+              BottomNavigationBarItem(
+                icon: const Icon(MyFlutterApp.home_outline),
+                activeIcon: CircleAvatar(
+                  radius: screenHeight * 0.02,
+                  backgroundColor: greenColor,
+                  child: const Icon(
+                    MyFlutterApp.home,
+                  ),
                 ),
                 label: "Home",
               ),
               BottomNavigationBarItem(
-                icon: Icon(_page == 1
-                    ? MyFlutterApp.paper
-                    : MyFlutterApp.paper_outline),
+                icon: const Icon(MyFlutterApp.paper_outline),
+                // icon: Icon(_page == 1
+                //     ? MyFlutterApp.paper
+                //     : MyFlutterApp.paper_outline),
+                activeIcon: CircleAvatar(
+                  radius: screenHeight * 0.02,
+                  backgroundColor: greenColor,
+                  child: const Icon(
+                    MyFlutterApp.paper_outline,
+                  ),
+                ),
                 label: "My Applications",
               ),
               BottomNavigationBarItem(
-                icon: Icon(_page == 2
-                    ? MyFlutterApp.message
-                    : MyFlutterApp.message_outline),
+                icon: const Icon(MyFlutterApp.message_outline),
+                // icon: Icon(_page == 2
+                //     ? MyFlutterApp.message
+                //     : MyFlutterApp.message_outline),
+                activeIcon: CircleAvatar(
+                  radius: screenHeight * 0.02,
+                  backgroundColor: greenColor,
+                  child: const Icon(
+                    MyFlutterApp.message_outline,
+                  ),
+                ),
                 label: "Inbox",
               ),
               BottomNavigationBarItem(
-                icon: Icon(_page == 3
-                    ? MyFlutterApp.profile
-                    : MyFlutterApp.profile_outline),
+                icon: const Icon(MyFlutterApp.profile_outline),
+                // : MyFlutterApp.profile_outline),
+                activeIcon: CircleAvatar(
+                  radius: screenHeight * 0.02,
+                  backgroundColor: greenColor,
+                  child: const Icon(
+                    MyFlutterApp.profile_outline,
+                  ),
+                ),
                 label: "My Profile",
               ),
             ],

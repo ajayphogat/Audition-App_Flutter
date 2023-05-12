@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/databaseService.dart';
@@ -119,39 +120,61 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                         ),
                       );
                     },
-                    child: ListTile(
-                      leading: Container(
-                        width: (screenWidth * 0.1),
-                        height: (screenWidth * 0.1),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: profilePics.isEmpty
-                              ? Container(
-                                  color: Colors.black,
-                                )
-                              : profilePics[reverseIndex].isEmpty
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.01),
+                        ListTile(
+                          leading: Container(
+                            width: (screenWidth * 0.1),
+                            height: (screenWidth * 0.1),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: profilePics.isEmpty
                                   ? Container(
                                       color: Colors.black,
                                     )
-                                  : CachedNetworkImage(
-                                      imageUrl: profilePics[reverseIndex],
-                                      fit: BoxFit.cover,
-                                    ),
+                                  : profilePics[reverseIndex].isEmpty
+                                      ? Container(
+                                          color: Colors.black,
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl: profilePics[reverseIndex],
+                                          fit: BoxFit.cover,
+                                        ),
+                            ),
+                          ),
+                          title: Text(
+                            getName(snapshot.data['groups'][reverseIndex]),
+                            // getId(snapshot.data['groups'][reverseIndex]),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                              getName(snapshot.data['groups'][reverseIndex])),
+                          trailing: AutoSizeText(
+                            "5 m",
+                            maxFontSize: 16,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
-                      title: Text(
-                        getName(snapshot.data['groups'][reverseIndex]),
-                        // getId(snapshot.data['groups'][reverseIndex]),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                        SizedBox(height: screenHeight * 0.01),
+                        Divider(
+                          height: 0,
+                          thickness: 1,
+                          color: Colors.black26,
+                          indent: screenWidth * 0.025,
+                          endIndent: screenWidth * 0.025,
                         ),
-                      ),
-                      // subtitle:
-                      //     Text(getName(snapshot.data['groups'][reverseIndex])),
+                      ],
                     ),
                   );
                 },

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../static_data.dart';
+
 class SecondSplashScreen extends StatefulWidget {
   const SecondSplashScreen({Key? key}) : super(key: key);
 
@@ -62,8 +64,11 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
                           });
                         },
                         controller: _pageController,
-                        itemBuilder: (context, index) =>
-                            PageViewItem(width: width, height: height),
+                        itemBuilder: (context, index) => PageViewItem(
+                          width: width,
+                          height: height,
+                          index: index,
+                        ),
                       ),
                     ),
                   ),
@@ -192,14 +197,16 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
 }
 
 class PageViewItem extends StatelessWidget {
+  final double width;
+  final double height;
   const PageViewItem({
     super.key,
     required this.width,
     required this.height,
+    required this.index,
   });
 
-  final double width;
-  final double height;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +224,8 @@ class PageViewItem extends StatelessWidget {
                   width: width,
                   height: height * 0.4,
                   child: Image.asset(
-                    "asset/images/illustration/screen1.png",
+                    splashScreenData[index].values.toList()[0],
+                    // "asset/images/illustration/screen1.png",
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -228,12 +236,13 @@ class PageViewItem extends StatelessWidget {
                   width: width,
                   height: height * 0.05,
                   alignment: Alignment.center,
-                  child: const AutoSizeText(
-                    "One Day or Day One",
+                  child: AutoSizeText(
+                    splashScreenData[index].values.toList()[1],
+                    // "One Day or Day One",
                     maxLines: 1,
                     maxFontSize: 30,
                     minFontSize: 20,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
                       color: thirdColor,
@@ -248,8 +257,9 @@ class PageViewItem extends StatelessWidget {
           width: width,
           height: height * 0.1,
           alignment: Alignment.center,
-          child: const AutoSizeText(
-            "You can build your best pitch and\nlaunch a new chapter in your career.",
+          child: AutoSizeText(
+            splashScreenData[index].values.toList()[2],
+            // "You can build your best pitch and\nlaunch a new chapter in your career.",
             textAlign: TextAlign.center,
             maxLines: 2,
             maxFontSize: 16,

@@ -1,10 +1,10 @@
 const List<String> categoryData = [
-  "Actor",
-  "Dancer",
-  "Writer",
-  "Musician",
-  "Painter",
-  "Chirographer",
+  "asset/images/uiImages/actor.png",
+  "asset/images/uiImages/dancer.png",
+  "asset/images/uiImages/writer.png",
+  "asset/images/uiImages/musician.png",
+  "asset/images/uiImages/painter.png",
+  "asset/images/uiImages/choreo.png",
 ];
 
 const List<String> myApplicationData = [

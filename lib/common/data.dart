@@ -1,10 +1,21 @@
 const List<String> categoryData = [
+  "asset/images/uiImages/actor.png",
+  "asset/images/uiImages/dancer.png",
+  "asset/images/uiImages/writer.png",
+  "asset/images/uiImages/musician.png",
+  "asset/images/uiImages/painter.png",
+  "asset/images/uiImages/choreo.png",
+  "asset/images/uiImages/singer.png",
+  "asset/images/uiImages/designer.png",
+  "asset/images/uiImages/chef.png",
+];
+const List<String> categoryDataName = [
   "Actor",
   "Dancer",
   "Writer",
   "Musician",
   "Painter",
-  "Chirographer",
+  "Choreographer",
   "Singer",
   "Designer",
   "Chef",

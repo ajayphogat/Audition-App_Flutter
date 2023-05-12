@@ -84,6 +84,7 @@ class _ShortlistedJobPageState extends State<ShortlistedJobPage> {
                                     data.studioName,
                                     style: const TextStyle(
                                       fontFamily: fontFamily,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),

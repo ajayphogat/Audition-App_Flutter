@@ -300,41 +300,75 @@ InkWell longBasicButton(BuildContext context, routeName, String text) {
 }
 
 Widget textContainer(double screenWidth, double screenHeight, String s1,
-    String s2, String s3, List<dynamic> picture) {
+    String s2, String s3, List<dynamic> picture, String location) {
   return Padding(
-    padding: const EdgeInsets.only(
-      right: 10,
-    ),
+    padding: EdgeInsets.only(right: screenWidth * 0.02),
     child: Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(5),
       child: Container(
+        width: screenWidth * 0.85,
+        height: screenHeight * 0.425,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
         ),
-        clipBehavior: Clip.antiAlias,
+        // clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: screenHeight * 0.26,
-              width: screenHeight * 0.26,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                ),
+              width: screenWidth * 0.85,
+              height: screenHeight * 0.08,
+              decoration: BoxDecoration(
+                // color: Colors.red,
+                borderRadius: BorderRadius.circular(5),
               ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: screenHeight * 0.02,
+                    child: Image.asset(
+                      "asset/images/uiImages/studio_profile.png",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(width: screenWidth * 0.02),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        s2,
+                        style: const TextStyle(
+                          fontFamily: fontFamily,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        s3,
+                        style: const TextStyle(
+                          fontFamily: fontFamily,
+                          fontSize: 12,
+                          color: Color(0xff706E72),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: screenHeight * 0.26,
+              width: screenWidth * 0.85,
               child: Image.network(
                 picture[0],
                 fit: BoxFit.cover,
               ),
             ),
             Container(
-              padding:
-                  const EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 5),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -342,41 +376,19 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
                   Text(
                     s1,
                     style: const TextStyle(
-                      // fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       fontFamily: fontFamily,
                       fontSize: 15,
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.01),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset("asset/images/uiImages/logo.png"),
-                        ],
-                      ),
-                      SizedBox(width: screenWidth * 0.02),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            s2,
-                            style: const TextStyle(
-                              fontFamily: fontFamily,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            s3,
-                            style: const TextStyle(
-                              fontFamily: fontFamily,
-                              fontSize: 9,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  Text(
+                    location,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Color(0xff706E72),
+                    ),
                   ),
+                  SizedBox(height: screenHeight * 0.01),
                 ],
               ),
             ),
@@ -393,7 +405,7 @@ Future<void> getJobDetails(String jobId, BuildContext context) async {
   await otherService.getJobDetails1(context: context, jobId: jobId);
 }
 
-Material gridViewContainer(
+Widget gridViewContainer(
     BuildContext context,
     double screenWidth,
     double screenHeight,
@@ -402,94 +414,204 @@ Material gridViewContainer(
     String s3,
     String s4,
     String jobId) {
-  return Material(
+  return Card(
+    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
     elevation: 5,
-    borderRadius: BorderRadius.circular(5),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Colors.white,
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: screenHeight * 0.25,
-            width: screenWidth * 0.50,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-            ),
-            child: Image.network(
-              s4,
-              isAntiAlias: true,
-              fit: BoxFit.cover,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Column(
+      children: [
+        SizedBox(height: screenHeight * 0.02),
+        ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: screenWidth * 0.06,
+            backgroundImage: NetworkImage(s4),
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Text(
+              // s3,
+              s3.length > 40 ? s3.substring(0, 40) : s3,
+              // data.studioName,
+              style: const TextStyle(
+                fontFamily: fontFamily,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          Container(
-            padding:
-                EdgeInsets.only(left: 5, right: 5, top: screenHeight * 0.01),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  s3.length > 60 ? s3.substring(0, 60) : s3,
-                  style: const TextStyle(
-                    fontSize: 12,
-                  ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                s1,
+                // data.studioName,
+                // data.description,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontFamily: fontFamily,
+                  color: const Color(0xff131212).withOpacity(0.8),
                 ),
-                Divider(
-                  color: placeholderTextColor,
-                  height: screenHeight * 0.02,
+              ),
+              Text(
+                s2,
+                // data.location,
+                // data.description,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontFamily: fontFamily,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff706E72),
                 ),
-                InkWell(
-                  onTap: () async {
-                    circularProgressIndicatorNew(context);
-                    await getJobDetails(jobId, context);
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context) {
-                    //     return StudioDescriptionPage(studioId: studioId);
-                    //   },
-                    // ));
-                  },
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset("asset/images/uiImages/logo.png"),
-                        ],
-                      ),
-                      SizedBox(width: screenWidth * 0.02),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            s1,
-                            style: const TextStyle(
-                              fontFamily: fontFamily,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            s2,
-                            style: const TextStyle(
-                              fontFamily: fontFamily,
-                              fontSize: 9,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+          isThreeLine: true,
+        ),
+        SizedBox(height: screenHeight * 0.01),
+        const Divider(
+          thickness: 1,
+          height: 0,
+          color: Color(0xFF979797),
+          // indent: 20,
+          // endIndent: 20,
+        ),
+        SizedBox(height: screenHeight * 0.015),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              width: screenWidth * 0.25,
+              height: screenHeight * 0.035,
+              alignment: Alignment.center,
+              child: AutoSizeText(
+                "View Details",
+                maxFontSize: 15,
+                minFontSize: 10,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: greenColor,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            SizedBox(width: screenWidth * 0.05),
+            Container(
+              width: screenWidth * 0.3,
+              height: screenHeight * 0.035,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                // color: Colors.red,
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: greenColor, width: 1.5),
+              ),
+              child: AutoSizeText(
+                "APPLY NOW",
+                maxFontSize: 14,
+                minFontSize: 10,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: greenColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            SizedBox(width: screenWidth * 0.025),
+          ],
+        ),
+        SizedBox(height: screenHeight * 0.015),
+      ],
     ),
   );
+  // return Material(
+  //   elevation: 5,
+  //   borderRadius: BorderRadius.circular(5),
+  //   child: Container(
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(5),
+  //       color: Colors.white,
+  //     ),
+  //     clipBehavior: Clip.antiAlias,
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Container(
+  //           height: screenHeight * 0.25,
+  //           width: screenWidth * 0.50,
+  //           decoration: const BoxDecoration(
+  //             borderRadius: BorderRadius.only(
+  //                 topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+  //           ),
+  //           child: Image.network(
+  //             s4,
+  //             isAntiAlias: true,
+  //             fit: BoxFit.cover,
+  //           ),
+  //         ),
+  //         Container(
+  //           padding:
+  //               EdgeInsets.only(left: 5, right: 5, top: screenHeight * 0.01),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(
+  //                 s3.length > 60 ? s3.substring(0, 60) : s3,
+  //                 style: const TextStyle(
+  //                   fontSize: 12,
+  //                 ),
+  //               ),
+  //               Divider(
+  //                 color: placeholderTextColor,
+  //                 height: screenHeight * 0.02,
+  //               ),
+  //               InkWell(
+  //                 onTap: () async {
+  //                   circularProgressIndicatorNew(context);
+  //                   await getJobDetails(jobId, context);
+  //                   // Navigator.push(context, MaterialPageRoute(
+  //                   //   builder: (context) {
+  //                   //     return StudioDescriptionPage(studioId: studioId);
+  //                   //   },
+  //                   // ));
+  //                 },
+  //                 child: Row(
+  //                   children: [
+  //                     Row(
+  //                       children: [
+  //                         Image.asset("asset/images/uiImages/logo.png"),
+  //                       ],
+  //                     ),
+  //                     SizedBox(width: screenWidth * 0.02),
+  //                     Column(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       children: [
+  //                         Text(
+  //                           s1,
+  //                           style: const TextStyle(
+  //                             fontFamily: fontFamily,
+  //                             fontSize: 12,
+  //                           ),
+  //                         ),
+  //                         Text(
+  //                           s2,
+  //                           style: const TextStyle(
+  //                             fontFamily: fontFamily,
+  //                             fontSize: 9,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   ),
+  // );
 }
 
 Material gridFollowerView(

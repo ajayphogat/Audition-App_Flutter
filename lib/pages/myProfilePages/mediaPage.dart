@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:audioplayers/audioplayers.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/auth_service.dart';
@@ -8,6 +11,7 @@ import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/audioPlayer.dart';
+import 'package:first_app/pages/myProfilePages/myProfilePage.dart';
 import 'package:first_app/pages/myProfilePages/videoPlayer.dart';
 import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/provider/user_provider.dart';
@@ -18,6 +22,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
+import 'package:blurrycontainer/blurrycontainer.dart';
 
 class MediaProfilePage extends StatefulWidget {
   const MediaProfilePage({Key? key}) : super(key: key);
@@ -109,7 +114,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     // var vUser = Provider.of<UserProvider>(context, listen: false).user;
     // generateThumbnail(vUser.videos);
 
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -126,205 +131,597 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     var sUser = Provider.of<StudioProvider>(context).user;
     print(user.fname);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              MyFlutterApp.bi_arrow_down,
-              color: Colors.black,
-            )),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notifications_none_rounded,
-                  color: Colors.black)),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: Container(
+      //     width: screenWidth,
+      //     child: Image.asset("asset/images/uiImages/media_appbar.png"),
+      //   ),
+      // ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.white,
+      //   leading: IconButton(
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //       icon: const Icon(
+      //         MyFlutterApp.bi_arrow_down,
+      //         color: Colors.black,
+      //       )),
+      //   actions: [
+      //     IconButton(
+      //         onPressed: () {},
+      //         icon: const Icon(Icons.notifications_none_rounded,
+      //             color: Colors.black)),
+      //   ],
+      // ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Container(
-            width: screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  user.fname,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                Container(
-                  width: screenWidth,
-                  height: screenHeight * 0.15,
-                  margin: EdgeInsets.only(top: screenHeight * 0.03),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: screenWidth * 0.25,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: user.profilePic.isEmpty
-                              ? Container(
-                                  color: Colors.black,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl: user.profilePic,
-                                  fit: BoxFit.cover,
-                                ),
-                          // Image.asset("asset/images/uiImages/actor.jpg",
-                          //     fit: BoxFit.cover),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: screenWidth,
+                height: screenHeight * 0.705,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: screenWidth,
+                      height: screenHeight * 0.5,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(150),
                         ),
                       ),
-                      SizedBox(
-                        width: screenWidth * 0.67,
-                        height: screenHeight * 0.20,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(150),
+                        ),
+                        child: user.profilePic.isEmpty
+                            ? Container(
+                                color: Colors.black,
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: user.profilePic,
+                                fit: BoxFit.cover,
+                              ),
+                        // Image.asset("asset/images/uiImages/actor.jpg",
+                        //     fit: BoxFit.cover),
+                      ),
+                    ),
+                    Container(
+                      width: screenWidth,
+                      height: screenHeight * 0.0689,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                      decoration: const BoxDecoration(
+                        // color: Colors.red,
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "asset/images/uiImages/media_appbar.png",
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.arrow_back_ios_sharp),
+                          SizedBox(width: screenWidth * 0.04),
+                          const AutoSizeText(
+                            "My Profile",
+                            maxFontSize: 22,
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: screenWidth * 0.025,
+                      child: BlurryContainer(
+                        blur: 10,
+                        width: screenWidth * 0.95,
+                        height: screenHeight * 0.225,
+                        elevation: 5,
+                        color: Colors.white.withOpacity(
+                          0.7,
+                        ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            SizedBox(height: screenHeight * 0.03),
+                            Column(
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(left: screenWidth * 0.06),
-                                  child: Text(
-                                    user.category,
-                                    style: const TextStyle(
-                                      fontSize: 20,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const AutoSizeText(
+                                      "Jane Doe",
+                                      maxFontSize: 25,
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, MyProfilePage.routeName);
+                                      },
+                                      child: Container(
+                                        width: screenWidth * 0.25,
+                                        height: screenHeight * 0.03,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: greenColor,
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: const AutoSizeText(
+                                          "View more",
+                                          maxFontSize: 12,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: const [
+                                    AutoSizeText(
+                                      "Aspiring Actress short bio",
+                                      maxFontSize: 12,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Divider(
+                                        thickness: 1,
+                                        color: Colors.black12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: screenHeight * 0.03),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.05),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      AutoSizeText(
+                                        "Age",
+                                        maxFontSize: 12,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black26,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      AutoSizeText(
+                                        "27 years",
+                                        maxFontSize: 16,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      user.applied.length.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w800,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      AutoSizeText(
+                                        "Height",
+                                        maxFontSize: 12,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black26,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    const Text(
-                                      "Applied Jobs",
-                                      style: TextStyle(
-                                        fontSize: 18,
+                                      AutoSizeText(
+                                        "5'6''",
+                                        maxFontSize: 16,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      user.following.length.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w800,
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      AutoSizeText(
+                                        "Weight",
+                                        maxFontSize: 12,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black26,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    const Text(
-                                      "Following",
-                                      style: TextStyle(
-                                        fontSize: 18,
+                                      AutoSizeText(
+                                        "60 KG",
+                                        maxFontSize: 16,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                // sUser.id.isEmpty
-                                //     ?
-                                SizedBox(
-                                  width: screenWidth * 0.25,
-                                  height: screenHeight * 0.025,
-                                )
-                                // : Container(
-                                //     width: screenWidth * 0.25,
-                                //     height: screenHeight * 0.025,
-                                //     margin: EdgeInsets.only(
-                                //         left: screenWidth * 0.05),
-                                //     alignment: Alignment.center,
-                                //     decoration: BoxDecoration(
-                                //       borderRadius:
-                                //           BorderRadius.circular(5),
-                                //       color: secondoryColor,
-                                //     ),
-                                //     child: const Text("Follow"),
-                                //   ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                      // child: Container(
+                      //   width: screenWidth * 0.9,
+                      //   height: screenHeight * 0.25,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(15),
+                      //     color: Colors.grey.shade100.withOpacity(0.8),
+
+                      //   ),
+                      //   child: Text("Jane Doe"),
+                      // ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: screenHeight * 0.03),
-            height: screenHeight * 0.04,
-            child: TabBar(
-              controller: _tabController,
-              physics: const BouncingScrollPhysics(),
-              labelStyle: const TextStyle(
-                fontFamily: fontFamily,
-                fontWeight: FontWeight.normal,
-                fontSize: 18,
               ),
-              isScrollable: true,
-              indicatorColor: thirdColor,
-              labelColor: thirdColor,
-              unselectedLabelColor: Colors.black,
-              indicatorSize: TabBarIndicatorSize.label,
-              tabs: [
-                Tab(
-                  text: profileMediaData[0],
+              SizedBox(height: screenHeight * 0.02),
+              Container(
+                width: screenWidth,
+                height: screenHeight * 0.06,
+                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xffFADA43),
                 ),
-                Tab(
-                  text: profileMediaData[1],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        _tabController.animateTo(0);
+                      },
+                      child: Container(
+                        width: screenWidth * 0.28,
+                        height: screenHeight * 0.04,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        alignment: Alignment.center,
+                        child: const AutoSizeText(
+                          "Photos",
+                          maxFontSize: 14,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _tabController.animateTo(1);
+                      },
+                      child: Container(
+                        width: screenWidth * 0.28,
+                        height: screenHeight * 0.04,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        alignment: Alignment.center,
+                        child: const AutoSizeText(
+                          "Videos",
+                          maxFontSize: 14,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _tabController.animateTo(2);
+                      },
+                      child: Container(
+                        width: screenWidth * 0.28,
+                        height: screenHeight * 0.04,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        alignment: Alignment.center,
+                        child: const AutoSizeText(
+                          "Audio",
+                          maxFontSize: 14,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Tab(
-                  text: profileMediaData[2],
+              ),
+
+              // child: Stack(
+              //   children: [
+              //     Container(
+              //       width: screenWidth,
+              //       height: screenHeight * 0.5,
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.only(
+              //           bottomLeft: Radius.circular(150),
+              //         ),
+              //         color: Colors.red,
+              //       ),
+              //     ),
+              //     Image.asset("asset/images/uiImages/media_appbar.png"),
+              //     Positioned(
+              //       top: screenHeight * 0.015,
+              //       left: screenWidth * 0.025,
+              //       child: Row(
+              //         children: [
+              //           Icon(Icons.arrow_back_ios_sharp),
+              //           SizedBox(width: screenWidth * 0.04),
+              //           AutoSizeText(
+              //             "My Profile",
+              //             maxFontSize: 22,
+              //             style: TextStyle(
+              //               fontSize: 22,
+              //               color: Colors.black,
+              //               fontWeight: FontWeight.w600,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Container(
+              //       width: screenWidth,
+              //       height: screenHeight * 0.2,
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(10),
+
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // ),
+              // Container(
+              //   width: screenWidth,
+              //   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         user.fname,
+              //         style: const TextStyle(fontSize: 20),
+              //       ),
+              //       Container(
+              //         width: screenWidth,
+              //         height: screenHeight * 0.15,
+              //         margin: EdgeInsets.only(top: screenHeight * 0.03),
+              //         child: Row(
+              //           children: [
+              //             Container(
+              //               width: screenWidth * 0.25,
+              //               decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //               child: ClipRRect(
+              //                 borderRadius: BorderRadius.circular(10),
+              //                 child: user.profilePic.isEmpty
+              //                     ? Container(
+              //                         color: Colors.black,
+              //                       )
+              //                     : CachedNetworkImage(
+              //                         imageUrl: user.profilePic,
+              //                         fit: BoxFit.cover,
+              //                       ),
+              //                 // Image.asset("asset/images/uiImages/actor.jpg",
+              //                 //     fit: BoxFit.cover),
+              //               ),
+              //             ),
+              //             SizedBox(
+              //               width: screenWidth * 0.67,
+              //               height: screenHeight * 0.20,
+              //               child: Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.stretch,
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Row(
+              //                     mainAxisAlignment: MainAxisAlignment.start,
+              //                     children: [
+              //                       Padding(
+              //                         padding: EdgeInsets.only(
+              //                             left: screenWidth * 0.06),
+              //                         child: Text(
+              //                           user.category,
+              //                           style: const TextStyle(
+              //                             fontSize: 20,
+              //                           ),
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                   Row(
+              //                     mainAxisAlignment:
+              //                         MainAxisAlignment.spaceAround,
+              //                     children: [
+              //                       Column(
+              //                         children: [
+              //                           Text(
+              //                             user.applied.length.toString(),
+              //                             style: const TextStyle(
+              //                               fontSize: 22,
+              //                               fontWeight: FontWeight.w800,
+              //                             ),
+              //                           ),
+              //                           const Text(
+              //                             "Applied Jobs",
+              //                             style: TextStyle(
+              //                               fontSize: 18,
+              //                             ),
+              //                           ),
+              //                         ],
+              //                       ),
+              //                       Column(
+              //                         children: [
+              //                           Text(
+              //                             user.following.length.toString(),
+              //                             style: const TextStyle(
+              //                               fontSize: 22,
+              //                               fontWeight: FontWeight.w800,
+              //                             ),
+              //                           ),
+              //                           const Text(
+              //                             "Following",
+              //                             style: TextStyle(
+              //                               fontSize: 18,
+              //                             ),
+              //                           ),
+              //                         ],
+              //                       ),
+              //                     ],
+              //                   ),
+              //                   Row(
+              //                     children: [
+              //                       // sUser.id.isEmpty
+              //                       //     ?
+              //                       SizedBox(
+              //                         width: screenWidth * 0.25,
+              //                         height: screenHeight * 0.025,
+              //                       )
+              //                       // : Container(
+              //                       //     width: screenWidth * 0.25,
+              //                       //     height: screenHeight * 0.025,
+              //                       //     margin: EdgeInsets.only(
+              //                       //         left: screenWidth * 0.05),
+              //                       //     alignment: Alignment.center,
+              //                       //     decoration: BoxDecoration(
+              //                       //       borderRadius:
+              //                       //           BorderRadius.circular(5),
+              //                       //       color: secondoryColor,
+              //                       //     ),
+              //                       //     child: const Text("Follow"),
+              //                       //   ),
+              //                     ],
+              //                   ),
+              //                 ],
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              Container(
+                width: screenWidth,
+                height: screenHeight * 0.001,
+                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  // color: const Color(0xffFADA43),
+                  color: Colors.transparent,
                 ),
-                Tab(
-                  text: profileMediaData[3],
+                // margin: EdgeInsets.only(top: screenHeight * 0.03),
+                // height: screenHeight * 0.04,
+
+                child: TabBar(
+                  controller: _tabController,
+                  physics: const BouncingScrollPhysics(),
+                  labelStyle: const TextStyle(
+                    fontFamily: fontFamily,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 18,
+                  ),
+                  isScrollable: true,
+                  indicatorColor: Colors.transparent,
+                  labelColor: Colors.transparent,
+                  // indicatorColor: thirdColor,
+                  // labelColor: thirdColor,
+                  unselectedLabelColor: Colors.black,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  tabs: [
+                    Tab(
+                      text: profileMediaData[0],
+                    ),
+                    Tab(
+                      text: profileMediaData[1],
+                    ),
+                    Tab(
+                      text: profileMediaData[2],
+                    ),
+                    // Tab(
+                    //   text: profileMediaData[3],
+                    // ),
+                    //   Tab(
+                    //     text: profileMediaData[4],
+                    //   ),
+                  ],
                 ),
-                //   Tab(
-                //     text: profileMediaData[4],
-                //   ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.6,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    mediaPhotoSection(screenWidth, screenHeight, user, sUser),
+                    // mediaVideoSection(screenWidth, screenHeight, user),
+                    mediaVideoSection(screenWidth, screenHeight, user, sUser),
+                    mediaAudioSection(screenWidth, screenHeight, user, sUser),
+                    // mediaDocumentSection(
+                    //     screenWidth, screenHeight, user, sUser),
+                    // mediaDraftSection(screenWidth, screenHeight),
+                  ],
+                ),
+              ),
+            ],
           ),
-          SizedBox(
-            height: screenHeight * 0.6,
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                mediaPhotoSection(screenWidth, screenHeight, user, sUser),
-                // mediaVideoSection(screenWidth, screenHeight, user),
-                mediaVideoSection(screenWidth, screenHeight, user, sUser),
-                mediaAudioSection(screenWidth, screenHeight, user, sUser),
-                mediaDocumentSection(screenWidth, screenHeight, user, sUser),
-                // mediaDraftSection(screenWidth, screenHeight),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -609,6 +1006,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               ),
             )
           : GridView.builder(
+              physics: const BouncingScrollPhysics(),
               gridDelegate: SliverWovenGridDelegate.count(
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
@@ -719,11 +1117,14 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   width: screenWidth,
                   height: screenHeight * 0.05,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: CachedNetworkImage(
-                    imageUrl: user.photos[index],
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl: user.photos[index],
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

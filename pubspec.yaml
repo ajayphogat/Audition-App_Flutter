@@ -30,6 +30,7 @@ dependencies:
   animated_bottom_navigation_bar: ^1.0.1
   audioplayers: ^0.20.1
   auto_size_text: ^3.0.0
+  blurrycontainer: ^1.0.2
   cached_network_image: ^3.2.3
   cloud_firestore: ^4.1.0
   cupertino_icons: ^1.0.2
@@ -112,7 +113,6 @@ flutter:
           weight: 500
         - asset: asset/fonts/Poppins-Regular.ttf
           weight: 400
-        
 
     - family: AirbnbCereal
       fonts:
