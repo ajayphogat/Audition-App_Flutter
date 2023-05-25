@@ -879,7 +879,7 @@ userAuth.post("/api/studioAcceptJobData", sAuth, async (req, res) => {
     }
 });
 
-
+// search studio by name api
 userAuth.get("/api/showWorkingJobs", auth, async (req, res) => {
     try {
         let newResult = [];

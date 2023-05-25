@@ -204,6 +204,8 @@ postJob.get("/api/getCategoryJob", auth, async (req, res) => {
             console.log("he");
             console.log(search);
             for (let index = 0; index < result.length; index++) {
+                // console.log(result[index]);
+                console.log("raja");
                 console.log(result[index]);
 
             }
