@@ -372,21 +372,27 @@ class _MyProfilePageState extends State<MyProfilePage>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            width: screenWidth * 0.4,
-                            height: screenHeight * 0.04,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: greenColor,
-                            ),
-                            alignment: Alignment.center,
-                            child: AutoSizeText(
-                              "View plans",
-                              maxFontSize: 14,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, SubscriptionPage.routeName);
+                            },
+                            child: Container(
+                              width: screenWidth * 0.4,
+                              height: screenHeight * 0.04,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: greenColor,
+                              ),
+                              alignment: Alignment.center,
+                              child: AutoSizeText(
+                                "View plans",
+                                maxFontSize: 14,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
@@ -1067,29 +1073,35 @@ class _MyProfilePageState extends State<MyProfilePage>
                 ),
               ),
               SizedBox(height: screenHeight * 0.015),
-              Card(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.025,
-                    vertical: screenHeight * 0.015,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AutoSizeText(
-                        "Logout",
-                        maxFontSize: 16,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+              InkWell(
+                onTap: () async {
+                  circularProgressIndicatorNew(context);
+                  await AuthService().logoutUser(context);
+                },
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.025,
+                      vertical: screenHeight * 0.015,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AutoSizeText(
+                          "Logout",
+                          maxFontSize: 16,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Icon(
-                        Icons.logout,
-                        color: Colors.black,
-                      ),
-                    ],
+                        Icon(
+                          Icons.logout,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

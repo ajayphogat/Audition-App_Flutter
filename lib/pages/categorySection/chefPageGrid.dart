@@ -4,6 +4,9 @@ import 'package:first_app/common/data.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/user_provider.dart';
 
 class ChefGridPage extends StatefulWidget {
   const ChefGridPage({Key? key, required this.searchEdit}) : super(key: key);
@@ -20,12 +23,14 @@ class _ChefGridPageState extends State<ChefGridPage> {
   List<JobModel>? _categoryJobs;
 
   getCategoryJobs() async {
+    print("start");
     _categoryJobs = await otherService.categoryJobs(
       context: context,
       category: "Chef",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {
+      print("rrr");
       setState(() {});
     }
   }
@@ -33,6 +38,10 @@ class _ChefGridPageState extends State<ChefGridPage> {
   Future<void> getJobDetails(String jobId) async {
     print("heyyyy");
     await otherService.getJobDetails(context: context, jobId: jobId);
+  }
+
+  void updateState() {
+    setState(() {});
   }
 
   @override
@@ -45,6 +54,8 @@ class _ChefGridPageState extends State<ChefGridPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    var user = Provider.of<UserProvider>(context).user;
+
     return Scaffold(
       body: _categoryJobs == null
           ? const Center(
@@ -54,16 +65,16 @@ class _ChefGridPageState extends State<ChefGridPage> {
               ? const Center(
                   child: Text("No data found"),
                 )
-              : GridView.builder(
+              : ListView.separated(
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
+                      // horizontal: screenWidth * 0.04,
                       vertical: screenHeight * 0.03),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    mainAxisExtent: screenHeight * 0.385,
-                  ),
+                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //   crossAxisCount: 2,
+                  //   crossAxisSpacing: 10,
+                  //   mainAxisSpacing: 10,
+                  //   mainAxisExtent: screenHeight * 0.385,
+                  // ),
                   physics: const BouncingScrollPhysics(),
                   itemCount: _categoryJobs!.length,
                   itemBuilder: (context, index) {
@@ -83,9 +94,14 @@ class _ChefGridPageState extends State<ChefGridPage> {
                         data.description,
                         data.images[0],
                         data.id,
+                        data.studio['_id'],
+                        data.applicants.contains(user.id),
+                        getCategoryJobs,
                       ),
                     );
                   },
+                  separatorBuilder: (context, index) =>
+                      SizedBox(height: screenHeight * 0.02),
                 ),
     );
   }

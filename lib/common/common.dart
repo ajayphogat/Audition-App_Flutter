@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/data.dart';
@@ -406,14 +407,18 @@ Future<void> getJobDetails(String jobId, BuildContext context) async {
 }
 
 Widget gridViewContainer(
-    BuildContext context,
-    double screenWidth,
-    double screenHeight,
-    String s1,
-    String s2,
-    String s3,
-    String s4,
-    String jobId) {
+  BuildContext context,
+  double screenWidth,
+  double screenHeight,
+  String s1,
+  String s2,
+  String s3,
+  String s4,
+  String jobId,
+  String studioId,
+  bool isApplied,
+  Function updateList,
+) {
   return Card(
     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
     elevation: 5,
@@ -497,23 +502,38 @@ Widget gridViewContainer(
               ),
             ),
             SizedBox(width: screenWidth * 0.05),
-            Container(
-              width: screenWidth * 0.3,
-              height: screenHeight * 0.035,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                // color: Colors.red,
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: greenColor, width: 1.5),
-              ),
-              child: AutoSizeText(
-                "APPLY NOW",
-                maxFontSize: 14,
-                minFontSize: 10,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: greenColor,
-                  fontWeight: FontWeight.w500,
+            InkWell(
+              onTap: isApplied
+                  ? () {}
+                  : () async {
+                      print("here is studio id => $studioId");
+                      circularProgressIndicatorNew(context);
+                      OtherService().applyJob(
+                        context: context,
+                        jobId: jobId,
+                        studioUserId: studioId,
+                      );
+                      await updateList();
+                      Navigator.pop(context);
+                    },
+              child: Container(
+                width: screenWidth * 0.3,
+                height: screenHeight * 0.035,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  // color: Colors.red,
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: greenColor, width: 1.5),
+                ),
+                child: AutoSizeText(
+                  isApplied ? "APPLIED" : "APPLY NOW",
+                  maxFontSize: 14,
+                  minFontSize: 10,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: greenColor,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),

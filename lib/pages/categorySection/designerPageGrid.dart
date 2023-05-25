@@ -4,6 +4,9 @@ import 'package:first_app/common/data.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/user_provider.dart';
 
 class DesignerGridPage extends StatefulWidget {
   const DesignerGridPage({Key? key, required this.searchEdit})
@@ -36,6 +39,10 @@ class _DesignerGridPageState extends State<DesignerGridPage> {
     await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
+  void updateState() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     getCategoryJobs();
@@ -46,6 +53,7 @@ class _DesignerGridPageState extends State<DesignerGridPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    var user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       body: _categoryJobs == null
           ? const Center(
@@ -55,16 +63,16 @@ class _DesignerGridPageState extends State<DesignerGridPage> {
               ? const Center(
                   child: Text("No data found"),
                 )
-              : GridView.builder(
+              : ListView.separated(
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
+                      // horizontal: screenWidth * 0.04,
                       vertical: screenHeight * 0.03),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    mainAxisExtent: screenHeight * 0.385,
-                  ),
+                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //   crossAxisCount: 2,
+                  //   crossAxisSpacing: 10,
+                  //   mainAxisSpacing: 10,
+                  //   mainAxisExtent: screenHeight * 0.385,
+                  // ),
                   physics: const BouncingScrollPhysics(),
                   itemCount: _categoryJobs!.length,
                   itemBuilder: (context, index) {
@@ -84,9 +92,14 @@ class _DesignerGridPageState extends State<DesignerGridPage> {
                         data.description,
                         data.images[0],
                         data.id,
+                        data.studio['_id'],
+                        data.applicants.contains(user.id),
+                        updateState,
                       ),
                     );
                   },
+                  separatorBuilder: (context, index) =>
+                      SizedBox(height: screenHeight * 0.02),
                 ),
     );
   }

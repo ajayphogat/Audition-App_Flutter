@@ -4,23 +4,24 @@ import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/login/forgotPassword.dart';
+import 'package:first_app/login/loginPage.dart';
 import 'package:first_app/login/signUpPage.dart';
 import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({Key? key}) : super(key: key);
 
-  static const String routeName = "/login-page";
+  static const String routeName = "/reset-page";
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _email = TextEditingController();
+class _ResetPasswordState extends State<ResetPassword> {
+  final TextEditingController _passwordConfirm = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
   String account = "Audition";
@@ -35,12 +36,16 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> loginUser() async {
     await authService.loginUser(
-        context: context, email: _email.text, password: _password.text);
+        context: context,
+        email: _passwordConfirm.text,
+        password: _password.text);
   }
 
   Future<void> loginStudio() async {
     await authService.loginStudio(
-        context: context, email: _email.text, password: _password.text);
+        context: context,
+        email: _passwordConfirm.text,
+        password: _password.text);
   }
 
   void changeRememberMe(bool value) {
@@ -93,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: screenHeight * 0.05,
                             // color: Colors.blue,
                             child: const AutoSizeText(
-                              "Login",
+                              "Reset Password",
                               maxLines: 1,
                               maxFontSize: 30,
                               minFontSize: 20,
@@ -168,16 +173,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.02),
-                  loginTextField(
-                    screenWidth,
-                    screenHeight,
-                    context,
-                    _email,
-                    "Email/Phone No.",
-                    MyFlutterApp.username,
-                    false,
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
+                  // loginTextField(
+                  //   screenWidth,
+                  //   screenHeight,
+                  //   context,
+                  //   _passwordConfirm,
+                  //   "Email/Phone No.",
+                  //   MyFlutterApp.username,
+                  //   false,
+                  // ),
                   Container(
                     width: screenWidth,
                     margin:
@@ -189,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: TextFormField(
-                      controller: _password,
+                      controller: _passwordConfirm,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return "Please fill this";
@@ -244,100 +248,168 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.01),
+                  SizedBox(height: screenHeight * 0.02),
                   Container(
-                    // color: Colors.red,
                     width: screenWidth,
-                    height: screenHeight * 0.05,
-                    padding:
+                    margin:
                         EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              changeRememberMe(!_rememberMe);
-                            });
-                          },
-                          child: SizedBox(
-                            width: screenWidth * 0.4,
-                            height: screenHeight * 0.04,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: screenHeight * 0.025,
-                                  child: FittedBox(
-                                    child: CupertinoSwitch(
-                                      activeColor: const Color(0xff0A4C7E),
-                                      value: _rememberMe,
-                                      onChanged: (value) =>
-                                          changeRememberMe(value),
-                                    ),
-                                  ),
-                                ),
-                                const AutoSizeText(
-                                  "Remember Me",
-                                  maxLines: 1,
-                                  maxFontSize: 12,
-                                  minFontSize: 8,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xff131212),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: const Color(0xffDADADA),
+                      ),
+                    ),
+                    child: TextFormField(
+                      controller: _password,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please fill this";
+                        } else {
+                          return null;
+                        }
+                      },
+                      textAlignVertical: TextAlignVertical.center,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: fontFamily,
+                      ),
+                      obscureText: isObscure,
+                      decoration: InputDecoration(
+                        errorStyle: const TextStyle(
+                          height: 0.1,
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, ForgotPassword.routeName);
-                          },
-                          style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all<Color>(Colors.black),
-                          ),
-                          child: const AutoSizeText(
-                            "Forgot Password?",
-                            maxLines: 1,
-                            maxFontSize: 12,
-                            minFontSize: 8,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: fontFamily,
-                            ),
-                          ),
+                        hintText: "Confirm Password",
+                        hintStyle: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: fontFamily,
+                          color: placeholderTextColor,
                         ),
-                      ],
+                        border: InputBorder.none,
+                        prefixIcon: Container(
+                          width: screenWidth * 0.025,
+                          height: screenHeight * 0.025,
+                          padding: const EdgeInsets.all(12),
+                          child: SvgPicture.asset("asset/icons/Lock.svg"),
+                        ),
+                        suffixIcon: isObscure
+                            ? IconButton(
+                                icon: const Icon(MyFlutterApp.show),
+                                onPressed: () {
+                                  setState(() {
+                                    isObscure = !isObscure;
+                                  });
+                                },
+                                iconSize: 20,
+                                color: placeholderTextColor,
+                              )
+                            : IconButton(
+                                icon: const Icon(MyFlutterApp.hide),
+                                onPressed: () {
+                                  setState(() {
+                                    isObscure = !isObscure;
+                                  });
+                                },
+                                iconSize: 28,
+                                color: placeholderTextColor,
+                              ),
+                      ),
                     ),
                   ),
+                  SizedBox(height: screenHeight * 0.01),
+                  // Container(
+                  //   // color: Colors.red,
+                  //   width: screenWidth,
+                  //   height: screenHeight * 0.05,
+                  //   padding:
+                  //       EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       InkWell(
+                  //         onTap: () {
+                  //           setState(() {
+                  //             changeRememberMe(!_rememberMe);
+                  //           });
+                  //         },
+                  //         child: SizedBox(
+                  //           width: screenWidth * 0.4,
+                  //           height: screenHeight * 0.04,
+                  //           child: Row(
+                  //             children: [
+                  //               SizedBox(
+                  //                 height: screenHeight * 0.025,
+                  //                 child: FittedBox(
+                  //                   child: CupertinoSwitch(
+                  //                     activeColor: const Color(0xff0A4C7E),
+                  //                     value: _rememberMe,
+                  //                     onChanged: (value) =>
+                  //                         changeRememberMe(value),
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //               const AutoSizeText(
+                  //                 "Remember Me",
+                  //                 maxLines: 1,
+                  //                 maxFontSize: 12,
+                  //                 minFontSize: 8,
+                  //                 style: TextStyle(
+                  //                   fontSize: 12,
+                  //                   color: Color(0xff131212),
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       TextButton(
+                  //         onPressed: () {
+                  //           Navigator.pushNamed(
+                  //               context, ForgotPassword.routeName);
+                  //         },
+                  //         style: ButtonStyle(
+                  //           foregroundColor:
+                  //               MaterialStateProperty.all<Color>(Colors.black),
+                  //         ),
+                  //         child: const AutoSizeText(
+                  //           "Forgot Password?",
+                  //           maxLines: 1,
+                  //           maxFontSize: 12,
+                  //           minFontSize: 8,
+                  //           style: TextStyle(
+                  //             fontSize: 12,
+                  //             fontWeight: FontWeight.normal,
+                  //             fontFamily: fontFamily,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   const SizedBox(height: 20),
                   InkWell(
                     onTap: () async {
-                      if (_formKey.currentState!.validate()) {
-                        if (account == "Audition") {
-                          setState(() {
-                            isLoading = !isLoading;
-                          });
-                          await loginUser();
-                          // await Future.delayed(const Duration(seconds: 2));
+                      Navigator.pushNamed(context, LoginPage.routeName);
+                      // if (_formKey.currentState!.validate()) {
+                      //   if (account == "Audition") {
+                      //     setState(() {
+                      //       isLoading = !isLoading;
+                      //     });
+                      //     await loginUser();
+                      //     // await Future.delayed(const Duration(seconds: 2));
 
-                          setState(() {
-                            isLoading = !isLoading;
-                          });
-                        } else {
-                          setState(() {
-                            isLoading = !isLoading;
-                          });
-                          // await loginStudio();
-                          // setState(() {
-                          //   isLoading = !isLoading;
-                          // });
-                        }
-                      }
+                      //     setState(() {
+                      //       isLoading = !isLoading;
+                      //     });
+                      //   } else {
+                      //     setState(() {
+                      //       isLoading = !isLoading;
+                      //     });
+                      //     // await loginStudio();
+                      //     // setState(() {
+                      //     //   isLoading = !isLoading;
+                      //     // });
+                      //   }
+                      // }
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 500),
@@ -359,7 +431,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             )
                           : const AutoSizeText(
-                              "Login",
+                              "Confirm",
                               maxLines: 1,
                               maxFontSize: 16,
                               minFontSize: 12,
@@ -373,38 +445,38 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const AutoSizeText(
-                        "Don't have an account? ",
-                        maxLines: 1,
-                        maxFontSize: 12,
-                        minFontSize: 8,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: fontFamily,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.popAndPushNamed(
-                              context, SignupPage.routeName);
-                        },
-                        child: const AutoSizeText(
-                          "Sign up",
-                          maxLines: 1,
-                          maxFontSize: 12,
-                          minFontSize: 8,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: fontFamily,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     const AutoSizeText(
+                  //       "Don't have an account? ",
+                  //       maxLines: 1,
+                  //       maxFontSize: 12,
+                  //       minFontSize: 8,
+                  //       style: TextStyle(
+                  //         fontSize: 12,
+                  //         fontFamily: fontFamily,
+                  //       ),
+                  //     ),
+                  //     InkWell(
+                  //       onTap: () {
+                  //         Navigator.popAndPushNamed(
+                  //             context, SignupPage.routeName);
+                  //       },
+                  //       child: const AutoSizeText(
+                  //         "Sign up",
+                  //         maxLines: 1,
+                  //         maxFontSize: 12,
+                  //         minFontSize: 8,
+                  //         style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontFamily: fontFamily,
+                  //           decoration: TextDecoration.underline,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(height: screenHeight * 0.1),
                 ],
               ),

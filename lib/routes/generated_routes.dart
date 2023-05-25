@@ -60,6 +60,7 @@ import 'package:flutter/material.dart';
 
 import '../login/forgotPassword.dart';
 import '../login/mainPage.dart';
+import '../login/resetPassword.dart';
 import '../login/verifiedPage.dart';
 import '../login/verifyMobile.dart';
 import '../pages/categorySection/categoryDetailPage.dart';
@@ -177,10 +178,17 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const SNotificationPage(),
       );
+
     case NotificationPage.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const NotificationPage(),
+      );
+
+    case ResetPassword.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ResetPassword(),
       );
 
     // case AcceptedJobPage.routeName:

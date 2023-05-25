@@ -3,7 +3,9 @@ import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/descriptionPage.dart';
+import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ActorGridPage extends StatefulWidget {
   ActorGridPage({Key? key, required this.searchEdit}) : super(key: key);
@@ -28,6 +30,7 @@ class _ActorGridPageState extends State<ActorGridPage> {
             widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "");
     // print("raja");
     // print(_categoryJobs);
+    print("here is => ${_categoryJobs![0].toJson()}");
     if (this.mounted) {
       setState(() {});
     }
@@ -35,6 +38,10 @@ class _ActorGridPageState extends State<ActorGridPage> {
 
   Future<void> getJobDetails(String jobId) async {
     await otherService.getJobDetails(context: context, jobId: jobId);
+  }
+
+  void updateState() {
+    setState(() {});
   }
 
   @override
@@ -47,6 +54,7 @@ class _ActorGridPageState extends State<ActorGridPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    var user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       body: _categoryJobs == null
           ? const Center(
@@ -76,20 +84,25 @@ class _ActorGridPageState extends State<ActorGridPage> {
                     print(data.jobType);
                     print(data.description);
                     print(data.id);
+                    print("applied => ${data.applicants.contains(user.id)}");
                     return InkWell(
                       onTap: () async {
                         circularProgressIndicatorNew(context);
                         await getJobDetails(data.id.toString());
                       },
                       child: gridViewContainer(
-                          context,
-                          screenWidth,
-                          screenHeight,
-                          data.studioName,
-                          data.jobType,
-                          data.description,
-                          data.images[0],
-                          data.id),
+                        context,
+                        screenWidth,
+                        screenHeight,
+                        data.studioName,
+                        data.jobType,
+                        data.description,
+                        data.images[0],
+                        data.id,
+                        data.studio['_id'],
+                        data.applicants.contains(user.id),
+                        updateState,
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) =>

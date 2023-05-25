@@ -2,10 +2,8 @@ import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
 import 'package:first_app/provider/job_post_provider.dart';
-import 'package:first_app/provider/user_provider.dart';
 import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -94,7 +92,7 @@ class _DescriptionPageState extends State<DescriptionPage>
     double screenHeight = MediaQuery.of(context).size.height;
 
     var jobData = Provider.of<JobProvider>(context).job;
-    print(jobData.studio['_id']);
+    print("here is studio id => ${jobData.studio['_id']}");
     bool isBookmarked = jobData.isBookmarked!;
     bool isfollowed = jobData.isFollowed!;
     bool isApplied = jobData.isApplied!;
