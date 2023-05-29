@@ -44,31 +44,93 @@ cron.schedule("0 0 0 * * *", () => {
 
 });
 
+// postJob.post("/api/postJob", async (req, res) => {
 postJob.post("/api/postJob", sAuth, async (req, res) => {
-
+    //TODO: We have to add logic for per month job post length and then check if user is able to post or not
     try {
         const { studioName, jobType, socialMedia, description, productionDetail, date, location, contactNumber, keyDetails, images } = req.body;
+        // const { id } = req.body;
 
-        console.log(images);
+        // console.log(images);
 
+        // let user = await studioModel.findById(id);
         let user = await studioModel.findById(req.user);
         console.log("Hello");
         console.log(req.user);
-        console.log(user);
+        console.log(user.subscriptionName);
+        console.log(user.subscriptionPrice);
+        console.log(user.post.length);
+
+
+
         if (!user) return res.status(401).json({ msg: "No user found" });
+        res.json({ msg: "Done" });
+
+
 
         let newDate = Date(date);
+        // console.log(newDate.getMonth());
 
-        const postNewJob = postModel({ studioName: studioName, jobType: jobType, socialMedia: socialMedia, description: description, productionDetail: productionDetail, date: newDate, location: location, contactNumber: contactNumber, keyDetails: keyDetails, images: images, studio: req.user });
-        postNewJob.save().then(reUse => {
-            console.log(`here is reuse -> ${reUse}`);
-            studioModel.findByIdAndUpdate(req.user, { $push: { post: reUse._id } }, { new: true }, (error, result) => {
-                if (error) return res.status(401).json({ msg: error.message });
-                res.json(result);
-            })
-        }).catch((err) => {
-            console.log(`here is the error ${err.message}`);
-        });
+        if (user.subscriptionName == "Platinum") {
+            const postNewJob = postModel({ studioName: studioName, jobType: jobType, socialMedia: socialMedia, description: description, productionDetail: productionDetail, date: newDate, location: location, contactNumber: contactNumber, keyDetails: keyDetails, images: images, studio: req.user });
+            postNewJob.save().then(reUse => {
+                console.log(`here is reuse -> ${reUse}`);
+                studioModel.findByIdAndUpdate(req.user, { $push: { post: reUse._id } }, { new: true }, (error, result) => {
+                    if (error) return res.status(401).json({ msg: error.message });
+                    res.json(result);
+                })
+            }).catch((err) => {
+                console.log(`here is the error ${err.message}`);
+            });
+        }
+        else if (user.subscriptionName == "Gold") {
+            if (user.post.length <= 70) {
+                const postNewJob = postModel({ studioName: studioName, jobType: jobType, socialMedia: socialMedia, description: description, productionDetail: productionDetail, date: newDate, location: location, contactNumber: contactNumber, keyDetails: keyDetails, images: images, studio: req.user });
+                postNewJob.save().then(reUse => {
+                    console.log(`here is reuse -> ${reUse}`);
+                    studioModel.findByIdAndUpdate(req.user, { $push: { post: reUse._id } }, { new: true }, (error, result) => {
+                        if (error) return res.status(401).json({ msg: error.message });
+                        res.json(result);
+                    })
+                }).catch((err) => {
+                    console.log(`here is the error ${err.message}`);
+                });
+            }
+            else {
+                return res.status(400).json({ msg: "Your limit is over. Buy a new Subscription plan." })
+            }
+        }
+        else if (user.subscriptionName == "Silver") {
+            if (user.post.length <= 30) {
+                const postNewJob = postModel({ studioName: studioName, jobType: jobType, socialMedia: socialMedia, description: description, productionDetail: productionDetail, date: newDate, location: location, contactNumber: contactNumber, keyDetails: keyDetails, images: images, studio: req.user });
+                postNewJob.save().then(reUse => {
+                    console.log(`here is reuse -> ${reUse}`);
+                    studioModel.findByIdAndUpdate(req.user, { $push: { post: reUse._id } }, { new: true }, (error, result) => {
+                        if (error) return res.status(401).json({ msg: error.message });
+                        res.json(result);
+                    })
+                }).catch((err) => {
+                    console.log(`here is the error ${err.message}`);
+                });
+            }
+            else {
+                return res.status(400).json({ msg: "Your limit is over. Buy a new Subscription plan." })
+            }
+        }
+        else {
+            const postNewJob = postModel({ studioName: studioName, jobType: jobType, socialMedia: socialMedia, description: description, productionDetail: productionDetail, date: newDate, location: location, contactNumber: contactNumber, keyDetails: keyDetails, images: images, studio: req.user });
+            postNewJob.save().then(reUse => {
+                console.log(`here is reuse -> ${reUse}`);
+                studioModel.findByIdAndUpdate(req.user, { $push: { post: reUse._id } }, { new: true }, (error, result) => {
+                    if (error) return res.status(401).json({ msg: error.message });
+                    res.json(result);
+                })
+            }).catch((err) => {
+                console.log(`here is the error ${err.message}`);
+            });
+        }
+
+
 
 
 
