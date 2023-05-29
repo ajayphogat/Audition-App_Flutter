@@ -119,6 +119,7 @@ userAuth.post("/api/audition/login", async (req, res) => {
         if (err) return res.status(401).json({ msg: err.message });
 
         const token = jwt.sign({ id: result._id }, jwtKey);
+        console.log(result.subscriptionName);
         return res.json({ token, ...result._doc });
       }
     );
@@ -149,54 +150,54 @@ userAuth.post("/api/audition/logout", auth, async (req, res) => {
 //  send otp for forget password->
 
 userAuth.post("/api/send/otp/forget/password/audition", async (req, res) => {
-    try {
-      const { number } = req.body;
-      console.log(number);
-      const user = await userModel.findOne({ number: number });
-      console.log(user);
-      if (!user) {
-        return res.json({ message: "user not found" });
-      }
-      // Generate a 6-digit OTP
-      const otp = Math.floor(1000 + Math.random() * 9000);
-  
-      // send
-      await client.messages.create({
-        body: `Your OTP is: ${otp}`,
-        from: "+13158175295",
-        to: `+91${number}`,
-      });
-      //  save to db
-      await optModel.create({
-        phoneNumber: number,
-        otp: otp,
-      });
-      res.json({ message: "opt sent ", number, otp });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+  try {
+    const { number } = req.body;
+    console.log(number);
+    const user = await userModel.findOne({ number: number });
+    console.log(user);
+    if (!user) {
+      return res.json({ message: "user not found" });
     }
-  });
+    // Generate a 6-digit OTP
+    const otp = Math.floor(1000 + Math.random() * 9000);
 
-  // now change the password after otp verification->
+    // send
+    await client.messages.create({
+      body: `Your OTP is: ${otp}`,
+      from: "+13158175295",
+      to: `+91${number}`,
+    });
+    //  save to db
+    await optModel.create({
+      phoneNumber: number,
+      otp: otp,
+    });
+    res.json({ message: "opt sent ", number, otp });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// now change the password after otp verification->
 
 userAuth.post("/reset/password/audition", async (req, res) => {
-    try {
-      const { number, password } = req.body;
-      const studio = await userModel.findOne({ number: number });
-      if (!studio) {
-        return res.status(404).json({ message: "user not found" });
-      }
-  
-      const hashedPassword = await bcryptjs.hash(password, 8);
-      await userModel.findOneAndUpdate(
-        { number: number },
-        { $set: { password: hashedPassword } }
-      );
-      res.json({message:'Password changed'});
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+  try {
+    const { number, password } = req.body;
+    const studio = await userModel.findOne({ number: number });
+    if (!studio) {
+      return res.status(404).json({ message: "user not found" });
     }
-  });
+
+    const hashedPassword = await bcryptjs.hash(password, 8);
+    await userModel.findOneAndUpdate(
+      { number: number },
+      { $set: { password: hashedPassword } }
+    );
+    res.json({ message: 'Password changed' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Audition token validation api
 userAuth.post("/api/tokenValid", async (req, res) => {

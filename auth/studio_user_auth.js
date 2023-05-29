@@ -113,6 +113,8 @@ studioAuth.post("/api/studio/login", async (req, res) => {
         if (err) return res.status(401).json({ msg: err.message });
 
         const token = jwt.sign({ id: result._id }, jwtKey);
+        console.log('subscription name');
+        console.log(result.subscriptionName);
         return res.json({ token, ...result._doc });
       }
     );
