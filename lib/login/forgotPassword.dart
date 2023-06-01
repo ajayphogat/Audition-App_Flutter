@@ -5,6 +5,8 @@ import 'package:first_app/login/verifyMobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../auth/auth_service.dart';
+
 class ForgotPassword extends StatelessWidget {
   ForgotPassword({Key? key}) : super(key: key);
 
@@ -12,10 +14,17 @@ class ForgotPassword extends StatelessWidget {
 
   final TextEditingController _phone = TextEditingController();
 
+  AuthService authService = AuthService();
+
+  Future<void> forgotPassword(BuildContext context, String number) async {
+    await authService.forgotPassword(context: context, number: number);
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    // String argument = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -159,7 +168,37 @@ class ForgotPassword extends StatelessWidget {
             // commonTextField(screenWidth, screenHeight, context, _phone,
             //     "Phone No.", MyFlutterApp.call, false),
             const SizedBox(height: 60),
-            longBasicButton(context, VerifyMobile.routeName, "SEND OTP"),
+            // longBasicButton(context, VerifyMobile.routeName, "SEND OTP"),
+            InkWell(
+              onTap: _phone.text.length < 10
+                  ? () {}
+                  : () async {
+                      print("phone text => ${_phone.text}");
+                      circularProgressIndicatorNew(context);
+                      await forgotPassword(context, (_phone.text).trim());
+                    },
+              child: Container(
+                alignment: Alignment.center,
+                width: screenWidth * 0.59,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: greenColor,
+                ),
+                child: AutoSizeText(
+                  "SEND OTP",
+                  maxLines: 1,
+                  maxFontSize: 15,
+                  minFontSize: 10,
+                  style: const TextStyle(
+                    fontFamily: fontFamily,
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

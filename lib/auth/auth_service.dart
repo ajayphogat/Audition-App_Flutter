@@ -3,7 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/auth/databaseService.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/login/loginPage.dart';
 import 'package:first_app/login/mainPage.dart';
+import 'package:first_app/login/resetPassword.dart';
+import 'package:first_app/login/verifyMobile.dart';
 import 'package:first_app/model/studio_user_model.dart';
 import 'package:first_app/pages/splashScreen/firstScreen.dart';
 import 'package:first_app/provider/studio_provider.dart';
@@ -18,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/constant.dart';
+import '../login/verificationPage.dart';
 import '../pages/categorySection/studio_description.dart';
 
 class AuthService {
@@ -56,6 +60,7 @@ class AuthService {
         bodyType: "",
         hairColor: "",
         eyeColor: "",
+        subscriptionName: "",
         socialMedia: [],
         unionMembership: [],
         skills: [],
@@ -96,12 +101,81 @@ class AuthService {
           context: context,
           res: res,
           onSuccess: () async {
-            showMessage() => showSnackBar(
-                  context,
-                  "Account created! Login with same Credentials",
-                );
+            // showMessage() => showSnackBar(
+            //       context,
+            //       "Account created! Login with same Credentials",
+            //     );
+            print("res body => ${jsonDecode(res.body)}");
+            Navigator.pushNamed(context, VerificationPage.routeName,
+                arguments: jsonDecode(res.body)["number"]);
+            // showMessage();
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 
-            showMessage();
+  Future<void> verificationOTP({
+    required BuildContext context,
+    required String number,
+    required String otp,
+  }) async {
+    try {
+      http.Response res =
+          await http.post(Uri.parse("$url/api/studio/verify-otp"),
+              body: jsonEncode(
+                {
+                  "number": number,
+                  "otp": otp,
+                },
+              ),
+              headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+          });
+      httpErrorHandelForLoginSignup(
+          context: context,
+          res: res,
+          onSuccess: () {
+            print("number => ${jsonDecode(res.body)}");
+            Navigator.pushNamed(
+              context,
+              LoginPage.routeName,
+              // arguments:
+            );
+            showSnackBar(
+                context, "Account created! Login with same Credentials");
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> verificationOTPForgot({
+    required BuildContext context,
+    required String number,
+    required String otp,
+  }) async {
+    try {
+      http.Response res =
+          await http.post(Uri.parse("$url/api/studio/verify-otp"),
+              body: jsonEncode(
+                {
+                  "number": number,
+                  "otp": otp,
+                },
+              ),
+              headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+          });
+      print("number => ${jsonDecode(res.body)}");
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            Navigator.pushNamed(context, ResetPassword.routeName,
+                arguments: number);
+            // showSnackBar(
+            //     context, "Account created! Login with same Credentials");
           });
     } catch (e) {
       showSnackBar(context, e.toString());
@@ -139,6 +213,7 @@ class AuthService {
         bodyType: "",
         hairColor: "",
         eyeColor: "",
+        subscriptionName: "",
         socialMedia: [],
         unionMembership: [],
         skills: [],
@@ -175,7 +250,7 @@ class AuthService {
         print(snapshot);
       }
 
-      httpErrorHandel(
+      httpErrorHandelForLoginSignup(
           context: context,
           res: res,
           onSuccess: () async {
@@ -192,6 +267,78 @@ class AuthService {
             await prefs.remove("x-studio-token");
             navigator(BottomNavigationPage.routeName);
           });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> forgotPassword({
+    required BuildContext context,
+    required String number,
+  }) async {
+    try {
+      print("number => $number");
+      http.Response res = await http
+          .post(Uri.parse("$url/api/send/otp/forget/password/audition"),
+              body: jsonEncode(
+                {
+                  "number": number,
+                },
+              ),
+              headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+          });
+
+      httpErrorHandelForLoginSignup(
+        context: context,
+        res: res,
+        onSuccess: () {
+          print("number => ${jsonDecode(res.body)["number"]}");
+          Navigator.pop(context);
+          Navigator.pushNamed(context, VerifyMobile.routeName,
+              arguments: jsonDecode(res.body)["number"]);
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> resetPassword({
+    required BuildContext context,
+    required String password,
+    required String number,
+    required String type,
+  }) async {
+    try {
+      String apiUrl = "";
+      print(type);
+      if (type == "Audition") {
+        apiUrl = "$url/reset/password/audition";
+      } else {
+        apiUrl = "$url/reset/password/studio";
+      }
+      http.Response res = await http.post(Uri.parse(apiUrl),
+          body: jsonEncode(
+            {
+              "password": password,
+              "number": number,
+            },
+          ),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+          });
+
+      httpErrorHandel(
+        context: context,
+        res: res,
+        onSuccess: () {
+          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(
+              context, LoginPage.routeName, (route) => false);
+          showSnackBar(context, "Password Changed!!");
+        },
+      );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -221,7 +368,7 @@ class AuthService {
             navigatorPop() => Navigator.pop(context);
 
             navigatorPush() => Navigator.pushNamedAndRemoveUntil(
-                context, MainPage.routeName, (route) => false);
+                context, LoginPage.routeName, (route) => false);
 
             prefs.setString("x-auth-token", "");
             prefs.setString("x-studio-token", "");
@@ -579,6 +726,7 @@ class AuthService {
         bodyType: "",
         hairColor: "",
         eyeColor: "",
+        subscriptionName: "",
         socialMedia: [],
         unionMembership: [],
         skills: [],
@@ -672,6 +820,7 @@ class AuthService {
         declined: [],
         following: [],
         thumbnailVideo: [],
+        subscriptionName: "",
       );
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1081,10 +1230,13 @@ class AuthService {
           context: context,
           res: res,
           onSuccess: () {
-            showSnackBar(
-              context,
-              "Account created! Login with same Credentials",
-            );
+            // showSnackBar(
+            //   context,
+            //   "Account created! Login with same Credentials",
+            // );
+            print("res body => ${jsonDecode(res.body)}");
+            Navigator.pushNamed(context, VerificationPage.routeName,
+                arguments: jsonDecode(res.body)["number"]);
           });
     } catch (e) {
       showSnackBar(context, e.toString());

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -190,80 +191,120 @@ class _SMessagePageState extends State<SMessagePage> {
     var sUser = Provider.of<StudioProvider>(context).user;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          toolbarHeight: screenHeight * 0.1,
-          actions: [
-            Column(
-              children: [
-                SizedBox(
-                  width: screenWidth,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        icon: const Icon(MyFlutterApp.bi_arrow_down,
-                            color: Colors.black),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screenWidth * 0.25),
-                        child: const Text(
-                          "Messages",
-                          style: TextStyle(
-                            color: thirdColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    ],
+        appBar: PreferredSize(
+          child: SafeArea(
+            child: Container(
+              width: screenWidth,
+              height: screenHeight * 0.0689,
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+              decoration: const BoxDecoration(
+                // color: Colors.red,
+                image: DecorationImage(
+                  image: AssetImage(
+                    "asset/images/uiImages/media_appbar.png",
                   ),
                 ),
-                Container(
-                  width: screenWidth,
-                  padding: EdgeInsets.only(left: screenWidth * 0.03),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: widget.profilePic.isEmpty
-                              ? Container(
-                                  color: Colors.black,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl: widget.profilePic,
-                                  fit: BoxFit.cover,
-                                  // child: Image.network(
-                                  //     widget.profilePic,
-                                  //     fit: BoxFit.cover,
-                                  //   ),
-                                ),
-                        ),
-                      ),
-                      SizedBox(width: screenWidth * 0.03),
-                      Text(
-                        widget.groupName,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
+              ),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios_sharp,
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(width: screenWidth * 0.04),
+                  AutoSizeText(
+                    widget.groupName,
+                    maxFontSize: 22,
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
+          preferredSize: Size.fromHeight(screenHeight * 0.1),
         ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   toolbarHeight: screenHeight * 0.1,
+        //   actions: [
+        //     Column(
+        //       children: [
+        //         SizedBox(
+        //           width: screenWidth,
+        //           child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.start,
+        //             children: [
+        //               IconButton(
+        //                 icon: const Icon(MyFlutterApp.bi_arrow_down,
+        //                     color: Colors.black),
+        //                 onPressed: () {
+        //                   Navigator.pop(context);
+        //                 },
+        //               ),
+        //               Padding(
+        //                 padding: EdgeInsets.only(left: screenWidth * 0.25),
+        //                 child: const Text(
+        //                   "Messages",
+        //                   style: TextStyle(
+        //                     color: thirdColor,
+        //                     fontSize: 20,
+        //                   ),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //         Container(
+        //           width: screenWidth,
+        //           padding: EdgeInsets.only(left: screenWidth * 0.03),
+        //           child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.start,
+        //             children: [
+        //               Container(
+        //                 width: 32,
+        //                 height: 32,
+        //                 decoration: const BoxDecoration(
+        //                   shape: BoxShape.circle,
+        //                 ),
+        //                 child: ClipRRect(
+        //                   borderRadius: BorderRadius.circular(50),
+        //                   child: widget.profilePic.isEmpty
+        //                       ? Container(
+        //                           color: Colors.black,
+        //                         )
+        //                       : CachedNetworkImage(
+        //                           imageUrl: widget.profilePic,
+        //                           fit: BoxFit.cover,
+        //                           // child: Image.network(
+        //                           //     widget.profilePic,
+        //                           //     fit: BoxFit.cover,
+        //                           //   ),
+        //                         ),
+        //                 ),
+        //               ),
+        //               SizedBox(width: screenWidth * 0.03),
+        //               Text(
+        //                 widget.groupName,
+        //                 style: const TextStyle(
+        //                   color: Colors.black,
+        //                   fontSize: 16,
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
         body: Stack(
           children: [
             chatMessages(screenHeight, screenWidth),
@@ -303,6 +344,7 @@ class _SMessagePageState extends State<SMessagePage> {
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 5,
+                cursorColor: Colors.black,
                 decoration: InputDecoration(
                   hintText: "Type your message here",
                   hintStyle: const TextStyle(
@@ -310,6 +352,7 @@ class _SMessagePageState extends State<SMessagePage> {
                     fontFamily: fontFamily,
                     color: placeholderTextColor,
                   ),
+
                   border: InputBorder.none,
                   // prefixIcon: IconButton(
                   //   onPressed: () {
@@ -366,43 +409,52 @@ class _SMessagePageState extends State<SMessagePage> {
                   //       color: Colors.black),
                   // ),
 
-                  suffixIcon: SizedBox(
-                    width: screenWidth * 0.25,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.attach_file),
-                          onPressed: () {
-                            getImage();
-                            // if (_textController.text.isNotEmpty) {
-                            //   print("hello");
-                            //   setState(() {
-                            //     message.add(_textController.text);
-                            //     _textController.clear();
+                  prefixIcon: SizedBox(
+                    width: screenWidth * 0.05,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.attach_file,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        getImage();
+                        // if (_textController.text.isNotEmpty) {
+                        //   print("hello");
+                        //   setState(() {
+                        //     message.add(_textController.text);
+                        //     _textController.clear();
 
-                            //     print(message[0]);
-                            //   });
-                            // }
-                          },
-                        ),
-                        IconButton(
-                          icon: SvgPicture.asset("asset/icons/send_button.svg"),
-                          onPressed: () {
-                            // if (_textController.text.isNotEmpty) {
-                            //   print("hello");
-                            //   setState(() {
-                            //     message.add(_textController.text);
-                            //     _textController.clear();
-
-                            //     print(message[0]);
-                            //   });
-                            // }
-
-                            sendMessage();
-                          },
-                        ),
-                      ],
+                        //     print(message[0]);
+                        //   });
+                        // }
+                      },
                     ),
+                  ),
+
+                  suffixIcon: SizedBox(
+                    width: screenWidth * 0.15,
+                    child: IconButton(
+                      icon: SvgPicture.asset("asset/icons/send_button.svg"),
+                      onPressed: () {
+                        // if (_textController.text.isNotEmpty) {
+                        //   print("hello");
+                        //   setState(() {
+                        //     message.add(_textController.text);
+                        //     _textController.clear();
+
+                        //     print(message[0]);
+                        //   });
+                        // }
+
+                        sendMessage();
+                      },
+                    ),
+
+                    // Row(
+                    //   children: [
+
+                    //   ],
+                    // ),
                   ),
                 ),
               ),

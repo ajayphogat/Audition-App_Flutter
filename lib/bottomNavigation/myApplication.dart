@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
@@ -217,6 +218,24 @@ class _MyApplicationState extends State<MyApplicationPage>
                 children: [
                   Image.asset("asset/images/uiImages/application_appbar.png"),
                   Positioned(
+                    left: screenWidth * 0.05,
+                    child: Row(
+                      children: const [
+                        // const Icon(Icons.arrow_back_ios_sharp),
+                        // SizedBox(width: screenWidth * 0.04),
+                        AutoSizeText(
+                          "My Details",
+                          maxFontSize: 22,
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
                     top: screenHeight * 0.015,
                     child: Container(
                       width: screenWidth,
@@ -238,6 +257,7 @@ class _MyApplicationState extends State<MyApplicationPage>
                           // ),
                           const SizedBox(height: 24),
                           SizedBox(height: screenHeight * 0.015),
+
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: screenWidth * 0.05),

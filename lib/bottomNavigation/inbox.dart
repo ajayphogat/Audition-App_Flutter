@@ -195,162 +195,192 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
                 children: [
                   Image.asset("asset/images/uiImages/application_appbar.png"),
                   Positioned(
-                    top: screenHeight * 0.015,
-                    child: Container(
-                      width: screenWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 24),
-                          SizedBox(height: screenHeight * 0.015),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.05),
-                            child: Material(
-                              elevation: 5,
-                              borderRadius: BorderRadius.circular(50),
-                              child: Container(
-                                width: screenWidth,
-                                height: screenHeight * 0.045,
-                                // padding: const EdgeInsets.only(left: 0, bottom: 2),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.white,
-                                ),
-                                child: TextFormField(
-                                  controller: _searchEdit,
-                                  textAlignVertical: TextAlignVertical.center,
-                                  onFieldSubmitted: (value) async {
-                                    // if (_searchEdit.text.isNotEmpty) {
-                                    //   print("ab");
-
-                                    //   if (_tabController.previousIndex ==
-                                    //       _tabController.index) {
-                                    //     _tabController.animateTo(
-                                    //         _tabController.length - 1);
-                                    //     await Future.delayed(
-                                    //         const Duration(milliseconds: 100));
-                                    //     _tabController.animateTo(
-                                    //         _tabController.previousIndex);
-                                    //   } else {
-                                    //     _tabController.animateTo(
-                                    //         _tabController.previousIndex);
-                                    //     await Future.delayed(
-                                    //         const Duration(milliseconds: 100));
-                                    //     _tabController.animateTo(
-                                    //         _tabController.previousIndex);
-                                    //   }
-
-                                    //   print("Search");
-                                    // } else {
-                                    //   _tabController.animateTo(
-                                    //       _tabController.previousIndex);
-                                    //   await Future.delayed(
-                                    //       const Duration(milliseconds: 100));
-                                    //   _tabController.animateTo(
-                                    //       _tabController.previousIndex);
-                                    // }
-                                  },
-                                  //   child: SvgPicture.asset(
-                                  //     "asset/images/illustration/bytesize_search.svg",
-                                  //     color: placeholderTextColor,
-                                  //   ),
-                                  // ),
-                                  // IconButton(
-                                  //     onPressed: () {
-                                  //       _searchEdit.text = "";
-                                  //     },
-                                  //     icon: const Icon(
-                                  //       MyFlutterApp.gridicons_cross,
-                                  //       size: 20,
-                                  //       color: placeholderTextColor,
-                                  //     ),),
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.zero,
-                                    hintText: "Search here....",
-                                    hintStyle: const TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: fontFamily,
-                                      color: placeholderTextColor,
-                                    ),
-                                    isDense: true,
-                                    border: InputBorder.none,
-                                    prefixIcon: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: screenHeight * 0.01),
-                                      child: Image.asset(
-                                          "asset/icons/search.png",
-                                          fit: BoxFit.contain),
-                                    ),
-
-                                    // suffixIcon: SizedBox(
-                                    //   width: screenWidth * 0.20,
-                                    //   child: Row(
-                                    //     children: [
-                                    //       InkWell(
-                                    //         onTap: () async {
-                                    //           if (_searchEdit.text.isNotEmpty) {
-                                    //             print("ab");
-
-                                    //             if (_tabController.previousIndex ==
-                                    //                 _tabController.index) {
-                                    //               _tabController.animateTo(
-                                    //                   _tabController.length - 1);
-                                    //               await Future.delayed(
-                                    //                   const Duration(
-                                    //                       milliseconds: 100));
-                                    //               _tabController.animateTo(
-                                    //                   _tabController.previousIndex);
-                                    //             } else {
-                                    //               _tabController.animateTo(
-                                    //                   _tabController.previousIndex);
-                                    //               await Future.delayed(
-                                    //                   const Duration(
-                                    //                       milliseconds: 100));
-                                    //               _tabController.animateTo(
-                                    //                   _tabController.previousIndex);
-                                    //             }
-
-                                    //             print("Search");
-                                    //           } else {
-                                    //             _tabController.animateTo(
-                                    //                 _tabController.previousIndex);
-                                    //             await Future.delayed(const Duration(
-                                    //                 milliseconds: 100));
-                                    //             _tabController.animateTo(
-                                    //                 _tabController.previousIndex);
-                                    //           }
-                                    //         },
-                                    //         child: SvgPicture.asset(
-                                    //           "asset/images/illustration/bytesize_search.svg",
-                                    //           color: placeholderTextColor,
-                                    //         ),
-                                    //       ),
-                                    //       IconButton(
-                                    //           onPressed: () {
-                                    //             _searchEdit.text = "";
-                                    //           },
-                                    //           icon: const Icon(
-                                    //             MyFlutterApp.gridicons_cross,
-                                    //             size: 20,
-                                    //             color: placeholderTextColor,
-                                    //           )),
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                    top: screenHeight * 0.05,
+                    left: screenWidth * 0.05,
+                    child: AutoSizeText(
+                      "Inbox",
+                      maxFontSize: 22,
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
+                    ),
+                  ),
+                  // Positioned(
+                  //   left: screenWidth * 0.05,
+                  //   child: Row(
+                  //     children: const [
+                  //       // const Icon(Icons.arrow_back_ios_sharp),
+                  //       // SizedBox(width: screenWidth * 0.04),
+                  //       AutoSizeText(
+                  //         "My Details",
+                  //         maxFontSize: 22,
+                  //         style: TextStyle(
+                  //           fontSize: 22,
+                  //           color: Colors.black,
+                  //           fontWeight: FontWeight.w600,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(
+                    width: screenWidth,
+                    // margin: EdgeInsets.only(left: screenWidth * 0.025),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 24),
+                        SizedBox(height: screenHeight * 0.015),
+
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(
+                        //       horizontal: screenWidth * 0.05),
+                        //   child: Material(
+                        //     elevation: 5,
+                        //     borderRadius: BorderRadius.circular(50),
+                        //     child: Container(
+                        //       width: screenWidth,
+                        //       height: screenHeight * 0.045,
+                        //       // padding: const EdgeInsets.only(left: 0, bottom: 2),
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(50),
+                        //         color: Colors.white,
+                        //       ),
+                        //       child: TextFormField(
+                        //         controller: _searchEdit,
+                        //         textAlignVertical: TextAlignVertical.center,
+                        //         onFieldSubmitted: (value) async {
+                        // if (_searchEdit.text.isNotEmpty) {
+                        //   print("ab");
+
+                        //   if (_tabController.previousIndex ==
+                        //       _tabController.index) {
+                        //     _tabController.animateTo(
+                        //         _tabController.length - 1);
+                        //     await Future.delayed(
+                        //         const Duration(milliseconds: 100));
+                        //     _tabController.animateTo(
+                        //         _tabController.previousIndex);
+                        //   } else {
+                        //     _tabController.animateTo(
+                        //         _tabController.previousIndex);
+                        //     await Future.delayed(
+                        //         const Duration(milliseconds: 100));
+                        //     _tabController.animateTo(
+                        //         _tabController.previousIndex);
+                        //   }
+
+                        //   print("Search");
+                        // } else {
+                        //   _tabController.animateTo(
+                        //       _tabController.previousIndex);
+                        //   await Future.delayed(
+                        //       const Duration(milliseconds: 100));
+                        //   _tabController.animateTo(
+                        //       _tabController.previousIndex);
+                        // }
+                        // },
+                        //   child: SvgPicture.asset(
+                        //     "asset/images/illustration/bytesize_search.svg",
+                        //     color: placeholderTextColor,
+                        //   ),
+                        // ),
+                        // IconButton(
+                        //     onPressed: () {
+                        //       _searchEdit.text = "";
+                        //     },
+                        //     icon: const Icon(
+                        //       MyFlutterApp.gridicons_cross,
+                        //       size: 20,
+                        //       color: placeholderTextColor,
+                        //     ),),
+                        // decoration: InputDecoration(
+                        //   contentPadding: EdgeInsets.zero,
+                        //   hintText: "Search here....",
+                        //   hintStyle: const TextStyle(
+                        //     fontSize: 15,
+                        //     fontFamily: fontFamily,
+                        //     color: placeholderTextColor,
+                        //   ),
+                        //   isDense: true,
+                        //   border: InputBorder.none,
+                        //   prefixIcon: Padding(
+                        //     padding: EdgeInsets.symmetric(
+                        //         vertical: screenHeight * 0.01),
+                        //     child: Image.asset(
+                        //         "asset/icons/search.png",
+                        //         fit: BoxFit.contain),
+                        //   ),
+
+                        // suffixIcon: SizedBox(
+                        //   width: screenWidth * 0.20,
+                        //   child: Row(
+                        //     children: [
+                        //       InkWell(
+                        //         onTap: () async {
+                        //           if (_searchEdit.text.isNotEmpty) {
+                        //             print("ab");
+
+                        //             if (_tabController.previousIndex ==
+                        //                 _tabController.index) {
+                        //               _tabController.animateTo(
+                        //                   _tabController.length - 1);
+                        //               await Future.delayed(
+                        //                   const Duration(
+                        //                       milliseconds: 100));
+                        //               _tabController.animateTo(
+                        //                   _tabController.previousIndex);
+                        //             } else {
+                        //               _tabController.animateTo(
+                        //                   _tabController.previousIndex);
+                        //               await Future.delayed(
+                        //                   const Duration(
+                        //                       milliseconds: 100));
+                        //               _tabController.animateTo(
+                        //                   _tabController.previousIndex);
+                        //             }
+
+                        //             print("Search");
+                        //           } else {
+                        //             _tabController.animateTo(
+                        //                 _tabController.previousIndex);
+                        //             await Future.delayed(const Duration(
+                        //                 milliseconds: 100));
+                        //             _tabController.animateTo(
+                        //                 _tabController.previousIndex);
+                        //           }
+                        //         },
+                        //         child: SvgPicture.asset(
+                        //           "asset/images/illustration/bytesize_search.svg",
+                        //           color: placeholderTextColor,
+                        //         ),
+                        //       ),
+                        //       IconButton(
+                        //           onPressed: () {
+                        //             _searchEdit.text = "";
+                        //           },
+                        //           icon: const Icon(
+                        //             MyFlutterApp.gridicons_cross,
+                        //             size: 20,
+                        //             color: placeholderTextColor,
+                        //           )),
+                        //     ],
+                        //   ),
+                        // ),
+                        // ),
+                        // ),
+                        // ),
+                        // ),
+                        // ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               width: screenWidth,
               // height: screenHeight * 0.1,
               child: TabBar(

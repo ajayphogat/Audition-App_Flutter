@@ -154,7 +154,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
                     context,
                     screenWidth,
                     screenHeight,
-                    categoryData,
+                    categoryDataName,
                     _professionalController,
                   );
                 },

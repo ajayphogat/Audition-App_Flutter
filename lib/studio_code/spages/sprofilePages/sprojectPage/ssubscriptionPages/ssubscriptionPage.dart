@@ -108,12 +108,10 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                subscriptionPlan3Container(
-                    screenWidth, screenHeight, "3 Months"),
-                subscriptionPlan6Container(
-                    screenWidth, screenHeight, "6 Months"),
+                subscriptionPlan3Container(screenWidth, screenHeight, "Silver"),
+                subscriptionPlan6Container(screenWidth, screenHeight, "Gold"),
                 subscriptionPlan12Container(
-                    screenWidth, screenHeight, "12 Months"),
+                    screenWidth, screenHeight, "Platinum"),
               ],
             ),
           ),
@@ -202,10 +200,10 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
                                                     ? "Gold"
                                                     : "Platinum",
                                             _three
-                                                ? "12.10"
+                                                ? "36.31"
                                                 : _six
-                                                    ? "24.19"
-                                                    : "60.48");
+                                                    ? "60.51"
+                                                    : "96.82");
                                         navigatePop();
                                       },
                                       onError: (error) {
@@ -224,17 +222,17 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
                                         {
                                           "amount": {
                                             "total": _three
-                                                ? "12.10"
+                                                ? "36.31"
                                                 : _six
-                                                    ? "24.19"
-                                                    : "60.48",
+                                                    ? "60.51"
+                                                    : "96.82",
                                             "currency": "USD",
                                             "details": {
                                               "subtotal": _three
-                                                  ? "12.10"
+                                                  ? "36.31"
                                                   : _six
-                                                      ? "24.19"
-                                                      : "60.48",
+                                                      ? "60.51"
+                                                      : "96.82",
                                               "shipping": "0",
                                               "shipping_discount": 0
                                             }
@@ -247,10 +245,10 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
                                                 "name": "A demo product",
                                                 "quantity": 1,
                                                 "price": _three
-                                                    ? "12.10"
+                                                    ? "36.31"
                                                     : _six
-                                                        ? "24.19"
-                                                        : "60.48",
+                                                        ? "60.51"
+                                                        : "96.82",
                                                 "currency": "USD"
                                               }
                                             ],
@@ -275,7 +273,7 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
                             color: const Color(0xFFF9D422),
                           ),
                           child: Text(
-                            "PAY ${_three ? '\u{20B9}1000' : _six ? '\u{20B9}2000' : '\u{20B9}5000'}",
+                            "PAY ${_three ? '\u{20B9}3000' : _six ? '\u{20B9}5000' : '\u{20B9}8000'}",
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
@@ -411,7 +409,12 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
             borderRadius: BorderRadius.circular(25),
             color: _twelve ? const Color(0xFFF9D422) : Colors.grey.shade100,
           ),
-          child: Text(text),
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontFamily: fontFamily,
+            ),
+          ),
         ),
       ),
     );

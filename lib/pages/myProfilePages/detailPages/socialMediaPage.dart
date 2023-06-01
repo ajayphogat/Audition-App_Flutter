@@ -215,7 +215,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                       border: InputBorder.none,
-                      hintText: "Write your skill here...",
+                      hintText: "Write your link here...",
                     ),
                     textAlign: TextAlign.left,
                   ),

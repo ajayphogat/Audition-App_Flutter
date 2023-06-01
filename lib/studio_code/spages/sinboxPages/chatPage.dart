@@ -93,7 +93,7 @@ class _ChatPageState extends State<ChatPage> {
           type: widget.sentByMe
               ? BubbleType.sendBubble
               : BubbleType.receiverBubble),
-      backGroundColor: secondoryColor,
+      backGroundColor: Colors.white,
       margin: EdgeInsets.only(
         top: screenHeight * 0.015,
         bottom: screenHeight * 0.015,

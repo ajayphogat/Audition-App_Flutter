@@ -1,23 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:first_app/common/common.dart';
-import 'package:first_app/constants.dart';
+import 'package:first_app/login/loginPage.dart';
 import 'package:first_app/login/resetPassword.dart';
-import 'package:first_app/login/verifiedPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../auth/auth_service.dart';
+import '../constants.dart';
 
-class VerifyMobile extends StatefulWidget {
-  const VerifyMobile({Key? key}) : super(key: key);
+class VerificationPage extends StatefulWidget {
+  const VerificationPage({Key? key}) : super(key: key);
 
-  static const String routeName = "/verifyMobile-page";
+  static const String routeName = "/verification-page";
 
   @override
-  State<VerifyMobile> createState() => _VerifyMobileState();
+  State<VerificationPage> createState() => _VerificationPageState();
 }
 
-class _VerifyMobileState extends State<VerifyMobile> {
+class _VerificationPageState extends State<VerificationPage> {
   late TextEditingController _controller0;
   late TextEditingController _controller1;
   late TextEditingController _controller2;
@@ -28,8 +27,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
   AuthService authService = AuthService();
 
   Future<void> otpVerify(String number, String otp) async {
-    print("new number => $number");
-    await authService.verificationOTPForgot(
+    await authService.verificationOTP(
         context: context, number: number, otp: otp);
   }
 
@@ -86,7 +84,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
                         height: screenHeight * 0.05,
                         // color: Colors.blue,
                         child: const AutoSizeText(
-                          "Forgot Password",
+                          "Verification",
                           maxLines: 1,
                           maxFontSize: 30,
                           minFontSize: 20,
@@ -229,7 +227,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
                   ),
                 ),
               ),
-              // longBasicButton(context, ResetPassword.routeName, "Enter OTP"),
+              // longBasicButton(context, LoginPage.routeName, "Enter OTP"),
               // longBasicButton(context, VerifiedPage.routeName, "Enter OTP"),
             ],
           ),

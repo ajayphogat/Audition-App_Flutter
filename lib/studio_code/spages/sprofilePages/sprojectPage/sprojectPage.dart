@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../customize/my_flutter_app_icons.dart';
+import '../../../../login/loginPage.dart';
 
 class SProjectPage extends StatefulWidget {
   const SProjectPage({Key? key}) : super(key: key);
@@ -129,7 +130,7 @@ class _SProjectPageState extends State<SProjectPage> {
                 circularProgressIndicatorNew(context);
                 navigatorPop() => Navigator.pop(context);
                 navigatorPush() => Navigator.pushNamedAndRemoveUntil(
-                    context, MainPage.routeName, (route) => false);
+                    context, LoginPage.routeName, (route) => false);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString("x-auth-token", "");
                 prefs.setString("x-studio-token", "");

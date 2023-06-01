@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
+import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/login/forgotPassword.dart';
@@ -34,6 +35,12 @@ class _ResetPasswordState extends State<ResetPassword> {
   final AuthService authService = AuthService();
   bool isLoading = false;
 
+  Future<void> resetPassword(
+      String password, String number, String type) async {
+    await authService.resetPassword(
+        context: context, password: password, number: number, type: type);
+  }
+
   Future<void> loginUser() async {
     await authService.loginUser(
         context: context,
@@ -63,7 +70,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
+    String number = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -387,30 +394,35 @@ class _ResetPasswordState extends State<ResetPassword> {
                   // ),
                   const SizedBox(height: 20),
                   InkWell(
-                    onTap: () async {
-                      Navigator.pushNamed(context, LoginPage.routeName);
-                      // if (_formKey.currentState!.validate()) {
-                      //   if (account == "Audition") {
-                      //     setState(() {
-                      //       isLoading = !isLoading;
-                      //     });
-                      //     await loginUser();
-                      //     // await Future.delayed(const Duration(seconds: 2));
+                    onTap: _password.text == _passwordConfirm.text
+                        ? () async {
+                            circularProgressIndicatorNew(context);
+                            await resetPassword(
+                                _password.text, number, account);
+                            // Navigator.pushNamed(context, LoginPage.routeName);
+                            // if (_formKey.currentState!.validate()) {
+                            //   if (account == "Audition") {
+                            //     setState(() {
+                            //       isLoading = !isLoading;
+                            //     });
+                            //     await loginUser();
+                            //     // await Future.delayed(const Duration(seconds: 2));
 
-                      //     setState(() {
-                      //       isLoading = !isLoading;
-                      //     });
-                      //   } else {
-                      //     setState(() {
-                      //       isLoading = !isLoading;
-                      //     });
-                      //     // await loginStudio();
-                      //     // setState(() {
-                      //     //   isLoading = !isLoading;
-                      //     // });
-                      //   }
-                      // }
-                    },
+                            //     setState(() {
+                            //       isLoading = !isLoading;
+                            //     });
+                            //   } else {
+                            //     setState(() {
+                            //       isLoading = !isLoading;
+                            //     });
+                            //     // await loginStudio();
+                            //     // setState(() {
+                            //     //   isLoading = !isLoading;
+                            //     // });
+                            //   }
+                            // }
+                          }
+                        : () {},
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 500),
                       alignment: Alignment.center,
@@ -419,7 +431,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                       height: screenHeight * 0.06,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(isLoading ? 50 : 8),
-                        color: greenColor,
+                        color: (_password.text == _passwordConfirm.text) &&
+                                (_password.text != "") &&
+                                (_passwordConfirm.text != "") &&
+                                (_password.text.length > 5) &&
+                                (_passwordConfirm.text.length > 5)
+                            ? greenColor
+                            : Colors.grey,
                       ),
                       child: isLoading
                           ? SizedBox(

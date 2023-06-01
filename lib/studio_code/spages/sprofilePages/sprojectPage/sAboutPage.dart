@@ -2,8 +2,6 @@ import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/studio_code/scommon/scommon.dart';
-import 'package:first_app/studio_code/spages/sprofilePages/sprojectPage/ssubscriptionPages/ssubscriptionPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

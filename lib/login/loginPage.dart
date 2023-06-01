@@ -332,10 +332,10 @@ class _LoginPageState extends State<LoginPage> {
                           setState(() {
                             isLoading = !isLoading;
                           });
-                          // await loginStudio();
-                          // setState(() {
-                          //   isLoading = !isLoading;
-                          // });
+                          await loginStudio();
+                          setState(() {
+                            isLoading = !isLoading;
+                          });
                         }
                       }
                     },

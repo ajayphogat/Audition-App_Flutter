@@ -61,6 +61,7 @@ import 'package:flutter/material.dart';
 import '../login/forgotPassword.dart';
 import '../login/mainPage.dart';
 import '../login/resetPassword.dart';
+import '../login/verificationPage.dart';
 import '../login/verifiedPage.dart';
 import '../login/verifyMobile.dart';
 import '../pages/categorySection/categoryDetailPage.dart';
@@ -189,6 +190,12 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const ResetPassword(),
+      );
+
+    case VerificationPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const VerificationPage(),
       );
 
     // case AcceptedJobPage.routeName:

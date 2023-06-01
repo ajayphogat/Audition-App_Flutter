@@ -38,6 +38,7 @@ class UserProvider extends ChangeNotifier {
     declined: [],
     following: [],
     thumbnailVideo: [],
+    subscriptionName: "",
   );
 
   UserModel get user => _user;
@@ -86,6 +87,7 @@ class UserProvider1 extends ChangeNotifier {
     declined: [],
     following: [],
     thumbnailVideo: [],
+    subscriptionName: "",
   );
 
   UserModel1 get user => _user;

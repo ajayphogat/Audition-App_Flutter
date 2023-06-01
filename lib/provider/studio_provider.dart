@@ -45,6 +45,7 @@ class StudioProvider extends ChangeNotifier {
     octApplicants: 0,
     novApplicants: 0,
     decApplicants: 0,
+    subscriptionName: "",
   );
 
   StudioModel get user => _user;

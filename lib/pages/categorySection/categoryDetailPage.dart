@@ -29,6 +29,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
   late TextEditingController _searchEdit;
+  bool oneTime = true;
 
   @override
   void initState() {
@@ -45,13 +46,30 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
   }
 
   @override
-  Widget build(BuildContext context) {
-    List<dynamic> argument =
-        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    if (_searchEdit.text == "") {
-      _tabController.index = argument[0];
-      _searchEdit.text = argument[1];
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (oneTime) {
+      List<dynamic> argument =
+          ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+      if (argument[1] != "") {
+        _tabController.index = argument[0];
+        _searchEdit.text = argument[1];
+      } else {
+        _tabController.index = argument[0];
+      }
+      setState(() {
+        oneTime = false;
+      });
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // if (_searchEdit.text == "") {
+    //   _tabController.index = argument[0];
+    //   _searchEdit.text = argument[1];
+    // }
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -321,12 +339,32 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
                                       print("Search");
                                       print(_searchEdit.text);
                                     } else {
-                                      _tabController.animateTo(
-                                          _tabController.previousIndex);
-                                      await Future.delayed(
-                                          const Duration(milliseconds: 100));
-                                      _tabController.animateTo(
-                                          _tabController.previousIndex);
+                                      if (_tabController.previousIndex ==
+                                          _tabController.index) {
+                                        _tabController.animateTo(
+                                            _tabController.length - 1);
+                                        await Future.delayed(
+                                            const Duration(milliseconds: 100));
+                                        _tabController.animateTo(
+                                            _tabController.previousIndex);
+                                      } else {
+                                        _tabController.animateTo(
+                                            _tabController.previousIndex);
+                                        await Future.delayed(
+                                            const Duration(milliseconds: 100));
+                                        _tabController.animateTo(
+                                            _tabController.previousIndex);
+                                      }
+                                      // print(
+                                      //     "previous index => ${_tabController.previousIndex}");
+                                      // _tabController.animateTo(
+                                      //     _tabController.previousIndex);
+                                      // await Future.delayed(
+                                      //     const Duration(milliseconds: 100));
+                                      // print(
+                                      //     "previous index => ${_tabController.previousIndex}");
+                                      // _tabController.animateTo(
+                                      //     _tabController.previousIndex);
                                     }
                                     // if (_searchEdit.text.isNotEmpty) {
                                     //   print("ab");

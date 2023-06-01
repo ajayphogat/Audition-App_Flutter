@@ -30,7 +30,8 @@ class _ActorGridPageState extends State<ActorGridPage> {
             widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "");
     // print("raja");
     // print(_categoryJobs);
-    print("here is => ${_categoryJobs![0].toJson()}");
+    // print("category jobs => ${_categoryJobs}");
+    // print("here is => ${_categoryJobs![0].toJson()}");
     if (this.mounted) {
       setState(() {});
     }

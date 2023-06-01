@@ -207,7 +207,7 @@ class _SkillsPageState extends State<SkillsPage> {
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                       border: InputBorder.none,
-                      hintText: "Write your link here...",
+                      hintText: "Write your skill here...",
                     ),
                     textAlign: TextAlign.left,
                   ),

@@ -24,6 +24,7 @@ class UserModel {
   final String bodyType;
   final String hairColor;
   final String eyeColor;
+  final String subscriptionName;
   final List<String> socialMedia;
   final List<String> unionMembership;
   final List<String> skills;
@@ -74,6 +75,7 @@ class UserModel {
     required this.declined,
     required this.following,
     required this.thumbnailVideo,
+    required this.subscriptionName,
   });
 
   Map<String, dynamic> toMap() {
@@ -113,6 +115,7 @@ class UserModel {
       'declined': declined,
       'following': following,
       'thumbnailVideo': thumbnailVideo,
+      'subscriptionName': subscriptionName,
     };
   }
 
@@ -139,6 +142,7 @@ class UserModel {
       bodyType: map['bodyType'] as String,
       hairColor: map['hairColor'] as String,
       eyeColor: map['eyeColor'] as String,
+      subscriptionName: map['subscriptionName'] as String,
       socialMedia: List<String>.from(map['socialMedia']),
       unionMembership: List<String>.from(map['unionMembership']),
       skills: List<String>.from(map['skills']),
@@ -185,6 +189,7 @@ class UserModel1 {
   final String bodyType;
   final String hairColor;
   final String eyeColor;
+  final String subscriptionName;
   final List<String> socialMedia;
   final List<String> unionMembership;
   final List<String> skills;
@@ -235,6 +240,7 @@ class UserModel1 {
     required this.declined,
     required this.following,
     required this.thumbnailVideo,
+    required this.subscriptionName,
   });
 
   Map<String, dynamic> toMap() {
@@ -274,6 +280,7 @@ class UserModel1 {
       'declined': declined,
       'following': following,
       'thumbnailVideo': thumbnailVideo,
+      'subscriptionName': subscriptionName,
     };
   }
 
@@ -300,6 +307,7 @@ class UserModel1 {
       bodyType: map['bodyType'] as String,
       hairColor: map['hairColor'] as String,
       eyeColor: map['eyeColor'] as String,
+      subscriptionName: map['subscriptionName'] as String,
       socialMedia: List<String>.from(map['socialMedia']),
       unionMembership: List<String>.from(map['unionMembership']),
       skills: List<String>.from(map['skills']),

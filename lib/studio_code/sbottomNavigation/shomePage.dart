@@ -174,36 +174,39 @@ class _SHomePageState extends State<SHomePage> {
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.02),
-                  Row(
-                    children: [
-                      Container(
-                        width: screenHeight * 0.015,
-                        height: screenHeight * 0.015,
-                        color: Colors.black,
-                        margin: const EdgeInsets.only(right: 5),
-                      ),
-                      const Text(
-                        "Applicants",
-                        style: TextStyle(
+                  Padding(
+                    padding: EdgeInsets.only(left: screenWidth * 0.03),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: screenHeight * 0.015,
+                          height: screenHeight * 0.015,
                           color: Colors.black,
-                          fontSize: 12,
+                          margin: const EdgeInsets.only(right: 5),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Container(
-                        width: screenHeight * 0.015,
-                        height: screenHeight * 0.015,
-                        color: thirdColor,
-                        margin: const EdgeInsets.only(right: 5),
-                      ),
-                      const Text(
-                        "Jobs",
-                        style: TextStyle(
+                        const Text(
+                          "Applicants",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: screenHeight * 0.015,
+                          height: screenHeight * 0.015,
                           color: thirdColor,
-                          fontSize: 12,
+                          margin: const EdgeInsets.only(right: 5),
                         ),
-                      ),
-                    ],
+                        const Text(
+                          "Jobs",
+                          style: TextStyle(
+                            color: thirdColor,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Stack(
                     children: [
@@ -229,8 +232,8 @@ class _SHomePageState extends State<SHomePage> {
                                   // maxY: 20,
                                   maxY: double.parse(sUser.totalApplicants!) >
                                           sUser.post.length.toDouble()
-                                      ? double.parse(sUser.totalAccepted!) * 2
-                                      : sUser.post.length.toDouble() * 2,
+                                      ? double.parse(sUser.totalAccepted!) * 10
+                                      : sUser.post.length.toDouble() * 10,
                                   minY: 0,
                                   borderData: FlBorderData(
                                     show: true,

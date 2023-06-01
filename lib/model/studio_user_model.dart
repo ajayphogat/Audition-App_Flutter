@@ -20,6 +20,7 @@ class StudioModel {
   String? totalAccepted;
   String? totalDeclined;
   String? totalBookmark;
+  String? subscriptionName;
   int? janJob;
   int? febJob;
   int? marJob;
@@ -63,6 +64,7 @@ class StudioModel {
     this.totalAccepted,
     this.totalDeclined,
     this.totalBookmark,
+    this.subscriptionName,
     this.janJob,
     this.febJob,
     this.marJob,
@@ -109,6 +111,7 @@ class StudioModel {
       'totalAccepted': totalAccepted,
       'totalDeclined': totalDeclined,
       'totalBookmark': totalBookmark,
+      'subscriptionName': subscriptionName,
       'janJob': janJob,
       'febJob': febJob,
       'marJob': marJob,
@@ -163,6 +166,9 @@ class StudioModel {
           map['totalDeclined'] != null ? map['totalDeclined'] as String : null,
       totalBookmark:
           map['totalBookmark'] != null ? map['totalBookmark'] as String : null,
+      subscriptionName: map['subscriptionName'] != null
+          ? map['subscriptionName'] as String
+          : null,
       janJob: map['janJob'] != null ? map['janJob'] as int : null,
       febJob: map['febJob'] != null ? map['febJob'] as int : null,
       marJob: map['marJob'] != null ? map['marJob'] as int : null,
@@ -227,6 +233,7 @@ class StudioModel1 {
   String? totalAccepted;
   String? totalDeclined;
   String? totalBookmark;
+  String? subscriptionName;
   StudioModel1({
     required this.id,
     required this.fname,
@@ -246,6 +253,7 @@ class StudioModel1 {
     this.totalAccepted,
     this.totalDeclined,
     this.totalBookmark,
+    this.subscriptionName,
   });
 
   Map<String, dynamic> toMap() {
@@ -268,6 +276,7 @@ class StudioModel1 {
       'totalAccepted': totalAccepted,
       'totalDeclined': totalDeclined,
       'totalBookmark': totalBookmark,
+      'subscriptionName': subscriptionName,
     };
   }
 
@@ -298,6 +307,9 @@ class StudioModel1 {
           map['totalDeclined'] != null ? map['totalDeclined'] as String : null,
       totalBookmark:
           map['totalBookmark'] != null ? map['totalBookmark'] as String : null,
+      subscriptionName: map['subscriptionName'] != null
+          ? map['subscriptionName'] as String
+          : null,
     );
   }
 

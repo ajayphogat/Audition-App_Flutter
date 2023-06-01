@@ -92,6 +92,21 @@ class DatabaseService {
     return recentMessages;
   }
 
+  Future getUserGroupsRecentMessageTime() async {
+    var u = await userCollection.doc(uid).get();
+    List<String> recentMsgTime = [];
+    for (var element in u['groups']) {
+      var newGroupId = element.toString().split("_")[0];
+      var g = await groupCollection.doc(newGroupId).get();
+      // var gmsg =
+      //     await groupCollection.doc(newGroupId).collection("messages").get();
+      recentMsgTime.add(g['recentMessageTime']);
+
+      // print(gmsg.docs[0]['seen']);
+    }
+    return recentMsgTime;
+  }
+
   Future<List<String>> getUserGroupsProfilePic(String user) async {
     List<String> profilePics = [];
     var d = await userCollection.doc(uid).get();

@@ -70,16 +70,23 @@ class _NotificationPageState extends State<NotificationPage> {
               ? const Center(
                   child: Text("No Data Available"),
                 )
-              : ListView.builder(
+              : ListView.separated(
                   itemCount: allNotifications!.length,
+                  separatorBuilder: (context, index) => Divider(
+                    thickness: 1,
+                    height: 0,
+                    indent: screenWidth * 0.03,
+                    endIndent: screenWidth * 0.03,
+                    color: Color(0xff706E72).withOpacity(0.28),
+                  ),
                   itemBuilder: (context, index) {
                     int reverseIndex = allNotifications!.length - index - 1;
                     return Container(
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.black),
-                        ),
-                      ),
+                      // decoration: const BoxDecoration(
+                      //   border: Border(
+                      //     bottom: BorderSide(color: Colors.black),
+                      //   ),
+                      // ),
                       // margin: const EdgeInsets.only(bottom: 5),
                       child: Column(
                         children: [

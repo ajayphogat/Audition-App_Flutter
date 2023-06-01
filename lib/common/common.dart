@@ -309,7 +309,7 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
       borderRadius: BorderRadius.circular(5),
       child: Container(
         width: screenWidth * 0.85,
-        height: screenHeight * 0.425,
+        height: screenHeight * 0.55,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
@@ -320,7 +320,7 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
           children: [
             Container(
               width: screenWidth * 0.85,
-              height: screenHeight * 0.08,
+              height: screenHeight * 0.12,
               decoration: BoxDecoration(
                 // color: Colors.red,
                 borderRadius: BorderRadius.circular(5),
@@ -329,7 +329,7 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
               child: Row(
                 children: [
                   CircleAvatar(
-                    radius: screenHeight * 0.02,
+                    radius: screenHeight * 0.025,
                     child: Image.asset(
                       "asset/images/uiImages/studio_profile.png",
                       fit: BoxFit.cover,
@@ -345,6 +345,7 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
                         style: const TextStyle(
                           fontFamily: fontFamily,
                           fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
@@ -361,7 +362,7 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
               ),
             ),
             SizedBox(
-              height: screenHeight * 0.26,
+              height: screenHeight * 0.3,
               width: screenWidth * 0.85,
               child: Image.network(
                 picture[0],
@@ -373,13 +374,13 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: screenHeight * 0.005),
+                  SizedBox(height: screenHeight * 0.015),
                   Text(
                     s1,
                     style: const TextStyle(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: fontFamily,
-                      fontSize: 15,
+                      fontSize: 16,
                     ),
                   ),
                   Text(
@@ -478,7 +479,7 @@ Widget gridViewContainer(
         const Divider(
           thickness: 1,
           height: 0,
-          color: Color(0xFF979797),
+          color: Color(0xFFDCDCDC),
           // indent: 20,
           // endIndent: 20,
         ),

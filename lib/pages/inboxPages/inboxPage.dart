@@ -25,12 +25,33 @@ class InboxMessagePage extends StatefulWidget {
 class _InboxMessagePageState extends State<InboxMessagePage> {
   final TextEditingController _textEditingController = TextEditingController();
   List<String>? message;
+  List<String>? recentMsgTime;
   Stream? groups;
   List<String> profilePics = [];
   List<String> allUserId = [];
 
   void getUserGroups(id) async {
     var pp = Provider.of<UserProvider>(context, listen: false).user.id;
+    await DatabaseService(uid: pp)
+        .getUserGroupsRecentMessageTime()
+        .then((snapshot) {
+      if (this.mounted) {
+        setState(() {
+          recentMsgTime = snapshot;
+        });
+      }
+    });
+
+    await DatabaseService(uid: pp)
+        .getUserGroupsRecentMessage()
+        .then((snapshot) {
+      if (this.mounted) {
+        setState(() {
+          message = snapshot;
+        });
+      }
+    });
+
     await DatabaseService(uid: pp)
         .getUserGroupsProfilePic("audition")
         .then((value) {
@@ -56,7 +77,6 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
         });
       }
     });
-    await DatabaseService(uid: pp).getUserGroupsRecentMessage();
   }
 
   String getId(String res) {
@@ -93,12 +113,20 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
               print(snapshot.data['groups'].length);
-              return ListView.builder(
+              return ListView.separated(
                 itemCount: snapshot.data['groups'].length,
                 itemBuilder: (context, index) {
                   int reverseIndex = snapshot.data['groups'].length - index - 1;
+                  var newDate = DateTime.fromMillisecondsSinceEpoch(
+                      int.parse(recentMsgTime![reverseIndex]));
+                  var currentDate = DateTime.now();
+                  Duration duration = currentDate.difference(newDate);
+                  var newMin = duration.inMinutes;
 
                   return InkWell(
+                    // onTap: () {
+                    //   print(message);
+                    // },
                     onTap: () {
                       Navigator.push(
                         context,
@@ -155,9 +183,11 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                             ),
                           ),
                           subtitle: Text(
-                              getName(snapshot.data['groups'][reverseIndex])),
+                            message![reverseIndex],
+                            // getName(snapshot.data['groups'][reverseIndex]),
+                          ),
                           trailing: AutoSizeText(
-                            "5 m",
+                            "${newMin} m",
                             maxFontSize: 16,
                             style: TextStyle(
                               fontSize: 16,
@@ -167,17 +197,25 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.01),
-                        Divider(
-                          height: 0,
-                          thickness: 1,
-                          color: Colors.black26,
-                          indent: screenWidth * 0.025,
-                          endIndent: screenWidth * 0.025,
-                        ),
+
+                        // Divider(
+                        //   height: 0,
+                        //   thickness: 1,
+                        //   color: Colors.black26,
+                        //   indent: screenWidth * 0.025,
+                        //   endIndent: screenWidth * 0.025,
+                        // ),
                       ],
                     ),
                   );
                 },
+                separatorBuilder: (context, index) => Divider(
+                  thickness: 1,
+                  height: 0,
+                  indent: screenWidth * 0.03,
+                  endIndent: screenWidth * 0.03,
+                  color: Color(0xff706E72).withOpacity(0.28),
+                ),
               );
             } else {
               return const Center(

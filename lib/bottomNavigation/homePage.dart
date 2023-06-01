@@ -68,403 +68,418 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                // color: Colors.blue,
-                width: screenWidth,
-                height: screenHeight * 0.215,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: SizedBox(
+              Stack(
+                children: [
+                  Image.asset("asset/images/uiImages/Home.png"),
+                  Column(
+                    children: [
+                      SizedBox(
+                        // color: Colors.blue,
                         width: screenWidth,
-                        // height: screenHeight * 0.2,
-                        child: Image.asset(
-                          "asset/images/uiImages/yellow_color.png",
-                          fit: BoxFit.fitHeight,
-                          alignment: Alignment.center,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: screenWidth,
-                      padding: EdgeInsets.only(
-                          left: screenWidth * 0.05,
-                          right: screenWidth * 0.15,
-                          top: screenHeight * 0.05),
-                      // height: screenHeight * 0.2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AutoSizeText(
-                            "Hi, ${user.fname.split(" ")[0]}!",
-                            style: const TextStyle(
-                              fontSize: 30,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.02),
-                          const AutoSizeText(
-                            "Unleash your talent and shine on stage with us",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Container(
-                    //   alignment: Alignment.centerLeft,
-                    //   padding: EdgeInsets.only(
-                    //       left: screenWidth * 0.05,
-                    //       right: screenWidth * 0.05,
-                    //       top: screenHeight * 0.085,
-                    //       bottom: screenHeight * 0.03),
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       Text(
-                    //         "Hi, ${user.fname.split(" ")[0]}",
-                    //         style: const TextStyle(
-                    //           fontFamily: fontFamily,
-                    //           fontSize: 35,
-                    //         ),
-                    //       ),
-                    //       const Text(
-                    //         "Welcome.........",
-                    //         style: TextStyle(
-                    //           fontFamily: fontFamily,
-                    //           color: placeholderTextColor,
-                    //           fontSize: 16,
-                    //         ),
-                    //       ),
-                    //       const SizedBox(height: 10),
-                    //       Material(
-                    //         elevation: 5,
-                    //         borderRadius: BorderRadius.circular(8),
-                    //         child: Container(
-                    //           padding: const EdgeInsets.only(left: 10),
-                    //           decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(8),
-                    //             color: Colors.white,
-                    //           ),
-                    //           child: TextFormField(
-                    //             controller: _searchEdit,
-                    //             textInputAction: TextInputAction.go,
-                    //             decoration: InputDecoration(
-                    //               hintText: "Search here....",
-                    //               hintStyle: const TextStyle(
-                    //                 fontSize: 18,
-                    //                 color: placeholderTextColor,
-                    //               ),
-                    //               border: InputBorder.none,
-                    //               suffixIcon: SizedBox(
-                    //                 width: screenWidth * 0.20,
-                    //                 child: Row(
-                    //                   children: [
-                    //                     InkWell(
-                    //                       onTap: () {
-                    //                         print(_searchEdit.text);
-                    //                         if (_searchEdit.text.isNotEmpty) {
-                    //                           Navigator.pushNamed(context,
-                    //                               CategoryDetailPage.routeName,
-                    //                               arguments: [
-                    //                                 0,
-                    //                                 _searchEdit.text
-                    //                               ]);
-                    //                         }
-                    //                       },
-                    //                       child: SvgPicture.asset(
-                    //                         "asset/images/illustration/bytesize_search.svg",
-                    //                         color: placeholderTextColor,
-                    //                       ),
-                    //                     ),
-                    //                     IconButton(
-                    //                         onPressed: () {
-                    //                           _searchEdit.text = "";
-                    //                         },
-                    //                         icon: const Icon(
-                    //                           MyFlutterApp.gridicons_cross,
-                    //                           size: 20,
-                    //                           color: placeholderTextColor,
-                    //                         )),
-                    //                   ],
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                child: Material(
-                  elevation: 5,
-                  borderRadius: BorderRadius.circular(50),
-                  child: Container(
-                    width: screenWidth,
-                    height: screenHeight * 0.045,
-                    padding: const EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.white,
-                    ),
-                    child: TextFormField(
-                      onFieldSubmitted: (String value) {
-                        print(value);
-                        if (value.isNotEmpty) {
-                          Navigator.pushNamed(
-                              context, CategoryDetailPage.routeName,
-                              arguments: [0, value]);
-                        }
-                      },
-                      controller: _searchEdit,
-                      textInputAction: TextInputAction.go,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        constraints: BoxConstraints(
-                          maxHeight: screenHeight * 0.045,
-                          maxWidth: screenWidth,
-                        ),
-                        contentPadding: EdgeInsets.zero,
-                        isDense: true,
-                        hintText: "Search here",
-                        hintStyle: const TextStyle(
-                          fontSize: 18,
-                          color: placeholderTextColor,
-                        ),
-                        border: InputBorder.none,
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: screenHeight * 0.01),
-                          child: Image.asset("asset/icons/search.png",
-                              fit: BoxFit.contain),
-                        ),
-                        // suffixIcon: SizedBox(
-                        //   width: screenWidth * 0.20,
-                        //   child: Row(
-                        //     children: [
-                        //       InkWell(
-                        //         onTap: () {
-                        //           print(_searchEdit.text);
-                        //           if (_searchEdit.text.isNotEmpty) {
-                        //             Navigator.pushNamed(
-                        //                 context, CategoryDetailPage.routeName,
-                        //                 arguments: [0, _searchEdit.text]);
-                        //           }
-                        //         },
-                        //         child: SvgPicture.asset(
-                        //           "asset/images/illustration/bytesize_search.svg",
-                        //           color: placeholderTextColor,
-                        //         ),
-                        //       ),
-                        //       IconButton(
-                        //           onPressed: () {
-                        //             _searchEdit.text = "";
-                        //           },
-                        //           icon: const Icon(
-                        //             MyFlutterApp.gridicons_cross,
-                        //             size: 20,
-                        //             color: placeholderTextColor,
-                        //           )),
-                        //     ],
-                        //   ),
-                        // ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.03),
-              Container(
-                padding: EdgeInsets.only(left: screenWidth * 0.04),
-                width: screenWidth,
-                child: const Text(
-                  "Explore opportunities",
-                  style: TextStyle(
-                    fontFamily: fontFamily,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              // SizedBox(height: screenHeight * 0.01),
-              SizedBox(
-                width: screenWidth,
-                // color: Colors.blue,
-                height: screenHeight * 0.56,
-                child: GridView.builder(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.025,
-                    vertical: screenHeight * 0.01,
-                  ),
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    // crossAxisSpacing: screenWidth * 0.005,
-                    // mainAxisSpacing: screenHeight * 0.03,
-                    mainAxisExtent: screenHeight * 0.18,
-                  ),
-                  itemCount: categoryData.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, CategoryDetailPage.routeName,
-                            arguments: [index, ""]);
-                      },
-                      child: Image.asset(
-                        categoryData[index],
-                      ),
-                      // child: Container(
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     // color: placeholderColor,
-                      //   ),
-                      //   // padding: EdgeInsets.only(
-                      //   //   left: screenWidth * 0.01,
-                      //   //   right: screenWidth * 0.01,
-                      //   //   top: screenHeight * 0.01,
-                      //   // ),
-                      //   child: Image.asset("asset/images/uiImages/actor.png",
-                      //       fit: BoxFit.contain),
-                      // child: Column(
-                      //   children: [
-                      //     AspectRatio(
-                      //       aspectRatio: 1,
-                      //       child: Image.asset(
-                      //           "asset/images/categoryImages/${categoryData[index]}.png"),
-                      //     ),
-                      //     SizedBox(height: screenHeight * 0.01),
-                      //     Text(categoryData[index]),
-                      //   ],
-                      // ),
-                      // ),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.04),
-              ((allJobs == null) || (allJobs!.isEmpty))
-                  ? const Center(child: CircularProgressIndicator())
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          // color: Colors.red,
-                          padding: EdgeInsets.only(left: screenWidth * 0.04),
-                          width: screenWidth,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Recently posted",
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontFamily: fontFamily,
-                                  fontWeight: FontWeight.bold,
+                        height: screenHeight * 0.215,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: SizedBox(
+                                width: screenWidth,
+                                // height: screenHeight * 0.2,
+                                child: Image.asset(
+                                  "asset/images/uiImages/yellow_color.png",
+                                  fit: BoxFit.fitHeight,
+                                  alignment: Alignment.center,
                                 ),
                               ),
-                              seeAllContainer(screenWidth, screenHeight),
-                            ],
-                          ),
+                            ),
+                            Container(
+                              width: screenWidth,
+                              padding: EdgeInsets.only(
+                                  left: screenWidth * 0.05,
+                                  right: screenWidth * 0.15,
+                                  top: screenHeight * 0.05),
+                              // height: screenHeight * 0.2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AutoSizeText(
+                                    "Hi, ${user.fname.split(" ")[0]}!",
+                                    style: const TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: screenHeight * 0.02),
+                                  const AutoSizeText(
+                                    "Unleash your talent and shine on stage with us",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Container(
+                            //   alignment: Alignment.centerLeft,
+                            //   padding: EdgeInsets.only(
+                            //       left: screenWidth * 0.05,
+                            //       right: screenWidth * 0.05,
+                            //       top: screenHeight * 0.085,
+                            //       bottom: screenHeight * 0.03),
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Text(
+                            //         "Hi, ${user.fname.split(" ")[0]}",
+                            //         style: const TextStyle(
+                            //           fontFamily: fontFamily,
+                            //           fontSize: 35,
+                            //         ),
+                            //       ),
+                            //       const Text(
+                            //         "Welcome.........",
+                            //         style: TextStyle(
+                            //           fontFamily: fontFamily,
+                            //           color: placeholderTextColor,
+                            //           fontSize: 16,
+                            //         ),
+                            //       ),
+                            //       const SizedBox(height: 10),
+                            //       Material(
+                            //         elevation: 5,
+                            //         borderRadius: BorderRadius.circular(8),
+                            //         child: Container(
+                            //           padding: const EdgeInsets.only(left: 10),
+                            //           decoration: BoxDecoration(
+                            //             borderRadius: BorderRadius.circular(8),
+                            //             color: Colors.white,
+                            //           ),
+                            //           child: TextFormField(
+                            //             controller: _searchEdit,
+                            //             textInputAction: TextInputAction.go,
+                            //             decoration: InputDecoration(
+                            //               hintText: "Search here....",
+                            //               hintStyle: const TextStyle(
+                            //                 fontSize: 18,
+                            //                 color: placeholderTextColor,
+                            //               ),
+                            //               border: InputBorder.none,
+                            //               suffixIcon: SizedBox(
+                            //                 width: screenWidth * 0.20,
+                            //                 child: Row(
+                            //                   children: [
+                            //                     InkWell(
+                            //                       onTap: () {
+                            //                         print(_searchEdit.text);
+                            //                         if (_searchEdit.text.isNotEmpty) {
+                            //                           Navigator.pushNamed(context,
+                            //                               CategoryDetailPage.routeName,
+                            //                               arguments: [
+                            //                                 0,
+                            //                                 _searchEdit.text
+                            //                               ]);
+                            //                         }
+                            //                       },
+                            //                       child: SvgPicture.asset(
+                            //                         "asset/images/illustration/bytesize_search.svg",
+                            //                         color: placeholderTextColor,
+                            //                       ),
+                            //                     ),
+                            //                     IconButton(
+                            //                         onPressed: () {
+                            //                           _searchEdit.text = "";
+                            //                         },
+                            //                         icon: const Icon(
+                            //                           MyFlutterApp.gridicons_cross,
+                            //                           size: 20,
+                            //                           color: placeholderTextColor,
+                            //                         )),
+                            //                   ],
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                          ],
                         ),
-                        SizedBox(
-                          height: screenHeight * 0.45,
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 10, bottom: 10),
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
-                              JobModel job = allJobs![index];
-                              return InkWell(
-                                onTap: () async {
-                                  circularProgressIndicatorNew(context);
-                                  await getJobDetails(job.id.toString());
-                                  // Navigator.pushNamed(
-                                  //     context, DescriptionPage.routeName,
-                                  //     arguments: job);
-                                },
-                                child: textContainer(
-                                  screenWidth,
-                                  screenHeight,
-                                  job.description.substring(0, 21),
-                                  job.studioName.length > 25
-                                      ? job.studioName.substring(0, 24)
-                                      : job.studioName,
-                                  job.jobType,
-                                  job.images,
-                                  job.location,
+                      ),
+                      SizedBox(height: screenHeight * 0.02),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.05),
+                        child: Material(
+                          elevation: 5,
+                          borderRadius: BorderRadius.circular(50),
+                          child: Container(
+                            width: screenWidth,
+                            height: screenHeight * 0.045,
+                            padding: const EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.white,
+                            ),
+                            child: TextFormField(
+                              onFieldSubmitted: (String value) {
+                                print(value);
+                                if (value.isNotEmpty) {
+                                  Navigator.pushNamed(
+                                      context, CategoryDetailPage.routeName,
+                                      arguments: [0, value]);
+                                }
+                              },
+                              controller: _searchEdit,
+                              textInputAction: TextInputAction.go,
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                constraints: BoxConstraints(
+                                  maxHeight: screenHeight * 0.045,
+                                  maxWidth: screenWidth,
                                 ),
-                              );
-                            },
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                hintText: "Search here",
+                                hintStyle: const TextStyle(
+                                  fontSize: 18,
+                                  color: placeholderTextColor,
+                                ),
+                                border: InputBorder.none,
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: screenHeight * 0.01),
+                                  child: Image.asset("asset/icons/search.png",
+                                      fit: BoxFit.contain),
+                                ),
+                                // suffixIcon: SizedBox(
+                                //   width: screenWidth * 0.20,
+                                //   child: Row(
+                                //     children: [
+                                //       InkWell(
+                                //         onTap: () {
+                                //           print(_searchEdit.text);
+                                //           if (_searchEdit.text.isNotEmpty) {
+                                //             Navigator.pushNamed(
+                                //                 context, CategoryDetailPage.routeName,
+                                //                 arguments: [0, _searchEdit.text]);
+                                //           }
+                                //         },
+                                //         child: SvgPicture.asset(
+                                //           "asset/images/illustration/bytesize_search.svg",
+                                //           color: placeholderTextColor,
+                                //         ),
+                                //       ),
+                                //       IconButton(
+                                //           onPressed: () {
+                                //             _searchEdit.text = "";
+                                //           },
+                                //           icon: const Icon(
+                                //             MyFlutterApp.gridicons_cross,
+                                //             size: 20,
+                                //             color: placeholderTextColor,
+                                //           )),
+                                //     ],
+                                //   ),
+                                // ),
+                              ),
+                            ),
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.04),
-                        // Container(
-                        //   padding: EdgeInsets.only(left: screenWidth * 0.04),
-                        //   width: screenWidth,
-                        //   height: screenHeight * 0.035,
-                        //   child: const Text(
-                        //     "More",
-                        //     style: TextStyle(
-                        //       fontSize: 25,
-                        //       fontFamily: fontFamily,
-                        //       fontWeight: FontWeight.bold,
-                        //     ),
-                        //   ),
-                        // ),
-                        // seeAllContainer(screenWidth, screenHeight),
-                        // SizedBox(
-                        //   height: screenHeight * 0.43,
-                        //   child: ListView.separated(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 10, top: 10, bottom: 10),
-                        //     physics: const BouncingScrollPhysics(),
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: 3,
-                        //     itemBuilder: (context, index) {
-                        //       JobModel job = allJobs![
-                        //           allJobs!.length > 10 ? index + 3 : index];
-                        //       return InkWell(
-                        //         onTap: () async {
-                        //           circularProgressIndicatorNew(context);
-                        //           await getJobDetails(job.id.toString());
-                        //           // Navigator.pushNamed(
-                        //           //     context, DescriptionPage.routeName,
-                        //           //     arguments: job);
-                        //         },
-                        //         child: textContainer(
-                        //           screenWidth,
-                        //           screenHeight,
-                        //           job.description.substring(0, 21),
-                        //           job.studioName.length > 25
-                        //               ? job.studioName.substring(0, 24)
-                        //               : job.studioName,
-                        //           job.jobType,
-                        //           job.images,
-                        //           job.location,
-                        //         ),
-                        //       );
-                        //     },
-                        //     separatorBuilder: (context, index) =>
-                        //         SizedBox(width: screenWidth * 0.05),
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: screenHeight * 0.03),
+                      Container(
+                        padding: EdgeInsets.only(left: screenWidth * 0.04),
+                        width: screenWidth,
+                        child: const Text(
+                          "Explore opportunities",
+                          style: TextStyle(
+                            fontFamily: fontFamily,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      // SizedBox(height: screenHeight * 0.01),
+                      SizedBox(
+                        width: screenWidth,
+                        // color: Colors.blue,
+                        height: screenHeight * 0.56,
+                        child: GridView.builder(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.025,
+                            vertical: screenHeight * 0.01,
+                          ),
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            // crossAxisSpacing: screenWidth * 0.005,
+                            // mainAxisSpacing: screenHeight * 0.03,
+                            mainAxisExtent: screenHeight * 0.18,
+                          ),
+                          itemCount: categoryData.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, CategoryDetailPage.routeName,
+                                    arguments: [index, ""]);
+                              },
+                              child: Image.asset(
+                                categoryData[index],
+                              ),
+                              // child: Container(
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(10),
+                              //     // color: placeholderColor,
+                              //   ),
+                              //   // padding: EdgeInsets.only(
+                              //   //   left: screenWidth * 0.01,
+                              //   //   right: screenWidth * 0.01,
+                              //   //   top: screenHeight * 0.01,
+                              //   // ),
+                              //   child: Image.asset("asset/images/uiImages/actor.png",
+                              //       fit: BoxFit.contain),
+                              // child: Column(
+                              //   children: [
+                              //     AspectRatio(
+                              //       aspectRatio: 1,
+                              //       child: Image.asset(
+                              //           "asset/images/categoryImages/${categoryData[index]}.png"),
+                              //     ),
+                              //     SizedBox(height: screenHeight * 0.01),
+                              //     Text(categoryData[index]),
+                              //   ],
+                              // ),
+                              // ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.04),
+                      ((allJobs == null) || (allJobs!.isEmpty))
+                          ? const Center(child: CircularProgressIndicator())
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Container(
+                                  // color: Colors.red,
+                                  padding:
+                                      EdgeInsets.only(left: screenWidth * 0.04),
+                                  width: screenWidth,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Recently posted",
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          fontFamily: fontFamily,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      seeAllContainer(
+                                          screenWidth, screenHeight),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight * 0.55,
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 10, bottom: 10),
+                                    physics: const BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 3,
+                                    itemBuilder: (context, index) {
+                                      JobModel job = allJobs![index];
+                                      return InkWell(
+                                        onTap: () async {
+                                          circularProgressIndicatorNew(context);
+                                          await getJobDetails(
+                                              job.id.toString());
+                                          // Navigator.pushNamed(
+                                          //     context, DescriptionPage.routeName,
+                                          //     arguments: job);
+                                        },
+                                        child: textContainer(
+                                          screenWidth,
+                                          screenHeight,
+                                          job.description.substring(0, 21),
+                                          job.studioName.length > 25
+                                              ? job.studioName.substring(0, 24)
+                                              : job.studioName,
+                                          job.jobType,
+                                          job.images,
+                                          job.location,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.04),
+                                // Container(
+                                //   padding: EdgeInsets.only(left: screenWidth * 0.04),
+                                //   width: screenWidth,
+                                //   height: screenHeight * 0.035,
+                                //   child: const Text(
+                                //     "More",
+                                //     style: TextStyle(
+                                //       fontSize: 25,
+                                //       fontFamily: fontFamily,
+                                //       fontWeight: FontWeight.bold,
+                                //     ),
+                                //   ),
+                                // ),
+                                // seeAllContainer(screenWidth, screenHeight),
+                                // SizedBox(
+                                //   height: screenHeight * 0.43,
+                                //   child: ListView.separated(
+                                //     padding: const EdgeInsets.only(
+                                //         left: 10, top: 10, bottom: 10),
+                                //     physics: const BouncingScrollPhysics(),
+                                //     scrollDirection: Axis.horizontal,
+                                //     itemCount: 3,
+                                //     itemBuilder: (context, index) {
+                                //       JobModel job = allJobs![
+                                //           allJobs!.length > 10 ? index + 3 : index];
+                                //       return InkWell(
+                                //         onTap: () async {
+                                //           circularProgressIndicatorNew(context);
+                                //           await getJobDetails(job.id.toString());
+                                //           // Navigator.pushNamed(
+                                //           //     context, DescriptionPage.routeName,
+                                //           //     arguments: job);
+                                //         },
+                                //         child: textContainer(
+                                //           screenWidth,
+                                //           screenHeight,
+                                //           job.description.substring(0, 21),
+                                //           job.studioName.length > 25
+                                //               ? job.studioName.substring(0, 24)
+                                //               : job.studioName,
+                                //           job.jobType,
+                                //           job.images,
+                                //           job.location,
+                                //         ),
+                                //       );
+                                //     },
+                                //     separatorBuilder: (context, index) =>
+                                //         SizedBox(width: screenWidth * 0.05),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),
