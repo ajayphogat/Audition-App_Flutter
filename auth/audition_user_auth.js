@@ -12,7 +12,7 @@ const cron = require("node-cron");
 
 // / twilio configuration->
 const accountSid = "AC2bfb3a2209314707d7d54c3dc7ff0fa1";
-const authToken = "ba8b3ef7b22a30d99bd944f4c55335b4";
+const authToken = "eb2e9e89221d1ee7a42166452c1d69d6";
 const client = require("twilio")(accountSid, authToken);
 const studioAuth = express.Router();
 const optModel = require("../model/otp");
@@ -163,7 +163,6 @@ userAuth.post("/api/send/otp/forget/password/audition", async (req, res) => {
     const { number } = req.body;
     console.log(number);
     const user = await userModel.findOne({ number: number });
-    console.log(user);
     if (!user) {
       return res.json({ message: "user not found" });
     }
