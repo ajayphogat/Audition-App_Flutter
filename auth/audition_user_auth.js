@@ -7,13 +7,13 @@ const jwtKey = require("../constant/const_variable");
 const studioModel = require("../model/studio_user");
 const postModel = require("../model/job_post");
 const sAuth = require("../middleware/token_studio_validation");
+const dotenv = require("dotenv");
+dotenv.config();
 //cron job like node-cron
 const cron = require("node-cron");
 
 // / twilio configuration->
-const accountSid = "AC2bfb3a2209314707d7d54c3dc7ff0fa1";
-const authToken = "eb2e9e89221d1ee7a42166452c1d69d6";
-const client = require("twilio")(accountSid, authToken);
+const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 const studioAuth = express.Router();
 const optModel = require("../model/otp");
 
@@ -60,7 +60,7 @@ userAuth.post("/api/audition/signup", async (req, res) => {
     if (number === "9024350276") {
       await optModel.create({
         phoneNumber: number,
-        otp: 0000,
+        otp: parseInt("0000"),
       });
 
     } else {
@@ -80,6 +80,10 @@ userAuth.post("/api/audition/signup", async (req, res) => {
     user = await user.save();
     res.json({ ...user._doc, created: firebaseCreate });
   } catch (error) {
+    console.log(error);
+    if (error.code === 21608) {
+      return res.status(500).json({ error: "Please try after sometime!" })
+    }
     res.status(500).json({ error: error.message });
   }
 });
