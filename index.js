@@ -24,9 +24,20 @@ const db = "mongodb+srv://hackingdna:password3@cluster0.uyol6gn.mongodb.net/Audi
 // const db = "mongodb://127.0.0.1:27017/AuditionDB";
 // const db = "mongodb://127.0.0.1:27017/AuditionDB";
 
+const allowedOrigins = [
+  'https://studio.findingyou.media',
+  'https://findingyou.media',
+  'https://admin.findingyou.media',
+  'https://www.findingyou.media',
+];
+
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+	origin:allowedOrigins,
+}));
+//app.options('*', cors());
+
 app.use(express.json());
 app.use(userAuth);
 app.use(studioAuth);

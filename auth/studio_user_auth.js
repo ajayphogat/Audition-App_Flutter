@@ -10,7 +10,7 @@ const managerModel = require("../model/manager_user");
 const nodeMailer = require("nodemailer");
 // / twilio configuration->
 const accountSid = "AC2bfb3a2209314707d7d54c3dc7ff0fa1";
-const authToken = "ba8b3ef7b22a30d99bd944f4c55335b4";
+const authToken = "e736285889eee91d880e1505fe43d967";
 const client = require("twilio")(accountSid, authToken);
 const studioAuth = express.Router();
 const optModel = require("../model/otp");
@@ -19,6 +19,7 @@ studioAuth.post("/api/studio/signup", async (req, res) => {
   try {
     let firebaseCreate;
     const { fname, number, email, password } = req.body;
+    console.log(fname);
     const existingUser = await studioModel.findOne({
       $and: [{ email: email }, { number: number }],
     });
@@ -62,7 +63,7 @@ studioAuth.post("/api/studio/signup", async (req, res) => {
     user = await user.save();
     res.json({ ...user._doc, created: firebaseCreate, number, otp });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, stack: error.stack });
   }
 });
 
