@@ -8,6 +8,13 @@ let auditionSchema = mongoose.Schema({
         type: schemaType.Boolean,
         default: false,
     },
+    otp: {
+        type: schemaType.Number,
+    },
+    otpVerified: {
+        type: schemaType.Boolean,
+        default: false,
+    },
     daysLeft: {
         type: schemaType.Number,
         default: 92,

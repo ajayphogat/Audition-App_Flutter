@@ -46,23 +46,19 @@ studioAuth.post("/api/studio/signup", async (req, res) => {
       to: `+91${number}`,
     });
 
-    await optModel.create({
-      phoneNumber: number,
-      otp: otp,
-    });
-
     // create new user
     let user = new studioModel({
       fname,
       number,
       email,
+      otp,
       password: hashedPassword,
     });
 
     user = await user.save();
-    res.json({ ...user._doc, created: firebaseCreate, number, otp });
+    return res.json({ ...user._doc, created: firebaseCreate, number, otp });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -72,16 +68,14 @@ studioAuth.post("/api/studio/verify-otp", async (req, res) => {
   try {
 
     const { number, otp } = req.body;
-    const result = await optModel.findOne({ phoneNumber: number });
+    const result = await studioModel.findOne({ number: number });
+    // const result = await optModel.findOne({ phoneNumber: number });
     if (!result) {
       return res.status(400).json({ msg: "Number not found" });
     }
-    console.log(result.otp);
-    console.log(otp, 'entered');
     if (result.otp === Number(otp)) {
-      console.log('otp matched and deleted');
-      await optModel.findByIdAndDelete(result._id);
-
+      result.otp = undefined;
+      result.save();
       return res.json({ msg: "OTP verified successfully" });
     } else {
       return res.status(400).json({ error: "OTP does not match" });
@@ -231,14 +225,11 @@ studioAuth.post("/api/send/otp/forget/password", async (req, res) => {
       from: "+13158175295",
       to: `+91${number}`,
     });
-    //  save to db
-    await optModel.create({
-      phoneNumber: number,
-      otp: otp,
-    });
-    res.json({ msg: "opt sent ", number, otp });
+    user.otp = otp;
+    await user.save();
+    return res.json({ msg: "opt sent ", number, otp });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
