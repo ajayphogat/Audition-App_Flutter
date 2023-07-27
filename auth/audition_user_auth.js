@@ -49,7 +49,7 @@ userAuth.post("/api/audition/signup", async (req, res) => {
     // send otp ->
 
     // Generate a 6-digit OTP
-    const otp = Math.floor(1000 + Math.random() * 9000);
+    const otp = Number(Math.floor(1000 + Math.random() * 9000));
 
     await client.messages.create({
       body: `Your OTP is: ${otp}`,
@@ -90,14 +90,16 @@ userAuth.post("/api/audition/signup", async (req, res) => {
 
 // verify  otp-> audition
 
-studioAuth.post("/api/audition/verify-otp", async (req, res) => {
+userAuth.post("/api/audition/verify-otp", async (req, res) => {
   try {
     const { number, otp } = req.body;
+    console.log(number,otp);
     const result = await optModel.findOne({ phoneNumber: number });
     if (!result) {
       res.json({ message: "Number not found" });
     }
-    if (result && result.otp === otp) {
+	  console.log(result.otp);
+    if (result.otp === Number(otp)) {
       optModel.deleteOne({ phoneNumber: number });
       res.json({ message: "OTP verified successfully" });
     } else {
@@ -132,7 +134,7 @@ userAuth.post("/api/audition/login", async (req, res) => {
         if (err) return res.status(401).json({ msg: err.message });
 
         const token = jwt.sign({ id: result._id }, jwtKey);
-        console.log(result.subscriptionName);
+        console.log(result.subscriptionName, token);
         return res.json({ token, ...result._doc });
       }
     );
@@ -1373,30 +1375,18 @@ userAuth.post("/api/studioAcceptJobData", sAuth, async (req, res) => {
 // search studio by name api
 userAuth.get("/api/showWorkingJobs", auth, async (req, res) => {
   try {
-    let newResult = [];
-    const search = req.query.search;
-    const working = req.query.working;
-    userModel.findById(req.user).then((user) => {
-      userModel
-        .findById(req.user)
-        .populate(working)
-        .exec(function (error, result) {
-          if (error) return res.status(401).json({ msg: error.message });
-          for (let index = 0; index < result[working].length; index++) {
-            const element = result[working][index];
-            if (search.length > 0) {
-              if (element.studioName.toLowerCase() == search.toLowerCase()) {
-                newResult.push(element);
-              }
-            } else {
-              newResult.push(element);
-            }
-          }
-
-          console.log(newResult);
-          res.json(newResult);
-        });
+    const search = req.query.search; // Get the search query from the request
+    const studios = await studioModel.find({
+      fname: { $regex: new RegExp(search, "i") }, // Perform case-insensitive search on fname field
     });
+
+    let newResult = [];
+
+    studios.forEach((studio) => {
+      newResult.push(studio.toObject()); // Convert each studio to a plain JavaScript object
+    });
+
+    res.json(newResult);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -1483,11 +1473,6 @@ userAuth.post("/api/studio/getArtistData", sAuth, async (req, res) => {
     if (!user) {
       return res.status(401).json({ msg: "No user found" });
     }
-    console.log("ahahahahhahahah");
-    console.log("ahahahahhahahah");
-    console.log("ahahahahhahahah");
-    console.log("ahahahahhahahah");
-    console.log("ahahahahhahahah");
     console.log({ ...user._doc, token: "" });
     res.json({ ...user._doc, token: "" });
   } catch (error) {
