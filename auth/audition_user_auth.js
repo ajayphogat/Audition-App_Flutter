@@ -1382,6 +1382,21 @@ userAuth.get("/api/showWorkingJobs", auth, async (req, res) => {
   }
 });
 
+//show all studios data in audition
+userAuth.get("/api/audition/getAllStudio", auth, async (req, res) => {
+  try {
+    const studios = await studioModel.find({ status: true });
+    let newResult = [];
+    studios.forEach((studio) => {
+      newResult.push(studio.toObject());
+    });
+    res.json(newResult);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 userAuth.get("/api/studio/showWorkingJobs", sAuth, async (req, res) => {
   try {
     let newResult = [];
