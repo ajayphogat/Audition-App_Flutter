@@ -7,6 +7,13 @@ let studioSchema = mongoose.Schema({
         type: schemaType.Number,
         default: 92,
     },
+    otp: {
+        type: schemaType.Number,
+    },
+    otpVerified: {
+        type: schemaType.Boolean,
+        default: false,
+    },
     status: {
         type: schemaType.Boolean,
         default: false
