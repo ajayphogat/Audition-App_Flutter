@@ -1385,7 +1385,7 @@ userAuth.get("/api/showWorkingJobs", auth, async (req, res) => {
 //show all studios data in audition
 userAuth.get("/api/audition/getAllStudio", auth, async (req, res) => {
   try {
-    const studios = await studioModel.find({ status: true });
+    const studios = await studioModel.find({ status: false });
     let newResult = [];
     studios.forEach((studio) => {
       newResult.push(studio.toObject());
