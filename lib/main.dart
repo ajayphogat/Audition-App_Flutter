@@ -65,16 +65,16 @@ class _MyAPPState extends State<MyAPP> {
 
   @override
   Widget build(BuildContext context) {
-    precachePicture(
-        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
-            "asset/images/illustration/blog.svg"),
-        context);
+    // precachePicture(
+    //     ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+    //         "asset/images/illustration/blog.svg"),
+    //     context);
     precacheImage(
         const AssetImage("asset/images/illustration/fg.png"), context);
-    precachePicture(
-        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
-            "asset/images/illustration/d.svg"),
-        context);
+    // precachePicture(
+    //     ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+    //         "asset/images/illustration/d.svg"),
+    //     context);
     var user = Provider.of<UserProvider>(context).user;
     var studioUser = Provider.of<StudioProvider>(context).user;
     return GestureDetector(

@@ -748,7 +748,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
 
                         child: TabBar(
                           controller: _tabController,
-                          physics: const BouncingScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
+
                           labelStyle: const TextStyle(
                             fontFamily: fontFamily,
                             fontWeight: FontWeight.normal,
@@ -783,6 +784,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                       SizedBox(
                         height: screenHeight * 0.6,
                         child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
                           controller: _tabController,
                           children: [
                             mediaPhotoSection(

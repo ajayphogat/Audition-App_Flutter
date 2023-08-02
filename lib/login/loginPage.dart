@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                     screenHeight,
                     context,
                     _email,
-                    "Email/Phone No.",
+                    "Email",
                     MyFlutterApp.username,
                     false,
                   ),

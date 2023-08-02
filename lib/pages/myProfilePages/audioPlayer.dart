@@ -37,7 +37,7 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
     super.initState();
     audioPlayer.onPlayerStateChanged.listen((event) {
       setState(() {
-        isPlaying = event == PlayerState.PLAYING;
+        isPlaying = event == PlayerState.playing;
       });
     });
     audioPlayer.onDurationChanged.listen((newDuration) {
@@ -45,7 +45,7 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
         duration = newDuration;
       });
     });
-    audioPlayer.onAudioPositionChanged.listen((newPosition) {
+    audioPlayer.onPositionChanged.listen((newPosition) {
       setState(() {
         position = newPosition;
       });
@@ -107,7 +107,9 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
                             if (isPlaying) {
                               await audioPlayer.pause();
                             } else {
-                              await audioPlayer.play(widget.audioUrl);
+                              await audioPlayer
+                                  .play(UrlSource(widget.audioUrl));
+                              // await audioPlayer.play(widget.audioUrl);
                             }
                           },
                           icon: Icon(

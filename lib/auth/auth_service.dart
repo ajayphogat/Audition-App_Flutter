@@ -96,8 +96,10 @@ class AuthService {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
       }
+      print(res.statusCode);
+      print(jsonDecode(res.body)['error']);
 
-      httpErrorHandel(
+      httpErrorHandelForLoginSignup(
           context: context,
           res: res,
           onSuccess: () async {
@@ -300,6 +302,7 @@ class AuthService {
         },
       );
     } catch (e) {
+      Navigator.pop(context);
       showSnackBar(context, e.toString());
     }
   }
@@ -1225,6 +1228,7 @@ class AuthService {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
       }
+      print(res.statusCode);
 
       httpErrorHandel(
           context: context,
