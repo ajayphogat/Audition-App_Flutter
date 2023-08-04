@@ -21,7 +21,7 @@ let auditionSchema = mongoose.Schema({
     },
     status: {
         type: schemaType.Boolean,
-        default: false
+        default: true
     },
     createdDate: {
         type: schemaType.Date,
@@ -101,7 +101,7 @@ let auditionSchema = mongoose.Schema({
     },
     profilePic: {
         type: schemaType.String,
-        default: "",
+        default: "https://firebasestorage.googleapis.com/v0/b/auditionportal-2597e.appspot.com/o/images%2F64ca3563db0bab951a31e27b%2F64ca3563db0bab951a31e27b_2023-08-02_banner.svg?alt=media&token=f72560b5-d405-4573-a826-087b4d8b4459",
     },
 
     visibility: {
