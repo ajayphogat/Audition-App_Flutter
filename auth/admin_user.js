@@ -11,6 +11,9 @@ const adminModel = require("../model/admin_user");
 const aAuth = require("../middleware/token_admin_validation");
 const studioAuth = require("./studio_user_auth");
 const nodeMailer = require("nodemailer");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 //cron job like node-cron
 const cron = require("node-cron");
@@ -48,12 +51,16 @@ cron.schedule("0 0 0 * * *", () => {
 
 adminAuth.post("/admin/api/signup", async (req, res) => {
     try {
-        const { fullName, number, email, password } = req.body;
+        const { fullName, number, email, password, passcode } = req.body;
+        console.log(fullName, number, email, password, passcode);
         const existingUser = await adminModel.findOne({ email: email });
-        console.log(existingUser);
         if (existingUser) {
             return res.status(400).json({ msg: "User with same email already exist!" });
         }
+        console.log(passcode);
+        console.log(process.env.DEFAULT_PASSWORD);
+        
+        if (passcode !== process.env.DEFAULT_PASSWORD) return res.status(400).json({ msg: "Passcode incorrect" });
 
         const hashedPassword = await bcryptjs.hash(password, 8);
 
@@ -63,11 +70,12 @@ adminAuth.post("/admin/api/signup", async (req, res) => {
             email,
             password: hashedPassword,
         });
-
         user = await user.save();
-
         const token = jwt.sign({ id: user._id }, adminJwtKey);
         res.json({ ...user._doc, token: token });
+
+
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });

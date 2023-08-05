@@ -33,7 +33,6 @@ let adminSchema = mongoose.Schema({
     password: {
         required: true,
         type: schemaType.String,
-        trim: true
     },
     promotionRequest: [
         {
