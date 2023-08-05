@@ -22,14 +22,12 @@ const userAuth = express.Router();
 // scheduling a task to set status to false when daysLeft is <=0 
 cron.schedule("0 0 0 * * *", () => {
     //console.log("here is my cron job");
-    userModel.find({daysLeft:{ $lt : 0 } }).then(user => {
-
-    userModel.updateMany({ status: false }, (err) => {
+   
+    userModel.updateMany({daysLeft:{$lt: 0}},{ status: false }, (err) => {
       if (err) {
           console.log(`here is the error -> ${err}`);
       }
     })
-  })
 });
 
 
