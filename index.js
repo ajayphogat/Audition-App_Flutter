@@ -26,6 +26,7 @@ const port = process.env.PORT || 4400;
 //const db = "mongodb://43.205.137.240:27017/AuditionDB";
 const db = "mongodb://admin:findingyoupassword@3.110.114.32:27017/AuditionDB";
 
+
 const allowedOrigins = [
   'https://studio.findingyou.media',
   'https://findingyou.media',
