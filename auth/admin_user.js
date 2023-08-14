@@ -59,7 +59,7 @@ adminAuth.post("/admin/api/signup", async (req, res) => {
         }
         console.log(passcode);
         console.log(process.env.DEFAULT_PASSWORD);
-        
+
         if (passcode !== process.env.DEFAULT_PASSWORD) return res.status(400).json({ msg: "Passcode incorrect" });
 
         const hashedPassword = await bcryptjs.hash(password, 8);
