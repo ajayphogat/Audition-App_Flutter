@@ -19,13 +19,17 @@ const optModel = require("../model/otp");
 
 const userAuth = express.Router();
 
-// // scheduling a task to check the user's subscription plan
-// cron.schedule("* * * * *", () => {
-//     // console.log("here is my cron job");
-//     userModel.findOneAndUpdate({ email: "rahul@a.com" }, { subscriptionName: "Platinum", subscriptionPrice: 1000 }, { new: true }).then(user => {
-//         console.log({ ...user._doc });
-//     })
-// });
+// scheduling a task to set status to false when daysLeft is <=0 
+cron.schedule("0 0 0 * * *", () => {
+  //console.log("here is my cron job");
+
+  userModel.updateMany({ daysLeft: { $lt: 0 } }, { status: false }, (err) => {
+    if (err) {
+      console.log(`here is the error -> ${err}`);
+    }
+  })
+});
+
 
 // Audition - Signup api
 userAuth.post("/api/audition/signup", async (req, res) => {
@@ -249,15 +253,38 @@ userAuth.post("/api/audition/report", async (req, res) => {
   }
 });
 
-// Audition subscription update api
-userAuth.get("/api/audition/subscriptionData", auth, async (req, res) => {
+// // Audition subscription update api
+// userAuth.get("/api/audition/subscriptionData", auth, async (req, res) => {
+//   try {
+//     const { subscriptionName, subscriptionPrice } = req.body;
+//     const existingUser = await userModel.findById(req.user);
+//     if (!existingUser) return res.status(400).json({ msg: "User not found!" });
+//     userModel.findByIdAndUpdate(
+//       req.user,
+//       { $set: { subscriptionName, subscriptionPrice } },
+//       { new: true },
+//       (err, result) => {
+//         if (err) return res.status(400).json({ msg: err.message });
+//         res.json(result);
+//       }
+//     );
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+
+
+//Audition Subscription api for web to update subscription data
+userAuth.post("/api/audition/subscriptionData", auth, async (req, res) => {
   try {
     const { subscriptionName, subscriptionPrice } = req.body;
+    const daysLeft = 30;
     const existingUser = await userModel.findById(req.user);
     if (!existingUser) return res.status(400).json({ msg: "User not found!" });
     userModel.findByIdAndUpdate(
       req.user,
-      { $set: { subscriptionName, subscriptionPrice } },
+      { $set: { subscriptionName, subscriptionPrice, daysLeft } },
       { new: true },
       (err, result) => {
         if (err) return res.status(400).json({ msg: err.message });
@@ -266,8 +293,11 @@ userAuth.get("/api/audition/subscriptionData", auth, async (req, res) => {
     );
   } catch (error) {
     res.status(500).json({ error: error.message });
+    console.log(error);
   }
 });
+
+
 
 // Audition get user data api
 userAuth.get("/api/audition/getUserData", auth, async (req, res) => {
@@ -329,7 +359,8 @@ userAuth.post("/api/audition/updateBasicInfo", auth, async (req, res) => {
           category: category,
           visibility: visibility,
         },
-      }
+      },
+      { new: true }
     );
     if (updateBasicInfo.acknowledged == false) {
       return res.status(400).json({ msg: "Can't save Basic Info" });
@@ -1367,8 +1398,23 @@ userAuth.post("/api/studioAcceptJobData", sAuth, async (req, res) => {
   }
 });
 
+
+//show all studios data in audition
+userAuth.get("/api/audition/getAllStudio", async (req, res) => {
+  try {
+    const studios = await studioModel.find({ status: true });
+    let newResult = [];
+    studios.forEach((studio) => {
+      newResult.push(studio.toObject());
+    });
+    res.json(newResult);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // search studio by name api
-userAuth.get("/api/showWorkingJobs", auth, async (req, res) => {
+userAuth.get("/api/showWorkingJobs", async (req, res) => {
   try {
     let newResult = [];
     const search = req.query.search;
@@ -1644,5 +1690,16 @@ userAuth.get("/api/audition/getStudioData", auth, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+userAuth.get('/api/studio/alljobs/:id', async (req, res) => {
+  try {
+
+    console.log(req.params.id);
+    const jobs = await studioModel.findById(req.params.id).populate('post').select('post');
+    res.json(jobs);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 
 module.exports = userAuth;

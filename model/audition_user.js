@@ -101,6 +101,7 @@ let auditionSchema = mongoose.Schema({
     },
     profilePic: {
         type: schemaType.String,
+        default: "",
     },
 
     visibility: {

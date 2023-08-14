@@ -80,6 +80,7 @@ let studioSchema = mongoose.Schema({
 
     profilePic: {
         type: schemaType.String,
+        default: "",
     },
     profileUrl: {
         type: schemaType.String,
