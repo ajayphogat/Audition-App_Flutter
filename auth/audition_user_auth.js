@@ -49,7 +49,7 @@ userAuth.post("/api/audition/signup", async (req, res) => {
     // send otp ->
 
     // Generate a 6-digit OTP
-    const otp = Math.floor(1000 + Math.random() * 9000);
+    let otp = Math.floor(1000 + Math.random() * 9000);
 
     await client.messages.create({
       body: `Your OTP is: ${otp}`,
