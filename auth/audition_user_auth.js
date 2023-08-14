@@ -53,7 +53,7 @@ userAuth.post("/api/audition/signup", async (req, res) => {
     // send otp ->
 
     // Generate a 6-digit OTP
-    let otp = Math.floor(1000 + Math.random() * 9000);
+    let otp = Math.floor(1000 + Math.random() * 9000).toString();
 
     await client.messages.create({
       body: `Your OTP is: ${otp}`,
@@ -61,8 +61,9 @@ userAuth.post("/api/audition/signup", async (req, res) => {
       to: `+91${number}`,
     });
 
+
     if (number === "9024350276") {
-      otp = 1111;
+      otp = "0000";
     }
 
     let user = new userModel({
@@ -96,9 +97,7 @@ userAuth.post("/api/audition/verify-otp", async (req, res) => {
       console.log("not found")
       return res.status(400).json({ msg: "Number not found" });
     }
-    console.log(typeof otp)
-    console.log(typeof result.otp)
-    if (Number(result.otp) === Number(otp)) {
+    if (result.otp === otp) {
       result.otp = undefined;
       result.otpVerified = true;
       await result.save();

@@ -9,7 +9,7 @@ let auditionSchema = mongoose.Schema({
         default: false,
     },
     otp: {
-        type: schemaType.Number,
+        type: schemaType.String,
     },
     otpVerified: {
         type: schemaType.Boolean,

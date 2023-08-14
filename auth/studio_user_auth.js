@@ -39,7 +39,7 @@ studioAuth.post("/api/studio/signup", async (req, res) => {
     // send otp ->
 
     // Generate a 6-digit OTP
-    const otp = Math.floor(1000 + Math.random() * 9000);
+    let otp = Math.floor(1000 + Math.random() * 9000).toString();
 
     await client.messages.create({
       body: `Your OTP is: ${otp}`,
@@ -75,7 +75,7 @@ studioAuth.post("/api/studio/verify-otp", async (req, res) => {
       return res.status(400).json({ msg: "Number not found" });
     }
     console.log(result);
-    if (Number(result.otp) === Number(otp)) {
+    if (result.otp === otp) {
       result.otp = undefined;
       result.verified = true;
       result.save();
