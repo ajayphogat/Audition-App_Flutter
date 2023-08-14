@@ -1416,30 +1416,18 @@ userAuth.get("/api/audition/getAllStudio", async (req, res) => {
 // search studio by name api
 userAuth.get("/api/showWorkingJobs", async (req, res) => {
   try {
-    let newResult = [];
-    const search = req.query.search;
-    const working = req.query.working;
-    userModel.findById(req.user).then((user) => {
-      userModel
-        .findById(req.user)
-        .populate(working)
-        .exec(function (error, result) {
-          if (error) return res.status(401).json({ msg: error.message });
-          for (let index = 0; index < result[working].length; index++) {
-            const element = result[working][index];
-            if (search.length > 0) {
-              if (element.studioName.toLowerCase() == search.toLowerCase()) {
-                newResult.push(element);
-              }
-            } else {
-              newResult.push(element);
-            }
-          }
-
-          console.log(newResult);
-          res.json(newResult);
-        });
+    const search = req.query.search; // Get the search query from the request
+    const studios = await studioModel.find({
+      fname: { $regex: new RegExp(search, "i") },
     });
+
+    let newResult = [];
+
+    studios.forEach((studio) => {
+      newResult.push(studio.toObject());
+    });
+
+    res.json(newResult);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
