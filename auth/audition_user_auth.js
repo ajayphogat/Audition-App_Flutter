@@ -104,7 +104,7 @@ userAuth.post("/api/audition/verify-otp", async (req, res) => {
       return res.json({ msg: "OTP verified successfully" });
     } else {
       console.log("does not match")
-      return res.status(400).json({ error: "OTP does not match" });
+      return res.status(400).json({ msg: "OTP does not match" });
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });

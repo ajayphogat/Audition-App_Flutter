@@ -81,7 +81,7 @@ studioAuth.post("/api/studio/verify-otp", async (req, res) => {
       result.save();
       return res.json({ msg: "OTP verified successfully" });
     } else {
-      return res.status(400).json({ error: "OTP does not match" });
+      return res.status(400).json({ msg: "OTP does not match" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
