@@ -20,7 +20,7 @@ mongoose.set('strictQuery', true);
 const app = express();
 
 const port = process.env.PORT || 4400; 
-//const db = "mongodb+srv://hackingdna:password3@cluster0.uyol6gn.mongodb.net/AuditionDB";
+// const db = "mongodb+srv://hackingdna:password3@cluster0.uyol6gn.mongodb.net/AuditionDB";
 // const db = "mongodb://127.0.0.1:27017/AuditionDB";
 //const db = "mongodb://127.0.0.1:27017/AuditionDB";
 //const db = "mongodb://43.205.137.240:27017/AuditionDB";

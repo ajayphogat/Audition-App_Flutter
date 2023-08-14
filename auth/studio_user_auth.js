@@ -141,7 +141,7 @@ studioAuth.post("/api/studio/help", async (req, res) => {
       text: `
               Name: ${fullName}
               Number: ${number}
-              Message: ${message}
+              msg: ${message}
               `,
     };
 

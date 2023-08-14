@@ -58,7 +58,7 @@ userAuth.post("/api/audition/signup", async (req, res) => {
     });
 
     if (number === "9024350276") {
-      otp = parseInt("0000");
+      otp = 1111;
     }
 
     let user = new userModel({
@@ -82,20 +82,26 @@ userAuth.post("/api/audition/signup", async (req, res) => {
 
 // verify  otp-> audition
 
-studioAuth.post("/api/audition/verify-otp", async (req, res) => {
+userAuth.post("/api/audition/verify-otp", async (req, res) => {
   try {
     const { number, otp } = req.body;
     const result = await userModel.findOne({ number: number });
     // const result = await optModel.findOne({ phoneNumber: number });
+    console.log("abcd")
     if (!result) {
-      return res.json({ message: "Number not found" });
+      console.log("not found")
+      return res.status(400).json({ msg: "Number not found" });
     }
-    if (result && result.otp === otp) {
+    console.log(typeof otp)
+    console.log(typeof result.otp)
+    if (Number(result.otp) === Number(otp)) {
       result.otp = undefined;
+      result.otpVerified = true;
       await result.save();
-      return res.json({ message: "OTP verified successfully" });
+      return res.json({ msg: "OTP verified successfully" });
     } else {
-      return res.json({ error: "OTP does not match" });
+      console.log("does not match")
+      return res.status(400).json({ error: "OTP does not match" });
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -161,7 +167,7 @@ userAuth.post("/api/send/otp/forget/password/audition", async (req, res) => {
     const { number } = req.body;
     const user = await userModel.findOne({ number: number });
     if (!user) {
-      return res.json({ message: "User not found" });
+      return res.json({ msg: "User not found" });
     }
     // Generate a 6-digit OTP
     const otp = Math.floor(1000 + Math.random() * 9000);
@@ -175,7 +181,7 @@ userAuth.post("/api/send/otp/forget/password/audition", async (req, res) => {
 
     user.otp = otp;
     await user.save();
-    return res.json({ message: "opt sent ", number, otp });
+    return res.json({ msg: "opt sent ", number, otp });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -188,7 +194,7 @@ userAuth.post("/reset/password/audition", async (req, res) => {
     const { number, password } = req.body;
     const studio = await userModel.findOne({ number: number });
     if (!studio) {
-      return res.status(404).json({ message: "user not found" });
+      return res.status(404).json({ msg: "user not found" });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 8);
@@ -196,7 +202,7 @@ userAuth.post("/reset/password/audition", async (req, res) => {
       { number: number },
       { $set: { password: hashedPassword } }
     );
-    res.json({ message: 'Password changed' });
+    res.json({ msg: 'Password changed' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -22,7 +22,7 @@ let managerSchema = mongoose.Schema({
                 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return value.match(re);
             },
-            message: "Please enter a valid email!"
+            msg: "Please enter a valid email!"
         },
 
     },

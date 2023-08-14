@@ -55,7 +55,7 @@ let studioSchema = mongoose.Schema({
                 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return value.match(re);
             },
-            message: "Please enter a valid email!"
+            msg: "Please enter a valid email!"
         },
 
     },
@@ -80,7 +80,6 @@ let studioSchema = mongoose.Schema({
 
     profilePic: {
         type: schemaType.String,
-        default: "https://firebasestorage.googleapis.com/v0/b/auditionportal-2597e.appspot.com/o/images%2F64ca3563db0bab951a31e27b%2F64ca3563db0bab951a31e27b_2023-08-02_bg1.svg?alt=media&token=b2c3b1e7-cc7b-49e3-aa76-2769e5295930",
     },
     profileUrl: {
         type: schemaType.String,
