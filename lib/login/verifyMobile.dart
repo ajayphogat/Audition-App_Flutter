@@ -33,6 +33,12 @@ class _VerifyMobileState extends State<VerifyMobile> {
         context: context, number: number, otp: otp);
   }
 
+  Future<void> otpVerifyStudio(String number, String otp) async {
+    print("new number => $number");
+    await authService.verificationOTPForgot(
+        context: context, number: number, otp: otp);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +62,10 @@ class _VerifyMobileState extends State<VerifyMobile> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    String argument = ModalRoute.of(context)!.settings.arguments as String;
+    List<String> argument =
+        ModalRoute.of(context)!.settings.arguments as List<String>;
+    String userNumber = argument[0];
+    String userType = argument[1];
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -204,8 +213,13 @@ class _VerifyMobileState extends State<VerifyMobile> {
               InkWell(
                 onTap: () async {
                   circularProgressIndicatorNew(context);
-                  await otpVerify(argument,
-                      "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                  if (userType == "audition") {
+                    await otpVerify(userNumber,
+                        "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                  } else {
+                    await otpVerify(userNumber,
+                        "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                  }
                 },
                 child: Container(
                   alignment: Alignment.center,

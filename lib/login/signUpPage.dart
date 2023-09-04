@@ -35,9 +35,9 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> signUpAudition() async {
     await authService.signUpUser(
       context: context,
-      fname: _fullName.text,
-      email: _email.text,
-      number: _phone.text,
+      fname: _fullName.text.trim(),
+      email: _email.text.trim(),
+      number: _phone.text.trim(),
       password: _password.text,
     );
   }
@@ -45,9 +45,9 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> signUpStudio() async {
     await authService.signUpStudio(
       context: context,
-      fname: _fullName.text,
-      email: _email.text,
-      number: _phone.text,
+      fname: _fullName.text.trim(),
+      email: _email.text.trim(),
+      number: _phone.text.trim(),
       password: _password.text,
     );
   }

@@ -109,7 +109,10 @@ class AuthService {
             //     );
             print("res body => ${jsonDecode(res.body)}");
             Navigator.pushNamed(context, VerificationPage.routeName,
-                arguments: jsonDecode(res.body)["number"]);
+                arguments: [
+                  jsonDecode(res.body)["number"].toString(),
+                  "audition"
+                ]);
             // showMessage();
           });
     } catch (e) {
@@ -117,12 +120,14 @@ class AuthService {
     }
   }
 
-  Future<void> verificationOTP({
+  Future<void> verificationOTPStudio({
     required BuildContext context,
     required String number,
     required String otp,
   }) async {
     try {
+      print(otp);
+      print(number);
       http.Response res =
           await http.post(Uri.parse("$url/api/studio/verify-otp"),
               body: jsonEncode(
@@ -134,6 +139,7 @@ class AuthService {
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
+      print(res.statusCode);
       httpErrorHandelForLoginSignup(
           context: context,
           res: res,
@@ -152,7 +158,78 @@ class AuthService {
     }
   }
 
+  Future<void> verificationOTP({
+    required BuildContext context,
+    required String number,
+    required String otp,
+  }) async {
+    try {
+      print(otp);
+      print(number);
+      http.Response res =
+          await http.post(Uri.parse("$url/api/audition/verify-otp"),
+              body: jsonEncode(
+                {
+                  "number": number,
+                  "otp": otp,
+                },
+              ),
+              headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+          });
+      print(res.statusCode);
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            print("number => ${jsonDecode(res.body)}");
+            Navigator.pushNamed(
+              context,
+              LoginPage.routeName,
+              // arguments:
+            );
+            showSnackBar(
+                context, "Account created! Login with same Credentials");
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
   Future<void> verificationOTPForgot({
+    required BuildContext context,
+    required String number,
+    required String otp,
+  }) async {
+    try {
+      http.Response res =
+          await http.post(Uri.parse("$url/api/audition/verify-otp"),
+              body: jsonEncode(
+                {
+                  "number": number,
+                  "otp": otp,
+                },
+              ),
+              headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+          });
+      print("number => ${jsonDecode(res.body)}");
+      print(jsonDecode(res.body));
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () {
+            Navigator.pushNamed(context, ResetPassword.routeName,
+                arguments: number);
+            // showSnackBar(
+            //     context, "Account created! Login with same Credentials");
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> verificationOTPForgotStudio({
     required BuildContext context,
     required String number,
     required String otp,
@@ -297,8 +374,43 @@ class AuthService {
         onSuccess: () {
           print("number => ${jsonDecode(res.body)["number"]}");
           Navigator.pop(context);
+          Navigator.pushNamed(context, VerifyMobile.routeName, arguments: [
+            jsonDecode(res.body)["number"].toString(),
+            "audition"
+          ]);
+        },
+      );
+    } catch (e) {
+      Navigator.pop(context);
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> forgotPasswordStudio({
+    required BuildContext context,
+    required String number,
+  }) async {
+    try {
+      print("number => $number");
+      http.Response res =
+          await http.post(Uri.parse("$url/api/send/otp/forget/password"),
+              body: jsonEncode(
+                {
+                  "number": number,
+                },
+              ),
+              headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+          });
+
+      httpErrorHandelForLoginSignup(
+        context: context,
+        res: res,
+        onSuccess: () {
+          print("number => ${jsonDecode(res.body)["number"]}");
+          Navigator.pop(context);
           Navigator.pushNamed(context, VerifyMobile.routeName,
-              arguments: jsonDecode(res.body)["number"]);
+              arguments: [jsonDecode(res.body)["number"].toString(), "studio"]);
         },
       );
     } catch (e) {
@@ -1240,7 +1352,10 @@ class AuthService {
             // );
             print("res body => ${jsonDecode(res.body)}");
             Navigator.pushNamed(context, VerificationPage.routeName,
-                arguments: jsonDecode(res.body)["number"]);
+                arguments: [
+                  jsonDecode(res.body)["number"].toString(),
+                  "studio"
+                ]);
           });
     } catch (e) {
       showSnackBar(context, e.toString());

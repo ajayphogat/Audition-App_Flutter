@@ -31,6 +31,11 @@ class _VerificationPageState extends State<VerificationPage> {
         context: context, number: number, otp: otp);
   }
 
+  Future<void> otpVerifyStudio(String number, String otp) async {
+    await authService.verificationOTPStudio(
+        context: context, number: number, otp: otp);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +59,10 @@ class _VerificationPageState extends State<VerificationPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    String argument = ModalRoute.of(context)!.settings.arguments as String;
+    List<String> argument =
+        ModalRoute.of(context)!.settings.arguments as List<String>;
+    String userNumber = argument[0];
+    String userType = argument[1];
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -202,8 +210,13 @@ class _VerificationPageState extends State<VerificationPage> {
               InkWell(
                 onTap: () async {
                   circularProgressIndicatorNew(context);
-                  await otpVerify(argument,
-                      "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                  if (userType == "audition") {
+                    await otpVerify(userNumber,
+                        "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                  } else {
+                    await otpVerifyStudio(userNumber,
+                        "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                  }
                 },
                 child: Container(
                   alignment: Alignment.center,
