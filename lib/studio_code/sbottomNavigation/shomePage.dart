@@ -63,7 +63,6 @@ class _SHomePageState extends State<SHomePage> {
   @override
   void initState() {
     getStudioData();
-
     super.initState();
   }
 

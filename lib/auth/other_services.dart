@@ -78,7 +78,6 @@ class OtherService {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-
     return allJobs;
   }
 

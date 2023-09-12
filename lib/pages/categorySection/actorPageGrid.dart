@@ -26,7 +26,6 @@ class _ActorGridPageState extends State<ActorGridPage> {
         category: "Actor",
         search:
             widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "");
-
     if (this.mounted) {
       setState(() {});
     }
