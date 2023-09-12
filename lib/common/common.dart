@@ -67,63 +67,6 @@ Widget commonTextField(double screenWidth, double screenHeight,
       ),
     ),
   );
-  // return SizedBox(
-  //   width: screenWidth - screenWidth * 0.305,
-  //   child: Stack(
-  //     alignment: AlignmentDirectional.bottomCenter,
-  //     children: [
-  //       Material(
-  //         elevation: 5,
-  //         borderRadius: BorderRadius.circular(8),
-  //         child: Container(
-  //           width: screenWidth - screenWidth * 0.305,
-  //           height: screenHeight * 0.06,
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(8),
-  //             color: placeholderColor,
-  //           ),
-  //         ),
-  //       ),
-  //       TextFormField(
-  //         controller: controller,
-  //         validator: (String? value) {
-  //           if (value == null || value.isEmpty) {
-  //             return "Please fill this";
-  //           } else {
-  //             return null;
-  //           }
-  //         },
-  //         style: const TextStyle(
-  //           fontSize: 18,
-  //           fontFamily: fontFamily,
-  //         ),
-  //         obscureText: isPassword,
-  //         decoration: InputDecoration(
-  //           hintText: hintText,
-  //           hintStyle: const TextStyle(
-  //             fontSize: 18,
-  //             fontFamily: fontFamily,
-  //             color: placeholderTextColor,
-  //           ),
-  //           errorStyle: const TextStyle(
-  //             fontFamily: fontFamily,
-  //             height: 0.1,
-  //           ),
-  //           border: InputBorder.none,
-  //           prefixIcon: Padding(
-  //             padding: EdgeInsets.only(
-  //                 left: 20,
-  //                 right: icon == MyFlutterApp.message ? 12 : 5,
-  //                 bottom: 2),
-  //             child: Icon(icon,
-  //                 color: Colors.black,
-  //                 size: icon == MyFlutterApp.message ? 28 : 35),
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   ),
-  // );
 }
 
 Widget commonTextField1(double screenWidth, double screenHeight,
@@ -403,7 +346,6 @@ Widget textContainer(double screenWidth, double screenHeight, String s1,
 
 Future<void> getJobDetails(String jobId, BuildContext context) async {
   final OtherService otherService = OtherService();
-  print("heyyyy");
   await otherService.getJobDetails1(context: context, jobId: jobId);
 }
 
@@ -507,9 +449,8 @@ Widget gridViewContainer(
               onTap: isApplied
                   ? () {}
                   : () async {
-                      print("here is studio id => $studioId");
                       circularProgressIndicatorNew(context);
-                      OtherService().applyJob(
+                      await OtherService().applyJob(
                         context: context,
                         jobId: jobId,
                         studioUserId: studioId,
@@ -706,7 +647,6 @@ AppBar basicAppBar(
                     icon: const Icon(MyFlutterApp.bi_arrow_down,
                         color: Colors.black),
                     onPressed: () {
-                      // print(tabController.index);
                       if (data == categoryData) {
                         Navigator.pop(context);
                       }
@@ -741,8 +681,6 @@ AppBar basicAppBar(
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    print(tabController.index);
-                                    print(searchEdit.text);
                                     if (searchEdit.text.isNotEmpty) {
                                       Navigator.pushNamed(
                                           context, CategoryDetailPage.routeName,
@@ -886,7 +824,6 @@ AppBar basicAppBarApp(
                     icon: const Icon(MyFlutterApp.bi_arrow_down,
                         color: Colors.black),
                     onPressed: () {
-                      // print(tabController.index);
                       if (data == categoryData) {
                         Navigator.pop(context);
                       }
@@ -921,8 +858,6 @@ AppBar basicAppBarApp(
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    print(tabController.index);
-                                    print(searchEdit.text);
                                     if (searchEdit.text.isNotEmpty) {
                                       Navigator.pushNamed(
                                           context, CategoryDetailPage.routeName,
@@ -1235,7 +1170,6 @@ TextButton appBarTextButton1(String text, Future<void> Function() onSave,
   return TextButton(
     onPressed: () async {
       if (text == "Save") {
-        // print(screenHeight);
         circularProgressIndicatorNew(context);
         await onSave();
         navigatePop();

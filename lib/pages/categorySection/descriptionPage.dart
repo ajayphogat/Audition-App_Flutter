@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
-import 'package:first_app/common/data.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
 import 'package:first_app/provider/job_post_provider.dart';
@@ -10,7 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share_plus/share_plus.dart';
-
+import 'package:intl/intl.dart';
 import '../../constants.dart';
 
 class DescriptionPage extends StatefulWidget {
@@ -94,73 +93,10 @@ class _DescriptionPageState extends State<DescriptionPage>
     double screenHeight = MediaQuery.of(context).size.height;
 
     var jobData = Provider.of<JobProvider>(context).job;
-    print("here is studio id => ${jobData.studio['_id']}");
     bool isBookmarked = jobData.isBookmarked!;
     bool isfollowed = jobData.isFollowed!;
     bool isApplied = jobData.isApplied!;
     return Scaffold(
-      // appBar: AppBar(
-      //   toolbarHeight: screenHeight * 0.07,
-      //   backgroundColor: Colors.white,
-      //   actions: [
-      //     Container(
-      //       width: screenWidth,
-      //       margin: EdgeInsets.only(top: screenHeight * 0.02),
-      //       child: Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //         children: [
-      //           IconButton(
-      //             icon: const Icon(MyFlutterApp.bi_arrow_down,
-      //                 color: Colors.black),
-      //             onPressed: () {
-      //               Navigator.pop(context);
-      //             },
-      //           ),
-      //           Container(
-      //             margin: const EdgeInsets.only(right: 15),
-      //             child: Row(
-      //               children: [
-      //                 InkWell(
-      //                     onTap: () async {
-      //                       navigatorPop() => Navigator.pop(context);
-      //                       if (isBookmarked == true) {
-      //                         circularProgressIndicatorNew(context);
-      //                         await undoBookmarked(jobData.id);
-
-      //                         setState(() {
-      //                           navigatorPop();
-      //                         });
-      //                       } else {
-      //                         circularProgressIndicatorNew(context);
-      //                         await bookmarked(jobData.id);
-
-      //                         setState(() {
-      //                           navigatorPop();
-      //                         });
-      //                       }
-      //                     },
-      //                     child: yellowCircleButton(
-      //                         screenHeight,
-      //                         isBookmarked
-      //                             ? Icons.bookmark_remove
-      //                             : MyFlutterApp.bookmark)),
-      //                 SizedBox(width: screenWidth * 0.08),
-      //                 InkWell(
-      //                   onTap: () async {
-      //                     await Share.share(
-      //                         "Hey Check this Studio Job: \n\nStudio Name: ${jobData.studioName}\n\nLocation: ${jobData.location}\n\nsDescription: ${jobData.description}");
-      //                   },
-      //                   child: yellowCircleButton(
-      //                       screenHeight, MyFlutterApp.share_fill),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           // controller: _scrollController,
@@ -190,17 +126,6 @@ class _DescriptionPageState extends State<DescriptionPage>
                         Icons.arrow_back_ios_sharp,
                       ),
                     ),
-
-                    // SizedBox(width: screenWidth * 0.04),
-                    // const AutoSizeText(
-                    //   "My Details",
-                    //   maxFontSize: 22,
-                    //   style: TextStyle(
-                    //     fontSize: 22,
-                    //     color: Colors.black,
-                    //     fontWeight: FontWeight.w600,
-                    //   ),
-                    // ),
                     PopupMenuButton(
                       constraints: BoxConstraints(
                         maxWidth: screenWidth * 0.15,
@@ -238,11 +163,6 @@ class _DescriptionPageState extends State<DescriptionPage>
                             color: greenColor,
                             size: screenHeight * 0.025,
                           ),
-                          // child: yellowCircleButton(
-                          //     screenHeight,
-                          //     isBookmarked
-                          //         ? Icons.bookmark_remove
-                          //         : MyFlutterApp.bookmark),
                         ),
                         PopupMenuItem(
                           value: "share",
@@ -251,10 +171,6 @@ class _DescriptionPageState extends State<DescriptionPage>
                             color: greenColor,
                             size: screenHeight * 0.025,
                           ),
-                          // child: yellowCircleButton(
-                          //   screenHeight,
-                          //   MyFlutterApp.share_fill,
-                          // ),
                         ),
                       ],
                     ),
@@ -265,21 +181,12 @@ class _DescriptionPageState extends State<DescriptionPage>
                 aspectRatio: 0.9,
                 child: Stack(
                   children: [
-                    PageView(
-                      children: [
-                        Image.network(
-                          jobData.images[0],
-                          fit: BoxFit.cover,
-                        ),
-                        Image.network(
-                          jobData.images[0],
-                          fit: BoxFit.cover,
-                        ),
-                        Image.network(
-                          jobData.images[0],
-                          fit: BoxFit.cover,
-                        ),
-                      ],
+                    PageView.builder(
+                      itemCount: jobData.images.length,
+                      itemBuilder: (context, index) => Image.network(
+                        jobData.images[index],
+                        fit: BoxFit.cover,
+                      ),
                       onPageChanged: (page) {
                         setState(() {
                           _activePage = page;
@@ -290,7 +197,8 @@ class _DescriptionPageState extends State<DescriptionPage>
                       bottom: 30,
                       left: (screenWidth - ((screenWidth * 0.1) + 10 + 10)) / 2,
                       child: Row(
-                        children: List<Widget>.generate(3, (index) {
+                        children: List<Widget>.generate(jobData.images.length,
+                            (index) {
                           return AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(3),
@@ -320,7 +228,7 @@ class _DescriptionPageState extends State<DescriptionPage>
                 height: 0,
                 indent: screenWidth * 0.03,
                 endIndent: screenWidth * 0.03,
-                color: Color(0xff706E72).withOpacity(0.28),
+                color: const Color(0xff706E72).withOpacity(0.28),
               ),
               SizedBox(height: screenHeight * 0.015),
               Padding(
@@ -371,7 +279,6 @@ class _DescriptionPageState extends State<DescriptionPage>
                             navigatorPop() => Navigator.pop(context);
                             // TODO: bookmark api connect
                             if (isfollowed == true) {
-                              print("completed true");
                               circularProgressIndicatorNew(context);
                               await unFollowStudio(
                                   jobData.studio["_id"], jobData.id);
@@ -380,7 +287,6 @@ class _DescriptionPageState extends State<DescriptionPage>
                                 navigatorPop();
                               });
                             } else {
-                              print("completed false");
                               circularProgressIndicatorNew(context);
                               await followStudio(
                                   jobData.studio["_id"], jobData.id);
@@ -440,13 +346,13 @@ class _DescriptionPageState extends State<DescriptionPage>
                 height: 0,
                 indent: screenWidth * 0.03,
                 endIndent: screenWidth * 0.03,
-                color: Color(0xff706E72).withOpacity(0.28),
+                color: const Color(0xff706E72).withOpacity(0.28),
               ),
               SizedBox(height: screenHeight * 0.025),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Text(
                       "Production Details",
                       style: TextStyle(
@@ -504,7 +410,8 @@ class _DescriptionPageState extends State<DescriptionPage>
                     // Icon(Icons.calendar_month_outlined),
                     // SizedBox(width: screenWidth * 0.02),
                     Text(
-                      jobData.date,
+                      DateFormat('d MMM y')
+                          .format(DateTime.parse(jobData.date)),
                       style: TextStyle(
                         // color: Color(0xff706E72),
                         fontSize: 18,
@@ -585,7 +492,7 @@ class _DescriptionPageState extends State<DescriptionPage>
                     isApplied ? "APPLIED" : "APPLY NOW",
                     maxFontSize: 16,
                     maxLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -594,140 +501,10 @@ class _DescriptionPageState extends State<DescriptionPage>
                 ),
               ),
               SizedBox(height: screenHeight * 0.05),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-              //   child: Row(
-              //     children: const [
-              //       Text(
-              //         "Compensation & Contract Details",
-              //         style: TextStyle(
-              //           fontSize: 16,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Padding(
-              //   padding: EdgeInsets.only(
-              //     left: screenWidth * 0.03,
-              //     right: screenWidth * 0.03,
-              //     top: screenHeight * 0.02,
-              //     bottom: screenHeight * 0.025,
-              //   ),
-              //   child: Text(
-              //     descriptionData[2],
-              //     style: const TextStyle(
-              //       fontSize: 11,
-              //     ),
-              //   ),
-              // ),
-              // Divider(
-              //   thickness: 1,
-              //   height: 0,
-              //   indent: screenWidth * 0.03,
-              //   endIndent: screenWidth * 0.03,
-              //   color: Color(0xff706E72).withOpacity(0.28),
-              // ),
-              // SizedBox(height: screenHeight * 0.02),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-              //   child: Row(
-              //     children: const [
-              //       Text(
-              //         "Key Details",
-              //         style: TextStyle(
-              //           fontSize: 16,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Padding(
-              //   padding: EdgeInsets.only(
-              //     left: screenWidth * 0.03,
-              //     right: screenWidth * 0.03,
-              //     top: screenHeight * 0.02,
-              //     bottom: screenHeight * 0.02,
-              //   ),
-              //   child: Text(
-              //     jobData.keyDetails,
-              //     style: const TextStyle(
-              //       fontSize: 11,
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: AnimatedContainer(
-      //   duration: const Duration(milliseconds: 300),
-      //   width: 150,
-      //   height: 100,
-      //   alignment: Alignment(x, y),
-      //   child: InkWell(
-      //     onTap: isApplied
-      //         ? () {}
-      //         : () async {
-      //             navigatorPop() => Navigator.pop(context);
-      //             navigatorPush() =>
-      //                 Navigator.pushNamed(context, AppliedPage.routeName);
-      //             circularProgressIndicatorNew(context);
-      //             // function call
-      //             await applyJob(jobData.id, jobData.studio['_id']);
-      //             navigatorPop();
-      //             navigatorPush();
-      //           },
-      //     child: Container(
-      //       alignment: Alignment.center,
-      //       margin: const EdgeInsets.only(bottom: 5),
-      //       width: 150,
-      //       height: 40,
-      //       decoration: BoxDecoration(
-      //         borderRadius: BorderRadius.circular(8),
-      //         color: const Color(0xFFF9D422),
-      //       ),
-      //       child: Text(
-      //         isApplied ? "Applied" : "APPLY",
-      //         style: const TextStyle(fontSize: 16),
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
-
-// var renderObject = currentContext.findRenderObject();
-//           var viewport = RenderAbstractViewport.of(renderObject);
-//           var offsetToRevealBottom =
-//               viewport!.getOffsetToReveal(renderObject!, 1.0);
-//           var offsetToRevealTop = viewport.getOffsetToReveal(renderObject, 0.0);
-
-//           print(scroll);
-
-// if (scroll.metrics.axisDirection == AxisDirection.down) {
-//   print("up");
-//   if (offsetToRevealTop.offset <= scroll.metrics.pixels) {
-//     setState(() {
-//       y = 1;
-//     });
-//   } else {
-//     setState(() {
-//       y = 2.8;
-//     });
-//   }
-// } else if (scroll.metrics.axisDirection == AxisDirection.up) {
-//   print("down");
-//   if (offsetToRevealTop.offset < scroll.metrics.pixels &&
-//       offsetToRevealBottom.offset >= scroll.metrics.pixels) {
-//     setState(() {
-//       y = 2.8;
-//     });
-//   } else {
-//     setState(() {
-//       y = 1;
-//     });
-//   }
-// }

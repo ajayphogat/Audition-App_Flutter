@@ -1,8 +1,6 @@
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
-import 'package:first_app/common/data.dart';
 import 'package:first_app/model/job_post_model.dart';
-import 'package:first_app/pages/categorySection/descriptionPage.dart';
 import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,10 +26,7 @@ class _ActorGridPageState extends State<ActorGridPage> {
         category: "Actor",
         search:
             widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "");
-    // print("raja");
-    // print(_categoryJobs);
-    // print("category jobs => ${_categoryJobs}");
-    // print("here is => ${_categoryJobs![0].toJson()}");
+
     if (this.mounted) {
       setState(() {});
     }
@@ -67,47 +62,39 @@ class _ActorGridPageState extends State<ActorGridPage> {
                     "No data found",
                   ),
                 )
-              : ListView.separated(
-                  padding: EdgeInsets.symmetric(
-                      // horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.03),
-                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //   crossAxisCount: 2,
-                  //   crossAxisSpacing: 10,
-                  //   mainAxisSpacing: 10,
-                  //   mainAxisExtent: screenHeight * 0.385,
-                  // ),
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: _categoryJobs!.length,
-                  itemBuilder: (context, index) {
-                    JobModel data = _categoryJobs![index];
-                    print(data.studioName);
-                    print(data.jobType);
-                    print(data.description);
-                    print(data.id);
-                    print("applied => ${data.applicants.contains(user.id)}");
-                    return InkWell(
-                      onTap: () async {
-                        circularProgressIndicatorNew(context);
-                        await getJobDetails(data.id.toString());
-                      },
-                      child: gridViewContainer(
-                        context,
-                        screenWidth,
-                        screenHeight,
-                        data.studioName,
-                        data.jobType,
-                        data.description,
-                        data.images[0],
-                        data.id,
-                        data.studio['_id'],
-                        data.applicants.contains(user.id),
-                        updateState,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) =>
-                      SizedBox(height: screenHeight * 0.02),
+              : StatefulBuilder(
+                  builder: (context, setState) => ListView.separated(
+                    padding:
+                        EdgeInsets.symmetric(vertical: screenHeight * 0.03),
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: _categoryJobs!.length,
+                    itemBuilder: (context, index) {
+                      JobModel data = _categoryJobs![index];
+                      var showApplied = data.applicants.contains(user.id);
+                      print("abcd");
+                      return InkWell(
+                        onTap: () async {
+                          circularProgressIndicatorNew(context);
+                          await getJobDetails(data.id.toString());
+                        },
+                        child: gridViewContainer(
+                          context,
+                          screenWidth,
+                          screenHeight,
+                          data.studioName,
+                          data.jobType,
+                          data.description,
+                          data.images[0],
+                          data.id,
+                          data.studio['_id'],
+                          showApplied,
+                          getCategoryJobs,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: screenHeight * 0.02),
+                  ),
                 ),
     );
   }

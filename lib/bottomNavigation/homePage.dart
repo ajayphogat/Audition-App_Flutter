@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> getJobDetails(String jobId) async {
-    print("heyyyy");
     await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
@@ -122,91 +121,6 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                            // Container(
-                            //   alignment: Alignment.centerLeft,
-                            //   padding: EdgeInsets.only(
-                            //       left: screenWidth * 0.05,
-                            //       right: screenWidth * 0.05,
-                            //       top: screenHeight * 0.085,
-                            //       bottom: screenHeight * 0.03),
-                            //   child: Column(
-                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                            //     children: [
-                            //       Text(
-                            //         "Hi, ${user.fname.split(" ")[0]}",
-                            //         style: const TextStyle(
-                            //           fontFamily: fontFamily,
-                            //           fontSize: 35,
-                            //         ),
-                            //       ),
-                            //       const Text(
-                            //         "Welcome.........",
-                            //         style: TextStyle(
-                            //           fontFamily: fontFamily,
-                            //           color: placeholderTextColor,
-                            //           fontSize: 16,
-                            //         ),
-                            //       ),
-                            //       const SizedBox(height: 10),
-                            //       Material(
-                            //         elevation: 5,
-                            //         borderRadius: BorderRadius.circular(8),
-                            //         child: Container(
-                            //           padding: const EdgeInsets.only(left: 10),
-                            //           decoration: BoxDecoration(
-                            //             borderRadius: BorderRadius.circular(8),
-                            //             color: Colors.white,
-                            //           ),
-                            //           child: TextFormField(
-                            //             controller: _searchEdit,
-                            //             textInputAction: TextInputAction.go,
-                            //             decoration: InputDecoration(
-                            //               hintText: "Search here....",
-                            //               hintStyle: const TextStyle(
-                            //                 fontSize: 18,
-                            //                 color: placeholderTextColor,
-                            //               ),
-                            //               border: InputBorder.none,
-                            //               suffixIcon: SizedBox(
-                            //                 width: screenWidth * 0.20,
-                            //                 child: Row(
-                            //                   children: [
-                            //                     InkWell(
-                            //                       onTap: () {
-                            //                         print(_searchEdit.text);
-                            //                         if (_searchEdit.text.isNotEmpty) {
-                            //                           Navigator.pushNamed(context,
-                            //                               CategoryDetailPage.routeName,
-                            //                               arguments: [
-                            //                                 0,
-                            //                                 _searchEdit.text
-                            //                               ]);
-                            //                         }
-                            //                       },
-                            //                       child: SvgPicture.asset(
-                            //                         "asset/images/illustration/bytesize_search.svg",
-                            //                         color: placeholderTextColor,
-                            //                       ),
-                            //                     ),
-                            //                     IconButton(
-                            //                         onPressed: () {
-                            //                           _searchEdit.text = "";
-                            //                         },
-                            //                         icon: const Icon(
-                            //                           MyFlutterApp.gridicons_cross,
-                            //                           size: 20,
-                            //                           color: placeholderTextColor,
-                            //                         )),
-                            //                   ],
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -227,7 +141,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: TextFormField(
                               onFieldSubmitted: (String value) {
-                                print(value);
                                 if (value.isNotEmpty) {
                                   Navigator.pushNamed(
                                       context, CategoryDetailPage.routeName,
@@ -256,36 +169,6 @@ class _HomePageState extends State<HomePage> {
                                   child: Image.asset("asset/icons/search.png",
                                       fit: BoxFit.contain),
                                 ),
-                                // suffixIcon: SizedBox(
-                                //   width: screenWidth * 0.20,
-                                //   child: Row(
-                                //     children: [
-                                //       InkWell(
-                                //         onTap: () {
-                                //           print(_searchEdit.text);
-                                //           if (_searchEdit.text.isNotEmpty) {
-                                //             Navigator.pushNamed(
-                                //                 context, CategoryDetailPage.routeName,
-                                //                 arguments: [0, _searchEdit.text]);
-                                //           }
-                                //         },
-                                //         child: SvgPicture.asset(
-                                //           "asset/images/illustration/bytesize_search.svg",
-                                //           color: placeholderTextColor,
-                                //         ),
-                                //       ),
-                                //       IconButton(
-                                //           onPressed: () {
-                                //             _searchEdit.text = "";
-                                //           },
-                                //           icon: const Icon(
-                                //             MyFlutterApp.gridicons_cross,
-                                //             size: 20,
-                                //             color: placeholderTextColor,
-                                //           )),
-                                //     ],
-                                //   ),
-                                // ),
                               ),
                             ),
                           ),
@@ -411,7 +294,9 @@ class _HomePageState extends State<HomePage> {
                                         child: textContainer(
                                           screenWidth,
                                           screenHeight,
-                                          job.description.substring(0, 21),
+                                          job.description.length > 20
+                                              ? job.description.substring(0, 21)
+                                              : job.description,
                                           job.studioName.length > 25
                                               ? job.studioName.substring(0, 24)
                                               : job.studioName,

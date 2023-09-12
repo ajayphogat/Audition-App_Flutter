@@ -23,20 +23,17 @@ class _ChefGridPageState extends State<ChefGridPage> {
   List<JobModel>? _categoryJobs;
 
   getCategoryJobs() async {
-    print("start");
     _categoryJobs = await otherService.categoryJobs(
       context: context,
       category: "Chef",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {
-      print("rrr");
       setState(() {});
     }
   }
 
   Future<void> getJobDetails(String jobId) async {
-    print("heyyyy");
     await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
@@ -81,7 +78,6 @@ class _ChefGridPageState extends State<ChefGridPage> {
                     JobModel data = _categoryJobs![index];
                     return InkWell(
                       onTap: () async {
-                        print(data.id);
                         circularProgressIndicatorNew(context);
                         await getJobDetails(data.id.toString());
                       },

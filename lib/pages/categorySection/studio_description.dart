@@ -230,7 +230,6 @@ class _StudioDescriptionPageState extends State<StudioDescriptionPage>
                                 navigatorPop() => Navigator.pop(context);
                                 // TODO: bookmark api connect
                                 if (isfollowed == true) {
-                                  print("completed true");
                                   circularProgressIndicatorNew(context);
                                   await unFollowStudio(
                                       jobData.studio["_id"], jobData.id);
@@ -239,7 +238,6 @@ class _StudioDescriptionPageState extends State<StudioDescriptionPage>
                                     navigatorPop();
                                   });
                                 } else {
-                                  print("completed false");
                                   circularProgressIndicatorNew(context);
                                   await followStudio(
                                       jobData.studio["_id"], jobData.id);
@@ -499,37 +497,3 @@ class _StudioDescriptionPageState extends State<StudioDescriptionPage>
     );
   }
 }
-
-
-// var renderObject = currentContext.findRenderObject();
-//           var viewport = RenderAbstractViewport.of(renderObject);
-//           var offsetToRevealBottom =
-//               viewport!.getOffsetToReveal(renderObject!, 1.0);
-//           var offsetToRevealTop = viewport.getOffsetToReveal(renderObject, 0.0);
-
-//           print(scroll);
-
-          // if (scroll.metrics.axisDirection == AxisDirection.down) {
-          //   print("up");
-          //   if (offsetToRevealTop.offset <= scroll.metrics.pixels) {
-          //     setState(() {
-          //       y = 1;
-          //     });
-          //   } else {
-          //     setState(() {
-          //       y = 2.8;
-          //     });
-          //   }
-          // } else if (scroll.metrics.axisDirection == AxisDirection.up) {
-          //   print("down");
-          //   if (offsetToRevealTop.offset < scroll.metrics.pixels &&
-          //       offsetToRevealBottom.offset >= scroll.metrics.pixels) {
-          //     setState(() {
-          //       y = 2.8;
-          //     });
-          //   } else {
-          //     setState(() {
-          //       y = 1;
-          //     });
-          //   }
-          // }

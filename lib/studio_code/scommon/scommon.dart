@@ -267,7 +267,6 @@ AppBar basicAppBar(
             IconButton(
               icon: const Icon(MyFlutterApp.bi_arrow_down, color: Colors.black),
               onPressed: () {
-                // print(tabController.index);
                 if (data == categoryData) {
                   Navigator.pop(context);
                 }
@@ -302,8 +301,6 @@ AppBar basicAppBar(
                         children: [
                           InkWell(
                             onTap: () {
-                              print(tabController.index);
-                              print(searchEdit.text);
                               if (searchEdit.text.isNotEmpty) {
                                 Navigator.pushNamed(
                                     context, SMyApplicationPage.routeName,
@@ -311,7 +308,6 @@ AppBar basicAppBar(
                                       tabController.index,
                                       searchEdit.text
                                     ]);
-                                print("Search");
                               }
                             },
                             child: SvgPicture.asset(

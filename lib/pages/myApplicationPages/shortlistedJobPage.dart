@@ -27,14 +27,12 @@ class _ShortlistedJobPageState extends State<ShortlistedJobPage> {
       working: "shortlisted",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
-    print(_appliedJobs);
     if (this.mounted) {
       setState(() {});
     }
   }
 
   Future<void> getJobDetails(String jobId) async {
-    print("heyyyy");
     await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
@@ -65,7 +63,6 @@ class _ShortlistedJobPageState extends State<ShortlistedJobPage> {
                       JobModel1 data = _appliedJobs![index];
                       return InkWell(
                         onTap: () async {
-                          print(data.id);
                           circularProgressIndicatorNew(context);
                           await getJobDetails(data.id.toString());
                         },

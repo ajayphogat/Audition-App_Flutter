@@ -50,48 +50,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     await authService.switchToStudio(context: context);
   }
 
-  // getWorkingJobs() async {
-  //   _appliedJobs = await otherService.showWorkingJobs(
-  //     context: context,
-  //     working: "applied",
-  //   );
-  //   print(_appliedJobs);
-  //   if (this.mounted) {
-  //     setState(() {});
-  //   }
-  // }
-
-  // void generateThumbnail(List<String> userVideos) async {
-  //   for (var video in userVideos) {
-  //     final ab = await VideoThumbnail.thumbnailFile(
-  //         video: video,
-  //         imageFormat: ImageFormat.JPEG,
-  //         thumbnailPath: (await getTemporaryDirectory()).path);
-  //     print("ab");
-  //     print(ab);
-  //     videoThumbnailList.add(ab);
-  //   }
-  //   setState(() {});
-  // }
-
-  // Future<void> generateThumbnail1(List<String> userVideos) async {
-  //   if (videoThumbnailList.length > 0) {
-  //     videoThumbnailList = [];
-  //   }
-  //   for (var video in userVideos) {
-  //     final ab = await VideoThumbnail.thumbnailFile(
-  //         video: video,
-  //         imageFormat: ImageFormat.JPEG,
-  //         thumbnailPath: (await getTemporaryDirectory()).path);
-  //     print("ab");
-  //     print(ab);
-  //     videoThumbnailList.add(ab);
-  //   }
-  //   setState(() {});s
-  // }
-
   Future<void> deleteMedia(List<String> media, String mediaType) async {
-    print(media);
     if (mediaType == "videos") {
       await _firebaseStorage.refFromURL(media[0]).delete();
       await _firebaseStorage.refFromURL(media[1]).delete();
@@ -137,32 +96,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
     double screenWidth = MediaQuery.of(context).size.width;
     var user = Provider.of<UserProvider>(context).user;
     var sUser = Provider.of<StudioProvider>(context).user;
-    print(user.fname);
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Container(
-      //     width: screenWidth,
-      //     child: Image.asset("asset/images/uiImages/media_appbar.png"),
-      //   ),
-      // ),
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.white,
-      //   leading: IconButton(
-      //       onPressed: () {
-      //         Navigator.pop(context);
-      //       },
-      //       icon: const Icon(
-      //         MyFlutterApp.bi_arrow_down,
-      //         color: Colors.black,
-      //       )),
-      //   actions: [
-      //     IconButton(
-      //         onPressed: () {},
-      //         icon: const Icon(Icons.notifications_none_rounded,
-      //             color: Colors.black)),
-      //   ],
-      // ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -173,7 +107,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   Image.asset("asset/images/uiImages/Home.png"),
                   Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: screenWidth,
                         height: screenHeight * 0.705,
                         child: Stack(
@@ -222,14 +156,14 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Icon(
-                                          Icons.arrow_back_ios_sharp,
-                                        ),
-                                      ),
+                                      // InkWell(
+                                      //   onTap: () {
+                                      //     Navigator.pop(context);
+                                      //   },
+                                      //   child: const Icon(
+                                      //     Icons.arrow_back_ios_sharp,
+                                      //   ),
+                                      // ),
                                       SizedBox(width: screenWidth * 0.04),
                                       const AutoSizeText(
                                         "My Profile",
@@ -328,13 +262,13 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                                   ? "Empty"
                                                   : user.bio,
                                               maxFontSize: 12,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 12,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w300,
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               child: Divider(
                                                 thickness: 1,
                                                 color: Colors.black12,
@@ -356,7 +290,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              AutoSizeText(
+                                              const AutoSizeText(
                                                 "Age",
                                                 maxFontSize: 12,
                                                 style: TextStyle(
@@ -370,7 +304,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                                     ? "Empty"
                                                     : "${user.age} years",
                                                 maxFontSize: 16,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w600,
@@ -382,7 +316,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              AutoSizeText(
+                                              const AutoSizeText(
                                                 "Height",
                                                 maxFontSize: 12,
                                                 style: TextStyle(
@@ -396,7 +330,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                                     ? "Empty"
                                                     : user.height,
                                                 maxFontSize: 16,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w600,
@@ -408,7 +342,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              AutoSizeText(
+                                              const AutoSizeText(
                                                 "Weight",
                                                 maxFontSize: 12,
                                                 style: TextStyle(
@@ -422,7 +356,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                                     ? "Empty"
                                                     : "${user.weight} KG",
                                                 maxFontSize: 16,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w600,
@@ -436,16 +370,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                   ],
                                 ),
                               ),
-                              // child: Container(
-                              //   width: screenWidth * 0.9,
-                              //   height: screenHeight * 0.25,
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(15),
-                              //     color: Colors.grey.shade100.withOpacity(0.8),
-
-                              //   ),
-                              //   child: Text("Jane Doe"),
-                              // ),
                             ),
                           ],
                         ),
@@ -558,179 +482,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                           ],
                         ),
                       ),
-
-                      // child: Stack(
-                      //   children: [
-                      //     Container(
-                      //       width: screenWidth,
-                      //       height: screenHeight * 0.5,
-                      //       decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.only(
-                      //           bottomLeft: Radius.circular(150),
-                      //         ),
-                      //         color: Colors.red,
-                      //       ),
-                      //     ),
-                      //     Image.asset("asset/images/uiImages/media_appbar.png"),
-                      //     Positioned(
-                      //       top: screenHeight * 0.015,
-                      //       left: screenWidth * 0.025,
-                      //       child: Row(
-                      //         children: [
-                      //           Icon(Icons.arrow_back_ios_sharp),
-                      //           SizedBox(width: screenWidth * 0.04),
-                      //           AutoSizeText(
-                      //             "My Profile",
-                      //             maxFontSize: 22,
-                      //             style: TextStyle(
-                      //               fontSize: 22,
-                      //               color: Colors.black,
-                      //               fontWeight: FontWeight.w600,
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //       width: screenWidth,
-                      //       height: screenHeight * 0.2,
-                      //       decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(10),
-
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // ),
-                      // Container(
-                      //   width: screenWidth,
-                      //   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Text(
-                      //         user.fname,
-                      //         style: const TextStyle(fontSize: 20),
-                      //       ),
-                      //       Container(
-                      //         width: screenWidth,
-                      //         height: screenHeight * 0.15,
-                      //         margin: EdgeInsets.only(top: screenHeight * 0.03),
-                      //         child: Row(
-                      //           children: [
-                      //             Container(
-                      //               width: screenWidth * 0.25,
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius: BorderRadius.circular(10),
-                      //               ),
-                      //               child: ClipRRect(
-                      //                 borderRadius: BorderRadius.circular(10),
-                      //                 child: user.profilePic.isEmpty
-                      //                     ? Container(
-                      //                         color: Colors.black,
-                      //                       )
-                      //                     : CachedNetworkImage(
-                      //                         imageUrl: user.profilePic,
-                      //                         fit: BoxFit.cover,
-                      //                       ),
-                      //                 // Image.asset("asset/images/uiImages/actor.jpg",
-                      //                 //     fit: BoxFit.cover),
-                      //               ),
-                      //             ),
-                      //             SizedBox(
-                      //               width: screenWidth * 0.67,
-                      //               height: screenHeight * 0.20,
-                      //               child: Column(
-                      //                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //                 children: [
-                      //                   Row(
-                      //                     mainAxisAlignment: MainAxisAlignment.start,
-                      //                     children: [
-                      //                       Padding(
-                      //                         padding: EdgeInsets.only(
-                      //                             left: screenWidth * 0.06),
-                      //                         child: Text(
-                      //                           user.category,
-                      //                           style: const TextStyle(
-                      //                             fontSize: 20,
-                      //                           ),
-                      //                         ),
-                      //                       ),
-                      //                     ],
-                      //                   ),
-                      //                   Row(
-                      //                     mainAxisAlignment:
-                      //                         MainAxisAlignment.spaceAround,
-                      //                     children: [
-                      //                       Column(
-                      //                         children: [
-                      //                           Text(
-                      //                             user.applied.length.toString(),
-                      //                             style: const TextStyle(
-                      //                               fontSize: 22,
-                      //                               fontWeight: FontWeight.w800,
-                      //                             ),
-                      //                           ),
-                      //                           const Text(
-                      //                             "Applied Jobs",
-                      //                             style: TextStyle(
-                      //                               fontSize: 18,
-                      //                             ),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                       Column(
-                      //                         children: [
-                      //                           Text(
-                      //                             user.following.length.toString(),
-                      //                             style: const TextStyle(
-                      //                               fontSize: 22,
-                      //                               fontWeight: FontWeight.w800,
-                      //                             ),
-                      //                           ),
-                      //                           const Text(
-                      //                             "Following",
-                      //                             style: TextStyle(
-                      //                               fontSize: 18,
-                      //                             ),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                     ],
-                      //                   ),
-                      //                   Row(
-                      //                     children: [
-                      //                       // sUser.id.isEmpty
-                      //                       //     ?
-                      //                       SizedBox(
-                      //                         width: screenWidth * 0.25,
-                      //                         height: screenHeight * 0.025,
-                      //                       )
-                      //                       // : Container(
-                      //                       //     width: screenWidth * 0.25,
-                      //                       //     height: screenHeight * 0.025,
-                      //                       //     margin: EdgeInsets.only(
-                      //                       //         left: screenWidth * 0.05),
-                      //                       //     alignment: Alignment.center,
-                      //                       //     decoration: BoxDecoration(
-                      //                       //       borderRadius:
-                      //                       //           BorderRadius.circular(5),
-                      //                       //       color: secondoryColor,
-                      //                       //     ),
-                      //                       //     child: const Text("Follow"),
-                      //                       //   ),
-                      //                     ],
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       Container(
                         width: screenWidth,
                         height: screenHeight * 0.001,
@@ -743,13 +494,9 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                           // color: const Color(0xffFADA43),
                           color: Colors.transparent,
                         ),
-                        // margin: EdgeInsets.only(top: screenHeight * 0.03),
-                        // height: screenHeight * 0.04,
-
                         child: TabBar(
                           controller: _tabController,
                           physics: const NeverScrollableScrollPhysics(),
-
                           labelStyle: const TextStyle(
                             fontFamily: fontFamily,
                             fontWeight: FontWeight.normal,
@@ -758,8 +505,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                           isScrollable: true,
                           indicatorColor: Colors.transparent,
                           labelColor: Colors.transparent,
-                          // indicatorColor: thirdColor,
-                          // labelColor: thirdColor,
                           unselectedLabelColor: Colors.black,
                           indicatorSize: TabBarIndicatorSize.label,
                           tabs: [
@@ -772,12 +517,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                             Tab(
                               text: profileMediaData[2],
                             ),
-                            // Tab(
-                            //   text: profileMediaData[3],
-                            // ),
-                            //   Tab(
-                            //     text: profileMediaData[4],
-                            //   ),
                           ],
                         ),
                       ),
@@ -794,9 +533,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                 screenWidth, screenHeight, user, sUser),
                             mediaAudioSection(
                                 screenWidth, screenHeight, user, sUser),
-                            // mediaDocumentSection(
-                            //     screenWidth, screenHeight, user, sUser),
-                            // mediaDraftSection(screenWidth, screenHeight),
                           ],
                         ),
                       ),
@@ -817,11 +553,11 @@ class _MediaProfilePageState extends State<MediaProfilePage>
         Container(
           margin: EdgeInsets.symmetric(
               horizontal: screenWidth * 0.04, vertical: screenHeight * 0.025),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                children: const [
+                children: [
                   Icon(
                     MyFlutterApp.live_fill,
                     color: placeholderTextColor,
@@ -837,7 +573,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ),
                 ],
               ),
-              const Icon(MyFlutterApp.fluent_add_circle_24_filled),
+              Icon(MyFlutterApp.fluent_add_circle_24_filled),
             ],
           ),
         ),
@@ -893,7 +629,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ? Container()
                   : InkWell(
                       onTap: () async {
-                        print(user.documents.length);
                         navigatorPop() => Navigator.pop(context);
                         circularProgressIndicatorNew(context);
                         await BottomMediaUp()
@@ -942,7 +677,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ? Container()
                   : InkWell(
                       onTap: () async {
-                        print(user.audios.length);
                         navigatorPop() => Navigator.pop(context);
                         circularProgressIndicatorNew(context);
                         await BottomMediaUp()
@@ -991,7 +725,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ? Container()
                   : InkWell(
                       onTap: () async {
-                        print(user.videos.length);
                         navigatorPop() => Navigator.pop(context);
                         circularProgressIndicatorNew(context);
                         await BottomMediaUp()
@@ -1041,7 +774,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ? Container()
                   : InkWell(
                       onTap: () {
-                        print(user.photos.length);
                         BottomMediaUp()
                             .showPickerMedia(context, user.id, "photos");
                       },
@@ -1143,9 +875,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                     child: PhotoViewGallery.builder(
                                       itemCount: user.photos.length,
                                       builder: (context, i) {
-                                        // i = index;
-                                        // print(i);
-                                        // print("i = index");
                                         return PhotoViewGalleryPageOptions(
                                           imageProvider:
                                               CachedNetworkImageProvider(
@@ -1260,8 +989,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
               ),
               itemCount: user.thumbnailVideo.length,
               itemBuilder: (context, index) {
-                print("thumbnail length");
-                print(user.thumbnailVideo.length);
                 return InkWell(
                   onLongPress: () {
                     newDialogDelete(

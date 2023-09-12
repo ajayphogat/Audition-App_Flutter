@@ -351,8 +351,12 @@ class _SignupPageState extends State<SignupPage> {
                   InkWell(
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus &&
+                            currentFocus.focusedChild != null) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        }
                         if (account == "Audition") {
-                          print("audition");
                           setState(() {
                             isLoading = !isLoading;
                           });
@@ -361,7 +365,6 @@ class _SignupPageState extends State<SignupPage> {
                             isLoading = !isLoading;
                           });
                         } else {
-                          print("studio");
                           // showSnackBar(context, "Not Now");
                           setState(() {
                             isLoading = !isLoading;

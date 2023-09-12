@@ -318,6 +318,11 @@ class _LoginPageState extends State<LoginPage> {
                   InkWell(
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus &&
+                            currentFocus.focusedChild != null) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        }
                         if (account == "Audition") {
                           setState(() {
                             isLoading = !isLoading;

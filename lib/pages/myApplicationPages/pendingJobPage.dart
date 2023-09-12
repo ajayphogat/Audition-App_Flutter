@@ -5,25 +5,24 @@ import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:flutter/material.dart';
 
-class DeclinedJobPage extends StatefulWidget {
-  const DeclinedJobPage({Key? key, required this.searchEdit}) : super(key: key);
+class PendingJobPage extends StatefulWidget {
+  const PendingJobPage({Key? key, required this.searchEdit}) : super(key: key);
 
-  static const String routeName = "/declinedJob-page";
-
+  static const String routeName = "/pendingJob-page";
   final TextEditingController searchEdit;
 
   @override
-  State<DeclinedJobPage> createState() => _DeclinedJobPageState();
+  State<PendingJobPage> createState() => _PendingJobPageState();
 }
 
-class _DeclinedJobPageState extends State<DeclinedJobPage> {
+class _PendingJobPageState extends State<PendingJobPage> {
   final OtherService otherService = OtherService();
   List<JobModel1>? _appliedJobs;
 
   getWorkingJobs() async {
     _appliedJobs = await otherService.showWorkingJobs(
       context: context,
-      working: "declined",
+      working: "pending",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {

@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/creditsPage.dart';
@@ -16,18 +13,11 @@ import 'package:first_app/pages/myProfilePages/detailPages/membershipPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/skillsPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
-import 'package:first_app/pages/myProfilePages/mediaPage.dart';
 import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/utils/bottom_gallary_up.dart';
-import 'package:first_app/utils/showSnackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../provider/user_provider.dart';
-import 'package:path/path.dart' as p;
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -57,107 +47,6 @@ class _MyProfilePageState extends State<MyProfilePage>
     await authService.switchToStudio(context: context);
   }
 
-  // Future pickImages(String userId) async {
-  //   showsnack(e) => showSnackBar(context, e.toString());
-  //   try {
-  //     var files = await FilePicker.platform.pickFiles(
-  //       type: FileType.custom,
-  //       allowMultiple: false,
-  //       allowedExtensions: ['jpeg', 'jpg', 'png'],
-  //     );
-  //     if (files != null && files.files.isNotEmpty) {
-  //       profilePic = File(files.files[0].path!);
-  //       final fileName = p.basename(profilePic!.path);
-  //       try {
-  //         //Upload to Firebase
-  //         var snapshot = await _firebaseStorage
-  //             .ref()
-  //             .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
-  //             .putFile(profilePic!)
-  //             .whenComplete(() {});
-  //         var downloadUrl = await snapshot.ref.getDownloadURL();
-  //         print(snapshot.state);
-  //         print(downloadUrl);
-  //         await uploadProfilePic(downloadUrl);
-  //       } catch (e) {
-  //         showsnack(e);
-  //       }
-  //     } else {
-  //       showsnack("No Image Selected");
-  //     }
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
-
-  // Future<void> uploadImageGallary(String userId) async {
-  //   final imagePicker = ImagePicker();
-  //   // File? image;
-  //   showsnack(e) => showSnackBar(context, e.toString());
-
-  //   final image = await imagePicker.pickImage(source: ImageSource.gallery);
-  //   var file = File(image!.path);
-
-  //   if (image != null) {
-  //     final fileName = p.basename(file.path);
-  //     // setState(() {
-  //     //   profilePic = file;
-  //     // });
-
-  //     try {
-  //       //Upload to Firebase
-  //       var snapshot = await _firebaseStorage
-  //           .ref()
-  //           .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
-  //           .putFile(file);
-  //       var downloadUrl = await snapshot.ref.getDownloadURL();
-  //       print(downloadUrl);
-  //       await uploadProfilePic(downloadUrl);
-  //     } catch (e) {
-  //       showsnack(e);
-  //     }
-  //   } else {
-  //     showsnack("No Image Selected");
-  //   }
-  // }
-
-  // Future imgFromCamera(String userId) async {
-  //   final imagePicker = ImagePicker();
-  //   final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
-  //   showsnack(e) => showSnackBar(context, e.toString());
-
-  //   if (pickedFile != null) {
-  //     var file = File(pickedFile.path);
-  //     final fileName = p.basename(file.path);
-  //     setState(() {
-  //       profilePic = file;
-  //     });
-
-  //     try {
-  //       //Upload to Firebase
-  //       var snapshot = await _firebaseStorage
-  //           .ref()
-  //           .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
-  //           .putFile(file)
-  //           .whenComplete(() {
-  //         print("completed");
-  //       });
-  //       var downloadUrl = await snapshot.ref.getDownloadURL();
-  //       print(snapshot.state);
-  //       print(downloadUrl);
-  //       await uploadProfilePic(downloadUrl);
-  //     } catch (e) {
-  //       showsnack(e.toString());
-  //     }
-  //   } else {
-  //     showsnack("No image selected");
-  //   }
-  // }
-
-  // Future<void> uploadProfilePic(String url) async {
-  //   await authService.updateProfilePic(context: context, profilePicUrl: url);
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -177,9 +66,6 @@ class _MyProfilePageState extends State<MyProfilePage>
     double screenWidth = MediaQuery.of(context).size.width;
     var user = Provider.of<UserProvider>(context).user;
     var studioUser = Provider.of<StudioProvider>(context).user;
-    print("profile pic");
-    print(user.profilePic.isEmpty);
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -446,7 +332,9 @@ class _MyProfilePageState extends State<MyProfilePage>
                                     ),
                                     SizedBox(height: screenHeight * 0.02),
                                     AutoSizeText(
-                                      "You are currently using the monthly ${user.subscriptionName} plan expiring on 29 August 2023. Upgrade your subscription plan to continue using the app.",
+                                      user.subscriptionName == "Free"
+                                          ? "You are currently using the monthly ${user.subscriptionName} plan. Upgrade your subscription plan to continue using the app."
+                                          : "You are currently using the monthly ${user.subscriptionName} plan.",
                                       maxFontSize: 12,
                                       minFontSize: 10,
                                       style: TextStyle(
@@ -912,18 +800,13 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  InkWell(
-                                    onTap: () {
-                                      print(user.skills);
-                                    },
-                                    child: AutoSizeText(
-                                      "Skills",
-                                      maxFontSize: 16,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  const AutoSizeText(
+                                    "Skills",
+                                    maxFontSize: 16,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   studioUser.id.isNotEmpty
@@ -933,7 +816,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             Navigator.pushNamed(
                                                 context, SkillsPage.routeName);
                                           },
-                                          child: AutoSizeText(
+                                          child: const AutoSizeText(
                                             "Edit",
                                             maxFontSize: 12,
                                             style: TextStyle(
@@ -1008,18 +891,13 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  InkWell(
-                                    onTap: () {
-                                      print(user.unionMembership);
-                                    },
-                                    child: AutoSizeText(
-                                      "Union Membership",
-                                      maxFontSize: 16,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  const AutoSizeText(
+                                    "Union Membership",
+                                    maxFontSize: 16,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   studioUser.id.isNotEmpty
@@ -1029,7 +907,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             Navigator.pushNamed(context,
                                                 MembershipPage.routeName);
                                           },
-                                          child: AutoSizeText(
+                                          child: const AutoSizeText(
                                             "Edit",
                                             maxFontSize: 12,
                                             style: TextStyle(
@@ -1126,18 +1004,13 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  InkWell(
-                                    onTap: () {
-                                      print(user.socialMedia);
-                                    },
-                                    child: AutoSizeText(
-                                      "Social Media",
-                                      maxFontSize: 16,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  const AutoSizeText(
+                                    "Social Media",
+                                    maxFontSize: 16,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   studioUser.id.isNotEmpty
@@ -1147,7 +1020,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             Navigator.pushNamed(context,
                                                 SocialMediaPage.routeName);
                                           },
-                                          child: AutoSizeText(
+                                          child: const AutoSizeText(
                                             "Edit",
                                             maxFontSize: 12,
                                             style: TextStyle(
@@ -1267,18 +1140,13 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  InkWell(
-                                    onTap: () {
-                                      print(user.credits);
-                                    },
-                                    child: AutoSizeText(
-                                      "Credits",
-                                      maxFontSize: 16,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  const AutoSizeText(
+                                    "Credits",
+                                    maxFontSize: 16,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   studioUser.id.isNotEmpty
@@ -1288,7 +1156,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             Navigator.pushNamed(
                                                 context, CreditsPage.routeName);
                                           },
-                                          child: AutoSizeText(
+                                          child: const AutoSizeText(
                                             "Edit",
                                             maxFontSize: 12,
                                             style: TextStyle(

@@ -230,7 +230,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 onTap: _phone.text.length < 10
                     ? () {}
                     : () async {
-                        print("phone text => ${_phone.text}");
                         circularProgressIndicatorNew(context);
                         if (account == "Audition") {
                           await forgotPassword(context, (_phone.text).trim());

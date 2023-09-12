@@ -501,65 +501,62 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              UsePaypal(
-                                                sandboxMode: true,
-                                                onSuccess: (Map params) async {
-                                                  navigatePop() =>
-                                                      Navigator.pop(context);
-                                                  circularProgressIndicatorNew(
-                                                      context);
-                                                  print("onSuccess: $params");
-                                                  await updateSubscription(
-                                                      "Platinum", "96.84");
-                                                  navigatePop();
-                                                },
-                                                onError: (error) {
-                                                  print("onError: $error");
-                                                  showSnackBar(context,
-                                                      error.toString());
-                                                },
-                                                onCancel: (params) {
-                                                  print("canceled: $params");
-                                                  showSnackBar(context, params);
-                                                },
-                                                returnURL:
-                                                    "https://samplesite.com/return",
-                                                cancelURL:
-                                                    "https://samplesite.com/cancel",
-                                                transactions: [
+                                        builder: (BuildContext context) =>
+                                            UsePaypal(
+                                          sandboxMode: false,
+                                          onSuccess: (Map params) async {
+                                            navigatePop() =>
+                                                Navigator.pop(context);
+                                            circularProgressIndicatorNew(
+                                                context);
+                                            await updateSubscription(
+                                                "Platinum", "96.84");
+                                            navigatePop();
+                                          },
+                                          onError: (error) {
+                                            showSnackBar(
+                                                context, error.toString());
+                                          },
+                                          onCancel: (params) {
+                                            showSnackBar(context, params);
+                                          },
+                                          returnURL:
+                                              "https://samplesite.com/return",
+                                          cancelURL:
+                                              "https://samplesite.com/cancel",
+                                          transactions: [
+                                            {
+                                              "amount": {
+                                                "total": "96.84",
+                                                "currency": "USD",
+                                                "details": {
+                                                  "subtotal": "96.84",
+                                                  "shipping": "0",
+                                                  "shipping_discount": 0
+                                                }
+                                              },
+                                              "description":
+                                                  "The payment transaction description",
+                                              "item_list": {
+                                                "items": [
                                                   {
-                                                    "amount": {
-                                                      "total": "96.84",
-                                                      "currency": "USD",
-                                                      "details": {
-                                                        "subtotal": "96.84",
-                                                        "shipping": "0",
-                                                        "shipping_discount": 0
-                                                      }
-                                                    },
-                                                    "description":
-                                                        "The payment transaction description",
-                                                    "item_list": {
-                                                      "items": [
-                                                        {
-                                                          "name":
-                                                              "A demo product",
-                                                          "quantity": 1,
-                                                          "price": "96.84",
-                                                          "currency": "USD"
-                                                        }
-                                                      ],
-                                                    }
+                                                    "name": "A demo product",
+                                                    "quantity": 1,
+                                                    "price": "96.84",
+                                                    "currency": "USD"
                                                   }
                                                 ],
-                                                note:
-                                                    "Contact us for any questions on your order.",
-                                                clientId:
-                                                    "AeUtJ9WFeXrkKOkpoQdzgAf7h94_2yqew6mRAmgrDISYRUuZ2fXGSD8FqeQ_lDfV9Li6VxgvpVAs-sDQ",
-                                                secretKey:
-                                                    "EFi7Xi1NlV62-dhzrIaD3a5Q7dOSgmqrpeOGyw1kl4D7x3gQsDlz-Uf1XltbowPlQz9KYW2QIOrfjYCd",
-                                              )),
+                                              }
+                                            }
+                                          ],
+                                          note:
+                                              "Contact us for any questions on your order.",
+                                          clientId:
+                                              "Ad0bmje1jZ7jEuOosaOb_B4IKfluOldXdmCAAai4y0VKsGCUQosAJghTE76_3DLq6NfRttuDXIDZM8KU",
+                                          secretKey:
+                                              "EBD9rXSI98EGlvvXFIAhCO3eSXgcpAk0368jlAyZDsHU2Paam_GsK27BLkA6fZwIy4BFl_OhuVTOCuZQ",
+                                        ),
+                                      ),
                                     );
                                   },
                                   child: Container(
@@ -824,24 +821,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
                                               UsePaypal(
-                                                sandboxMode: true,
+                                                sandboxMode: false,
                                                 onSuccess: (Map params) async {
                                                   navigatePop() =>
                                                       Navigator.pop(context);
                                                   circularProgressIndicatorNew(
                                                       context);
-                                                  print("onSuccess: $params");
                                                   await updateSubscription(
                                                       "Gold", "60.52");
                                                   navigatePop();
                                                 },
                                                 onError: (error) {
-                                                  print("onError: $error");
                                                   showSnackBar(context,
                                                       error.toString());
                                                 },
                                                 onCancel: (params) {
-                                                  print("canceled: $params");
                                                   showSnackBar(context, params);
                                                 },
                                                 returnURL:
@@ -877,9 +871,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                                 note:
                                                     "Contact us for any questions on your order.",
                                                 clientId:
-                                                    "AeUtJ9WFeXrkKOkpoQdzgAf7h94_2yqew6mRAmgrDISYRUuZ2fXGSD8FqeQ_lDfV9Li6VxgvpVAs-sDQ",
+                                                    "Ad0bmje1jZ7jEuOosaOb_B4IKfluOldXdmCAAai4y0VKsGCUQosAJghTE76_3DLq6NfRttuDXIDZM8KU",
                                                 secretKey:
-                                                    "EFi7Xi1NlV62-dhzrIaD3a5Q7dOSgmqrpeOGyw1kl4D7x3gQsDlz-Uf1XltbowPlQz9KYW2QIOrfjYCd",
+                                                    "EBD9rXSI98EGlvvXFIAhCO3eSXgcpAk0368jlAyZDsHU2Paam_GsK27BLkA6fZwIy4BFl_OhuVTOCuZQ",
                                               )),
                                     );
                                   },
@@ -1145,24 +1139,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
                                               UsePaypal(
-                                                sandboxMode: true,
+                                                sandboxMode: false,
                                                 onSuccess: (Map params) async {
                                                   navigatePop() =>
                                                       Navigator.pop(context);
                                                   circularProgressIndicatorNew(
                                                       context);
-                                                  print("onSuccess: $params");
                                                   await updateSubscription(
                                                       "Silver", "36.31");
                                                   navigatePop();
                                                 },
                                                 onError: (error) {
-                                                  print("onError: $error");
                                                   showSnackBar(context,
                                                       error.toString());
                                                 },
                                                 onCancel: (params) {
-                                                  print("canceled: $params");
                                                   showSnackBar(context, params);
                                                 },
                                                 returnURL:
@@ -1198,9 +1189,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                                 note:
                                                     "Contact us for any questions on your order.",
                                                 clientId:
-                                                    "AeUtJ9WFeXrkKOkpoQdzgAf7h94_2yqew6mRAmgrDISYRUuZ2fXGSD8FqeQ_lDfV9Li6VxgvpVAs-sDQ",
+                                                    "Ad0bmje1jZ7jEuOosaOb_B4IKfluOldXdmCAAai4y0VKsGCUQosAJghTE76_3DLq6NfRttuDXIDZM8KU",
                                                 secretKey:
-                                                    "EFi7Xi1NlV62-dhzrIaD3a5Q7dOSgmqrpeOGyw1kl4D7x3gQsDlz-Uf1XltbowPlQz9KYW2QIOrfjYCd",
+                                                    "EBD9rXSI98EGlvvXFIAhCO3eSXgcpAk0368jlAyZDsHU2Paam_GsK27BLkA6fZwIy4BFl_OhuVTOCuZQ",
                                               )),
                                     );
                                   },
@@ -1344,103 +1335,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           ),
         ),
       ),
-      // floatingActionButton: InkWell(
-      //   onTap: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (BuildContext context) => UsePaypal(
-      //                 sandboxMode: true,
-      //                 onSuccess: (Map params) async {
-      //                   navigatePop() => Navigator.pop(context);
-      //                   circularProgressIndicatorNew(context);
-      //                   print("onSuccess: $params");
-      //                   await updateSubscription(
-      //                       _three
-      //                           ? "Silver"
-      //                           : _six
-      //                               ? "Gold"
-      //                               : "Platinum",
-      //                       _three
-      //                           ? "12.10"
-      //                           : _six
-      //                               ? "24.19"
-      //                               : "60.48");
-      //                   navigatePop();
-      //                 },
-      //                 onError: (error) {
-      //                   print("onError: $error");
-      //                   showSnackBar(context, error.toString());
-      //                 },
-      //                 onCancel: (params) {
-      //                   print("canceled: $params");
-      //                   showSnackBar(context, params);
-      //                 },
-      //                 returnURL: "https://samplesite.com/return",
-      //                 cancelURL: "https://samplesite.com/cancel",
-      //                 transactions: [
-      //                   {
-      //                     "amount": {
-      //                       "total": _three
-      //                           ? "12.10"
-      //                           : _six
-      //                               ? "24.19"
-      //                               : "60.48",
-      //                       "currency": "USD",
-      //                       "details": {
-      //                         "subtotal": _three
-      //                             ? "12.10"
-      //                             : _six
-      //                                 ? "24.19"
-      //                                 : "60.48",
-      //                         "shipping": "0",
-      //                         "shipping_discount": 0
-      //                       }
-      //                     },
-      //                     "description": "The payment transaction description",
-      //                     "item_list": {
-      //                       "items": [
-      //                         {
-      //                           "name": "A demo product",
-      //                           "quantity": 1,
-      //                           "price": _three
-      //                               ? "12.10"
-      //                               : _six
-      //                                   ? "24.19"
-      //                                   : "60.48",
-      //                           "currency": "USD"
-      //                         }
-      //                       ],
-      //                     }
-      //                   }
-      //                 ],
-      //                 note: "Contact us for any questions on your order.",
-      //                 clientId:
-      //                     "AeUtJ9WFeXrkKOkpoQdzgAf7h94_2yqew6mRAmgrDISYRUuZ2fXGSD8FqeQ_lDfV9Li6VxgvpVAs-sDQ",
-      //                 secretKey:
-      //                     "EFi7Xi1NlV62-dhzrIaD3a5Q7dOSgmqrpeOGyw1kl4D7x3gQsDlz-Uf1XltbowPlQz9KYW2QIOrfjYCd",
-      //               )),
-      //     );
-      //   },
-      //   child: Container(
-      //     width: screenWidth * 0.70,
-      //     height: screenHeight * 0.07,
-      //     alignment: Alignment.center,
-      //     decoration: BoxDecoration(
-      //       borderRadius: BorderRadius.circular(10),
-      //       border: Border.all(color: Colors.black),
-      //       color: secondoryColor,
-      //     ),
-      //     child: Text(
-      //       "Pay ${_three ? '\u{20B9}1000' : _six ? '\u{20B9}2000' : '\u{20B9}5000'}",
-      //       style: const TextStyle(
-      //         fontSize: 20,
-      //         fontWeight: FontWeight.bold,
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

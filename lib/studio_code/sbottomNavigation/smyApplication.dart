@@ -89,8 +89,6 @@ class _MyApplicationState extends State<SMyApplicationPage>
                               InkWell(
                                 onTap: () async {
                                   if (_searchEdit.text.isNotEmpty) {
-                                    print("ab");
-
                                     if (_tabController.previousIndex ==
                                         _tabController.index) {
                                       _tabController
@@ -107,8 +105,6 @@ class _MyApplicationState extends State<SMyApplicationPage>
                                       _tabController.animateTo(
                                           _tabController.previousIndex);
                                     }
-
-                                    print("Search");
                                   } else {
                                     _tabController.animateTo(
                                         _tabController.previousIndex);

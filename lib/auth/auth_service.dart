@@ -82,8 +82,6 @@ class AuthService {
           headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
-      print(jsonDecode(res.body)["created"]);
-      print("created or not");
 
       if (res.statusCode == 200 && jsonDecode(res.body)["created"]) {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
@@ -96,8 +94,6 @@ class AuthService {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
       }
-      print(res.statusCode);
-      print(jsonDecode(res.body)['error']);
 
       httpErrorHandelForLoginSignup(
           context: context,
@@ -107,7 +103,6 @@ class AuthService {
             //       context,
             //       "Account created! Login with same Credentials",
             //     );
-            print("res body => ${jsonDecode(res.body)}");
             Navigator.pushNamed(context, VerificationPage.routeName,
                 arguments: [
                   jsonDecode(res.body)["number"].toString(),
@@ -126,8 +121,6 @@ class AuthService {
     required String otp,
   }) async {
     try {
-      print(otp);
-      print(number);
       http.Response res =
           await http.post(Uri.parse("$url/api/studio/verify-otp"),
               body: jsonEncode(
@@ -139,12 +132,10 @@ class AuthService {
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
-      print(res.statusCode);
       httpErrorHandelForLoginSignup(
           context: context,
           res: res,
           onSuccess: () {
-            print("number => ${jsonDecode(res.body)}");
             Navigator.pushNamed(
               context,
               LoginPage.routeName,
@@ -164,8 +155,6 @@ class AuthService {
     required String otp,
   }) async {
     try {
-      print(otp);
-      print(number);
       http.Response res =
           await http.post(Uri.parse("$url/api/audition/verify-otp"),
               body: jsonEncode(
@@ -177,12 +166,10 @@ class AuthService {
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
-      print(res.statusCode);
       httpErrorHandel(
           context: context,
           res: res,
           onSuccess: () {
-            print("number => ${jsonDecode(res.body)}");
             Navigator.pushNamed(
               context,
               LoginPage.routeName,
@@ -213,8 +200,6 @@ class AuthService {
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
-      print("number => ${jsonDecode(res.body)}");
-      print(jsonDecode(res.body));
       httpErrorHandel(
           context: context,
           res: res,
@@ -246,7 +231,6 @@ class AuthService {
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
-      print("number => ${jsonDecode(res.body)}");
       httpErrorHandel(
           context: context,
           res: res,
@@ -316,7 +300,6 @@ class AuthService {
           });
 
       if (res.statusCode == 200) {
-        print("firebase");
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
                 email: email.trim(), password: "${email.trim()}password"))
             .user!;
@@ -324,9 +307,6 @@ class AuthService {
         QuerySnapshot snapshot =
             await DatabaseService(uid: jsonDecode(res.body)['_id'])
                 .gettingUserData(email.trim());
-        print(firebaseUser);
-        print("Here is snapshot");
-        print(snapshot);
       }
 
       httpErrorHandelForLoginSignup(
@@ -356,7 +336,6 @@ class AuthService {
     required String number,
   }) async {
     try {
-      print("number => $number");
       http.Response res = await http
           .post(Uri.parse("$url/api/send/otp/forget/password/audition"),
               body: jsonEncode(
@@ -372,7 +351,6 @@ class AuthService {
         context: context,
         res: res,
         onSuccess: () {
-          print("number => ${jsonDecode(res.body)["number"]}");
           Navigator.pop(context);
           Navigator.pushNamed(context, VerifyMobile.routeName, arguments: [
             jsonDecode(res.body)["number"].toString(),
@@ -391,7 +369,6 @@ class AuthService {
     required String number,
   }) async {
     try {
-      print("number => $number");
       http.Response res =
           await http.post(Uri.parse("$url/api/send/otp/forget/password"),
               body: jsonEncode(
@@ -407,7 +384,6 @@ class AuthService {
         context: context,
         res: res,
         onSuccess: () {
-          print("number => ${jsonDecode(res.body)["number"]}");
           Navigator.pop(context);
           Navigator.pushNamed(context, VerifyMobile.routeName,
               arguments: [jsonDecode(res.body)["number"].toString(), "studio"]);
@@ -427,7 +403,6 @@ class AuthService {
   }) async {
     try {
       String apiUrl = "";
-      print(type);
       if (type == "Audition") {
         apiUrl = "$url/reset/password/audition";
       } else {
@@ -487,7 +462,6 @@ class AuthService {
 
             prefs.setString("x-auth-token", "");
             prefs.setString("x-studio-token", "");
-            print("ddd");
             await FirebaseAuth.instance.signOut();
             navigatorPop();
             navigatorPush();
@@ -532,11 +506,8 @@ class AuthService {
           await prefs.setString(
               "x-auth-token", jsonDecode(userResp.body)['token']);
           await prefs.remove("x-studio-token");
-          print("user");
           userProvider.setUser(userResp.body);
           return userProvider.user.token;
-
-          // print(jsonDecode(userResp.body));
         } else {
           navigatePush();
         }
@@ -566,12 +537,7 @@ class AuthService {
         }
       }
     } catch (e) {
-      // showSnackBar(context, e.toString());
-      print(e.toString());
-
-      // Navigator.pushNamedAndRemoveUntil(
-      //     context, FirstSplashScreen.routeName, (route) => false);
-      // print(e.toString());
+      showSnackBar(context, e.toString());
     }
   }
 
@@ -602,7 +568,6 @@ class AuthService {
 
       Navigator.pushNamedAndRemoveUntil(
           context, FirstSplashScreen.routeName, (route) => false);
-      // print(e.toString());
     }
   }
 
@@ -667,10 +632,7 @@ class AuthService {
         studioToken = prefs.getString("x-studio-token");
       }
 
-      print(profilePicUrl);
-
       if (user == "audition") {
-        print("audition");
         http.Response res =
             await http.post(Uri.parse("$url/api/upload/profilePic"),
                 body: jsonEncode({
@@ -681,7 +643,6 @@ class AuthService {
               "x-auth-token": token!,
             });
 
-        print(res.statusCode);
         httpErrorHandel(
           context: context,
           res: res,
@@ -692,7 +653,6 @@ class AuthService {
           },
         );
       } else {
-        print("studio");
         http.Response res =
             await http.post(Uri.parse("$url/api/upload/studio/profilePic"),
                 body: jsonEncode({
@@ -703,7 +663,6 @@ class AuthService {
               "x-studio-token": studioToken!,
             });
 
-        print(res.statusCode);
         httpErrorHandel(
           context: context,
           res: res,
@@ -736,9 +695,6 @@ class AuthService {
         token = prefs.getString("x-auth-token");
       }
 
-      print(media);
-      print("before res");
-      print(mediaType);
       http.Response res = await http.post(Uri.parse("$url/api/upload/media"),
           body: jsonEncode({
             "media": media,
@@ -749,7 +705,6 @@ class AuthService {
             "x-auth-token": token!,
           });
 
-      print(res.statusCode);
       httpErrorHandel(
         context: context,
         res: res,
@@ -779,10 +734,6 @@ class AuthService {
         token = prefs.getString("x-auth-token");
       }
 
-      print(media);
-      print("before res");
-      print(mediaType);
-
       http.Response res = await http.post(Uri.parse("$url/api/delete/media"),
           body: jsonEncode({
             "media": media,
@@ -793,7 +744,6 @@ class AuthService {
             "x-auth-token": token!,
           });
 
-      print(res.statusCode);
       httpErrorHandel(
         context: context,
         res: res,
@@ -1231,7 +1181,6 @@ class AuthService {
             navigatePop() => Navigator.pop(context);
 
             userProvider.setUser(res.body);
-            print(jsonEncode(uu));
 
             await prefs.setString("x-studio-token", "");
             await prefs.setString(
@@ -1326,9 +1275,6 @@ class AuthService {
             "Content-Type": "application/json; charset=UTF-8",
           });
 
-      print(jsonDecode(res.body)["created"]);
-      print("created firebase");
-
       if (res.statusCode == 200 && jsonDecode(res.body)["created"]) {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
                 email: email.trim(), password: "${email.trim()}password"))
@@ -1340,8 +1286,6 @@ class AuthService {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
       }
-      print(res.statusCode);
-
       httpErrorHandel(
           context: context,
           res: res,
@@ -1350,7 +1294,6 @@ class AuthService {
             //   context,
             //   "Account created! Login with same Credentials",
             // );
-            print("res body => ${jsonDecode(res.body)}");
             Navigator.pushNamed(context, VerificationPage.routeName,
                 arguments: [
                   jsonDecode(res.body)["number"].toString(),
@@ -1401,8 +1344,6 @@ class AuthService {
         QuerySnapshot snapshot =
             await DatabaseService(uid: jsonDecode(res.body)['_id'])
                 .gettingUserData(email.trim());
-        print("Here is snapshot");
-        print(snapshot);
       }
 
       httpErrorHandelForLoginSignup(

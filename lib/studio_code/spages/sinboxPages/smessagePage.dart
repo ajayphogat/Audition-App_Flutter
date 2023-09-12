@@ -86,8 +86,6 @@ class _SMessagePageState extends State<SMessagePage> {
 
     if (status == 1) {
       var downloadUrl = await snapshot.ref.getDownloadURL();
-      print(downloadUrl);
-
       Map<String, dynamic> chatMessageMap = {
         "message": downloadUrl,
         "type": "img",

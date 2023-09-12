@@ -281,9 +281,7 @@ class _MessagePageState extends State<MessagePage> {
 
   Widget sendDocumentButton(double screenWidth, IconData icon) {
     return InkWell(
-      onTap: () {
-        print("Hello");
-      },
+      onTap: () {},
       child: Container(
         width: screenWidth * 0.15,
         height: screenWidth * 0.15,

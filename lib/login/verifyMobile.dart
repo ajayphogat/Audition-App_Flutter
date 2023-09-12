@@ -28,13 +28,11 @@ class _VerifyMobileState extends State<VerifyMobile> {
   AuthService authService = AuthService();
 
   Future<void> otpVerify(String number, String otp) async {
-    print("new number => $number");
     await authService.verificationOTPForgot(
         context: context, number: number, otp: otp);
   }
 
   Future<void> otpVerifyStudio(String number, String otp) async {
-    print("new number => $number");
     await authService.verificationOTPForgot(
         context: context, number: number, otp: otp);
   }

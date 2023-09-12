@@ -35,7 +35,6 @@ class _DesignerGridPageState extends State<DesignerGridPage> {
   }
 
   Future<void> getJobDetails(String jobId) async {
-    print("heyyyy");
     await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
@@ -79,7 +78,6 @@ class _DesignerGridPageState extends State<DesignerGridPage> {
                     JobModel data = _categoryJobs![index];
                     return InkWell(
                       onTap: () async {
-                        print(data.id);
                         circularProgressIndicatorNew(context);
                         await getJobDetails(data.id.toString());
                       },

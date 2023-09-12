@@ -24,7 +24,6 @@ class _DancerGridPageState extends State<DancerGridPage> {
   List<JobModel>? _categoryJobs;
 
   getCategoryJobs() async {
-    print("start");
     _categoryJobs = await otherService.categoryJobs(
       context: context,
       category: "Dancer",
@@ -36,7 +35,6 @@ class _DancerGridPageState extends State<DancerGridPage> {
   }
 
   Future<void> getJobDetails(String jobId) async {
-    print("heyyyy");
     await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
@@ -64,45 +62,40 @@ class _DancerGridPageState extends State<DancerGridPage> {
               ? const Center(
                   child: Text("No data found"),
                 )
-              : ListView.separated(
-                  padding: EdgeInsets.symmetric(
-                      // horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.03),
-                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //   crossAxisCount: 2,
-                  //   crossAxisSpacing: 10,
-                  //   mainAxisSpacing: 10,
-                  //   mainAxisExtent: screenHeight * 0.385,
-                  // ),
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: _categoryJobs!.length,
-                  itemBuilder: (context, index) {
-                    JobModel data = _categoryJobs![index];
-                    return InkWell(
-                      onTap: () async {
-                        print(data.id);
-                        circularProgressIndicatorNew(context);
-                        await getJobDetails(
-                          data.id.toString(),
-                        );
-                      },
-                      child: gridViewContainer(
-                        context,
-                        screenWidth,
-                        screenHeight,
-                        data.studioName,
-                        data.jobType,
-                        data.description,
-                        data.images[0],
-                        data.id,
-                        data.studio['_id'],
-                        data.applicants.contains(user.id),
-                        getCategoryJobs,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) =>
-                      SizedBox(height: screenHeight * 0.02),
+              : StatefulBuilder(
+                  builder: (context, setState) => ListView.separated(
+                    padding:
+                        EdgeInsets.symmetric(vertical: screenHeight * 0.03),
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: _categoryJobs!.length,
+                    itemBuilder: (context, index) {
+                      JobModel data = _categoryJobs![index];
+                      var showApplied = data.applicants.contains(user.id);
+                      return InkWell(
+                        onTap: () async {
+                          circularProgressIndicatorNew(context);
+                          await getJobDetails(
+                            data.id.toString(),
+                          );
+                        },
+                        child: gridViewContainer(
+                          context,
+                          screenWidth,
+                          screenHeight,
+                          data.studioName,
+                          data.jobType,
+                          data.description,
+                          data.images[0],
+                          data.id,
+                          data.studio['_id'],
+                          showApplied,
+                          getCategoryJobs,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: screenHeight * 0.02),
+                  ),
                 ),
     );
   }

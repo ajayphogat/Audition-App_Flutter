@@ -43,9 +43,6 @@ class DatabaseService {
   }
 
   Future updateNotification(String notificationText) async {
-    print("notifications");
-    print(notificationText);
-    print(uid);
     return await userCollection.doc(uid).update({
       "notification": FieldValue.arrayUnion([notificationText]),
     });
@@ -83,11 +80,7 @@ class DatabaseService {
     for (var element in u['groups']) {
       var newGroupId = element.toString().split("_")[0];
       var g = await groupCollection.doc(newGroupId).get();
-      // var gmsg =
-      //     await groupCollection.doc(newGroupId).collection("messages").get();
       recentMessages.add(g['recentMessage']);
-
-      // print(gmsg.docs[0]['seen']);
     }
     return recentMessages;
   }
@@ -98,11 +91,7 @@ class DatabaseService {
     for (var element in u['groups']) {
       var newGroupId = element.toString().split("_")[0];
       var g = await groupCollection.doc(newGroupId).get();
-      // var gmsg =
-      //     await groupCollection.doc(newGroupId).collection("messages").get();
       recentMsgTime.add(g['recentMessageTime']);
-
-      // print(gmsg.docs[0]['seen']);
     }
     return recentMsgTime;
   }
@@ -239,9 +228,7 @@ class DatabaseService {
   Future getProfilePic(String groupId) async {
     var d = await groupCollection.doc(groupId).get();
     var user2 = d['groupName'];
-    print(user2.toString().split("_")[0]);
     user2 = await userCollection.doc(user2.toString().split("_")[0]).get();
-    print(user2['profilePic']);
   }
 
   Future getGroupAdmin(String groupId) async {

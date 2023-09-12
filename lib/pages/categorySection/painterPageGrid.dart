@@ -23,7 +23,6 @@ class _PainterGridPageState extends State<PainterGridPage> {
   List<JobModel>? _categoryJobs;
 
   getCategoryJobs() async {
-    print("start");
     _categoryJobs = await otherService.categoryJobs(
       context: context,
       category: "Painter",
@@ -35,7 +34,6 @@ class _PainterGridPageState extends State<PainterGridPage> {
   }
 
   Future<void> getJobDetails(String jobId) async {
-    print("heyyyy");
     await otherService.getJobDetails(context: context, jobId: jobId);
   }
 
@@ -64,23 +62,13 @@ class _PainterGridPageState extends State<PainterGridPage> {
                   child: Text("No data found"),
                 )
               : ListView.separated(
-                  padding: EdgeInsets.symmetric(
-                      // horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.03),
-                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //   crossAxisCount: 2,
-                  //   crossAxisSpacing: 10,
-                  //   mainAxisSpacing: 10,
-                  //   mainAxisExtent: screenHeight * 0.385,
-                  // ),
+                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.03),
                   physics: const BouncingScrollPhysics(),
                   itemCount: _categoryJobs!.length,
                   itemBuilder: (context, index) {
                     JobModel data = _categoryJobs![index];
-                    print(data.images);
                     return InkWell(
                       onTap: () async {
-                        print(data.id);
                         circularProgressIndicatorNew(context);
                         await getJobDetails(data.id.toString());
                       },

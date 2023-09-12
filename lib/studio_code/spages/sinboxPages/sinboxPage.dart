@@ -29,9 +29,6 @@ class _SInboxMessagePageState extends State<SInboxMessagePage> {
       if (this.mounted) {
         setState(() {
           profilePics = value;
-          print(profilePics[0]);
-          print(profilePics[1]);
-          print("profilePic");
         });
       }
     });
@@ -87,15 +84,12 @@ class _SInboxMessagePageState extends State<SInboxMessagePage> {
       stream: groups,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          // print(snapshot.data.data());
-          print("data");
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
               return ListView.builder(
                 itemCount: snapshot.data['groups'].length,
                 itemBuilder: (context, index) {
                   int reverseIndex = snapshot.data['groups'].length - index - 1;
-                  print(profilePics[reverseIndex]);
                   return InkWell(
                     onTap: () {
                       Navigator.push(

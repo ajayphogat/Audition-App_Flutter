@@ -73,7 +73,6 @@ class OtherService {
               ),
             );
           }
-          print("hey");
         },
       );
     } catch (e) {
@@ -89,8 +88,6 @@ class OtherService {
   }) async {
     List<JobModel> allJobs = [];
     try {
-      print("1");
-
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-studio-token');
 
@@ -98,14 +95,12 @@ class OtherService {
         await prefs.setString("x-studio-token", "");
         token = prefs.getString("x-studio-token");
       }
-      print("2");
       http.Response res = await http.get(
           Uri.parse("$url/api/getStudioJob?search=$search"),
           headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
             "x-studio-token": token!,
           });
-      print("3");
       httpErrorHandel(
         context: context,
         res: res,
@@ -117,13 +112,11 @@ class OtherService {
               ),
             );
           }
-          print("hey");
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    print(allJobs);
     return allJobs;
   }
 
@@ -346,34 +339,19 @@ class OtherService {
             "Content-Type": "application/json; charset=UTF-8",
             "x-auth-token": token!,
           });
-      print("hahahaha");
-      print(res.statusCode);
 
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
-          print("before res.body");
-          print(jsonDecode(res.body));
-          // jobData = JobModel.fromJson(res.body);
-          // jobData = jsonDecode(res.body);
           jobProvider.setUser(res.body);
-          print("sss");
           navigatePop();
           navigatePush();
-          // Navigator.pop(context);
-          // Navigator.pushNamed(context, DescriptionPage.routeName,
-          //     arguments: jsonDecode(res.body));
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    // if (jobData != null) {
-    //   print(jobData);
-    //   navigatePop();
-    //   navigatePush(jobData);
-    // }
   }
 
   Future<dynamic> getJobDetails1({
@@ -402,34 +380,19 @@ class OtherService {
             "Content-Type": "application/json; charset=UTF-8",
             "x-auth-token": token!,
           });
-      print("hahahaha");
-      print(res.statusCode);
 
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
-          print("before res.body");
-          print(jsonDecode(res.body));
-          // jobData = JobModel.fromJson(res.body);
-          // jobData = jsonDecode(res.body);
           jobProvider.setUser(res.body);
-          print("sss");
           navigatePop();
           navigatePush();
-          // Navigator.pop(context);
-          // Navigator.pushNamed(context, DescriptionPage.routeName,
-          //     arguments: jsonDecode(res.body));
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    // if (jobData != null) {
-    //   print(jobData);
-    //   navigatePop();
-    //   navigatePush(jobData);
-    // }
   }
 
   Future<dynamic> getStudioJobDetail({
@@ -458,34 +421,17 @@ class OtherService {
             "Content-Type": "application/json; charset=UTF-8",
             "x-studio-token": token!,
           });
-      print("hahahaha");
-      print(res.statusCode);
 
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
-          print("before res.body");
-          print(jsonDecode(res.body)["applicants"]);
-          // jobData = JobModel.fromJson(res.body);
-          // jobData = jsonDecode(res.body);
           jobProvider.setUser(res.body);
-          print("sss");
-          // navigatePop();
-          // navigatePush();
-          // Navigator.pop(context);
-          // Navigator.pushNamed(context, DescriptionPage.routeName,
-          //     arguments: jsonDecode(res.body));
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    // if (jobData != null) {
-    //   print(jobData);
-    //   navigatePop();
-    //   navigatePush(jobData);
-    // }
   }
 
   Future<dynamic> getStudioJobDetail_Studio({
@@ -515,35 +461,21 @@ class OtherService {
             "Content-Type": "application/json; charset=UTF-8",
             "x-studio-token": token!,
           });
-      // print("hahahaha");
-      // print(res.statusCode);
 
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
-          // print("before res.body");
-          // print(jsonDecode(res.body)["applicants"]);
-
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
             appliedUser.add(jsonDecode(res.body)[i]);
           }
-          // print("sss");
           navigatePop();
           navigatePush(appliedUser, jobId);
-          // Navigator.pop(context);
-          // Navigator.pushNamed(context, DescriptionPage.routeName,
-          //     arguments: jsonDecode(res.body));
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    // if (jobData != null) {
-    //   print(jobData);
-    //   navigatePop();
-    //   navigatePush(jobData);
-    // }
   }
 
   Future<dynamic> getAcceptedStudioJobDetails({
@@ -574,35 +506,21 @@ class OtherService {
             "Content-Type": "application/json; charset=UTF-8",
             "x-studio-token": token!,
           });
-      // print("hahahaha");
-      // print(res.statusCode);
 
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
-          // print("before res.body");
-          // print(jsonDecode(res.body)["applicants"]);
-
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
             _acceptedUser.add(jsonDecode(res.body)[i]);
           }
-          // print("sss");
           navigatePop();
           navigatePush(_acceptedUser, jobId);
-          // Navigator.pop(context);
-          // Navigator.pushNamed(context, DescriptionPage.routeName,
-          //     arguments: jsonDecode(res.body));
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    // if (jobData != null) {
-    //   print(jobData);
-    //   navigatePop();
-    //   navigatePush(jobData);
-    // }
   }
 
   Future<dynamic> getShortlistedStudioJobDetails({
@@ -633,35 +551,21 @@ class OtherService {
             "Content-Type": "application/json; charset=UTF-8",
             "x-studio-token": token!,
           });
-      // print("hahahaha");
-      // print(res.statusCode);
 
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
-          // print("before res.body");
-          // print(jsonDecode(res.body)["applicants"]);
-
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
             _acceptedUser.add(jsonDecode(res.body)[i]);
           }
-          // print("sss");
           navigatePop();
           navigatePush(_acceptedUser, jobId);
-          // Navigator.pop(context);
-          // Navigator.pushNamed(context, DescriptionPage.routeName,
-          //     arguments: jsonDecode(res.body));
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    // if (jobData != null) {
-    //   print(jobData);
-    //   navigatePop();
-    //   navigatePush(jobData);
-    // }
   }
 
   Future<void> applyJob({
@@ -695,7 +599,6 @@ class OtherService {
         onSuccess: () {
           DatabaseService(uid: studioUserId).updateNotification(
               "${userProvider.fname} has applied on your job post__${userProvider.profilePic}");
-          // print(json)
           jobProvider.setUser(res.body);
           showSnackBar(context, "Job applied");
         },
@@ -863,23 +766,11 @@ class OtherService {
             "x-studio-token": token!,
           });
 
-      print("heyllo");
-      print("heyllo");
-      print("heyllo");
-      print("heyllo");
-      print("heyllo");
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
-          print("heheheheh");
-          print("heheheheh");
-          print("heheheheh");
-          // print(jsonDecode(res.body)[0][working]);
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
-            print("raja");
-
-            // print(jsonDecode(res.body)[i]);
             workingJobs.add(
               JobModel1.fromJson(
                 jsonEncode(jsonDecode(res.body)[i]),
@@ -891,8 +782,6 @@ class OtherService {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    print("newnewnewnew");
-    print(workingJobs);
     return workingJobs;
   }
 
@@ -941,7 +830,6 @@ class OtherService {
         token = prefs.getString("x-studio-token");
       }
 
-      // print('heheheheh');
       http.Response res =
           await http.post(Uri.parse("$url/api/studio/getArtistData"),
               body: jsonEncode({
@@ -951,10 +839,6 @@ class OtherService {
             "Content-Type": "application/json; charset=UTF-8",
             "x-studio-token": token!,
           });
-
-      // print('heheheheh');
-      // print('heheheheh');
-      // print('heheheheh');
 
       httpErrorHandel(
         context: context,
@@ -989,23 +873,17 @@ class OtherService {
         token = prefs.getString("x-studio-token");
       }
 
-      // print('heheheheh');
       http.Response res = await http
           .get(Uri.parse("$url/api/showFollowers"), headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8",
         "x-studio-token": token!,
       });
 
-      // print('heheheheh');
-      // print('heheheheh');
-      // print('heheheheh');
-
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () async {
           studioProvider.setUser(res.body);
-          // showSnackBar(context, "Job applied");
         },
       );
     } catch (e) {

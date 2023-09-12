@@ -108,11 +108,8 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
       stream: groups,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          // print(snapshot.data.data());
-          print("data");
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
-              print(snapshot.data['groups'].length);
               return ListView.separated(
                 itemCount: snapshot.data['groups'].length,
                 itemBuilder: (context, index) {
@@ -124,9 +121,6 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                   var newMin = duration.inMinutes;
 
                   return InkWell(
-                    // onTap: () {
-                    //   print(message);
-                    // },
                     onTap: () {
                       Navigator.push(
                         context,
@@ -238,9 +232,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
 
   Widget sendDocumentButton(double screenWidth, IconData icon) {
     return InkWell(
-      onTap: () {
-        print("Hello");
-      },
+      onTap: () {},
       child: Container(
         width: screenWidth * 0.15,
         height: screenWidth * 0.15,
