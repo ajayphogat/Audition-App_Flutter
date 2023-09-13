@@ -1,21 +1,13 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
-import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../customize/my_flutter_app_icons.dart';
-import '../pages/categorySection/descriptionPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -245,122 +237,143 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.04),
-                      ((allJobs == null) || (allJobs!.isEmpty))
+                      (allJobs == null)
                           ? const Center(child: CircularProgressIndicator())
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Container(
-                                  // color: Colors.red,
-                                  padding:
-                                      EdgeInsets.only(left: screenWidth * 0.04),
+                          : (allJobs!.isEmpty)
+                              ? Container(
                                   width: screenWidth,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Recently posted",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontFamily: fontFamily,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                  height: screenHeight * 0.2,
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    "No Jobs found",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                )
+                              : Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Container(
+                                      // color: Colors.red,
+                                      padding: EdgeInsets.only(
+                                          left: screenWidth * 0.04),
+                                      width: screenWidth,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text(
+                                            "Recently posted",
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontFamily: fontFamily,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          seeAllContainer(
+                                              screenWidth, screenHeight),
+                                        ],
                                       ),
-                                      seeAllContainer(
-                                          screenWidth, screenHeight),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: screenHeight * 0.55,
-                                  child: ListView.builder(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, top: 10, bottom: 10),
-                                    physics: const BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 3,
-                                    itemBuilder: (context, index) {
-                                      JobModel job = allJobs![index];
-                                      return InkWell(
-                                        onTap: () async {
-                                          circularProgressIndicatorNew(context);
-                                          await getJobDetails(
-                                              job.id.toString());
-                                          // Navigator.pushNamed(
-                                          //     context, DescriptionPage.routeName,
-                                          //     arguments: job);
+                                    ),
+                                    SizedBox(
+                                      height: screenHeight * 0.55,
+                                      child: ListView.builder(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, top: 10, bottom: 10),
+                                        physics: const BouncingScrollPhysics(),
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: allJobs!.length >= 5
+                                            ? 5
+                                            : allJobs!.length,
+                                        itemBuilder: (context, index) {
+                                          JobModel job = allJobs![index];
+                                          return InkWell(
+                                            onTap: () async {
+                                              circularProgressIndicatorNew(
+                                                  context);
+                                              await getJobDetails(
+                                                  job.id.toString());
+                                              // Navigator.pushNamed(
+                                              //     context, DescriptionPage.routeName,
+                                              //     arguments: job);
+                                            },
+                                            child: textContainer(
+                                              screenWidth,
+                                              screenHeight,
+                                              job.description.length > 20
+                                                  ? job.description
+                                                      .substring(0, 21)
+                                                  : job.description,
+                                              job.studioName.length > 25
+                                                  ? job.studioName
+                                                      .substring(0, 24)
+                                                  : job.studioName,
+                                              job.jobType,
+                                              job.images,
+                                              job.location,
+                                            ),
+                                          );
                                         },
-                                        child: textContainer(
-                                          screenWidth,
-                                          screenHeight,
-                                          job.description.length > 20
-                                              ? job.description.substring(0, 21)
-                                              : job.description,
-                                          job.studioName.length > 25
-                                              ? job.studioName.substring(0, 24)
-                                              : job.studioName,
-                                          job.jobType,
-                                          job.images,
-                                          job.location,
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    ),
+                                    SizedBox(height: screenHeight * 0.04),
+                                    // Container(
+                                    //   padding: EdgeInsets.only(left: screenWidth * 0.04),
+                                    //   width: screenWidth,
+                                    //   height: screenHeight * 0.035,
+                                    //   child: const Text(
+                                    //     "More",
+                                    //     style: TextStyle(
+                                    //       fontSize: 25,
+                                    //       fontFamily: fontFamily,
+                                    //       fontWeight: FontWeight.bold,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // seeAllContainer(screenWidth, screenHeight),
+                                    // SizedBox(
+                                    //   height: screenHeight * 0.43,
+                                    //   child: ListView.separated(
+                                    //     padding: const EdgeInsets.only(
+                                    //         left: 10, top: 10, bottom: 10),
+                                    //     physics: const BouncingScrollPhysics(),
+                                    //     scrollDirection: Axis.horizontal,
+                                    //     itemCount: 3,
+                                    //     itemBuilder: (context, index) {
+                                    //       JobModel job = allJobs![
+                                    //           allJobs!.length > 10 ? index + 3 : index];
+                                    //       return InkWell(
+                                    //         onTap: () async {
+                                    //           circularProgressIndicatorNew(context);
+                                    //           await getJobDetails(job.id.toString());
+                                    //           // Navigator.pushNamed(
+                                    //           //     context, DescriptionPage.routeName,
+                                    //           //     arguments: job);
+                                    //         },
+                                    //         child: textContainer(
+                                    //           screenWidth,
+                                    //           screenHeight,
+                                    //           job.description.substring(0, 21),
+                                    //           job.studioName.length > 25
+                                    //               ? job.studioName.substring(0, 24)
+                                    //               : job.studioName,
+                                    //           job.jobType,
+                                    //           job.images,
+                                    //           job.location,
+                                    //         ),
+                                    //       );
+                                    //     },
+                                    //     separatorBuilder: (context, index) =>
+                                    //         SizedBox(width: screenWidth * 0.05),
+                                    //   ),
+                                    // ),
+                                  ],
                                 ),
-                                SizedBox(height: screenHeight * 0.04),
-                                // Container(
-                                //   padding: EdgeInsets.only(left: screenWidth * 0.04),
-                                //   width: screenWidth,
-                                //   height: screenHeight * 0.035,
-                                //   child: const Text(
-                                //     "More",
-                                //     style: TextStyle(
-                                //       fontSize: 25,
-                                //       fontFamily: fontFamily,
-                                //       fontWeight: FontWeight.bold,
-                                //     ),
-                                //   ),
-                                // ),
-                                // seeAllContainer(screenWidth, screenHeight),
-                                // SizedBox(
-                                //   height: screenHeight * 0.43,
-                                //   child: ListView.separated(
-                                //     padding: const EdgeInsets.only(
-                                //         left: 10, top: 10, bottom: 10),
-                                //     physics: const BouncingScrollPhysics(),
-                                //     scrollDirection: Axis.horizontal,
-                                //     itemCount: 3,
-                                //     itemBuilder: (context, index) {
-                                //       JobModel job = allJobs![
-                                //           allJobs!.length > 10 ? index + 3 : index];
-                                //       return InkWell(
-                                //         onTap: () async {
-                                //           circularProgressIndicatorNew(context);
-                                //           await getJobDetails(job.id.toString());
-                                //           // Navigator.pushNamed(
-                                //           //     context, DescriptionPage.routeName,
-                                //           //     arguments: job);
-                                //         },
-                                //         child: textContainer(
-                                //           screenWidth,
-                                //           screenHeight,
-                                //           job.description.substring(0, 21),
-                                //           job.studioName.length > 25
-                                //               ? job.studioName.substring(0, 24)
-                                //               : job.studioName,
-                                //           job.jobType,
-                                //           job.images,
-                                //           job.location,
-                                //         ),
-                                //       );
-                                //     },
-                                //     separatorBuilder: (context, index) =>
-                                //         SizedBox(width: screenWidth * 0.05),
-                                //   ),
-                                // ),
-                              ],
-                            ),
                     ],
                   ),
                 ],
