@@ -198,7 +198,7 @@ class _MyApplicationState extends State<MyApplicationPage>
             SizedBox(height: screenHeight * 0.04),
             SizedBox(
               width: screenWidth,
-              height: screenHeight * 0.035,
+              height: screenHeight * 0.04,
               child: TabBar(
                 controller: _tabController,
                 isScrollable: true,

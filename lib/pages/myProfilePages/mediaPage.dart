@@ -109,12 +109,12 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                     children: [
                       SizedBox(
                         width: screenWidth,
-                        height: screenHeight * 0.705,
+                        height: screenHeight * 0.75,
                         child: Stack(
                           children: [
                             Container(
                               width: screenWidth,
-                              height: screenHeight * 0.5,
+                              height: screenHeight * 0.56,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(150),
@@ -138,12 +138,12 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                             ),
                             Container(
                               width: screenWidth,
-                              height: screenHeight * 0.0689,
+                              height: screenHeight * 0.07,
                               padding: EdgeInsets.symmetric(
                                   horizontal: screenWidth * 0.025),
                               decoration: const BoxDecoration(
-                                // color: Colors.red,
                                 image: DecorationImage(
+                                  fit: BoxFit.fitWidth,
                                   image: AssetImage(
                                     "asset/images/uiImages/media_appbar.png",
                                   ),
@@ -156,14 +156,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      // InkWell(
-                                      //   onTap: () {
-                                      //     Navigator.pop(context);
-                                      //   },
-                                      //   child: const Icon(
-                                      //     Icons.arrow_back_ios_sharp,
-                                      //   ),
-                                      // ),
                                       SizedBox(width: screenWidth * 0.04),
                                       const AutoSizeText(
                                         "My Profile",
@@ -520,8 +512,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: screenHeight * 0.6,
+                      Container(
+                        height: screenHeight,
                         child: TabBarView(
                           physics: const NeverScrollableScrollPhysics(),
                           controller: _tabController,

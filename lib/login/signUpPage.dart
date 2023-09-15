@@ -26,6 +26,35 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  bool _showNameError = false;
+  bool _showNumberError = false;
+  bool _showEmailError = false;
+  String _showPassError = "";
+
+  void changeNameError(bool value) {
+    setState(() {
+      _showNameError = value;
+    });
+  }
+
+  void changeNumberError(bool value) {
+    setState(() {
+      _showNumberError = value;
+    });
+  }
+
+  void changeEmailError(bool value) {
+    setState(() {
+      _showEmailError = value;
+    });
+  }
+
+  void changePassError(String value) {
+    setState(() {
+      _showPassError = value;
+    });
+  }
+
   String account = "Audition";
 
   final _formKey = GlobalKey<FormState>();
@@ -69,11 +98,12 @@ class _SignupPageState extends State<SignupPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: _formKey,
             child: SizedBox(
               width: screenWidth,
-              height: screenHeight - MediaQuery.of(context).padding.top,
+              height: screenHeight,
               child: Column(
                 children: [
                   SizedBox(
@@ -129,7 +159,7 @@ class _SignupPageState extends State<SignupPage> {
                   //     fontWeight: FontWeight.bold,
                   //   ),
                   // ),
-                  SizedBox(height: screenHeight * 0.05),
+                  SizedBox(height: screenHeight * 0.025),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
@@ -175,34 +205,85 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   SizedBox(height: screenHeight * 0.02),
                   commonTextField(
-                    screenWidth,
-                    screenHeight,
-                    context,
-                    _fullName,
-                    account == "Studio" ? "Studio Name" : "Full Name",
-                    "asset/icons/profile_color.svg",
-                    false,
-                  ),
+                      screenWidth,
+                      screenHeight,
+                      context,
+                      _fullName,
+                      account == "Studio" ? "Studio Name" : "Full Name",
+                      "asset/icons/profile_color.svg",
+                      false,
+                      changeNameError),
+                  _showNameError
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.025),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "Please Enter Full Name",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   SizedBox(height: screenHeight * 0.015),
                   commonTextField(
-                    screenWidth,
-                    screenHeight,
-                    context,
-                    _phone,
-                    "Phone No.",
-                    "asset/icons/phone_icon.svg",
-                    false,
-                  ),
+                      screenWidth,
+                      screenHeight,
+                      context,
+                      _phone,
+                      "Phone No.",
+                      "asset/icons/phone_icon.svg",
+                      false,
+                      changeNumberError),
+                  _showNumberError
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.025),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "Please Enter Number",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   SizedBox(height: screenHeight * 0.015),
                   commonTextField(
-                    screenWidth,
-                    screenHeight,
-                    context,
-                    _email,
-                    "Email",
-                    "asset/icons/Message.svg",
-                    false,
-                  ),
+                      screenWidth,
+                      screenHeight,
+                      context,
+                      _email,
+                      "Email",
+                      "asset/icons/Message.svg",
+                      false,
+                      changeEmailError),
+                  _showEmailError
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.025),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "Please Enter Email",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   SizedBox(height: screenHeight * 0.015),
                   Container(
                     width: screenWidth,
@@ -218,8 +299,14 @@ class _SignupPageState extends State<SignupPage> {
                       controller: _password,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Please fill this";
+                          changePassError("Please Enter Password");
+                          return "no";
+                        } else if (!(value.length >= 8)) {
+                          changePassError(
+                              "Password must be at least 8 characters");
+                          return "no";
                         } else {
+                          changePassError("");
                           return null;
                         }
                       },
@@ -231,7 +318,8 @@ class _SignupPageState extends State<SignupPage> {
                       obscureText: isObscure,
                       decoration: InputDecoration(
                         errorStyle: const TextStyle(
-                          height: 0.1,
+                          color: Colors.transparent,
+                          height: 0.001,
                         ),
                         hintText: "Password",
                         hintStyle: const TextStyle(
@@ -270,84 +358,24 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width - 120,
-                  //   child: Stack(
-                  //     alignment: AlignmentDirectional.bottomCenter,
-                  //     children: [
-                  //       Material(
-                  //         elevation: 5,
-                  //         borderRadius: BorderRadius.circular(8),
-                  //         child: Container(
-                  //           width: screenWidth - screenWidth * 0.305,
-                  //           height: screenHeight * 0.06,
-                  //           decoration: BoxDecoration(
-                  //             borderRadius: BorderRadius.circular(8),
-                  //             color: placeholderColor,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       TextFormField(
-                  //         controller: _password,
-                  //         validator: (String? value) {
-                  //           if (value == null || value.isEmpty) {
-                  //             return "Please fill this";
-                  //           } else if (value.length < 6) {
-                  //             return "Length of Password must be greater than 6";
-                  //           } else {
-                  //             return null;
-                  //           }
-                  //         },
-                  //         style: const TextStyle(
-                  //           fontSize: 18,
-                  //           fontFamily: fontFamily,
-                  //         ),
-                  //         obscureText: isObscure,
-                  //         decoration: InputDecoration(
-                  //           errorStyle: const TextStyle(
-                  //             height: 0.1,
-                  //           ),
-                  //           hintText: "Password",
-                  //           hintStyle: const TextStyle(
-                  //             fontSize: 18,
-                  //             fontFamily: fontFamily,
-                  //             color: placeholderTextColor,
-                  //           ),
-                  //           border: InputBorder.none,
-                  //           prefixIcon: const Padding(
-                  //             padding: EdgeInsets.only(
-                  //                 left: 20, right: 5, bottom: 5),
-                  //             child: Icon(MyFlutterApp.lock,
-                  //                 color: Colors.black, size: 35),
-                  //           ),
-                  //           suffixIcon: isObscure
-                  //               ? IconButton(
-                  //                   icon: const Icon(MyFlutterApp.show),
-                  //                   onPressed: () {
-                  //                     setState(() {
-                  //                       isObscure = !isObscure;
-                  //                     });
-                  //                   },
-                  //                   iconSize: 20,
-                  //                   color: Colors.grey,
-                  //                 )
-                  //               : IconButton(
-                  //                   padding: const EdgeInsets.only(bottom: 5),
-                  //                   icon: const Icon(MyFlutterApp.hide),
-                  //                   onPressed: () {
-                  //                     setState(() {
-                  //                       isObscure = !isObscure;
-                  //                     });
-                  //                   },
-                  //                   iconSize: 28,
-                  //                   color: Colors.grey,
-                  //                 ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  const SizedBox(height: 45),
+                  _showPassError != ""
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.025),
+                          child: Row(
+                            children: [
+                              Text(
+                                _showPassError,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(height: screenHeight * 0.025),
                   InkWell(
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
@@ -409,7 +437,8 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                     ),
                   ),
-                  const Spacer(),
+                  SizedBox(height: screenHeight * 0.05),
+                  // const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -442,7 +471,6 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: screenHeight * 0.1),
                 ],
               ),
             ),

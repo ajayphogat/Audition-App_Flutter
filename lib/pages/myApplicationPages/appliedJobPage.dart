@@ -85,7 +85,9 @@ class _AppliedJobPageState extends State<AppliedJobPage> {
                                 ),
                               ),
                               subtitle: Text(
-                                data.description,
+                                data.description.length > 100
+                                    ? data.description.substring(0, 100)
+                                    : data.description,
                                 style: const TextStyle(
                                   fontSize: 13,
                                   fontFamily: fontFamily,

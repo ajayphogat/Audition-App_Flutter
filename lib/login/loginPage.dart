@@ -28,6 +28,9 @@ class _LoginPageState extends State<LoginPage> {
   bool isObscure = true;
   bool _rememberMe = true;
 
+  bool _showEmailError = false;
+  bool _showPasswordError = false;
+
   final _formKey = GlobalKey<FormState>();
 
   final AuthService authService = AuthService();
@@ -63,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: _formKey,
             child: SizedBox(
@@ -177,6 +181,23 @@ class _LoginPageState extends State<LoginPage> {
                     MyFlutterApp.username,
                     false,
                   ),
+                  _showEmailError
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.025),
+                          child: const Row(
+                            children: [
+                              Text(
+                                "Please Enter Email",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   SizedBox(height: screenHeight * 0.02),
                   Container(
                     width: screenWidth,
@@ -192,8 +213,14 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _password,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Please fill this";
+                          setState(() {
+                            _showPasswordError = true;
+                          });
+                          return "no";
                         } else {
+                          setState(() {
+                            _showPasswordError = false;
+                          });
                           return null;
                         }
                       },
@@ -205,6 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: isObscure,
                       decoration: InputDecoration(
                         errorStyle: const TextStyle(
+                          color: Colors.transparent,
                           height: 0.1,
                         ),
                         hintText: "Password",
@@ -244,6 +272,23 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  _showPasswordError
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.025),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "Please Enter Password",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   SizedBox(height: screenHeight * 0.01),
                   Container(
                     // color: Colors.red,
@@ -473,8 +518,12 @@ class _LoginPageState extends State<LoginPage> {
         controller: controller,
         validator: (String? value) {
           if (value == null || value.isEmpty) {
-            return "Please fill this";
+            setState(() {
+              _showEmailError = true;
+            });
+            return "no";
           } else {
+            _showEmailError = false;
             return null;
           }
         },
@@ -493,7 +542,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           errorStyle: const TextStyle(
             fontFamily: fontFamily,
-            height: 0.1,
+            color: Colors.transparent,
+            height: 0.001,
           ),
           border: InputBorder.none,
           prefixIcon: Container(

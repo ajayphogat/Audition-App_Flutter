@@ -6,6 +6,7 @@ import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/utils/showSnackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -97,20 +98,42 @@ class BottomMediaUp {
       );
       if (files != null && files.files.isNotEmpty) {
         profilePic = File(files.files[0].path!);
-        final fileName = p.basename(profilePic!.path);
-        try {
-          //Upload to Firebase
-          var snapshot = await _firebaseStorage
-              .ref()
-              .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
-              .putFile(profilePic!)
-              .whenComplete(() {});
-          var downloadUrl = await snapshot.ref.getDownloadURL();
-          print(snapshot.state);
-          print(downloadUrl);
-          await uploadProfilePic(context, downloadUrl, whichUser);
-        } catch (e) {
-          showsnack(e);
+
+        // Crop Image
+        CroppedFile? cropped = await ImageCropper()
+            .cropImage(sourcePath: profilePic!.path, aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ], uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Crop',
+              cropGridColor: Colors.black,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(title: 'Crop')
+        ]);
+        if (cropped != null) {
+          profilePic = File(cropped.path);
+          final fileName = p.basename(profilePic!.path);
+          try {
+            //Upload to Firebase
+            var snapshot = await _firebaseStorage
+                .ref()
+                .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
+                .putFile(profilePic!)
+                .whenComplete(() {});
+            var downloadUrl = await snapshot.ref.getDownloadURL();
+            print(snapshot.state);
+            print(downloadUrl);
+            await uploadProfilePic(context, downloadUrl, whichUser);
+          } catch (e) {
+            showsnack(e);
+          }
+        } else {
+          showsnack("No Image Selected");
         }
       } else {
         showsnack("No Image Selected");
@@ -128,23 +151,46 @@ class BottomMediaUp {
 
     if (pickedFile != null) {
       var file = File(pickedFile.path);
-      final fileName = p.basename(file.path);
 
-      try {
-        //Upload to Firebase
-        var snapshot = await _firebaseStorage
-            .ref()
-            .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
-            .putFile(file)
-            .whenComplete(() {
-          print("completed");
-        });
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-        print(snapshot.state);
-        print(downloadUrl);
-        await uploadProfilePic(context, downloadUrl, whichUser);
-      } catch (e) {
-        showsnack(e.toString());
+      // Crop Image
+      CroppedFile? cropped = await ImageCropper()
+          .cropImage(sourcePath: file.path, aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ], uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Crop',
+            cropGridColor: Colors.black,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(title: 'Crop')
+      ]);
+
+      if (cropped != null) {
+        file = File(cropped.path);
+        final fileName = p.basename(file.path);
+
+        try {
+          //Upload to Firebase
+          var snapshot = await _firebaseStorage
+              .ref()
+              .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
+              .putFile(file)
+              .whenComplete(() {
+            print("completed");
+          });
+          var downloadUrl = await snapshot.ref.getDownloadURL();
+          print(snapshot.state);
+          print(downloadUrl);
+          await uploadProfilePic(context, downloadUrl, whichUser);
+        } catch (e) {
+          showsnack(e.toString());
+        }
+      } else {
+        showsnack("No image selected");
       }
     } else {
       showsnack("No image selected");
@@ -173,21 +219,44 @@ class BottomMediaUp {
         );
         if (files != null && files.files.isNotEmpty) {
           mediaImages = File(files.files[0].path!);
-          final fileName = p.basename(mediaImages!.path);
-          try {
-            //Upload to Firebase
-            var snapshot = await _firebaseStorage
-                .ref()
-                .child(
-                    'images/$userId/photos/${userId}_${DateTime.now()}_$fileName')
-                .putFile(mediaImages!)
-                .whenComplete(() {});
-            var downloadUrl = await snapshot.ref.getDownloadURL();
-            print(snapshot.state);
-            print(downloadUrl);
-            await uploadMMedia(downloadUrl, mediaType);
-          } catch (e) {
-            showsnack(e);
+
+          // Crop Image
+          CroppedFile? cropped = await ImageCropper()
+              .cropImage(sourcePath: mediaImages!.path, aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ], uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Crop',
+                cropGridColor: Colors.black,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(title: 'Crop')
+          ]);
+
+          if (cropped != null) {
+            mediaImages = File(cropped.path);
+            final fileName = p.basename(mediaImages!.path);
+            try {
+              //Upload to Firebase
+              var snapshot = await _firebaseStorage
+                  .ref()
+                  .child(
+                      'images/$userId/photos/${userId}_${DateTime.now()}_$fileName')
+                  .putFile(mediaImages!)
+                  .whenComplete(() {});
+              var downloadUrl = await snapshot.ref.getDownloadURL();
+              print(snapshot.state);
+              print(downloadUrl);
+              await uploadMMedia(downloadUrl, mediaType);
+            } catch (e) {
+              showsnack(e);
+            }
+          } else {
+            showsnack("No Image Selected");
           }
         } else {
           showsnack("No Image Selected");
@@ -342,24 +411,46 @@ class BottomMediaUp {
 
     if (pickedFile != null) {
       var file = File(pickedFile.path);
-      final fileName = p.basename(file.path);
 
-      try {
-        //Upload to Firebase
-        var snapshot = await _firebaseStorage
-            .ref()
-            .child(
-                'images/$userId/photos/${userId}_${DateTime.now()}_$fileName')
-            .putFile(file)
-            .whenComplete(() {
-          print("completed");
-        });
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-        print(snapshot.state);
-        print(downloadUrl);
-        await uploadMMedia(downloadUrl);
-      } catch (e) {
-        showsnack(e.toString());
+      // Crop Image
+      CroppedFile? cropped = await ImageCropper()
+          .cropImage(sourcePath: file.path, aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ], uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Crop',
+            cropGridColor: Colors.black,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(title: 'Crop')
+      ]);
+
+      if (cropped != null) {
+        file = File(cropped.path);
+        final fileName = p.basename(file.path);
+        try {
+          //Upload to Firebase
+          var snapshot = await _firebaseStorage
+              .ref()
+              .child(
+                  'images/$userId/photos/${userId}_${DateTime.now()}_$fileName')
+              .putFile(file)
+              .whenComplete(() {
+            print("completed");
+          });
+          var downloadUrl = await snapshot.ref.getDownloadURL();
+          print(snapshot.state);
+          print(downloadUrl);
+          await uploadMMedia(downloadUrl);
+        } catch (e) {
+          showsnack(e.toString());
+        }
+      } else {
+        showsnack("No image selected");
       }
     } else {
       showsnack("No image selected");

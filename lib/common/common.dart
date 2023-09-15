@@ -10,8 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
-Widget commonTextField(double screenWidth, double screenHeight,
-    BuildContext context, controller, String hintText, icon, bool isPassword) {
+Widget commonTextField(
+    double screenWidth,
+    double screenHeight,
+    BuildContext context,
+    controller,
+    String hintText,
+    icon,
+    bool isPassword,
+    Function(bool value) changeState) {
   return Container(
     // height: screenHeight * 0.05,
     width: screenWidth,
@@ -26,8 +33,10 @@ Widget commonTextField(double screenWidth, double screenHeight,
       controller: controller,
       validator: (String? value) {
         if (value == null || value.isEmpty) {
-          return "Please fill this";
+          changeState(true);
+          return "no";
         } else {
+          changeState(false);
           return null;
         }
       },
@@ -46,7 +55,8 @@ Widget commonTextField(double screenWidth, double screenHeight,
         ),
         errorStyle: const TextStyle(
           fontFamily: fontFamily,
-          height: 0.1,
+          color: Colors.transparent,
+          height: 0.001,
         ),
         border: InputBorder.none,
         prefixIcon: Container(

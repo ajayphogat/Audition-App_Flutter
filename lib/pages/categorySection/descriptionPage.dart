@@ -185,7 +185,7 @@ class _DescriptionPageState extends State<DescriptionPage>
                       itemCount: jobData.images.length,
                       itemBuilder: (context, index) => Image.network(
                         jobData.images[index],
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                       onPageChanged: (page) {
                         setState(() {
@@ -322,7 +322,8 @@ class _DescriptionPageState extends State<DescriptionPage>
                 ),
               ),
               SizedBox(height: screenHeight * 0.015),
-              Padding(
+              Container(
+                width: screenWidth,
                 padding: EdgeInsets.only(
                   left: screenWidth * 0.03,
                   top: screenHeight * 0.022,
@@ -369,12 +370,16 @@ class _DescriptionPageState extends State<DescriptionPage>
                   right: screenWidth * 0.06,
                   bottom: screenHeight * 0.02,
                 ),
-                child: Text(
-                  jobData.productionDetail,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    fontSize: 13,
-                  ),
+                child: Row(
+                  children: [
+                    Text(
+                      jobData.productionDetail,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: screenHeight * 0.025),

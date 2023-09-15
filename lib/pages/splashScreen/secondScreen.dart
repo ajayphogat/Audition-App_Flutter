@@ -50,7 +50,13 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
               height: height * 0.65,
               child: Stack(
                 children: [
-                  Image.asset("asset/images/uiImages/splashScreen.png"),
+                  Container(
+                    width: width,
+                    child: Image.asset(
+                      "asset/images/uiImages/splashScreen.png",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   Positioned(
                     bottom: 0,
                     child: SizedBox(
