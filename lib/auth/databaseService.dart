@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/api/firebase_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseService {
   final String? uid;
@@ -13,19 +15,31 @@ class DatabaseService {
       FirebaseFirestore.instance.collection("groups");
 
   Future updateUserData(String fullName, String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     return await userCollection.doc(uid).set({
       "fullName": fullName,
       "email": email,
       "groups": [],
       "notification": [],
-      "profilePic": "",
+      "profilePic":
+          "https://firebasestorage.googleapis.com/v0/b/auditionportal-2597e.appspot.com/o/ProfilePlaceholder.png?alt=media&token=3ea3bc21-8342-46c6-b7c7-94dd5c380a75",
       "uid": uid,
+      "fCMToken": prefs.getString('fCMToken')
     });
   }
 
   Future updateUserProfilePic(String profilePic) async {
     return await userCollection.doc(uid).update({
       "profilePic": profilePic,
+    });
+  }
+
+  Future updateFCMToken() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    var fcmToken = await NotificationService().getDeviceToken();
+    return await userCollection.doc(uid).update({
+      "fCMToken": fcmToken,
+      // "fCMToken": prefs.getString('fCMToken'),
     });
   }
 
@@ -49,9 +63,18 @@ class DatabaseService {
   }
 
   Future gettingUserData(String email) async {
+    await updateFCMToken();
     QuerySnapshot snapshot =
         await userCollection.where("email", isEqualTo: email).get();
     return snapshot;
+  }
+
+  Future gettingUserFCMToken(String userID) async {
+    var uu = await userCollection.doc(userID).get();
+    print("userID: $userID");
+    print("snapshot docs");
+    print(uu['fCMToken']);
+    return uu['fCMToken'];
   }
 
   // Future updateStudioUserData(String fullName, String email) async {
@@ -137,6 +160,8 @@ class DatabaseService {
         id);
     var userData = await userCollection.doc(uid).get();
     var user2Data = await userCollection.doc(id).get();
+    var user2FCMToken = (user2Data.data() as Map<String, dynamic>)['fCMToken'];
+    var user1FCMToken = (userData.data() as Map<String, dynamic>)['fCMToken'];
 
     if (allGroupCollDocs.isEmpty) {
       DocumentReference groupDocumentReference = await groupCollection.add({
@@ -145,6 +170,7 @@ class DatabaseService {
         "admin": "${uid}_$userName",
         "members": [],
         "groupId": "",
+        "fmcTokens": "${user2FCMToken}_$user1FCMToken",
         "recentMessage": "",
         "recentMessageSender": "",
       });
@@ -281,17 +307,38 @@ class DatabaseService {
     }
   }
 
-  sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
+  sendMessage(String groupId, Map<String, dynamic> chatMessageData,
+      String groupName) async {
     groupCollection.doc(groupId).collection("messages").add(chatMessageData);
     groupCollection.doc(groupId).update({
       "recentMessage": chatMessageData['message'],
       "recentMessageSender": chatMessageData['sender'],
       "recentMessageTime": chatMessageData['time'].toString(),
     });
+
+    DocumentSnapshot userData = await userCollection.doc(uid).get();
+    if (userData.exists) {
+      final userData1 = userData.data() as Map<String, dynamic>?;
+      List<dynamic> groups = userData1?['groups'] as List<dynamic> ?? [];
+
+      print("Contain ?");
+      print(groupName);
+      print(groups);
+      print(groups.contains(groupName));
+      if (groups.contains(groupName)) {
+        groups.remove(groupName);
+        groups.insert(0, groupName);
+        print(groups);
+      }
+
+      await userCollection.doc(uid).update({'groups': groups});
+    } else {
+      print('user document does not exist');
+    }
   }
 
   sendMessageImg(String groupId, Map<String, dynamic> chatMessageData,
-      String fileName) async {
+      String fileName, String groupName) async {
     groupCollection
         .doc(groupId)
         .collection("messages")

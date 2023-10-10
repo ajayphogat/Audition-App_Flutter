@@ -26,7 +26,7 @@ class _ChirographerGridPageState extends State<ChirographerGridPage> {
   getCategoryJobs() async {
     _categoryJobs = await otherService.categoryJobs(
       context: context,
-      category: "Chirographer",
+      category: "Dancer",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {
@@ -93,6 +93,7 @@ class _ChirographerGridPageState extends State<ChirographerGridPage> {
                         data.studio['_id'],
                         data.applicants.contains(user.id),
                         updateState,
+                        data.status,
                       ),
                     );
                   },

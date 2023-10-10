@@ -19,6 +19,9 @@ class JobModel {
   final List<dynamic> accepted;
   final List<dynamic> declined;
   final List<dynamic> bookmark;
+  final bool status;
+  String? auditionDate;
+  String? lastDate;
   bool? isFollowed;
   bool? isBookmarked;
   bool? isApplied;
@@ -41,6 +44,9 @@ class JobModel {
     required this.accepted,
     required this.declined,
     required this.bookmark,
+    required this.status,
+    this.auditionDate,
+    this.lastDate,
     this.isFollowed,
     this.isBookmarked,
     this.isApplied,
@@ -49,7 +55,7 @@ class JobModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      '_id': id,
       'studioName': studioName,
       'jobType': jobType,
       'socialMedia': socialMedia,
@@ -66,6 +72,9 @@ class JobModel {
       'accepted': accepted,
       'declined': declined,
       'bookmark': bookmark,
+      'status': status,
+      'auditionDate': auditionDate,
+      'lastDate': lastDate,
       'isFollowed': isFollowed,
       'isBookmarked': isBookmarked,
       'isApplied': isApplied,
@@ -92,7 +101,11 @@ class JobModel {
       accepted: List<dynamic>.from(map['accepted'] as List<dynamic>),
       declined: List<dynamic>.from(map['declined'] as List<dynamic>),
       bookmark: List<dynamic>.from(map['bookmark'] as List<dynamic>),
+      status: map['status'] as bool,
       isFollowed: map['isFollowed'] != null ? map['isFollowed'] as bool : null,
+      auditionDate:
+          map['auditionDate'] != null ? map['auditionDate'] as String : null,
+      lastDate: map['lastDate'] != null ? map['lastDate'] as String : null,
       isBookmarked:
           map['isBookmarked'] != null ? map['isBookmarked'] as bool : null,
       isApplied: map['isApplied'] != null ? map['isApplied'] as bool : null,
@@ -124,6 +137,9 @@ class JobModel1 {
   final List<dynamic> accepted;
   final List<dynamic> declined;
   final List<dynamic> bookmark;
+  final bool status;
+  String? auditionDate;
+  String? lastDate;
   bool? isFollowed;
   bool? isBookmarked;
   bool? isApplied;
@@ -148,6 +164,9 @@ class JobModel1 {
     required this.accepted,
     required this.declined,
     required this.bookmark,
+    required this.status,
+    this.auditionDate,
+    this.lastDate,
     this.isFollowed,
     this.isBookmarked,
     this.isApplied,
@@ -158,7 +177,7 @@ class JobModel1 {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      '_id': id,
       'studioName': studioName,
       'jobType': jobType,
       'socialMedia': socialMedia,
@@ -175,6 +194,9 @@ class JobModel1 {
       'accepted': accepted,
       'declined': declined,
       'bookmark': bookmark,
+      'status': status,
+      'auditionDate': auditionDate,
+      'lastDate': lastDate,
       'isFollowed': isFollowed,
       'isBookmarked': isBookmarked,
       'isApplied': isApplied,
@@ -203,7 +225,11 @@ class JobModel1 {
       accepted: List<dynamic>.from(map['accepted'] as List<dynamic>),
       declined: List<dynamic>.from(map['declined'] as List<dynamic>),
       bookmark: List<dynamic>.from(map['bookmark'] as List<dynamic>),
+      status: map['status'] as bool,
       isFollowed: map['isFollowed'] != null ? map['isFollowed'] as bool : null,
+      auditionDate:
+          map['auditionDate'] != null ? map['auditionDate'] as String : null,
+      lastDate: map['lastDate'] != null ? map['lastDate'] as String : null,
       isBookmarked:
           map['isBookmarked'] != null ? map['isBookmarked'] as bool : null,
       isApplied: map['isApplied'] != null ? map['isApplied'] as bool : null,

@@ -25,7 +25,7 @@ class _WriterGridpageState extends State<WriterGridpage> {
   getCategoryJobs() async {
     _categoryJobs = await otherService.categoryJobs(
       context: context,
-      category: "Writer",
+      category: "Singer",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {
@@ -92,6 +92,7 @@ class _WriterGridpageState extends State<WriterGridpage> {
                         data.studio['_id'],
                         data.applicants.contains(user.id),
                         getCategoryJobs,
+                        data.status,
                       ),
                     );
                   },

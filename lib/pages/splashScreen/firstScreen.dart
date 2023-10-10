@@ -41,7 +41,8 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
               height: screenHeight,
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
-              child: Image.asset("asset/images/illustration/find.png"),
+              child: Image.asset("asset/images/illustration/findNew.png"),
+              // child: Image.asset("asset/images/illustration/find.png"),
             ),
             Positioned(
               bottom: screenHeight * 0.20,

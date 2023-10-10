@@ -11,14 +11,14 @@ const List<String> categoryData = [
 ];
 const List<String> categoryDataName = [
   "Actor",
-  "Dancer",
-  "Writer",
-  "Musician",
-  "Painter",
-  "Choreographer",
+  "Model",
   "Singer",
+  "Musician",
+  "Writer",
+  "Dancer",
+  "Choreographer",
   "Designer",
-  "Chef",
+  "Other",
 ];
 
 const List<String> myApplicationData = [

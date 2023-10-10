@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   final TextEditingController _searchEdit = TextEditingController();
 
-  getAllJobs() async {
+  Future<void> getAllJobs() async {
     allJobs = await otherService.getAllJobs(context: context);
     if (this.mounted) {
       setState(() {});
@@ -54,9 +54,10 @@ class _HomePageState extends State<HomePage> {
     final user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: SafeArea(
         child: SingleChildScrollView(
+          // physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
               Stack(

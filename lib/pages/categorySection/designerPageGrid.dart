@@ -93,6 +93,7 @@ class _DesignerGridPageState extends State<DesignerGridPage> {
                         data.studio['_id'],
                         data.applicants.contains(user.id),
                         updateState,
+                        data.status,
                       ),
                     );
                   },

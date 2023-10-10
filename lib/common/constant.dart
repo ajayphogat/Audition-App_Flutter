@@ -1,7 +1,8 @@
 // const url = "https://auditionbackend.onrender.com";
-// const url = "https://api.findingyou.media";
+// const url = "http://192.168.1.15:4400";
+const url = "https://api.findingyou.media";
 
-const url = "http://192.168.1.100:4400";
+// const url = "http://192.168.1.100:4400";
 // const url = "http://192.168.1.100:4400";
 // const url = "http://192.168.1.5:4400";
 

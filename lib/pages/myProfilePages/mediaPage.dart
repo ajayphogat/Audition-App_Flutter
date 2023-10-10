@@ -940,6 +940,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
 
   Container emptyVideosContainer(
       double screenWidth, double screenHeight, user, String text) {
+    print("video area");
+    print(user.thumbnailVideo);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
       height: screenHeight * 0.52,
@@ -979,7 +981,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                   ),
                 ],
               ),
-              itemCount: user.thumbnailVideo.length,
+              itemCount: user.videos.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onLongPress: () {

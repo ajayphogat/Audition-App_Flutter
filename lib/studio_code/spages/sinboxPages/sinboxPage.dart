@@ -80,6 +80,7 @@ class _SInboxMessagePageState extends State<SInboxMessagePage> {
   }
 
   groupList(double screenHeight, double screenWidth) {
+    var pp = Provider.of<StudioProvider>(context, listen: false).user.id;
     return StreamBuilder(
       stream: groups,
       builder: (context, AsyncSnapshot snapshot) {
@@ -104,6 +105,7 @@ class _SInboxMessagePageState extends State<SInboxMessagePage> {
                             profilePic: profilePics[reverseIndex],
                             adminProfilePic: snapshot.data['profilePic'],
                             chatUserId: allUserId[reverseIndex],
+                            currentUserId: pp,
                           ),
                         ),
                       );

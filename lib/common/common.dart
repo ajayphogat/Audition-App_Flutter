@@ -371,6 +371,7 @@ Widget gridViewContainer(
   String studioId,
   bool isApplied,
   Function updateList,
+  bool status,
 ) {
   return Card(
     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
@@ -437,59 +438,82 @@ Widget gridViewContainer(
         ),
         SizedBox(height: screenHeight * 0.015),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              width: screenWidth * 0.25,
+              width: screenWidth * 0.2,
               height: screenHeight * 0.035,
               alignment: Alignment.center,
               child: AutoSizeText(
-                "View Details",
-                maxFontSize: 15,
-                minFontSize: 10,
+                status ? "" : "Expired",
+                maxFontSize: 12,
+                minFontSize: 8,
                 style: TextStyle(
-                  fontSize: 15,
-                  color: greenColor,
+                  fontSize: 12,
+                  color: Colors.red,
                   fontWeight: FontWeight.normal,
                 ),
               ),
             ),
-            SizedBox(width: screenWidth * 0.05),
-            InkWell(
-              onTap: isApplied
-                  ? () {}
-                  : () async {
-                      circularProgressIndicatorNew(context);
-                      await OtherService().applyJob(
-                        context: context,
-                        jobId: jobId,
-                        studioUserId: studioId,
-                      );
-                      await updateList();
-                      Navigator.pop(context);
-                    },
-              child: Container(
-                width: screenWidth * 0.3,
-                height: screenHeight * 0.035,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  // color: Colors.red,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: greenColor, width: 1.5),
-                ),
-                child: AutoSizeText(
-                  isApplied ? "APPLIED" : "APPLY NOW",
-                  maxFontSize: 14,
-                  minFontSize: 10,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: greenColor,
-                    fontWeight: FontWeight.w500,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: screenWidth * 0.25,
+                  height: screenHeight * 0.035,
+                  alignment: Alignment.center,
+                  child: AutoSizeText(
+                    "View Details",
+                    maxFontSize: 15,
+                    minFontSize: 10,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: status ? greenColor : Colors.grey,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(width: screenWidth * 0.05),
+                InkWell(
+                  onTap: isApplied
+                      ? () {}
+                      : status
+                          ? () async {
+                              circularProgressIndicatorNew(context);
+                              await OtherService().applyJob(
+                                context: context,
+                                jobId: jobId,
+                                studioUserId: studioId,
+                              );
+                              await updateList();
+                              Navigator.pop(context);
+                            }
+                          : () {},
+                  child: Container(
+                    width: screenWidth * 0.3,
+                    height: screenHeight * 0.035,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      // color: Colors.red,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                          color: status ? greenColor : Colors.grey, width: 1.5),
+                    ),
+                    child: AutoSizeText(
+                      isApplied ? "APPLIED" : "APPLY NOW",
+                      maxFontSize: 14,
+                      minFontSize: 10,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: status ? greenColor : Colors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: screenWidth * 0.025),
+              ],
             ),
-            SizedBox(width: screenWidth * 0.025),
           ],
         ),
         SizedBox(height: screenHeight * 0.015),

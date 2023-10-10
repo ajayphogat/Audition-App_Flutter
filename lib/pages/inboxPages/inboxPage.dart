@@ -30,7 +30,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
   List<String> profilePics = [];
   List<String> allUserId = [];
 
-  void getUserGroups(id) async {
+  Future<void> getUserGroups(id) async {
     var pp = Provider.of<UserProvider>(context, listen: false).user.id;
     await DatabaseService(uid: pp)
         .getUserGroupsRecentMessageTime()
@@ -104,111 +104,130 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
   }
 
   groupList(double screenHeight, double screenWidth) {
+    var pp = Provider.of<UserProvider>(context, listen: false).user.id;
     return StreamBuilder(
       stream: groups,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
-              return ListView.separated(
-                itemCount: snapshot.data['groups'].length,
-                itemBuilder: (context, index) {
-                  int reverseIndex = snapshot.data['groups'].length - index - 1;
-                  var newDate = DateTime.fromMillisecondsSinceEpoch(
-                      int.parse(recentMsgTime![reverseIndex]));
-                  var currentDate = DateTime.now();
-                  Duration duration = currentDate.difference(newDate);
-                  var newMin = duration.inMinutes;
-
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (context) => SMessagePage(
-                            groupId:
-                                getId(snapshot.data['groups'][reverseIndex]),
-                            groupName:
-                                getName(snapshot.data['groups'][reverseIndex]),
-                            userName: snapshot.data['fullName'],
-                            profilePic: profilePics.isEmpty
-                                ? ""
-                                : profilePics[reverseIndex].isEmpty
-                                    ? ""
-                                    : profilePics[reverseIndex],
-                            adminProfilePic: snapshot.data['profilePic'],
-                            chatUserId: allUserId[reverseIndex],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        SizedBox(height: screenHeight * 0.01),
-                        ListTile(
-                          leading: Container(
-                            width: (screenWidth * 0.1),
-                            height: (screenWidth * 0.1),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: profilePics.isEmpty
-                                  ? Container(
-                                      color: Colors.black,
-                                    )
-                                  : profilePics[reverseIndex].isEmpty
-                                      ? Container(
-                                          color: Colors.black,
-                                        )
-                                      : CachedNetworkImage(
-                                          imageUrl: profilePics[reverseIndex],
-                                          fit: BoxFit.cover,
-                                        ),
-                            ),
-                          ),
-                          title: Text(
-                            getName(snapshot.data['groups'][reverseIndex]),
-                            // getId(snapshot.data['groups'][reverseIndex]),
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(
-                            message![reverseIndex],
-                            // getName(snapshot.data['groups'][reverseIndex]),
-                          ),
-                          trailing: AutoSizeText(
-                            "${newMin} m",
-                            maxFontSize: 16,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.01),
-
-                        // Divider(
-                        //   height: 0,
-                        //   thickness: 1,
-                        //   color: Colors.black26,
-                        //   indent: screenWidth * 0.025,
-                        //   endIndent: screenWidth * 0.025,
-                        // ),
-                      ],
-                    ),
-                  );
+              return RefreshIndicator(
+                onRefresh: () {
+                  return getUserGroups(pp);
                 },
-                separatorBuilder: (context, index) => Divider(
-                  thickness: 1,
-                  height: 0,
-                  indent: screenWidth * 0.03,
-                  endIndent: screenWidth * 0.03,
-                  color: Color(0xff706E72).withOpacity(0.28),
+                child: ListView.separated(
+                  itemCount: snapshot.data['groups'].length,
+                  itemBuilder: (context, index) {
+                    // int reverseIndex = snapshot.data['groups'].length - index - 1;
+                    var newDate = DateTime.fromMillisecondsSinceEpoch(
+                        int.parse(recentMsgTime![index]));
+                    // var newDate = DateTime.fromMillisecondsSinceEpoch(
+                    //     int.parse(recentMsgTime![reverseIndex]));
+                    var currentDate = DateTime.now();
+                    Duration duration = currentDate.difference(newDate);
+                    var newMin = duration.inMinutes;
+
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => SMessagePage(
+                              groupId: getId(snapshot.data['groups'][index]),
+                              // getId(snapshot.data['groups'][reverseIndex]),
+                              groupName: snapshot.data['groups'][index],
+                              // groupName: snapshot.data['groups'][reverseIndex],
+                              // groupName:
+                              //     getName(snapshot.data['groups'][reverseIndex]),
+                              userName: snapshot.data['fullName'],
+                              profilePic: profilePics.isEmpty
+                                  ? ""
+                                  : profilePics[index].isEmpty
+                                      // : profilePics[reverseIndex].isEmpty
+                                      ? ""
+                                      : profilePics[index],
+                              // : profilePics[reverseIndex],
+                              adminProfilePic: snapshot.data['profilePic'],
+                              chatUserId: allUserId[index],
+                              // chatUserId: allUserId[reverseIndex],
+                              currentUserId: pp,
+                            ),
+                          ),
+                        );
+                        setState(() {});
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(height: screenHeight * 0.01),
+                          ListTile(
+                            leading: Container(
+                              width: (screenWidth * 0.1),
+                              height: (screenWidth * 0.1),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: profilePics.isEmpty
+                                    ? Container(
+                                        color: Colors.black,
+                                      )
+                                    : profilePics[index].isEmpty
+                                        // : profilePics[reverseIndex].isEmpty
+                                        ? Container(
+                                            color: Colors.black,
+                                          )
+                                        : CachedNetworkImage(
+                                            imageUrl: profilePics[index],
+                                            // imageUrl: profilePics[reverseIndex],
+                                            fit: BoxFit.cover,
+                                          ),
+                              ),
+                            ),
+                            title: Text(
+                              getName(snapshot.data['groups'][index]),
+                              // getName(snapshot.data['groups'][reverseIndex]),
+                              // getId(snapshot.data['groups'][reverseIndex]),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              message![index],
+                              // message![reverseIndex],
+                              // getName(snapshot.data['groups'][reverseIndex]),
+                            ),
+                            trailing: AutoSizeText(
+                              "${newMin} m",
+                              maxFontSize: 16,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.01),
+
+                          // Divider(
+                          //   height: 0,
+                          //   thickness: 1,
+                          //   color: Colors.black26,
+                          //   indent: screenWidth * 0.025,
+                          //   endIndent: screenWidth * 0.025,
+                          // ),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => Divider(
+                    thickness: 1,
+                    height: 0,
+                    indent: screenWidth * 0.03,
+                    endIndent: screenWidth * 0.03,
+                    color: Color(0xff706E72).withOpacity(0.28),
+                  ),
                 ),
               );
             } else {

@@ -149,42 +149,115 @@ class _SDesignationPageState extends State<SDesignationPage> {
                         subtitle: Text(user.location),
                       ),
                     ),
+                    SizedBox(height: screenHeight * 0.025),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              circleWithTextContainer(
-                                  screenWidth,
-                                  "${user.photos.length} Photos",
-                                  MyFlutterApp.camera_2_fill),
-                              SizedBox(height: screenHeight * 0.02),
-                              circleWithTextContainer(
-                                  screenWidth,
-                                  "${user.documents.length} Documents",
-                                  MyFlutterApp.paper),
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, MediaProfilePage.routeName);
+                            },
+                            child: circleWithTextContainer(
+                                screenWidth,
+                                "${user.photos.length} Photos",
+                                MyFlutterApp.camera_2_fill),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              circleWithTextContainer(
-                                  screenWidth,
-                                  "${user.videos.length} Videos",
-                                  MyFlutterApp.live_fill),
-                              SizedBox(height: screenHeight * 0.02),
-                              circleWithTextContainer(
-                                  screenWidth,
-                                  "${user.audios.length} Audios",
-                                  MyFlutterApp.mic_fill),
-                            ],
+                          SizedBox(height: screenHeight * 0.02),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, MediaProfilePage.routeName);
+                            },
+                            child: circleWithTextContainer(
+                                screenWidth,
+                                "${user.videos.length} Videos",
+                                MyFlutterApp.live_fill),
+                          ),
+                          SizedBox(height: screenHeight * 0.02),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, MediaProfilePage.routeName);
+                            },
+                            child: circleWithTextContainer(
+                                screenWidth,
+                                "${user.audios.length} Audios",
+                                MyFlutterApp.mic_fill),
                           ),
                         ],
                       ),
+                      // child: Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         InkWell(
+                      //           onTap: () {
+                      //             Navigator.pushNamed(
+                      //                 context, MediaProfilePage.routeName);
+                      //           },
+                      //           child: circleWithTextContainer(
+                      //               screenWidth,
+                      //               "${user.photos.length} Photos",
+                      //               MyFlutterApp.camera_2_fill),
+                      //         ),
+                      //         SizedBox(height: screenHeight * 0.02),
+                      //         InkWell(
+                      //           onTap: () {
+                      //             Navigator.pushNamed(
+                      //                 context, MediaProfilePage.routeName);
+                      //           },
+                      //           child: circleWithTextContainer(
+                      //               screenWidth,
+                      //               "${user.documents.length} Documents",
+                      //               MyFlutterApp.paper),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         InkWell(
+                      //           onTap: () {
+                      //             Navigator.pushNamed(
+                      //                 context, MediaProfilePage.routeName);
+                      //           },
+                      //           child: circleWithTextContainer(
+                      //               screenWidth,
+                      //               "${user.photos.length} Photos",
+                      //               MyFlutterApp.camera_2_fill),
+                      //         ),
+                      //         SizedBox(height: screenHeight * 0.02),
+                      //         InkWell(
+                      //           onTap: () {
+                      //             Navigator.pushNamed(
+                      //                 context, MediaProfilePage.routeName);
+                      //           },
+                      //           child: circleWithTextContainer(
+                      //               screenWidth,
+                      //               "${user.videos.length} Videos",
+                      //               MyFlutterApp.live_fill),
+                      //         ),
+                      //         SizedBox(height: screenHeight * 0.02),
+                      //         InkWell(
+                      //           onTap: () {
+                      //             Navigator.pushNamed(
+                      //                 context, MediaProfilePage.routeName);
+                      //           },
+                      //           child: circleWithTextContainer(
+                      //               screenWidth,
+                      //               "${user.audios.length} Audios",
+                      //               MyFlutterApp.mic_fill),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ),
                     ),
                     SizedBox(height: screenHeight * 0.02),
                     InkWell(
@@ -203,6 +276,7 @@ class _SDesignationPageState extends State<SDesignationPage> {
                                     profilePic: profilePic,
                                     adminProfilePic: adminProfilePic,
                                     chatUserId: user.id,
+                                    currentUserId: sUser.id,
                                   ),
                                 ));
                         navigatorPop() => Navigator.pop(context);

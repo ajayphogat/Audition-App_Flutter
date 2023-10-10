@@ -93,6 +93,7 @@ class _MusicianGridPageState extends State<MusicianGridPage> {
                         data.studio['_id'],
                         data.applicants.contains(user.id),
                         updateState,
+                        data.status,
                       ),
                     );
                   },

@@ -435,6 +435,7 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
           profilePic: "",
           adminProfilePic: "",
           chatUserId: "",
+          currentUserId: "",
         ),
       );
 

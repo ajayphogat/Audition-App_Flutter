@@ -73,78 +73,79 @@ class _SMyProfilePageState extends State<SMyProfilePage>
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  left: screenWidth * 0.05,
-                  right: screenWidth * 0.05,
-                  top: screenHeight * 0.01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, SInviteFriendsPage.routeName);
-                    },
-                    child: Container(
-                      width: screenWidth * 0.22,
-                      height: screenHeight * 0.03,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: secondoryColor,
-                      ),
-                      child: const Text(
-                        "INVITE FRIENDS",
-                        style: TextStyle(
-                          fontSize: 8,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // PopupMenuButton(
-                  //   padding: EdgeInsets.zero,
-                  //   icon: SvgPicture.asset(
-                  //     "asset/icons/v3.svg",
-                  //     color: Colors.black,
-                  //   ),
-                  //   offset: Offset(0, screenHeight * 0.042),
-                  //   itemBuilder: (context) {
-                  //     return [
-                  //       PopupMenuItem(
-                  //         height: screenHeight * 0.03,
-                  //         child: const Text(
-                  //           "Report",
-                  //           style: TextStyle(
-                  //             fontSize: 14,
-                  //           ),
-                  //         ),
-                  //         onTap: () async {
-                  //           circularProgressIndicatorNew(context);
-                  //           navigatorPop() => Navigator.pop(context);
-                  //           navigatorPush() =>
-                  //               Navigator.pushNamedAndRemoveUntil(context,
-                  //                   MainPage.routeName, (route) => false);
-                  //           SharedPreferences prefs =
-                  //               await SharedPreferences.getInstance();
-                  //           prefs.setString("x-auth-token", "");
-                  //           prefs.setString("x-studio-token", "");
-                  //           await FirebaseAuth.instance.signOut();
-                  //           navigatorPop();
-                  //           navigatorPush();
-                  //           // WidgetsBinding.instance.addPostFrameCallback((_) {
-                  //           //   newDialogBox1(context, screenWidth, screenHeight,
-                  //           //       "Account Reported!", "GO BACK", false, "");
-                  //           // }
-                  //           // );
-                  //         },
-                  //       ),
-                  //     ];
-                  //   },
-                  // ),
-                ],
-              ),
-            ),
+            SizedBox(height: screenHeight * 0.05),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: screenWidth * 0.05,
+            //       right: screenWidth * 0.05,
+            //       top: screenHeight * 0.01),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       InkWell(
+            //         onTap: () {
+            //           Navigator.pushNamed(
+            //               context, SInviteFriendsPage.routeName);
+            //         },
+            //         child: Container(
+            //           width: screenWidth * 0.22,
+            //           height: screenHeight * 0.03,
+            //           alignment: Alignment.center,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(6),
+            //             color: secondoryColor,
+            //           ),
+            //           child: const Text(
+            //             "INVITE FRIENDS",
+            //             style: TextStyle(
+            //               fontSize: 8,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       // PopupMenuButton(
+            //       //   padding: EdgeInsets.zero,
+            //       //   icon: SvgPicture.asset(
+            //       //     "asset/icons/v3.svg",
+            //       //     color: Colors.black,
+            //       //   ),
+            //       //   offset: Offset(0, screenHeight * 0.042),
+            //       //   itemBuilder: (context) {
+            //       //     return [
+            //       //       PopupMenuItem(
+            //       //         height: screenHeight * 0.03,
+            //       //         child: const Text(
+            //       //           "Report",
+            //       //           style: TextStyle(
+            //       //             fontSize: 14,
+            //       //           ),
+            //       //         ),
+            //       //         onTap: () async {
+            //       //           circularProgressIndicatorNew(context);
+            //       //           navigatorPop() => Navigator.pop(context);
+            //       //           navigatorPush() =>
+            //       //               Navigator.pushNamedAndRemoveUntil(context,
+            //       //                   MainPage.routeName, (route) => false);
+            //       //           SharedPreferences prefs =
+            //       //               await SharedPreferences.getInstance();
+            //       //           prefs.setString("x-auth-token", "");
+            //       //           prefs.setString("x-studio-token", "");
+            //       //           await FirebaseAuth.instance.signOut();
+            //       //           navigatorPop();
+            //       //           navigatorPush();
+            //       //           // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //       //           //   newDialogBox1(context, screenWidth, screenHeight,
+            //       //           //       "Account Reported!", "GO BACK", false, "");
+            //       //           // }
+            //       //           // );
+            //       //         },
+            //       //       ),
+            //       //     ];
+            //       //   },
+            //       // ),
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.only(
                 top: screenHeight * 0.06,

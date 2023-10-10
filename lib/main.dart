@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
 import 'package:first_app/constants.dart';
@@ -11,10 +12,19 @@ import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dar
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'api/firebase_api.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+NotificationService notificationService = NotificationService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebasemessagingBackgroundHandler);
+  // await FirebaseApi().initNotifications();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => UserProvider(),
@@ -37,6 +47,13 @@ void main() async {
   ], child: const MyAPP()));
 }
 
+@pragma('vm:entry-point')
+Future<void> _firebasemessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("pragma");
+  print(message.notification!.title.toString());
+}
+
 class MyAPP extends StatefulWidget {
   const MyAPP({Key? key}) : super(key: key);
 
@@ -52,11 +69,23 @@ class _MyAPPState extends State<MyAPP> {
     return await authService.getUserData(context);
   }
 
+  void clearCurrentGroup() async {
+    print("first remove");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('currentGroup');
+  }
+
   late Future<dynamic> _future;
 
   @override
   void initState() {
+    clearCurrentGroup();
     _future = waitForToken();
+    // notificationService.isTokenRefresh();
+    notificationService.requestNotificationPermission();
+    notificationService.getDeviceToken();
+    notificationService.firebaseInit(context);
+    notificationService.setupInteractMessage(context);
 
     super.initState();
   }
@@ -76,6 +105,7 @@ class _MyAPPState extends State<MyAPP> {
         }
       },
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         scaffoldMessengerKey: _messangerKey,
         theme: ThemeData(
           brightness: Brightness.light,

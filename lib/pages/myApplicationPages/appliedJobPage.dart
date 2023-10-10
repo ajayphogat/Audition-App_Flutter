@@ -20,7 +20,7 @@ class _AppliedJobPageState extends State<AppliedJobPage> {
   final OtherService otherService = OtherService();
   List<JobModel1>? _appliedJobs;
 
-  getWorkingJobs() async {
+  Future<void> getWorkingJobs() async {
     _appliedJobs = await otherService.showWorkingJobs(
       context: context,
       working: "applied",
@@ -56,155 +56,159 @@ class _AppliedJobPageState extends State<AppliedJobPage> {
                 )
               : Padding(
                   padding: const EdgeInsets.only(top: 25),
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: _appliedJobs!.length,
-                    itemBuilder: (context, index) {
-                      JobModel1 data = _appliedJobs![index];
-                      return InkWell(
-                        onTap: () async {
-                          circularProgressIndicatorNew(context);
-                          await getJobDetails(data.id.toString());
-                        },
-                        child: Column(
-                          children: [
-                            ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                radius: screenWidth * 0.0635,
-                                backgroundImage: NetworkImage(data.images[0]),
-                              ),
-                              title: Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: Text(
-                                  data.studioName,
+                  child: RefreshIndicator(
+                    onRefresh: getWorkingJobs,
+                    child: ListView.separated(
+                      // physics: const AlwaysScrollableScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: _appliedJobs!.length,
+                      itemBuilder: (context, index) {
+                        JobModel1 data = _appliedJobs![index];
+                        return InkWell(
+                          onTap: () async {
+                            circularProgressIndicatorNew(context);
+                            await getJobDetails(data.id.toString());
+                          },
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: screenWidth * 0.0635,
+                                  backgroundImage: NetworkImage(data.images[0]),
+                                ),
+                                title: Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    data.studioName,
+                                    style: const TextStyle(
+                                      fontFamily: fontFamily,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  data.description.length > 100
+                                      ? data.description.substring(0, 100)
+                                      : data.description,
                                   style: const TextStyle(
+                                    fontSize: 13,
                                     fontFamily: fontFamily,
-                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
-                              subtitle: Text(
-                                data.description.length > 100
-                                    ? data.description.substring(0, 100)
-                                    : data.description,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: fontFamily,
-                                  color: Colors.black,
-                                ),
+                              const Divider(
+                                thickness: 1,
+                                color: Color(0xFF979797),
+                                indent: 20,
+                                endIndent: 20,
                               ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Color(0xFF979797),
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                            // SizedBox(height: screenHeight * 0.02),
-                            // ListTile(
-                            //   leading: CircleAvatar(
-                            //     backgroundColor: Colors.transparent,
-                            //     radius: screenWidth * 0.06,
-                            //     backgroundImage: NetworkImage(data.images[0]),
-                            //   ),
-                            //   title: Padding(
-                            //     padding: const EdgeInsets.only(bottom: 5),
-                            //     child: Text(
-                            //       data.description.substring(0, 40),
-                            //       // data.studioName,
-                            //       style: const TextStyle(
-                            //         fontFamily: fontFamily,
-                            //         fontWeight: FontWeight.bold,
-                            //       ),
-                            //     ),
-                            //   ),
-                            //   subtitle: Column(
-                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                            //     children: [
-                            //       Text(
-                            //         data.studioName,
-                            //         // data.description,
-                            //         style: TextStyle(
-                            //           fontSize: 13,
-                            //           fontFamily: fontFamily,
-                            //           color: const Color(0xff131212)
-                            //               .withOpacity(0.8),
-                            //         ),
-                            //       ),
-                            //       // Text(
-                            //       //   data.location,
-                            //       //   // data.description,
-                            //       //   style: const TextStyle(
-                            //       //     fontSize: 10,
-                            //       //     fontFamily: fontFamily,
-                            //       //     fontWeight: FontWeight.w500,
-                            //       //     color: Color(0xff706E72),
-                            //       //   ),
-                            //       // ),
-                            //     ],
-                            //   ),
-                            //   isThreeLine: true,
-                            // ),
-                            // SizedBox(height: screenHeight * 0.01),
-                            // const Divider(
-                            //   thickness: 1,
-                            //   height: 0,
-                            //   color: Color(0xFF979797),
-                            //   // indent: 20,
-                            //   // endIndent: 20,
-                            // ),
-                            // SizedBox(height: screenHeight * 0.015),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.end,
-                            //   children: [
-                            //     Container(
-                            //       width: screenWidth * 0.25,
-                            //       height: screenHeight * 0.035,
-                            //       alignment: Alignment.center,
-                            //       child: AutoSizeText(
-                            //         "View Details",
-                            //         maxFontSize: 15,
-                            //         minFontSize: 10,
-                            //         style: TextStyle(
-                            //           fontSize: 15,
-                            //           color: greenColor,
-                            //           fontWeight: FontWeight.normal,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     SizedBox(width: screenWidth * 0.05),
-                            //     Container(
-                            //       width: screenWidth * 0.3,
-                            //       height: screenHeight * 0.035,
-                            //       alignment: Alignment.center,
-                            //       decoration: BoxDecoration(
-                            //         // color: Colors.red,
-                            //         borderRadius: BorderRadius.circular(5),
-                            //         border: Border.all(
-                            //             color: greenColor, width: 1.5),
-                            //       ),
-                            //       child: AutoSizeText(
-                            //         "APPLY NOW",
-                            //         maxFontSize: 14,
-                            //         minFontSize: 10,
-                            //         style: TextStyle(
-                            //           fontSize: 14,
-                            //           color: greenColor,
-                            //           fontWeight: FontWeight.w500,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     SizedBox(width: screenWidth * 0.025),
-                            //   ],
-                            // ),
-                            // SizedBox(height: screenHeight * 0.015),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) =>
-                        SizedBox(height: screenHeight * 0.02),
+                              // SizedBox(height: screenHeight * 0.02),
+                              // ListTile(
+                              //   leading: CircleAvatar(
+                              //     backgroundColor: Colors.transparent,
+                              //     radius: screenWidth * 0.06,
+                              //     backgroundImage: NetworkImage(data.images[0]),
+                              //   ),
+                              //   title: Padding(
+                              //     padding: const EdgeInsets.only(bottom: 5),
+                              //     child: Text(
+                              //       data.description.substring(0, 40),
+                              //       // data.studioName,
+                              //       style: const TextStyle(
+                              //         fontFamily: fontFamily,
+                              //         fontWeight: FontWeight.bold,
+                              //       ),
+                              //     ),
+                              //   ),
+                              //   subtitle: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Text(
+                              //         data.studioName,
+                              //         // data.description,
+                              //         style: TextStyle(
+                              //           fontSize: 13,
+                              //           fontFamily: fontFamily,
+                              //           color: const Color(0xff131212)
+                              //               .withOpacity(0.8),
+                              //         ),
+                              //       ),
+                              //       // Text(
+                              //       //   data.location,
+                              //       //   // data.description,
+                              //       //   style: const TextStyle(
+                              //       //     fontSize: 10,
+                              //       //     fontFamily: fontFamily,
+                              //       //     fontWeight: FontWeight.w500,
+                              //       //     color: Color(0xff706E72),
+                              //       //   ),
+                              //       // ),
+                              //     ],
+                              //   ),
+                              //   isThreeLine: true,
+                              // ),
+                              // SizedBox(height: screenHeight * 0.01),
+                              // const Divider(
+                              //   thickness: 1,
+                              //   height: 0,
+                              //   color: Color(0xFF979797),
+                              //   // indent: 20,
+                              //   // endIndent: 20,
+                              // ),
+                              // SizedBox(height: screenHeight * 0.015),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: [
+                              //     Container(
+                              //       width: screenWidth * 0.25,
+                              //       height: screenHeight * 0.035,
+                              //       alignment: Alignment.center,
+                              //       child: AutoSizeText(
+                              //         "View Details",
+                              //         maxFontSize: 15,
+                              //         minFontSize: 10,
+                              //         style: TextStyle(
+                              //           fontSize: 15,
+                              //           color: greenColor,
+                              //           fontWeight: FontWeight.normal,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     SizedBox(width: screenWidth * 0.05),
+                              //     Container(
+                              //       width: screenWidth * 0.3,
+                              //       height: screenHeight * 0.035,
+                              //       alignment: Alignment.center,
+                              //       decoration: BoxDecoration(
+                              //         // color: Colors.red,
+                              //         borderRadius: BorderRadius.circular(5),
+                              //         border: Border.all(
+                              //             color: greenColor, width: 1.5),
+                              //       ),
+                              //       child: AutoSizeText(
+                              //         "APPLY NOW",
+                              //         maxFontSize: 14,
+                              //         minFontSize: 10,
+                              //         style: TextStyle(
+                              //           fontSize: 14,
+                              //           color: greenColor,
+                              //           fontWeight: FontWeight.w500,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     SizedBox(width: screenWidth * 0.025),
+                              //   ],
+                              // ),
+                              // SizedBox(height: screenHeight * 0.015),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: screenHeight * 0.02),
+                    ),
                   ),
                 ),
     );

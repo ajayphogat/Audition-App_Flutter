@@ -25,7 +25,7 @@ class _ChefGridPageState extends State<ChefGridPage> {
   getCategoryJobs() async {
     _categoryJobs = await otherService.categoryJobs(
       context: context,
-      category: "Chef",
+      category: "Other",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {
@@ -93,6 +93,7 @@ class _ChefGridPageState extends State<ChefGridPage> {
                         data.studio['_id'],
                         data.applicants.contains(user.id),
                         getCategoryJobs,
+                        data.status,
                       ),
                     );
                   },

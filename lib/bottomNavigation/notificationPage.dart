@@ -27,7 +27,7 @@ class _NotificationPageState extends State<NotificationPage> {
   List<String>? allNotifications;
   List<String>? allNotificationPic;
 
-  getAllNotifications(String userId) async {
+  Future<void> getAllNotifications(String userId) async {
     allData = await DatabaseService().getAllUserNotifications(userId);
     if (this.mounted) {
       setState(() {
@@ -61,6 +61,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    var user = Provider.of<UserProvider>(context, listen: false).user;
     return Scaffold(
       body: allNotifications == null
           ? const Center(
@@ -70,69 +71,75 @@ class _NotificationPageState extends State<NotificationPage> {
               ? const Center(
                   child: Text("No Data Available"),
                 )
-              : ListView.separated(
-                  itemCount: allNotifications!.length,
-                  separatorBuilder: (context, index) => Divider(
-                    thickness: 1,
-                    height: 0,
-                    indent: screenWidth * 0.03,
-                    endIndent: screenWidth * 0.03,
-                    color: Color(0xff706E72).withOpacity(0.28),
-                  ),
-                  itemBuilder: (context, index) {
-                    int reverseIndex = allNotifications!.length - index - 1;
-                    return Container(
-                      // decoration: const BoxDecoration(
-                      //   border: Border(
-                      //     bottom: BorderSide(color: Colors.black),
-                      //   ),
-                      // ),
-                      // margin: const EdgeInsets.only(bottom: 5),
-                      child: Column(
-                        children: [
-                          SizedBox(height: screenHeight * 0.01),
-                          ListTile(
-                            leading: Container(
-                              width: (screenWidth * 0.1),
-                              height: (screenWidth * 0.1),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: allNotificationPic![reverseIndex].isEmpty
-                                    ? Container(
-                                        color: Colors.black,
-                                      )
-                                    : CachedNetworkImage(
-                                        imageUrl:
-                                            allNotificationPic![reverseIndex],
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
-                            ),
-                            title: Text(
-                              allNotifications![reverseIndex],
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            trailing: AutoSizeText(
-                              "5 m",
-                              maxFontSize: 16,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                        ],
-                      ),
-                    );
+              : RefreshIndicator(
+                  onRefresh: () {
+                    return getAllNotifications(user.id);
                   },
+                  child: ListView.separated(
+                    itemCount: allNotifications!.length,
+                    separatorBuilder: (context, index) => Divider(
+                      thickness: 1,
+                      height: 0,
+                      indent: screenWidth * 0.03,
+                      endIndent: screenWidth * 0.03,
+                      color: Color(0xff706E72).withOpacity(0.28),
+                    ),
+                    itemBuilder: (context, index) {
+                      int reverseIndex = allNotifications!.length - index - 1;
+                      return Container(
+                        // decoration: const BoxDecoration(
+                        //   border: Border(
+                        //     bottom: BorderSide(color: Colors.black),
+                        //   ),
+                        // ),
+                        // margin: const EdgeInsets.only(bottom: 5),
+                        child: Column(
+                          children: [
+                            SizedBox(height: screenHeight * 0.01),
+                            ListTile(
+                              leading: Container(
+                                width: (screenWidth * 0.1),
+                                height: (screenWidth * 0.1),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: allNotificationPic![reverseIndex]
+                                          .isEmpty
+                                      ? Container(
+                                          color: Colors.black,
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl:
+                                              allNotificationPic![reverseIndex],
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                              ),
+                              title: Text(
+                                allNotifications![reverseIndex],
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              // trailing: AutoSizeText(
+                              //   "5 m",
+                              //   maxFontSize: 16,
+                              //   style: TextStyle(
+                              //     fontSize: 16,
+                              //     color: Colors.black54,
+                              //     fontWeight: FontWeight.w500,
+                              //   ),
+                              // ),
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
     );
   }

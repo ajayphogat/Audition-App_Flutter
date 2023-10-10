@@ -8,8 +8,8 @@ import 'package:first_app/utils/showSnackbar.dart';
 import 'package:flutter/material.dart';
 
 class SBottomNavigationPage extends StatefulWidget {
-  const SBottomNavigationPage({Key? key}) : super(key: key);
-
+  final int? pageNumber;
+  const SBottomNavigationPage({Key? key, this.pageNumber}) : super(key: key);
   static const String routeName = "/sbottomNavigation-Page";
 
   @override
@@ -33,6 +33,17 @@ class _SBottomNavigationPageState extends State<SBottomNavigationPage> {
     setState(() {
       _page = page;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.pageNumber != null) {
+      _page = widget.pageNumber!;
+    } else {
+      _page = 0;
+    }
   }
 
   @override

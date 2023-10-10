@@ -303,8 +303,8 @@ class BottomMediaUp {
             print(snapshot.state);
             print(downloadUrl);
 
-            await uploadMMedia(downloadUrl, mediaType);
             await uploadMMedia(thumbnailUrl, "thumbnail");
+            await uploadMMedia(downloadUrl, mediaType);
           } catch (e) {
             showsnack(e);
           }

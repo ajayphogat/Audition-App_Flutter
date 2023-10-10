@@ -20,7 +20,7 @@ class _DeclinedJobPageState extends State<DeclinedJobPage> {
   final OtherService otherService = OtherService();
   List<JobModel1>? _appliedJobs;
 
-  getWorkingJobs() async {
+  Future<void> getWorkingJobs() async {
     _appliedJobs = await otherService.showWorkingJobs(
       context: context,
       working: "declined",
@@ -55,54 +55,59 @@ class _DeclinedJobPageState extends State<DeclinedJobPage> {
                 )
               : Padding(
                   padding: const EdgeInsets.only(top: 25),
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: _appliedJobs!.length,
-                    itemBuilder: (context, index) {
-                      JobModel1 data = _appliedJobs![index];
-                      return InkWell(
-                        onTap: () async {
-                          circularProgressIndicatorNew(context);
-                          await getJobDetails(data.id.toString());
-                        },
-                        child: SizedBox(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  radius: screenWidth * 0.0635,
-                                  backgroundImage: NetworkImage(data.images[0]),
-                                ),
-                                title: Padding(
-                                  padding: const EdgeInsets.only(bottom: 5),
-                                  child: Text(
-                                    data.studioName,
+                  child: RefreshIndicator(
+                    onRefresh: getWorkingJobs,
+                    child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      // physics: const BouncingScrollPhysics(),
+                      itemCount: _appliedJobs!.length,
+                      itemBuilder: (context, index) {
+                        JobModel1 data = _appliedJobs![index];
+                        return InkWell(
+                          onTap: () async {
+                            circularProgressIndicatorNew(context);
+                            await getJobDetails(data.id.toString());
+                          },
+                          child: SizedBox(
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: screenWidth * 0.0635,
+                                    backgroundImage:
+                                        NetworkImage(data.images[0]),
+                                  ),
+                                  title: Padding(
+                                    padding: const EdgeInsets.only(bottom: 5),
+                                    child: Text(
+                                      data.studioName,
+                                      style: const TextStyle(
+                                        fontFamily: fontFamily,
+                                      ),
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    data.description,
                                     style: const TextStyle(
+                                      fontSize: 13,
                                       fontFamily: fontFamily,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
-                                subtitle: Text(
-                                  data.description,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: fontFamily,
-                                    color: Colors.black,
-                                  ),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Color(0xFF979797),
+                                  indent: 20,
+                                  endIndent: 20,
                                 ),
-                              ),
-                              const Divider(
-                                thickness: 1,
-                                color: Color(0xFF979797),
-                                indent: 20,
-                                endIndent: 20,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
     );

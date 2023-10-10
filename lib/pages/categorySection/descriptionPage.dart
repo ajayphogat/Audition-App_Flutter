@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
+import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
 import 'package:first_app/provider/job_post_provider.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,6 @@ class _DescriptionPageState extends State<DescriptionPage>
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var jobData = Provider.of<JobProvider>(context).job;
     bool isBookmarked = jobData.isBookmarked!;
     bool isfollowed = jobData.isFollowed!;
@@ -382,50 +382,128 @@ class _DescriptionPageState extends State<DescriptionPage>
                   ],
                 ),
               ),
-              SizedBox(height: screenHeight * 0.025),
-              Divider(
-                thickness: 1,
-                height: 0,
-                indent: screenWidth * 0.03,
-                endIndent: screenWidth * 0.03,
-                color: Color(0xff706E72).withOpacity(0.28),
-              ),
-              SizedBox(height: screenHeight * 0.025),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                child: Row(
-                  children: [
-                    Icon(Icons.calendar_month_outlined),
-                    SizedBox(width: screenWidth * 0.02),
-                    Text(
-                      "Audition date",
-                      style: TextStyle(
-                        color: Color(0xff706E72),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                child: Row(
-                  children: [
-                    // Icon(Icons.calendar_month_outlined),
-                    // SizedBox(width: screenWidth * 0.02),
-                    Text(
-                      DateFormat('d MMM y')
-                          .format(DateTime.parse(jobData.date)),
-                      style: TextStyle(
-                        // color: Color(0xff706E72),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              jobData.auditionDate != null
+                  ? DateDetails(
+                      screenHeight: screenHeight,
+                      screenWidth: screenWidth,
+                      jobData: jobData,
+                      title: 'Audition Date',
+                      date: jobData.auditionDate!,
+                    )
+                  : Container(),
+              jobData.lastDate != null
+                  ? DateDetails(
+                      screenHeight: screenHeight,
+                      screenWidth: screenWidth,
+                      jobData: jobData,
+                      title: 'Last Date for Apply',
+                      date: jobData.lastDate!,
+                    )
+                  : Container(),
+              jobData.socialMedia != null && jobData.socialMedia.isNotEmpty
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: screenHeight * 0.025),
+                        Divider(
+                          thickness: 1,
+                          height: 0,
+                          indent: screenWidth * 0.03,
+                          endIndent: screenWidth * 0.03,
+                          color: Color(0xff706E72).withOpacity(0.28),
+                        ),
+                        SizedBox(height: screenHeight * 0.025),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.03),
+                          child: Row(
+                            children: [
+                              Icon(Icons.link),
+                              SizedBox(width: screenWidth * 0.02),
+                              Text(
+                                'Social Media Links',
+                                style: TextStyle(
+                                  color: Color(0xff706E72),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: Row(
+                            children: [
+                              // Icon(Icons.calendar_month_outlined),
+                              // SizedBox(width: screenWidth * 0.02),
+                              Text(
+                                jobData.socialMedia,
+                                style: TextStyle(
+                                  // color: Color(0xff706E72),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
+              jobData.keyDetails.isNotEmpty
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: screenHeight * 0.025),
+                        Divider(
+                          thickness: 1,
+                          height: 0,
+                          indent: screenWidth * 0.03,
+                          endIndent: screenWidth * 0.03,
+                          color: Color(0xff706E72).withOpacity(0.28),
+                        ),
+                        SizedBox(height: screenHeight * 0.025),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.03),
+                          child: Row(
+                            children: [
+                              Icon(Icons.check),
+                              SizedBox(width: screenWidth * 0.02),
+                              Text(
+                                'Key Details',
+                                style: TextStyle(
+                                  color: Color(0xff706E72),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: Row(
+                            children: [
+                              // Icon(Icons.calendar_month_outlined),
+                              // SizedBox(width: screenWidth * 0.02),
+                              Text(
+                                jobData.keyDetails,
+                                style: TextStyle(
+                                  // color: Color(0xff706E72),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
               SizedBox(height: screenHeight * 0.025),
               Divider(
                 thickness: 1,
@@ -474,23 +552,25 @@ class _DescriptionPageState extends State<DescriptionPage>
               InkWell(
                 onTap: isApplied
                     ? () {}
-                    : () async {
-                        navigatorPop() => Navigator.pop(context);
-                        navigatorPush() =>
-                            Navigator.pushNamed(context, AppliedPage.routeName);
-                        circularProgressIndicatorNew(context);
-                        // function call
-                        await applyJob(jobData.id, jobData.studio['_id']);
-                        navigatorPop();
-                        navigatorPush();
-                      },
+                    : jobData.status
+                        ? () async {
+                            navigatorPop() => Navigator.pop(context);
+                            navigatorPush() => Navigator.pushNamed(
+                                context, AppliedPage.routeName);
+                            circularProgressIndicatorNew(context);
+                            // function call
+                            await applyJob(jobData.id, jobData.studio['_id']);
+                            navigatorPop();
+                            navigatorPush();
+                          }
+                        : () {},
                 child: Container(
                   width: screenWidth,
                   height: screenHeight * 0.05,
                   margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: greenColor,
+                    color: jobData.status ? greenColor : Colors.grey,
                   ),
                   alignment: Alignment.center,
                   child: AutoSizeText(
@@ -510,6 +590,75 @@ class _DescriptionPageState extends State<DescriptionPage>
           ),
         ),
       ),
+    );
+  }
+}
+
+class DateDetails extends StatelessWidget {
+  const DateDetails({
+    super.key,
+    required this.screenHeight,
+    required this.screenWidth,
+    required this.jobData,
+    required this.title,
+    required this.date,
+  });
+
+  final double screenHeight;
+  final double screenWidth;
+  final JobModel jobData;
+  final String date;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(height: screenHeight * 0.025),
+        Divider(
+          thickness: 1,
+          height: 0,
+          indent: screenWidth * 0.03,
+          endIndent: screenWidth * 0.03,
+          color: Color(0xff706E72).withOpacity(0.28),
+        ),
+        SizedBox(height: screenHeight * 0.025),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+          child: Row(
+            children: [
+              Icon(Icons.calendar_month_outlined),
+              SizedBox(width: screenWidth * 0.02),
+              Text(
+                title,
+                style: TextStyle(
+                  color: Color(0xff706E72),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+          child: Row(
+            children: [
+              // Icon(Icons.calendar_month_outlined),
+              // SizedBox(width: screenWidth * 0.02),
+              Text(
+                DateFormat('d MMM y').format(DateTime.parse(jobData.date)),
+                style: TextStyle(
+                  // color: Color(0xff706E72),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

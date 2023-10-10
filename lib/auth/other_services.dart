@@ -147,6 +147,7 @@ class OtherService {
         res: res,
         onSuccess: () {
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            print(jsonDecode(res.body)[i]);
             categoryJobs.add(
               JobModel.fromJson(
                 jsonEncode(jsonDecode(res.body)[i]),
@@ -616,6 +617,7 @@ class OtherService {
     required String work,
   }) async {
     try {
+      var user2FCMToken = "";
       var jobProvider = Provider.of<JobProvider1>(context, listen: false);
       var sUser = Provider.of<StudioProvider>(context, listen: false).user;
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -637,18 +639,82 @@ class OtherService {
             "x-studio-token": token!,
           });
 
+      user2FCMToken = await DatabaseService().gettingUserFCMToken(userId);
       httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () async {
           ss() => showSnackBar(context, work);
           if (jsonDecode(res.body)["isAccepted"]) {
+            var data = {
+              'to': user2FCMToken,
+              'priority': 'high',
+              'notification': {
+                'title': "Accepted",
+                'body': "$sUserName accepted you as $jobType for their job.",
+                "alert": true
+              },
+              'data': {
+                'type': 'job status',
+              }
+            };
+
+            http.Response res = await http.post(
+                Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                body: jsonEncode(data),
+                headers: {
+                  "Content-Type": "application/json; charset=UTF-8",
+                  "Authorization":
+                      "key=AAAApcOKBAM:APA91bGGRSk9rDbs6mGdNlHICXGLfObzdulJ7lbwtzF6jwOnVKfx23GmMO3sfuvI2KNnnmsGdXjgShv7ZhHM8I4jaLmS0ljkZiQmE6UfDe-MbvEmTYvnh7IfnoqVrQh6h7GOQufJYAs-"
+                });
             await DatabaseService(uid: userId).updateNotification(
                 "$sUserName accepted you as an $jobType for their job.__${sUser.profilePic}");
           } else if (jsonDecode(res.body)["isShortlisted"]) {
+            var data = {
+              'to': user2FCMToken,
+              'priority': 'high',
+              'notification': {
+                'title': "Shortlisted",
+                'body': "$sUserName shortlisted you as $jobType for their job.",
+                "alert": true
+              },
+              'data': {
+                'type': 'job status',
+              }
+            };
+
+            http.Response res = await http.post(
+                Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                body: jsonEncode(data),
+                headers: {
+                  "Content-Type": "application/json; charset=UTF-8",
+                  "Authorization":
+                      "key=AAAApcOKBAM:APA91bGGRSk9rDbs6mGdNlHICXGLfObzdulJ7lbwtzF6jwOnVKfx23GmMO3sfuvI2KNnnmsGdXjgShv7ZhHM8I4jaLmS0ljkZiQmE6UfDe-MbvEmTYvnh7IfnoqVrQh6h7GOQufJYAs-"
+                });
             await DatabaseService(uid: userId).updateNotification(
                 "$sUserName shortlisted you as an $jobType for their job.__${sUser.profilePic}");
           } else if (jsonDecode(res.body)["isDeclined"]) {
+            var data = {
+              'to': user2FCMToken,
+              'priority': 'high',
+              'notification': {
+                'title': "Declined",
+                'body': "$sUserName declined you as $jobType for their job.",
+                "alert": true
+              },
+              'data': {
+                'type': 'job status',
+              }
+            };
+
+            http.Response res = await http.post(
+                Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                body: jsonEncode(data),
+                headers: {
+                  "Content-Type": "application/json; charset=UTF-8",
+                  "Authorization":
+                      "key=AAAApcOKBAM:APA91bGGRSk9rDbs6mGdNlHICXGLfObzdulJ7lbwtzF6jwOnVKfx23GmMO3sfuvI2KNnnmsGdXjgShv7ZhHM8I4jaLmS0ljkZiQmE6UfDe-MbvEmTYvnh7IfnoqVrQh6h7GOQufJYAs-"
+                });
             await DatabaseService(uid: userId).updateNotification(
                 "$sUserName declined you as an $jobType for their job.__${sUser.profilePic}");
           }

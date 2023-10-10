@@ -26,7 +26,7 @@ class _SingerGridPageState extends State<SingerGridPage> {
   getCategoryJobs() async {
     _categoryJobs = await otherService.categoryJobs(
       context: context,
-      category: "Singer",
+      category: "Choreographer",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {
@@ -93,6 +93,7 @@ class _SingerGridPageState extends State<SingerGridPage> {
                         data.studio['_id'],
                         data.applicants.contains(user.id),
                         updateState,
+                        data.status,
                       ),
                     );
                   },

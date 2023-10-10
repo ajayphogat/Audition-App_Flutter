@@ -25,7 +25,7 @@ class _PainterGridPageState extends State<PainterGridPage> {
   getCategoryJobs() async {
     _categoryJobs = await otherService.categoryJobs(
       context: context,
-      category: "Painter",
+      category: "Writer",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
     if (this.mounted) {
@@ -84,6 +84,7 @@ class _PainterGridPageState extends State<PainterGridPage> {
                         data.studio['_id'],
                         data.applicants.contains(user.id),
                         getCategoryJobs,
+                        data.status,
                       ),
                     );
                   },

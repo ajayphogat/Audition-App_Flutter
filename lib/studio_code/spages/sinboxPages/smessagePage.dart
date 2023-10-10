@@ -1,12 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/databaseService.dart';
-import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/provider/user_provider.dart';
 import 'package:first_app/studio_code/sconstants.dart';
@@ -16,7 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
+
+import 'package:http/http.dart' as http;
 
 class SMessagePage extends StatefulWidget {
   final String groupId;
@@ -25,6 +27,7 @@ class SMessagePage extends StatefulWidget {
   final String profilePic;
   final String adminProfilePic;
   final String chatUserId;
+  final String currentUserId;
 
   const SMessagePage({
     Key? key,
@@ -34,6 +37,7 @@ class SMessagePage extends StatefulWidget {
     required this.adminProfilePic,
     required this.profilePic,
     required this.chatUserId,
+    required this.currentUserId,
   }) : super(key: key);
 
   static const String routeName = "/smessage-page";
@@ -45,6 +49,8 @@ class SMessagePage extends StatefulWidget {
 class _SMessagePageState extends State<SMessagePage> {
   late TextEditingController _textController;
   Stream<QuerySnapshot>? chats;
+  String myFCMToken = "";
+  String user2FCMToken = "";
   String admin = "";
   Stream? members;
 
@@ -61,6 +67,10 @@ class _SMessagePageState extends State<SMessagePage> {
     }
   }
 
+  String getName(String res) {
+    return res.substring(res.indexOf("_") + 1);
+  }
+
   Future uploadImage() async {
     String fileName = Uuid().v1();
     int status = 1;
@@ -71,7 +81,30 @@ class _SMessagePageState extends State<SMessagePage> {
       "sender": widget.userName,
       "time": DateTime.now().millisecondsSinceEpoch,
     };
-    DatabaseService().sendMessageImg(widget.groupId, chatMessageMap, fileName);
+    DatabaseService().sendMessageImg(
+        widget.groupId, chatMessageMap, fileName, getName(widget.groupName));
+
+    var data = {
+      'to': user2FCMToken,
+      'priority': 'high',
+      'notification': {
+        'title': getName(widget.groupName).toString(),
+        'body': '${getName(widget.groupName)} sent you an Image',
+        "alert": true
+      },
+      'data': {
+        'type': 'chat',
+      }
+    };
+
+    http.Response res = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        body: jsonEncode(data),
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+          "Authorization":
+              "key=AAAApcOKBAM:APA91bGGRSk9rDbs6mGdNlHICXGLfObzdulJ7lbwtzF6jwOnVKfx23GmMO3sfuvI2KNnnmsGdXjgShv7ZhHM8I4jaLmS0ljkZiQmE6UfDe-MbvEmTYvnh7IfnoqVrQh6h7GOQufJYAs-"
+        });
 
     var uu = Provider.of<UserProvider>(context, listen: false).user;
 
@@ -129,7 +162,7 @@ class _SMessagePageState extends State<SMessagePage> {
     );
   }
 
-  sendMessage() {
+  sendMessage() async {
     if (_textController.text.isNotEmpty) {
       Map<String, dynamic> chatMessageMap = {
         "message": _textController.text,
@@ -137,19 +170,66 @@ class _SMessagePageState extends State<SMessagePage> {
         "sender": widget.userName,
         "time": DateTime.now().millisecondsSinceEpoch,
       };
-      DatabaseService().sendMessage(widget.groupId, chatMessageMap);
+      DatabaseService(uid: widget.currentUserId)
+          .sendMessage(widget.groupId, chatMessageMap, widget.groupName);
+      DatabaseService(uid: widget.chatUserId).updateNotification(
+          "${widget.userName} has sent you a message__${widget.adminProfilePic}_${DateTime.now()}");
+
+      // var token = await FirebaseApi().getDeviceToken();
+      print(user2FCMToken);
+      print("user fcm: ${myFCMToken}");
+      var data = {
+        'to': user2FCMToken,
+        'priority': 'high',
+        'notification': {
+          'title': getName(widget.groupName).toString(),
+          'body': _textController.text,
+          "alert": true
+        },
+        'data': {
+          'type': 'chat',
+        }
+      };
       setState(() {
         _textController.clear();
       });
-      DatabaseService(uid: widget.chatUserId).updateNotification(
-          "${widget.userName} has sent you a message__${widget.adminProfilePic}_${DateTime.now()}");
+
+      http.Response res = await http.post(
+          Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          body: jsonEncode(data),
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Authorization":
+                "key=AAAApcOKBAM:APA91bGGRSk9rDbs6mGdNlHICXGLfObzdulJ7lbwtzF6jwOnVKfx23GmMO3sfuvI2KNnnmsGdXjgShv7ZhHM8I4jaLmS0ljkZiQmE6UfDe-MbvEmTYvnh7IfnoqVrQh6h7GOQufJYAs-"
+          });
+      print(res.statusCode);
+      print(res.body);
     }
   }
 
-  getChatandAdmin() {
+  getChatandAdmin() async {
+    var meUser = Provider.of<UserProvider>(context, listen: false).user;
+    var ssUser = Provider.of<StudioProvider>(context, listen: false).user;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("current Group Set");
+    await prefs.setString("currentGroup", getName(widget.groupName));
+
+    var userID = meUser.id == null || meUser.id == "" ? ssUser.id : meUser.id;
     DatabaseService().getChats(widget.groupId).then((val) {
       setState(() {
         chats = val;
+      });
+    });
+
+    DatabaseService().gettingUserFCMToken(userID).then((val) {
+      setState(() {
+        myFCMToken = val;
+      });
+    });
+
+    DatabaseService().gettingUserFCMToken(widget.chatUserId).then((val) {
+      setState(() {
+        user2FCMToken = val;
       });
     });
 
@@ -174,6 +254,11 @@ class _SMessagePageState extends State<SMessagePage> {
     });
   }
 
+  void clearCurrentGroup() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('currentGroup');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -182,10 +267,18 @@ class _SMessagePageState extends State<SMessagePage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print("disposed");
+    clearCurrentGroup();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
+    print("username: ${widget.userName}");
     var sUser = Provider.of<StudioProvider>(context).user;
 
     return Scaffold(
@@ -215,7 +308,7 @@ class _SMessagePageState extends State<SMessagePage> {
                   ),
                   SizedBox(width: screenWidth * 0.04),
                   AutoSizeText(
-                    widget.groupName,
+                    getName(widget.groupName),
                     maxFontSize: 22,
                     style: TextStyle(
                       fontSize: 22,

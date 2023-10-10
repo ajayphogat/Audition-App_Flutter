@@ -35,8 +35,9 @@ class AuthService {
     required String number,
     required String password,
   }) async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    User firebaseUser;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    // User firebaseUser;
     try {
       var user = UserModel(
         id: "",
@@ -77,23 +78,24 @@ class AuthService {
         thumbnailVideo: [],
       );
 
-      http.Response res = await http.post(Uri.parse("$url/api/audition/signup"),
+      http.Response res = await http.post(
+          Uri.parse("$url/api/audition/web/signup"),
           body: user.toJson(),
           headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
 
-      if (res.statusCode == 200 && jsonDecode(res.body)["created"]) {
-        firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
-            .user!;
-        if (firebaseUser != null) {
-          await DatabaseService(uid: jsonDecode(res.body)['_id'])
-              .updateUserData(fname.trim(), email.trim());
-        } else {
-          showSnackBar(context, firebaseAuth.currentUser.toString());
-        }
-      }
+      // if (res.statusCode == 200 && jsonDecode(res.body)["created"]) {
+      //   firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
+      //           email: email.trim(), password: "${email.trim()}password"))
+      //       .user!;
+      //   if (firebaseUser != null) {
+      //     await DatabaseService(uid: jsonDecode(res.body)['_id'])
+      //         .updateUserData(fname.trim(), email.trim());
+      //   } else {
+      //     showSnackBar(context, firebaseAuth.currentUser.toString());
+      //   }
+      // }
 
       httpErrorHandelForLoginSignup(
           context: context,
@@ -103,11 +105,9 @@ class AuthService {
             //       context,
             //       "Account created! Login with same Credentials",
             //     );
+            print(jsonDecode(res.body)['number']);
             Navigator.pushNamed(context, VerificationPage.routeName,
-                arguments: [
-                  jsonDecode(res.body)["number"].toString(),
-                  "audition"
-                ]);
+                arguments: [jsonDecode(res.body), "audition"]);
             // showMessage();
           });
     } catch (e) {
@@ -119,19 +119,43 @@ class AuthService {
     required BuildContext context,
     required String number,
     required String otp,
+    required String fname,
+    required String email,
+    required String password,
   }) async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User firebaseUser;
     try {
       http.Response res =
-          await http.post(Uri.parse("$url/api/studio/verify-otp"),
+          await http.post(Uri.parse("$url/api/studio/web/verify-otp"),
               body: jsonEncode(
                 {
                   "number": number,
                   "otp": otp,
+                  "fname": fname,
+                  "email": email,
+                  "password": password,
                 },
               ),
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
+      if (res.statusCode != 200) {
+        Navigator.pop(context);
+      }
+
+      if (res.statusCode == 200 &&
+          jsonDecode(res.body)["created"] == 'create') {
+        firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
+                email: email.trim(), password: "${email.trim()}password"))
+            .user!;
+        if (firebaseUser != null) {
+          await DatabaseService(uid: jsonDecode(res.body)['_id'])
+              .updateUserData(fname.trim(), email.trim());
+        } else {
+          showSnackBar(context, firebaseAuth.currentUser.toString());
+        }
+      }
       httpErrorHandelForLoginSignup(
           context: context,
           res: res,
@@ -153,19 +177,43 @@ class AuthService {
     required BuildContext context,
     required String number,
     required String otp,
+    required String fname,
+    required String email,
+    required String password,
   }) async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User firebaseUser;
     try {
       http.Response res =
-          await http.post(Uri.parse("$url/api/audition/verify-otp"),
+          await http.post(Uri.parse("$url/api/audition/web/verify-otp"),
               body: jsonEncode(
                 {
                   "number": number,
                   "otp": otp,
+                  "fname": fname,
+                  "email": email,
+                  "password": password,
                 },
               ),
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
+      print(res.statusCode);
+      if (res.statusCode == 200 &&
+          jsonDecode(res.body)["created"] == 'create') {
+        firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
+                email: email.trim(), password: "${email.trim()}password"))
+            .user!;
+        print("after firebaseUser");
+        if (firebaseUser != null) {
+          await DatabaseService(uid: jsonDecode(res.body)['_id'])
+              .updateUserData(fname.trim(), email.trim());
+        } else {
+          showSnackBar(context, firebaseAuth.currentUser.toString());
+        }
+      }
+      print("after firebase");
+
       httpErrorHandel(
           context: context,
           res: res,
@@ -1250,8 +1298,9 @@ class AuthService {
     required String number,
     required String password,
   }) async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    User firebaseUser;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    // User firebaseUser;
     try {
       var user = StudioModel(
         id: "",
@@ -1269,23 +1318,24 @@ class AuthService {
         post: [],
       );
 
-      http.Response res = await http.post(Uri.parse("$url/api/studio/signup"),
+      http.Response res = await http.post(
+          Uri.parse("$url/api/studio/web/signup"),
           body: user.toJson(),
           headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
 
-      if (res.statusCode == 200 && jsonDecode(res.body)["created"]) {
-        firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
-            .user!;
-        if (firebaseUser != null) {
-          await DatabaseService(uid: jsonDecode(res.body)['_id'])
-              .updateUserData(fname.trim(), email.trim());
-        } else {
-          showSnackBar(context, firebaseAuth.currentUser.toString());
-        }
-      }
+      // if (res.statusCode == 200 && jsonDecode(res.body)["created"]) {
+      //   firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
+      //           email: email.trim(), password: "${email.trim()}password"))
+      //       .user!;
+      //   if (firebaseUser != null) {
+      //     await DatabaseService(uid: jsonDecode(res.body)['_id'])
+      //         .updateUserData(fname.trim(), email.trim());
+      //   } else {
+      //     showSnackBar(context, firebaseAuth.currentUser.toString());
+      //   }
+      // }
       httpErrorHandel(
           context: context,
           res: res,
@@ -1295,10 +1345,7 @@ class AuthService {
             //   "Account created! Login with same Credentials",
             // );
             Navigator.pushNamed(context, VerificationPage.routeName,
-                arguments: [
-                  jsonDecode(res.body)["number"].toString(),
-                  "studio"
-                ]);
+                arguments: [jsonDecode(res.body), "studio"]);
           });
     } catch (e) {
       showSnackBar(context, e.toString());

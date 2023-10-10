@@ -88,6 +88,7 @@ class _ActorGridPageState extends State<ActorGridPage> {
                           data.studio['_id'],
                           showApplied,
                           getCategoryJobs,
+                          data.status,
                         ),
                       );
                     },

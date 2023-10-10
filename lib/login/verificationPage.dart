@@ -26,14 +26,38 @@ class _VerificationPageState extends State<VerificationPage> {
 
   AuthService authService = AuthService();
 
-  Future<void> otpVerify(String number, String otp) async {
+  Future<void> otpVerify({
+    required String number,
+    required String otp,
+    required String fname,
+    required String email,
+    required String password,
+  }) async {
     await authService.verificationOTP(
-        context: context, number: number, otp: otp);
+      context: context,
+      number: number,
+      otp: otp,
+      fname: fname,
+      email: email,
+      password: password,
+    );
   }
 
-  Future<void> otpVerifyStudio(String number, String otp) async {
+  Future<void> otpVerifyStudio({
+    required String number,
+    required String otp,
+    required String fname,
+    required String email,
+    required String password,
+  }) async {
     await authService.verificationOTPStudio(
-        context: context, number: number, otp: otp);
+      context: context,
+      number: number,
+      otp: otp,
+      fname: fname,
+      email: email,
+      password: password,
+    );
   }
 
   @override
@@ -59,10 +83,10 @@ class _VerificationPageState extends State<VerificationPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    List<String> argument =
-        ModalRoute.of(context)!.settings.arguments as List<String>;
-    String userNumber = argument[0];
-    String userType = argument[1];
+    List<dynamic> argument =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    dynamic userData = argument[0];
+    String userType = argument[1].toString();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -211,11 +235,23 @@ class _VerificationPageState extends State<VerificationPage> {
                 onTap: () async {
                   circularProgressIndicatorNew(context);
                   if (userType == "audition") {
-                    await otpVerify(userNumber,
-                        "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                    await otpVerify(
+                      number: userData['number'].toString(),
+                      otp:
+                          "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}",
+                      email: userData['email'].toString(),
+                      fname: userData['fname'].toString(),
+                      password: userData['password'].toString(),
+                    );
                   } else {
-                    await otpVerifyStudio(userNumber,
-                        "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
+                    await otpVerifyStudio(
+                      number: userData['number'].toString(),
+                      otp:
+                          "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}",
+                      email: userData['email'].toString(),
+                      fname: userData['fname'].toString(),
+                      password: userData['password'].toString(),
+                    );
                   }
                 },
                 child: Container(
