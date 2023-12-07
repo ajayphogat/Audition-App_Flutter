@@ -3,6 +3,7 @@ import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
+import 'package:first_app/utils/first_char_capital.dart';
 import 'package:flutter/material.dart';
 
 class DeclinedJobPage extends StatefulWidget {
@@ -47,7 +48,7 @@ class _DeclinedJobPageState extends State<DeclinedJobPage> {
     return Scaffold(
       body: (_appliedJobs == null)
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : (_appliedJobs!.isEmpty)
               ? const Center(
@@ -81,9 +82,11 @@ class _DeclinedJobPageState extends State<DeclinedJobPage> {
                                   title: Padding(
                                     padding: const EdgeInsets.only(bottom: 5),
                                     child: Text(
-                                      data.studioName,
+                                      CharCapital.firstCharCapital(
+                                          data.studioName),
                                       style: const TextStyle(
                                         fontFamily: fontFamily,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),

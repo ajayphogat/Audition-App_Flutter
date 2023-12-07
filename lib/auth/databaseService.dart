@@ -43,6 +43,19 @@ class DatabaseService {
     });
   }
 
+  Future logoutFCMToken() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    var fcmToken = await NotificationService().getDeviceToken();
+    print("-----userCollection-----");
+    print(userCollection);
+    print("----user id-----");
+    print(uid);
+    await userCollection.doc(uid).update({
+      "fCMToken": "",
+      // "fCMToken": prefs.getString('fCMToken'),
+    });
+  }
+
   Future<List<List<String>>> getAllUserNotifications(String userId) async {
     List<String> allNotifications = [];
     List<String> allNotificationsPic = [];
@@ -71,10 +84,7 @@ class DatabaseService {
 
   Future gettingUserFCMToken(String userID) async {
     var uu = await userCollection.doc(userID).get();
-    print("userID: $userID");
-    print("snapshot docs");
-    print(uu['fCMToken']);
-    return uu['fCMToken'];
+    return uu.data().toString().contains('fCMToken') ? uu['fCMToken'] : null;
   }
 
   // Future updateStudioUserData(String fullName, String email) async {
@@ -154,14 +164,27 @@ class DatabaseService {
   Future createGroup(String userName, String id, String userName2) async {
     var allGroupColl = await groupCollection.get();
     var allGroupCollDocs = allGroupColl.docs.where((element) =>
-        (element.data() as Map<String, dynamic>)["members"][1]
-            .toString()
-            .split("_")[0] ==
-        id);
+        (element.data() as Map<String, dynamic>)["groupName"].toString() ==
+        "${id}_$uid");
+    // var allGroupCollDocs = allGroupColl.docs.where((element) =>
+    //     (element.data() as Map<String, dynamic>)["members"][1]
+    //         .toString()
+    //         .split("_")[0] ==
+    //     id);
     var userData = await userCollection.doc(uid).get();
     var user2Data = await userCollection.doc(id).get();
-    var user2FCMToken = (user2Data.data() as Map<String, dynamic>)['fCMToken'];
-    var user1FCMToken = (userData.data() as Map<String, dynamic>)['fCMToken'];
+    var user2FCMToken = user2Data.data().toString().contains('fCMToken')
+        ? (user2Data.data() as Map<String, dynamic>)['fCMToken']
+        : null;
+    var user1FCMToken = userData.data().toString().contains('fCMToken')
+        ? (userData.data() as Map<String, dynamic>)['fCMToken']
+        : null;
+    var groupFcmToken = "";
+    if (user2FCMToken == null || user1FCMToken == null) {
+      groupFcmToken = "";
+    } else {
+      groupFcmToken = "${user2FCMToken}_$user1FCMToken";
+    }
 
     if (allGroupCollDocs.isEmpty) {
       DocumentReference groupDocumentReference = await groupCollection.add({
@@ -170,10 +193,14 @@ class DatabaseService {
         "admin": "${uid}_$userName",
         "members": [],
         "groupId": "",
-        "fmcTokens": "${user2FCMToken}_$user1FCMToken",
+        "fmcTokens": groupFcmToken,
         "recentMessage": "",
         "recentMessageSender": "",
+        "recentMessageTime": "",
       });
+
+      print("groupDocumentReference.id");
+      print(groupDocumentReference.id);
 
       await groupDocumentReference.update({
         "members":
@@ -200,9 +227,12 @@ class DatabaseService {
         (userData.data() as Map<String, dynamic>)['profilePic'],
       ];
     } else {
+      print("not empty");
       var allGroupCollDocs1 = allGroupColl.docs.where((element) =>
           (element.data() as Map<String, dynamic>)['groupName'].toString() ==
           "${id}_$uid");
+      print('allGroupCollDocs1');
+      print(allGroupCollDocs1);
       if (allGroupCollDocs1.length == 1) {
         return [
           (allGroupCollDocs1.first.data() as Map<String, dynamic>)['groupId'],

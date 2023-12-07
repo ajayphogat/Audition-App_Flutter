@@ -33,7 +33,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
   }
 
   Future<void> otpVerifyStudio(String number, String otp) async {
-    await authService.verificationOTPForgot(
+    await authService.verificationOTPForgotStudio(
         context: context, number: number, otp: otp);
   }
 
@@ -215,7 +215,7 @@ class _VerifyMobileState extends State<VerifyMobile> {
                     await otpVerify(userNumber,
                         "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
                   } else {
-                    await otpVerify(userNumber,
+                    await otpVerifyStudio(userNumber,
                         "${_controller0.text}${_controller1.text}${_controller2.text}${_controller3.text}");
                   }
                 },

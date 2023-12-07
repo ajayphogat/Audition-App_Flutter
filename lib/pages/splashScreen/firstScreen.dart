@@ -20,7 +20,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
   void navigateToNext() async {
     navToNext() =>
         Navigator.pushReplacementNamed(context, SecondSplashScreen.routeName);
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(seconds: 3));
     navToNext();
   }
 
@@ -39,13 +39,18 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
             Container(
               width: screenWidth,
               height: screenHeight,
+              // color: Colors.red,
               alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
-              child: Image.asset("asset/images/illustration/findNew.png"),
+              // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+              child: Image.asset(
+                "asset/images/illustration/gif.gif",
+                height: screenHeight * 0.4,
+                fit: BoxFit.fitHeight,
+              ),
               // child: Image.asset("asset/images/illustration/find.png"),
             ),
             Positioned(
-              bottom: screenHeight * 0.20,
+              bottom: screenHeight * 0.25,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

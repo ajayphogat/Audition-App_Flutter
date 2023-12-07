@@ -117,7 +117,7 @@ class _MediaVideoPageState extends State<MediaVideoPage> {
             )
           : videoThumbnailList.isEmpty
               ? const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: greenColor),
                 )
               : GridView.builder(
                   gridDelegate: SliverWovenGridDelegate.count(

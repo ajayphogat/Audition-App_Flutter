@@ -21,7 +21,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   late TextEditingController _socialLinkController;
   AuthService authService = AuthService();
 
-  late List<String> linkList;
+  List<String> linkList = [];
 
   Future<void> updateSocialMedia() async {
     await authService.updateSocialMedia(
@@ -34,7 +34,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   void initState() {
     _socialLinkController = TextEditingController();
     var user = Provider.of<UserProvider>(context, listen: false).user;
-    linkList = user.socialMedia;
+
+    linkList = [...user.socialMedia];
     super.initState();
   }
 

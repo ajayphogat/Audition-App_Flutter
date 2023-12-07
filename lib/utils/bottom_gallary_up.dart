@@ -303,7 +303,7 @@ class BottomMediaUp {
             print(snapshot.state);
             print(downloadUrl);
 
-            await uploadMMedia(thumbnailUrl, "thumbnail");
+            await uploadMMedia(thumbnailUrl, "thumbnails");
             await uploadMMedia(downloadUrl, mediaType);
           } catch (e) {
             showsnack(e);
@@ -460,5 +460,6 @@ class BottomMediaUp {
   Future<void> uploadMedia(context, String photos, String mediaType) async {
     await authService.uploadMedia(
         context: context, media: photos, mediaType: mediaType);
+    print("upload media Done");
   }
 }

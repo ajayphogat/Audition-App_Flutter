@@ -1,3 +1,4 @@
+import 'package:first_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -100,7 +101,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                   color: Colors.white,
                 ),
                 child: const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: greenColor),
                 ),
               ),
             ),

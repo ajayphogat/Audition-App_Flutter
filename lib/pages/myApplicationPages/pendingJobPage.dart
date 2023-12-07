@@ -46,7 +46,7 @@ class _PendingJobPageState extends State<PendingJobPage> {
     return Scaffold(
       body: (_appliedJobs == null)
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : (_appliedJobs!.isEmpty)
               ? const Center(

@@ -262,6 +262,7 @@ class PageViewItem extends StatelessWidget {
         Container(
           width: width,
           height: height * 0.1,
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
           alignment: Alignment.center,
           child: AutoSizeText(
             splashScreenData[index].values.toList()[2],

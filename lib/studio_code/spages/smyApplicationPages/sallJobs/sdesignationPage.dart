@@ -78,6 +78,8 @@ class _SDesignationPageState extends State<SDesignationPage> {
     var user = Provider.of<UserProvider>(context).user;
     var jobs = Provider.of<JobProvider1>(context).job;
     var sUser = Provider.of<StudioProvider>(context).user;
+    print("---skills----");
+    print(user.skills);
     isAccepted = jobs.isAccepted!;
     isShortlisted = jobs.isShortlisted!;
     isDeclined = jobs.isDeclined!;
@@ -104,8 +106,8 @@ class _SDesignationPageState extends State<SDesignationPage> {
                       ],
                     ),
                     SizedBox(height: screenHeight * 0.02),
-                    Row(
-                      children: const [
+                    const Row(
+                      children: [
                         Text(
                           "Designation",
                           style: TextStyle(
@@ -283,12 +285,16 @@ class _SDesignationPageState extends State<SDesignationPage> {
                         circularProgressIndicatorNew(context);
                         List<dynamic> a = await DatabaseService(uid: sUser.id)
                             .createGroup(sUser.fname, user.id, user.fname);
-                        if (a == []) {
+                        print(a);
+                        setState(() {});
+                        if (a.isEmpty) {
+                          navigatorPop();
                           showSnack();
+                        } else {
+                          navigatorPop();
+                          navigatorPush(a[0], a[1], a[2], a[3], a[4]);
                         }
 
-                        navigatorPop();
-                        navigatorPush(a[0], a[1], a[2], a[3], a[4]);
                         // await DatabaseService(uid: sUser.id)
                         //     .findGroup(user.id, sUser.id);
                       },
@@ -327,6 +333,7 @@ class _SDesignationPageState extends State<SDesignationPage> {
                     ),
                     SizedBox(height: screenHeight * 0.03),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           "Skills:",
@@ -335,15 +342,14 @@ class _SDesignationPageState extends State<SDesignationPage> {
                           ),
                         ),
                         Container(
-                          width: screenWidth * 0.20,
-                          height: 15,
+                          width: screenWidth * 0.8,
+                          // color: Colors.red,
                           margin: const EdgeInsets.only(left: 5),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: user.skills.length,
-                            itemBuilder: (context, index) {
-                              return Text(user.skills[index]);
-                            },
+                          child: Text(
+                            user.skills.join(", "),
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],

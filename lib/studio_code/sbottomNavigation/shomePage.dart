@@ -1,10 +1,6 @@
-import 'dart:convert';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:first_app/auth/other_services.dart';
-import 'package:first_app/customize/my_flutter_app_icons.dart';
-import 'package:first_app/provider/job_post_provider.dart';
-import 'package:first_app/studio_code/sbottomNavigation/barData.dart';
-import 'package:first_app/studio_code/sconstants.dart';
+import 'package:first_app/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -108,10 +104,18 @@ class _SHomePageState extends State<SHomePage> {
                       clipBehavior: Clip.hardEdge,
                       child: AspectRatio(
                         aspectRatio: 1,
-                        child: Image.network(
-                          sUser.profilePic,
-                          fit: BoxFit.cover,
-                        ),
+                        child: sUser.profilePic.isEmpty
+                            ? Container(
+                                color: Colors.black,
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: sUser.profilePic,
+                                fit: BoxFit.cover,
+                              ),
+                        // child: Image.network(
+                        //   sUser.profilePic,
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
                     ),
                   ),
@@ -217,7 +221,7 @@ class _SHomePageState extends State<SHomePage> {
                               width: screenWidth,
                               height: screenHeight * 0.25,
                               child: const CircularProgressIndicator(
-                                color: Colors.black,
+                                color: greenColor,
                               ),
                             )
                           : Container(
@@ -232,9 +236,9 @@ class _SHomePageState extends State<SHomePage> {
                                   alignment: BarChartAlignment.spaceEvenly,
                                   // maxY: 20,
                                   maxY: double.parse(sUser.totalApplicants!) >
-                                          sUser.post.length.toDouble()
+                                          sUser.post!.length.toDouble()
                                       ? double.parse(sUser.totalAccepted!) * 10
-                                      : sUser.post.length.toDouble() * 10,
+                                      : sUser.post!.length.toDouble() * 10,
                                   minY: 0,
                                   borderData: FlBorderData(
                                     show: true,
@@ -400,14 +404,14 @@ class _SHomePageState extends State<SHomePage> {
                           horizontal: screenWidth * 0.05,
                           vertical: screenHeight * 0.01),
                       children: [
-                        sUser.post.isEmpty
+                        sUser.post == null
                             ? newVerticalContainer1(screenWidth, screenHeight,
                                 "Number of posted jobs")
                             : newVerticalContainer(
                                 screenWidth,
                                 screenHeight,
                                 "Number of posted jobs",
-                                "${sUser.post.length}"),
+                                "${sUser.post!.length}"),
                         SizedBox(
                           width: screenWidth * 0.05,
                         ),
@@ -521,7 +525,7 @@ class _SHomePageState extends State<SHomePage> {
               margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.095),
               height: screenWidth * 0.06,
               child: const CircularProgressIndicator(
-                color: Colors.black,
+                color: greenColor,
               ),
             ),
           ],

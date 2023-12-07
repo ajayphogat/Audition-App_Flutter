@@ -5,12 +5,14 @@ import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/pages/categorySection/appliedPage.dart';
 import 'package:first_app/provider/job_post_provider.dart';
+import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/link.dart';
 import '../../constants.dart';
 
 class DescriptionPage extends StatefulWidget {
@@ -30,6 +32,7 @@ class _DescriptionPageState extends State<DescriptionPage>
   bool isVisible = false;
   double x = 0;
   double y = 2.8;
+  var interviewData;
 
   int _activePage = 0;
   double opacityValue = 1.0;
@@ -62,24 +65,24 @@ class _DescriptionPageState extends State<DescriptionPage>
 
   int status = 0;
 
+  void searchInterviewDate(List<dynamic> interviews, String userid) {
+    interviewData = interviews.firstWhere((item) => item['user'] == userid,
+        orElse: () => null);
+    print("interviewData");
+    print(interviewData);
+    // setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // _scrollController = ScrollController();
-    // _scrollController.addListener(() {
-    //   if (_scrollController.position.userScrollDirection ==
-    //       ScrollDirection.reverse) {
-    //     setState(() {
-    //       y = 1;
-    //     });
-    //   } else if (_scrollController.position.userScrollDirection ==
-    //       ScrollDirection.forward) {
-    //     setState(() {
-    //       y = 2.8;
-    //     });
-    //   }
-    // });
+    var jobData = Provider.of<JobProvider>(context, listen: false).job;
+    var userD = Provider.of<UserProvider>(context, listen: false).user;
+    if (jobData.interview.isNotEmpty) {
+      print(jobData.interview);
+      searchInterviewDate(jobData.interview, userD.id);
+    }
   }
 
   @override
@@ -93,9 +96,14 @@ class _DescriptionPageState extends State<DescriptionPage>
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     var jobData = Provider.of<JobProvider>(context).job;
+    print("interview");
+    print(jobData.interview);
+    var userD = Provider.of<UserProvider>(context).user;
+    var socialMediaLink = Uri.parse(jobData.socialMedia);
     bool isBookmarked = jobData.isBookmarked!;
     bool isfollowed = jobData.isFollowed!;
     bool isApplied = jobData.isApplied!;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -337,7 +345,7 @@ class _DescriptionPageState extends State<DescriptionPage>
                   trimExpandedText: "\nSHOW LESS",
                   trimLength: 413,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 14,
                     overflow: TextOverflow.clip,
                   ),
                 ),
@@ -357,30 +365,40 @@ class _DescriptionPageState extends State<DescriptionPage>
                     Text(
                       "Production Details",
                       style: TextStyle(
-                        fontSize: 16,
+                        color: Color(0xff706E72),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
               ),
-              Padding(
+              Container(
+                width: screenWidth,
                 padding: EdgeInsets.only(
                   left: screenWidth * 0.03,
-                  top: screenHeight * 0.02,
+                  top: screenHeight * 0.022,
                   right: screenWidth * 0.06,
-                  bottom: screenHeight * 0.02,
+                  bottom: screenHeight * 0.022,
                 ),
-                child: Row(
-                  children: [
-                    Text(
-                      jobData.productionDetail,
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
+                child: ReadMoreText(
+                  jobData.productionDetail,
+                  trimMode: TrimMode.Length,
+                  trimCollapsedText: "\nREAD MORE",
+                  trimExpandedText: "\nSHOW LESS",
+                  trimLength: 413,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    overflow: TextOverflow.clip,
+                  ),
                 ),
+                // child: Text(
+                //   jobData.productionDetail,
+                //   textAlign: TextAlign.left,
+                //   style: const TextStyle(
+                //     fontSize: 13,
+                //   ),
+                // ),
               ),
               jobData.auditionDate != null
                   ? DateDetails(
@@ -438,12 +456,23 @@ class _DescriptionPageState extends State<DescriptionPage>
                             children: [
                               // Icon(Icons.calendar_month_outlined),
                               // SizedBox(width: screenWidth * 0.02),
-                              Text(
-                                jobData.socialMedia,
-                                style: TextStyle(
-                                  // color: Color(0xff706E72),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                              Link(
+                                uri: socialMediaLink,
+                                target: LinkTarget.defaultTarget,
+                                builder: (context, openLink) => InkWell(
+                                  onTap: openLink,
+                                  child: SizedBox(
+                                    width: screenWidth * 0.8,
+                                    child: Text(
+                                      jobData.socialMedia,
+                                      maxLines: 5,
+                                      style: TextStyle(
+                                        // color: Color(0xff706E72),
+                                        fontSize: 14,
+                                        // fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -494,6 +523,58 @@ class _DescriptionPageState extends State<DescriptionPage>
                                 jobData.keyDetails,
                                 style: TextStyle(
                                   // color: Color(0xff706E72),
+                                  fontSize: 14,
+                                  // fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
+              interviewData != null
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: screenHeight * 0.025),
+                        Divider(
+                          thickness: 1,
+                          height: 0,
+                          indent: screenWidth * 0.03,
+                          endIndent: screenWidth * 0.03,
+                          color: Color(0xff706E72).withOpacity(0.28),
+                        ),
+                        SizedBox(height: screenHeight * 0.025),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.03),
+                          child: Row(
+                            children: [
+                              Icon(Icons.calendar_month_outlined),
+                              SizedBox(width: screenWidth * 0.02),
+                              Text(
+                                'Interview',
+                                style: TextStyle(
+                                  color: Color(0xff706E72),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: Row(
+                            children: [
+                              // Icon(Icons.calendar_month_outlined),
+                              // SizedBox(width: screenWidth * 0.02),
+                              Text(
+                                "${DateFormat('d MMM y').format(DateTime.parse(interviewData['date']))} - ${interviewData['time']}",
+                                style: TextStyle(
+                                  // color: Color(0xff706E72),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -540,8 +621,8 @@ class _DescriptionPageState extends State<DescriptionPage>
                       jobData.location,
                       style: TextStyle(
                         // color: Color(0xff706E72),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        // fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -648,11 +729,13 @@ class DateDetails extends StatelessWidget {
               // Icon(Icons.calendar_month_outlined),
               // SizedBox(width: screenWidth * 0.02),
               Text(
-                DateFormat('d MMM y').format(DateTime.parse(jobData.date)),
+                DateFormat('d MMM y').format(
+                  DateTime.parse(date),
+                ),
                 style: TextStyle(
                   // color: Color(0xff706E72),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  // fontWeight: FontWeight.w600,
                 ),
               ),
             ],

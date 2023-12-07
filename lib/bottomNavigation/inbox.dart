@@ -9,7 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class InboxPage extends StatefulWidget {
-  const InboxPage({Key? key}) : super(key: key);
+  final int? page;
+  const InboxPage({
+    Key? key,
+    this.page,
+  }) : super(key: key);
 
   static const String routeName = "/inbox-page";
 
@@ -24,7 +28,8 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController =
+        TabController(length: 2, vsync: this, initialIndex: widget.page ?? 0);
     _searchEdit = TextEditingController();
   }
 
@@ -245,15 +250,20 @@ class _InboxState extends State<InboxPage> with TickerProviderStateMixin {
               child: TabBar(
                 controller: _tabController,
                 isScrollable: true,
-                indicatorColor: thirdColor,
-                labelColor: thirdColor,
-                unselectedLabelColor: Colors.black,
+                indicatorColor: greenColor,
+                labelColor: Colors.black,
+                unselectedLabelColor: const Color(0xff898989),
                 indicatorSize: TabBarIndicatorSize.label,
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
                 labelPadding: EdgeInsets.symmetric(
                   horizontal: screenWidth * 0.03,
                 ),
                 labelStyle: const TextStyle(
+                  fontFamily: fontFamily,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+                unselectedLabelStyle: const TextStyle(
                   fontFamily: fontFamily,
                   fontSize: 16,
                 ),

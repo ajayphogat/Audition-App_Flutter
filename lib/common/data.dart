@@ -9,6 +9,46 @@ const List<String> categoryData = [
   "asset/images/uiImages/designer.png",
   "asset/images/uiImages/chef.png",
 ];
+
+const List<Map<String, String>> categoryData1 = [
+  {
+    "name": "Actor",
+    "image": "asset/categoryImages/ACTOR.jpg",
+  },
+  {
+    "name": "Model",
+    "image": "asset/categoryImages/MODEL.jpg",
+  },
+  {
+    "name": "Singer",
+    "image": "asset/categoryImages/SINGER.jpg",
+  },
+  {
+    "name": "Musician",
+    "image": "asset/categoryImages/MUSICIAN.jpg",
+  },
+  {
+    "name": "Writer",
+    "image": "asset/categoryImages/WRITER.jpg",
+  },
+  {
+    "name": "Dancer",
+    "image": "asset/categoryImages/DANCER.jpg",
+  },
+  {
+    "name": "Choreographer",
+    "image": "asset/categoryImages/CHOREOGRAPHER.jpg",
+  },
+  {
+    "name": "Designer",
+    "image": "asset/categoryImages/DESIGNER.jpg",
+  },
+  {
+    "name": "Other",
+    "image": "asset/categoryImages/OTHERS.jpg",
+  },
+];
+
 const List<String> categoryDataName = [
   "Actor",
   "Model",

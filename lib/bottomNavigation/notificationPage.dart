@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:first_app/auth/databaseService.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -62,10 +63,11 @@ class _NotificationPageState extends State<NotificationPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     var user = Provider.of<UserProvider>(context, listen: false).user;
+
     return Scaffold(
       body: allNotifications == null
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : allNotifications!.isEmpty
               ? const Center(
@@ -86,13 +88,8 @@ class _NotificationPageState extends State<NotificationPage> {
                     ),
                     itemBuilder: (context, index) {
                       int reverseIndex = allNotifications!.length - index - 1;
+                      print(allNotificationPic![reverseIndex]);
                       return Container(
-                        // decoration: const BoxDecoration(
-                        //   border: Border(
-                        //     bottom: BorderSide(color: Colors.black),
-                        //   ),
-                        // ),
-                        // margin: const EdgeInsets.only(bottom: 5),
                         child: Column(
                           children: [
                             SizedBox(height: screenHeight * 0.01),
@@ -121,7 +118,8 @@ class _NotificationPageState extends State<NotificationPage> {
                                 allNotifications![reverseIndex],
                                 style: const TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  // fontWeight: FontWeight.bold,
                                 ),
                               ),
                               // trailing: AutoSizeText(

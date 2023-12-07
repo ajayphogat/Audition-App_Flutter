@@ -9,7 +9,14 @@ import 'package:flutter/material.dart';
 
 class BottomNavigationPage extends StatefulWidget {
   final int? pageNumber;
-  const BottomNavigationPage({Key? key, this.pageNumber}) : super(key: key);
+  final int? page;
+  final int? inboxPage;
+  const BottomNavigationPage({
+    Key? key,
+    this.pageNumber,
+    this.page,
+    this.inboxPage,
+  }) : super(key: key);
 
   static const String routeName = "/bottomNavigation-Page";
 
@@ -21,13 +28,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   int _page = 0;
   final _key = GlobalKey();
 
-  final List<Widget> pages = [
-    const HomePage(),
-    const MyApplicationPage(),
-    const InboxPage(),
-    // const MyProfilePage(),
-    const MediaProfilePage()
-  ];
+  late List<Widget> pages;
 
   DateTime pre_backPress = DateTime.now();
 
@@ -44,6 +45,14 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     } else {
       _page = 0;
     }
+
+    pages = [
+      const HomePage(),
+      MyApplicationPage(page: widget.page ?? 0),
+      InboxPage(page: widget.inboxPage ?? 0),
+      // const MyProfilePage(),
+      const MediaProfilePage()
+    ];
     super.initState();
   }
 

@@ -1,7 +1,7 @@
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
-import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 
 class SAllJobsPage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _SAllJobsPageState extends State<SAllJobsPage> {
     return Scaffold(
       body: _allJobs == null
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : _allJobs!.isEmpty
               ? const Center(

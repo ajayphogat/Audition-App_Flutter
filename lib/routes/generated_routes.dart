@@ -17,6 +17,7 @@ import 'package:first_app/pages/categorySection/singerPageGrid.dart';
 import 'package:first_app/pages/categorySection/writerPageGrid.dart';
 import 'package:first_app/pages/inboxPages/inboxPage.dart';
 import 'package:first_app/pages/inboxPages/messagePage.dart';
+import 'package:first_app/pages/loadingPage/loadingPage.dart';
 import 'package:first_app/pages/myApplicationPages/acceptedJobPage.dart';
 import 'package:first_app/pages/myApplicationPages/appliedJobPage.dart';
 import 'package:first_app/pages/myApplicationPages/declinedJobPage.dart';
@@ -198,6 +199,11 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
         builder: (_) => const VerificationPage(),
       );
 
+    case FollowersPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const FollowersPage(),
+      );
     // case AcceptedJobPage.routeName:
     //   return MaterialPageRoute(
     //     settings: routeSettings,
@@ -220,11 +226,6 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
     //   return MaterialPageRoute(
     //     settings: routeSettings,
     //     builder: (_) => const BookmarkJobPage(),
-    //   );
-    // case FollowersPage.routeName:
-    //   return MaterialPageRoute(
-    //     settings: routeSettings,
-    //     builder: (_) => const FollowersPage(),
     //   );
 
     // case ShortlistedJobPage.routeName:
@@ -486,6 +487,12 @@ Route<dynamic> generatedRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const SBottomNavigationPage(),
+      );
+
+    case LoadingPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const LoadingPage(),
       );
 
     // case ActorGridPage.routeName:

@@ -22,6 +22,7 @@ class JobProvider extends ChangeNotifier {
     declined: [],
     shortlisted: [],
     status: true,
+    interview: [],
   );
 
   JobModel get job => _job;
@@ -56,6 +57,7 @@ class JobProvider1 extends ChangeNotifier {
     isShortlisted: false,
     isDeclined: false,
     status: true,
+    interview: [],
   );
 
   JobModel1 get job => _job;

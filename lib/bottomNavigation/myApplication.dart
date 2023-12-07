@@ -1,21 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
-import 'package:first_app/common/common.dart';
 import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
-import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myApplicationPages/acceptedJobPage.dart';
 import 'package:first_app/pages/myApplicationPages/appliedJobPage.dart';
 import 'package:first_app/pages/myApplicationPages/declinedJobPage.dart';
 import 'package:first_app/pages/myApplicationPages/bookmarkJobPage.dart';
 import 'package:first_app/pages/myApplicationPages/shortlistedJobPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../pages/categorySection/categoryDetailPage.dart';
 
 class MyApplicationPage extends StatefulWidget {
-  const MyApplicationPage({Key? key}) : super(key: key);
+  final int? page;
+  const MyApplicationPage({
+    Key? key,
+    this.page,
+  }) : super(key: key);
 
   static const String routeName = "/myApplication-page";
 
@@ -31,7 +29,8 @@ class _MyApplicationState extends State<MyApplicationPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController =
+        TabController(length: 5, vsync: this, initialIndex: widget.page ?? 0);
     _searchEdit = TextEditingController();
   }
 
@@ -57,8 +56,8 @@ class _MyApplicationState extends State<MyApplicationPage>
                 color: Colors.grey[50],
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 2),
-                    color: Color(0xff000000).withOpacity(0.13),
+                    offset: const Offset(0, 2),
+                    color: const Color(0xff000000).withOpacity(0.13),
                     blurRadius: 2,
                     spreadRadius: 2,
                   ),
@@ -69,8 +68,8 @@ class _MyApplicationState extends State<MyApplicationPage>
                   Image.asset("asset/images/uiImages/application_appbar.png"),
                   Positioned(
                     left: screenWidth * 0.05,
-                    child: Row(
-                      children: const [
+                    child: const Row(
+                      children: [
                         // const Icon(Icons.arrow_back_ios_sharp),
                         // SizedBox(width: screenWidth * 0.04),
                         AutoSizeText(
@@ -87,7 +86,7 @@ class _MyApplicationState extends State<MyApplicationPage>
                   ),
                   Positioned(
                     top: screenHeight * 0.015,
-                    child: Container(
+                    child: SizedBox(
                       width: screenWidth,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +167,7 @@ class _MyApplicationState extends State<MyApplicationPage>
                                   //     ),),
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
-                                    hintText: "Search here....",
+                                    hintText: "Search here",
                                     hintStyle: const TextStyle(
                                       fontSize: 15,
                                       fontFamily: fontFamily,

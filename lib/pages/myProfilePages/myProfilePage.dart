@@ -17,6 +17,7 @@ import 'package:first_app/provider/studio_provider.dart';
 import 'package:first_app/utils/bottom_gallary_up.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/link.dart';
 import '../../provider/user_provider.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -155,7 +156,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                           ),
                                           shape: BoxShape.circle,
                                         ),
-                                        padding: EdgeInsets.all(3),
+                                        padding: const EdgeInsets.all(3),
                                         child: CircleAvatar(
                                           radius: screenWidth * 0.1,
                                           backgroundImage:
@@ -377,58 +378,58 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 ),
                               ),
                             ),
-                      SizedBox(height: screenHeight * 0.015),
-                      Card(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.025,
-                            vertical: screenHeight * 0.015,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AutoSizeText(
-                                    "About",
-                                    maxFontSize: 16,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  studioUser.id.isNotEmpty
-                                      ? Container()
-                                      : AutoSizeText(
-                                          "Edit",
-                                          maxFontSize: 12,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black38,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                ],
-                              ),
-                              SizedBox(height: screenHeight * 0.02),
-                              AutoSizeText(
-                                "viverra elit. Dignissim tristique suspendisse proin vulputate ac. Viverra nunc erat adipiscing eget ultrices enim. Sit consectetur",
-                                maxFontSize: 12,
-                                minFontSize: 10,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(height: screenHeight * 0.02),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // SizedBox(height: screenHeight * 0.015),
+                      // Card(
+                      //   child: Padding(
+                      //     padding: EdgeInsets.symmetric(
+                      //       horizontal: screenWidth * 0.025,
+                      //       vertical: screenHeight * 0.015,
+                      //     ),
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Row(
+                      //           crossAxisAlignment: CrossAxisAlignment.end,
+                      //           mainAxisAlignment:
+                      //               MainAxisAlignment.spaceBetween,
+                      //           children: [
+                      //             AutoSizeText(
+                      //               "About",
+                      //               maxFontSize: 16,
+                      //               style: TextStyle(
+                      //                 fontSize: 16,
+                      //                 color: Colors.black,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //             studioUser.id.isNotEmpty
+                      //                 ? Container()
+                      //                 : AutoSizeText(
+                      //                     "Edit",
+                      //                     maxFontSize: 12,
+                      //                     style: TextStyle(
+                      //                       fontSize: 12,
+                      //                       color: Colors.black38,
+                      //                       fontWeight: FontWeight.w600,
+                      //                     ),
+                      //                   ),
+                      //           ],
+                      //         ),
+                      //         SizedBox(height: screenHeight * 0.02),
+                      //         AutoSizeText(
+                      //           "viverra elit. Dignissim tristique suspendisse proin vulputate ac. Viverra nunc erat adipiscing eget ultrices enim. Sit consectetur",
+                      //           maxFontSize: 12,
+                      //           minFontSize: 10,
+                      //           style: TextStyle(
+                      //             fontSize: 12,
+                      //             color: Colors.black,
+                      //           ),
+                      //         ),
+                      //         SizedBox(height: screenHeight * 0.02),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: screenHeight * 0.015),
                       //TODO: document area is here
                       // Card(
@@ -515,7 +516,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       ? Container()
                                       : InkWell(
                                           onTap: () {
-                                            _bioController.text = "";
+                                            _bioController.text = user.bio;
                                             showBio(context, screenWidth,
                                                 screenHeight);
                                           },
@@ -876,119 +877,97 @@ class _MyProfilePageState extends State<MyProfilePage>
                           ),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.015),
-                      Card(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.025,
-                            vertical: screenHeight * 0.015,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const AutoSizeText(
-                                    "Union Membership",
-                                    maxFontSize: 16,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  studioUser.id.isNotEmpty
-                                      ? Container()
-                                      : InkWell(
-                                          onTap: () {
-                                            Navigator.pushNamed(context,
-                                                MembershipPage.routeName);
-                                          },
-                                          child: const AutoSizeText(
-                                            "Edit",
-                                            maxFontSize: 12,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black38,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                ],
-                              ),
-                              SizedBox(height: screenHeight * 0.02),
-                              // Container(
-                              //   width: screenWidth,
-                              //   height: screenHeight * 0.035,
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(10),
-                              //     border: Border.all(
-                              //       color: Colors.black38,
-                              //     ),
-                              //   ),
-                              //   padding: EdgeInsets.symmetric(
-                              //       horizontal: screenWidth * 0.05),
-                              //   alignment: Alignment.centerLeft,
-                              //   child: AutoSizeText(
-                              //     "https://www.abc.com",
-                              //     maxFontSize: 12,
-                              //     minFontSize: 10,
-                              //     style: TextStyle(
-                              //       fontSize: 12,
-                              //       color: Colors.black,
-                              //     ),
-                              //   ),
-                              // ),
-                              Container(
-                                width: screenWidth,
-                                height: screenHeight * 0.035,
-                                child: user.unionMembership.length == 0
-                                    ? AutoSizeText(
-                                        "Empty",
-                                        maxFontSize: 16,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      )
-                                    : ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: user.unionMembership.length,
-                                        itemBuilder: (context, index) =>
-                                            Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black38,
-                                            ),
-                                          ),
-                                          margin: EdgeInsets.only(
-                                              right: screenWidth * 0.025),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: screenWidth * 0.025),
-                                          alignment: Alignment.center,
-                                          child: AutoSizeText(
-                                            user.unionMembership[index],
-                                            maxFontSize: 12,
-                                            minFontSize: 10,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                              ),
-                              SizedBox(height: screenHeight * 0.02),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // SizedBox(height: screenHeight * 0.015),
+                      // Card(
+                      //   child: Padding(
+                      //     padding: EdgeInsets.symmetric(
+                      //       horizontal: screenWidth * 0.025,
+                      //       vertical: screenHeight * 0.015,
+                      //     ),
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Row(
+                      //           crossAxisAlignment: CrossAxisAlignment.end,
+                      //           mainAxisAlignment:
+                      //               MainAxisAlignment.spaceBetween,
+                      //           children: [
+                      //             const AutoSizeText(
+                      //               "Union Membership",
+                      //               maxFontSize: 16,
+                      //               style: TextStyle(
+                      //                 fontSize: 16,
+                      //                 color: Colors.black,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //             studioUser.id.isNotEmpty
+                      //                 ? Container()
+                      //                 : InkWell(
+                      //                     onTap: () {
+                      //                       Navigator.pushNamed(context,
+                      //                           MembershipPage.routeName);
+                      //                     },
+                      //                     child: const AutoSizeText(
+                      //                       "Edit",
+                      //                       maxFontSize: 12,
+                      //                       style: TextStyle(
+                      //                         fontSize: 12,
+                      //                         color: Colors.black38,
+                      //                         fontWeight: FontWeight.w600,
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //           ],
+                      //         ),
+                      //         SizedBox(height: screenHeight * 0.02),
+                      //         Container(
+                      //           width: screenWidth,
+                      //           height: screenHeight * 0.035,
+                      //           child: user.unionMembership.length == 0
+                      //               ? AutoSizeText(
+                      //                   "Empty",
+                      //                   maxFontSize: 16,
+                      //                   style: TextStyle(
+                      //                     fontSize: 16,
+                      //                     color: Colors.grey,
+                      //                     fontWeight: FontWeight.w500,
+                      //                   ),
+                      //                 )
+                      //               : ListView.builder(
+                      //                   scrollDirection: Axis.horizontal,
+                      //                   itemCount: user.unionMembership.length,
+                      //                   itemBuilder: (context, index) =>
+                      //                       Container(
+                      //                     decoration: BoxDecoration(
+                      //                       borderRadius:
+                      //                           BorderRadius.circular(10),
+                      //                       border: Border.all(
+                      //                         color: Colors.black38,
+                      //                       ),
+                      //                     ),
+                      //                     margin: EdgeInsets.only(
+                      //                         right: screenWidth * 0.025),
+                      //                     padding: EdgeInsets.symmetric(
+                      //                         horizontal: screenWidth * 0.025),
+                      //                     alignment: Alignment.center,
+                      //                     child: AutoSizeText(
+                      //                       user.unionMembership[index],
+                      //                       maxFontSize: 12,
+                      //                       minFontSize: 10,
+                      //                       style: TextStyle(
+                      //                         fontSize: 12,
+                      //                         color: Colors.black,
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //         ),
+                      //         SizedBox(height: screenHeight * 0.02),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: screenHeight * 0.015),
                       Card(
                         child: Padding(
@@ -1049,27 +1028,35 @@ class _MyProfilePageState extends State<MyProfilePage>
                                     : ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         itemCount: user.socialMedia.length,
-                                        itemBuilder: (context, index) =>
-                                            Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black38,
-                                            ),
-                                          ),
-                                          margin: EdgeInsets.only(
-                                              right: screenWidth * 0.025),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: screenWidth * 0.025),
-                                          alignment: Alignment.center,
-                                          child: AutoSizeText(
-                                            user.socialMedia[index],
-                                            maxFontSize: 12,
-                                            minFontSize: 10,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black,
+                                        itemBuilder: (context, index) => Link(
+                                          uri: Uri.parse(
+                                              user.socialMedia[index]),
+                                          builder: (context, followLink) =>
+                                              InkWell(
+                                            onTap: followLink,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                  color: Colors.black38,
+                                                ),
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                  right: screenWidth * 0.025),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      screenWidth * 0.025),
+                                              alignment: Alignment.center,
+                                              child: AutoSizeText(
+                                                user.socialMedia[index],
+                                                maxFontSize: 12,
+                                                minFontSize: 10,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -1226,38 +1213,43 @@ class _MyProfilePageState extends State<MyProfilePage>
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.015),
-                      InkWell(
-                        onTap: () async {
-                          circularProgressIndicatorNew(context);
-                          await AuthService().logoutUser(context);
-                        },
-                        child: Card(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.025,
-                              vertical: screenHeight * 0.015,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AutoSizeText(
-                                  "Logout",
-                                  maxFontSize: 16,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                      studioUser.id.isNotEmpty
+                          ? Container()
+                          : InkWell(
+                              onTap: () async {
+                                print("log log log");
+                                print(user.id);
+                                circularProgressIndicatorNew(context);
+                                await AuthService().logoutUser(context);
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.025,
+                                    vertical: screenHeight * 0.015,
+                                  ),
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AutoSizeText(
+                                        "Logout",
+                                        maxFontSize: 16,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.logout,
+                                        color: Colors.black,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Icon(
-                                  Icons.logout,
-                                  color: Colors.black,
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
                       // Stack(children: [
                       //   Container(
                       //     width: screenWidth,

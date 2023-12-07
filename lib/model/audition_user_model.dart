@@ -8,7 +8,7 @@ class UserModel {
   final String number;
   final String password;
   final String category;
-  final String token;
+  String? token;
   final String bio;
   final String pronoun;
   final String gender;
@@ -46,7 +46,7 @@ class UserModel {
     required this.number,
     required this.password,
     required this.category,
-    required this.token,
+    this.token,
     required this.bio,
     required this.pronoun,
     required this.gender,
@@ -127,7 +127,7 @@ class UserModel {
       number: map['number'] as String,
       password: map['password'] as String,
       category: map['category'] as String,
-      token: map['token'] as String,
+      token: map['token'] != null ? map['token'] as String : null,
       bio: map['bio'] as String,
       pronoun: map['pronoun'] as String,
       gender: map['gender'] as String,
@@ -173,7 +173,7 @@ class UserModel1 {
   final String number;
   final String password;
   final String category;
-  final String token;
+  String? token;
   final String bio;
   final String pronoun;
   final String gender;
@@ -211,7 +211,7 @@ class UserModel1 {
     required this.number,
     required this.password,
     required this.category,
-    required this.token,
+    this.token,
     required this.bio,
     required this.pronoun,
     required this.gender,
@@ -292,7 +292,7 @@ class UserModel1 {
       number: map['number'] as String,
       password: map['password'] as String,
       category: map['category'] as String,
-      token: map['token'] as String,
+      token: map['token'] != null ? map['token'] as String : null,
       bio: map['bio'] as String,
       pronoun: map['pronoun'] as String,
       gender: map['gender'] as String,

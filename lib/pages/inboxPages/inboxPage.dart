@@ -1,15 +1,12 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/databaseService.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/provider/user_provider.dart';
+import 'package:first_app/utils/first_char_capital.dart';
+import 'package:first_app/utils/time_age.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../studio_code/spages/sinboxPages/smessagePage.dart';
 
@@ -35,7 +32,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
     await DatabaseService(uid: pp)
         .getUserGroupsRecentMessageTime()
         .then((snapshot) {
-      if (this.mounted) {
+      if (mounted) {
         setState(() {
           recentMsgTime = snapshot;
         });
@@ -45,7 +42,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
     await DatabaseService(uid: pp)
         .getUserGroupsRecentMessage()
         .then((snapshot) {
-      if (this.mounted) {
+      if (mounted) {
         setState(() {
           message = snapshot;
         });
@@ -55,7 +52,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
     await DatabaseService(uid: pp)
         .getUserGroupsProfilePic("audition")
         .then((value) {
-      if (this.mounted) {
+      if (mounted) {
         setState(() {
           profilePics = value;
         });
@@ -63,7 +60,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
     });
 
     await DatabaseService(uid: pp).getChatUserId("audition").then((value) {
-      if (this.mounted) {
+      if (mounted) {
         setState(() {
           allUserId = value;
         });
@@ -71,7 +68,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
     });
 
     await DatabaseService(uid: pp).getUserGroups().then((snapshot) {
-      if (this.mounted) {
+      if (mounted) {
         setState(() {
           groups = snapshot;
         });
@@ -118,14 +115,16 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                 child: ListView.separated(
                   itemCount: snapshot.data['groups'].length,
                   itemBuilder: (context, index) {
-                    // int reverseIndex = snapshot.data['groups'].length - index - 1;
-                    var newDate = DateTime.fromMillisecondsSinceEpoch(
+                    var newTime = TimeAgo.timeAgoSinceDate(
                         int.parse(recentMsgTime![index]));
+                    // int reverseIndex = snapshot.data['groups'].length - index - 1;
+                    // var newDate = DateTime.fromMillisecondsSinceEpoch(
+                    //     int.parse(recentMsgTime![index]));
                     // var newDate = DateTime.fromMillisecondsSinceEpoch(
                     //     int.parse(recentMsgTime![reverseIndex]));
-                    var currentDate = DateTime.now();
-                    Duration duration = currentDate.difference(newDate);
-                    var newMin = duration.inMinutes;
+                    // var currentDate = DateTime.now();
+                    // Duration duration = currentDate.difference(newDate);
+                    // var newMin = duration.inMinutes;
 
                     return InkWell(
                       onTap: () {
@@ -153,8 +152,9 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                               currentUserId: pp,
                             ),
                           ),
-                        );
-                        setState(() {});
+                        ).then((value) {
+                          getUserGroups(pp);
+                        });
                       },
                       child: Column(
                         children: [
@@ -185,24 +185,39 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                               ),
                             ),
                             title: Text(
-                              getName(snapshot.data['groups'][index]),
+                              CharCapital.firstCharCapital(
+                                  getName(snapshot.data['groups'][index])),
                               // getName(snapshot.data['groups'][reverseIndex]),
                               // getId(snapshot.data['groups'][reverseIndex]),
                               style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                                fontFamily: fontFamily,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            subtitle: Text(
-                              message![index],
-                              // message![reverseIndex],
-                              // getName(snapshot.data['groups'][reverseIndex]),
-                            ),
+                            subtitle: message![index].substring(0, 5) == 'https'
+                                ? const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.attach_file,
+                                        size: 18,
+                                        color: Colors.black54,
+                                      ),
+                                      Text(
+                                        "File",
+                                      ),
+                                    ],
+                                  )
+                                : Text(
+                                    message![index],
+                                    // message![reverseIndex],
+                                    // getName(snapshot.data['groups'][reverseIndex]),
+                                  ),
                             trailing: AutoSizeText(
-                              "${newMin} m",
-                              maxFontSize: 16,
-                              style: TextStyle(
-                                fontSize: 16,
+                              // "${newMin} m",
+                              newTime,
+                              maxFontSize: 14,
+                              style: const TextStyle(
+                                fontSize: 14,
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -226,7 +241,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                     height: 0,
                     indent: screenWidth * 0.03,
                     endIndent: screenWidth * 0.03,
-                    color: Color(0xff706E72).withOpacity(0.28),
+                    color: const Color(0xff706E72).withOpacity(0.28),
                   ),
                 ),
               );
@@ -242,7 +257,9 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
           }
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: greenColor,
+            ),
           );
         }
       },

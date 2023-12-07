@@ -2,6 +2,7 @@ import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
+import 'package:first_app/utils/first_char_capital.dart';
 import 'package:flutter/material.dart';
 
 class BookmarkJobPage extends StatefulWidget {
@@ -46,7 +47,7 @@ class _BookmarkJobPageState extends State<BookmarkJobPage> {
     return Scaffold(
       body: (_appliedJobs == null)
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : (_appliedJobs!.isEmpty)
               ? const Center(
@@ -80,9 +81,11 @@ class _BookmarkJobPageState extends State<BookmarkJobPage> {
                                   title: Padding(
                                     padding: const EdgeInsets.only(bottom: 5),
                                     child: Text(
-                                      data.studioName,
+                                      CharCapital.firstCharCapital(
+                                          data.studioName),
                                       style: const TextStyle(
                                         fontFamily: fontFamily,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),

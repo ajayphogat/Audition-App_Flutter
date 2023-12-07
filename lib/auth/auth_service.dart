@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -128,6 +130,7 @@ class AuthService {
     try {
       http.Response res =
           await http.post(Uri.parse("$url/api/studio/web/verify-otp"),
+              // await http.post(Uri.parse("$url/api/studio/web/verify-otp"),
               body: jsonEncode(
                 {
                   "number": number,
@@ -210,6 +213,15 @@ class AuthService {
               .updateUserData(fname.trim(), email.trim());
         } else {
           showSnackBar(context, firebaseAuth.currentUser.toString());
+        }
+      } else {
+        firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
+                email: email.trim(), password: "${email.trim()}password"))
+            .user!;
+
+        if (firebaseUser != null) {
+          await DatabaseService(uid: jsonDecode(res.body)['_id'])
+              .updateUserData(fname.trim(), email.trim());
         }
       }
       print("after firebase");
@@ -298,6 +310,7 @@ class AuthService {
     required BuildContext context,
     required String email,
     required String password,
+    bool? saveToken,
   }) async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     User firebaseUser;
@@ -352,6 +365,8 @@ class AuthService {
                 email: email.trim(), password: "${email.trim()}password"))
             .user!;
 
+        print(firebaseUser.uid);
+
         QuerySnapshot snapshot =
             await DatabaseService(uid: jsonDecode(res.body)['_id'])
                 .gettingUserData(email.trim());
@@ -363,10 +378,15 @@ class AuthService {
           onSuccess: () async {
             var userProvider =
                 Provider.of<UserProvider>(context, listen: false);
-            navigator(String routeName) =>
-                Navigator.pushNamed(context, routeName);
+            navigator(String routeName) => Navigator.pushNamedAndRemoveUntil(
+                context, routeName, (route) => false);
             SharedPreferences prefs = await SharedPreferences.getInstance();
             userProvider.setUser(res.body);
+            if (saveToken == true) {
+              await prefs.setBool('tokenSaved', true);
+            } else {
+              await prefs.setBool('tokenSaved', false);
+            }
             await prefs.setString(
                 "x-firebase-token", FirebaseAuth.instance.currentUser!.uid);
             await prefs.setString(
@@ -375,6 +395,7 @@ class AuthService {
             navigator(BottomNavigationPage.routeName);
           });
     } catch (e) {
+      print(e.toString());
       showSnackBar(context, e.toString());
     }
   }
@@ -428,7 +449,7 @@ class AuthService {
             "Content-Type": "application/json; charset=UTF-8",
           });
 
-      httpErrorHandelForLoginSignup(
+      httpErrorHandel(
         context: context,
         res: res,
         onSuccess: () {
@@ -486,6 +507,18 @@ class AuthService {
   Future<void> logoutUser(BuildContext context) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      var user = Provider.of<UserProvider>(context, listen: false).user;
+      print("----user id----");
+      print(user.id);
+      // var studioUser = Provider.of<StudioProvider>(context, listen: false).user;
+      // if (user.id.isNotEmpty && studioUser.id.isEmpty) {
+      //   userid = user.id;
+      // } else if (user.id.isEmpty && studioUser.id.isNotEmpty) {
+      //   userid = studioUser.id;
+      // } else {
+      //   Navigator.pop(context);
+      //   showSnackBar(context, "Please restart this app and try again!");
+      // }
 
       var token = prefs.getString("x-auth-token");
       if (token == null || token.isEmpty) {
@@ -502,15 +535,17 @@ class AuthService {
           context: context,
           res: res,
           onSuccess: () async {
-            showSnackBar(context, "Logged out");
             navigatorPop() => Navigator.pop(context);
 
             navigatorPush() => Navigator.pushNamedAndRemoveUntil(
                 context, LoginPage.routeName, (route) => false);
 
+            //FIXME: This logoutFCMToken is not working properly.
+            // await DatabaseService(uid: user.id).logoutFCMToken();
+            await FirebaseAuth.instance.signOut();
             prefs.setString("x-auth-token", "");
             prefs.setString("x-studio-token", "");
-            await FirebaseAuth.instance.signOut();
+            showSnackBar(context, "Logged out");
             navigatorPop();
             navigatorPush();
           });
@@ -529,6 +564,10 @@ class AuthService {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? tokenAudition = prefs.getString("x-auth-token");
       String? tokenStudio = prefs.getString("x-studio-token");
+
+      if (prefs.getBool('tokenSaved') == false) {
+        return FirstSplashScreen.routeName;
+      }
 
       if ((tokenAudition == null || tokenAudition.isEmpty) &&
           (tokenStudio == null || tokenStudio.isEmpty)) {
@@ -1233,7 +1272,8 @@ class AuthService {
             await prefs.setString("x-studio-token", "");
             await prefs.setString(
                 "x-auth-token", jsonDecode(res.body)['token']);
-            if (userProvider.user.token.isEmpty) {
+            if (userProvider.user.token != null &&
+                userProvider.user.token != "") {
               navigatePop();
             } else {
               navigatePop();
@@ -1276,7 +1316,8 @@ class AuthService {
             await prefs.setString("x-auth-token", "");
             await prefs.setString(
                 "x-studio-token", jsonDecode(res.body)['token']);
-            if (studioProvider.user.token.isEmpty) {
+            if (studioProvider.user.token != null &&
+                studioProvider.user.token != "") {
               navigatePop();
             } else {
               navigatePop();
@@ -1357,6 +1398,7 @@ class AuthService {
     required BuildContext context,
     required String email,
     required String password,
+    bool? saveToken,
   }) async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     User firebaseUser;
@@ -1399,10 +1441,15 @@ class AuthService {
           onSuccess: () async {
             var userProvider =
                 Provider.of<StudioProvider>(context, listen: false);
-            navigator(String routeName) =>
-                Navigator.pushNamed(context, routeName);
+            navigator(String routeName) => Navigator.pushNamedAndRemoveUntil(
+                context, routeName, (route) => false);
             SharedPreferences prefs = await SharedPreferences.getInstance();
             userProvider.setUser(res.body);
+            if (saveToken == true) {
+              await prefs.setBool('tokenSaved', true);
+            } else {
+              await prefs.setBool('tokenSaved', false);
+            }
             await prefs.setString(
                 "x-studio-token", jsonDecode(res.body)['token']);
             await prefs.remove("x-auth-token");

@@ -1,5 +1,6 @@
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
 import 'package:first_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _ActorGridPageState extends State<ActorGridPage> {
     return Scaffold(
       body: _categoryJobs == null
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : _categoryJobs!.isEmpty
               ? const Center(

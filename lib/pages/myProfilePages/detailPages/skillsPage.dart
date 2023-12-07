@@ -35,8 +35,18 @@ class _SkillsPageState extends State<SkillsPage> {
   void initState() {
     _skillController = TextEditingController();
     var user = Provider.of<UserProvider>(context, listen: false).user;
-    skillsList = user.skills;
+    if (user.skills.isNotEmpty) {
+      skillsList = [...user.skills];
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    print("skillsList");
+    print(skillsList);
+    skillsList = [];
+    super.dispose();
   }
 
   @override
@@ -105,7 +115,7 @@ class _SkillsPageState extends State<SkillsPage> {
                               color: secondoryColor,
                             ),
                             child: const Text(
-                              "ADD LINK",
+                              "ADD SKILL",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: fontFamily,

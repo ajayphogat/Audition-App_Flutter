@@ -194,11 +194,11 @@ class _HomePageState extends State<HomePage> {
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                            // crossAxisSpacing: screenWidth * 0.005,
-                            // mainAxisSpacing: screenHeight * 0.03,
-                            mainAxisExtent: screenHeight * 0.18,
+                            crossAxisSpacing: screenWidth * 0.025,
+                            mainAxisSpacing: screenHeight * 0.03,
+                            mainAxisExtent: screenHeight * 0.16,
                           ),
-                          itemCount: categoryData.length,
+                          itemCount: categoryData1.length,
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
@@ -206,9 +206,53 @@ class _HomePageState extends State<HomePage> {
                                     context, CategoryDetailPage.routeName,
                                     arguments: [index, ""]);
                               },
-                              child: Image.asset(
-                                categoryData[index],
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xff000000)
+                                          .withOpacity(0.25),
+                                      blurRadius: 6,
+                                      spreadRadius: 0,
+                                      offset: const Offset(-1, 2),
+                                    )
+                                  ],
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        categoryData1[index]['image']!),
+                                  ),
+                                ),
+                                alignment: Alignment.bottomCenter,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) => Container(
+                                    alignment: Alignment.center,
+                                    width: constraints.maxWidth,
+                                    height: constraints.maxHeight * 0.15,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffF4C70A)
+                                          .withOpacity(0.7),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                    ),
+                                    child: AutoSizeText(
+                                      categoryData1[index]['name']!,
+                                      maxFontSize: 12,
+                                      minFontSize: 10,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
+                              // child: Image.asset(
+                              //   categoryData[index],
+                              // ),
                               // child: Container(
                               //   decoration: BoxDecoration(
                               //     borderRadius: BorderRadius.circular(10),
@@ -219,19 +263,20 @@ class _HomePageState extends State<HomePage> {
                               //   //   right: screenWidth * 0.01,
                               //   //   top: screenHeight * 0.01,
                               //   // ),
-                              //   child: Image.asset("asset/images/uiImages/actor.png",
+                              //   child: Image.asset(
+                              //       "asset/images/uiImages/actor.png",
                               //       fit: BoxFit.contain),
-                              // child: Column(
-                              //   children: [
-                              //     AspectRatio(
-                              //       aspectRatio: 1,
-                              //       child: Image.asset(
-                              //           "asset/images/categoryImages/${categoryData[index]}.png"),
-                              //     ),
-                              //     SizedBox(height: screenHeight * 0.01),
-                              //     Text(categoryData[index]),
-                              //   ],
-                              // ),
+                              //   // child: Column(
+                              //   //   children: [
+                              //   //     AspectRatio(
+                              //   //       aspectRatio: 1,
+                              //   //       child: Image.asset(
+                              //   //           "asset/images/categoryImages/${categoryData[index]}.png"),
+                              //   //     ),
+                              //   //     SizedBox(height: screenHeight * 0.01),
+                              //   //     Text(categoryData[index]),
+                              //   //   ],
+                              //   // ),
                               // ),
                             );
                           },
@@ -239,7 +284,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(height: screenHeight * 0.04),
                       (allJobs == null)
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: greenColor,
+                            ))
                           : (allJobs!.isEmpty)
                               ? Container(
                                   width: screenWidth,
@@ -398,13 +446,26 @@ class _HomePageState extends State<HomePage> {
               Navigator.pushNamed(context, CategoryDetailPage.routeName,
                   arguments: [0, ""]);
             },
-            child: const Text(
-              "See All",
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.w500,
-                color: greenColor,
-              ),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () async {
+                    circularProgressIndicatorNew(context);
+                    await getAllJobs();
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.refresh),
+                ),
+                SizedBox(width: screenWidth * 0.025),
+                const Text(
+                  "See All",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontWeight: FontWeight.w500,
+                    color: greenColor,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

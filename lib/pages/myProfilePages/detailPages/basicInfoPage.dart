@@ -137,17 +137,18 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
                 child: basicDropDown(screenHeight, "Location",
                     _locationText.text.isEmpty ? "Select" : _locationText.text),
               ),
-              const Text(
-                "Profile URL",
-                style: TextStyle(
-                  fontFamily: fontFamily,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.01),
-              basicTextFormField(screenWidth, screenHeight, _urlController,
-                  "Enter your URL here"),
-              SizedBox(height: screenHeight * 0.03),
+              //TODO: Add this later
+              // const Text(
+              //   "Profile URL",
+              //   style: TextStyle(
+              //     fontFamily: fontFamily,
+              //     fontSize: 18,
+              //   ),
+              // ),
+              // SizedBox(height: screenHeight * 0.01),
+              // basicTextFormField(screenWidth, screenHeight, _urlController,
+              //     "Enter your URL here"),
+              // SizedBox(height: screenHeight * 0.03),
               InkWell(
                 onTap: () {
                   showPopup(
@@ -166,35 +167,35 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
                         : _professionalController.text),
               ),
               SizedBox(height: screenHeight * 0.03),
-              const Text(
-                "Profile Visibility",
-                style: TextStyle(
-                  fontFamily: fontFamily,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.01),
-              Row(
-                children: [
-                  Transform.scale(
-                    scale: 0.9,
-                    child: CupertinoSwitch(
-                      value: profileVisible,
-                      onChanged: (bool value) {
-                        setState(() {
-                          profileVisible = !profileVisible;
-                        });
-                      },
-                      activeColor: const Color(0xFF30319D),
-                    ),
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  const Text(
-                    "Public",
-                    style: TextStyle(fontSize: 17, fontFamily: fontFamily),
-                  ),
-                ],
-              ),
+              // const Text(
+              //   "Profile Visibility",
+              //   style: TextStyle(
+              //     fontFamily: fontFamily,
+              //     fontSize: 18,
+              //   ),
+              // ),
+              // SizedBox(height: screenHeight * 0.01),
+              // Row(
+              //   children: [
+              //     Transform.scale(
+              //       scale: 0.9,
+              //       child: CupertinoSwitch(
+              //         value: profileVisible,
+              //         onChanged: (bool value) {
+              //           setState(() {
+              //             profileVisible = !profileVisible;
+              //           });
+              //         },
+              //         activeColor: const Color(0xFF30319D),
+              //       ),
+              //     ),
+              //     SizedBox(width: screenWidth * 0.02),
+              //     const Text(
+              //       "Public",
+              //       style: TextStyle(fontSize: 17, fontFamily: fontFamily),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

@@ -10,8 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SMyApplicationPage extends StatefulWidget {
+  final int? page;
   const SMyApplicationPage({
     Key? key,
+    this.page,
   }) : super(key: key);
 
   static const String routeName = "/smyApplication-page";
@@ -28,7 +30,15 @@ class _MyApplicationState extends State<SMyApplicationPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    if (widget.page != null) {
+      _tabController =
+          TabController(length: 4, vsync: this, initialIndex: widget.page!);
+    } else {
+      _tabController = TabController(
+        length: 4,
+        vsync: this,
+      );
+    }
     _searchEdit = TextEditingController();
   }
 

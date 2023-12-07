@@ -25,26 +25,31 @@ void main() async {
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebasemessagingBackgroundHandler);
   // await FirebaseApi().initNotifications();
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => UserProvider(),
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider1(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StudioProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StudioProvider1(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => JobProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => JobProvider1(),
+        ),
+      ],
+      child: const MyAPP(),
     ),
-    ChangeNotifierProvider(
-      create: (context) => UserProvider1(),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => StudioProvider(),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => StudioProvider1(),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => JobProvider(),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => JobProvider1(),
-    ),
-  ], child: const MyAPP()));
+  );
 }
 
 @pragma('vm:entry-point')

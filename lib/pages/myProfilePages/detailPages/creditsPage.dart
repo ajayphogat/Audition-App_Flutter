@@ -35,7 +35,7 @@ class _CreditsPageState extends State<CreditsPage> {
   void initState() {
     _creditController = TextEditingController();
     var user = Provider.of<UserProvider>(context, listen: false).user;
-    creditList = user.credits;
+    creditList = [...user.credits];
     super.initState();
   }
 

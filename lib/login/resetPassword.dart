@@ -43,16 +43,18 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   Future<void> loginUser() async {
     await authService.loginUser(
-        context: context,
-        email: _passwordConfirm.text,
-        password: _password.text);
+      context: context,
+      email: _passwordConfirm.text,
+      password: _password.text,
+    );
   }
 
   Future<void> loginStudio() async {
     await authService.loginStudio(
-        context: context,
-        email: _passwordConfirm.text,
-        password: _password.text);
+      context: context,
+      email: _passwordConfirm.text,
+      password: _password.text,
+    );
   }
 
   void changeRememberMe(bool value) {

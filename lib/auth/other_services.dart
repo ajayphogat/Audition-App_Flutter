@@ -574,6 +574,7 @@ class OtherService {
     required String studioUserId,
   }) async {
     try {
+      String? user2FCMToken;
       var jobProvider = Provider.of<JobProvider>(context, listen: false);
       var userProvider = Provider.of<UserProvider>(context, listen: false).user;
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -593,16 +594,52 @@ class OtherService {
             "x-auth-token": token!,
           });
 
-      httpErrorHandel(
-        context: context,
-        res: res,
-        onSuccess: () {
-          DatabaseService(uid: studioUserId).updateNotification(
-              "${userProvider.fname} has applied on your job post__${userProvider.profilePic}");
-          jobProvider.setUser(res.body);
-          showSnackBar(context, "Job applied");
-        },
-      );
+      user2FCMToken = await DatabaseService().gettingUserFCMToken(studioUserId);
+      if (user2FCMToken != null) {
+        print("user2FCMToken");
+        httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () async {
+            var data = {
+              'to': user2FCMToken,
+              'priority': 'high',
+              'notification': {
+                'title': "Applied",
+                'body': "${userProvider.fname} applied on your job.",
+                "alert": true
+              },
+              'data': {
+                'type': 'job applied',
+              }
+            };
+
+            http.Response ress = await http.post(
+                Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                body: jsonEncode(data),
+                headers: {
+                  "Content-Type": "application/json; charset=UTF-8",
+                  "Authorization":
+                      "key=AAAApcOKBAM:APA91bGGRSk9rDbs6mGdNlHICXGLfObzdulJ7lbwtzF6jwOnVKfx23GmMO3sfuvI2KNnnmsGdXjgShv7ZhHM8I4jaLmS0ljkZiQmE6UfDe-MbvEmTYvnh7IfnoqVrQh6h7GOQufJYAs-"
+                });
+            DatabaseService(uid: studioUserId).updateNotification(
+                "${userProvider.fname} has applied on your job post__${userProvider.profilePic}");
+            jobProvider.setUser(res.body);
+            showSnackBar(context, "Job applied");
+          },
+        );
+      } else {
+        httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () async {
+            DatabaseService(uid: studioUserId).updateNotification(
+                "${userProvider.fname} has applied on your job post__${userProvider.profilePic}");
+            jobProvider.setUser(res.body);
+            showSnackBar(context, "Job applied");
+          },
+        );
+      }
     } catch (e) {
       showSnackBar(context, e.toString());
     }

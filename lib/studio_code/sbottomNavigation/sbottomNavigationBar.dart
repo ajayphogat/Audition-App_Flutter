@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 
 class SBottomNavigationPage extends StatefulWidget {
   final int? pageNumber;
-  const SBottomNavigationPage({Key? key, this.pageNumber}) : super(key: key);
+  final int? page;
+  const SBottomNavigationPage({Key? key, this.pageNumber, this.page})
+      : super(key: key);
   static const String routeName = "/sbottomNavigation-Page";
 
   @override
@@ -22,12 +24,7 @@ class _SBottomNavigationPageState extends State<SBottomNavigationPage> {
 
   DateTime pre_backPress = DateTime.now();
 
-  final List<Widget> pages = [
-    const SHomePage(),
-    const SMyApplicationPage(),
-    const SInboxPage(),
-    const SMyProfile(),
-  ];
+  late List<Widget> pages;
 
   void updatePage(int page) {
     setState(() {
@@ -44,6 +41,12 @@ class _SBottomNavigationPageState extends State<SBottomNavigationPage> {
     } else {
       _page = 0;
     }
+    pages = [
+      const SHomePage(),
+      SMyApplicationPage(page: widget.page ?? 0),
+      const SInboxPage(),
+      const SMyProfile(),
+    ];
   }
 
   @override

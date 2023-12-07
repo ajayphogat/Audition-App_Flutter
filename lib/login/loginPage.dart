@@ -38,12 +38,20 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> loginUser() async {
     await authService.loginUser(
-        context: context, email: _email.text, password: _password.text);
+      context: context,
+      email: _email.text,
+      password: _password.text,
+      saveToken: _rememberMe,
+    );
   }
 
   Future<void> loginStudio() async {
     await authService.loginStudio(
-        context: context, email: _email.text, password: _password.text);
+      context: context,
+      email: _email.text,
+      password: _password.text,
+      saveToken: _rememberMe,
+    );
   }
 
   void changeRememberMe(bool value) {

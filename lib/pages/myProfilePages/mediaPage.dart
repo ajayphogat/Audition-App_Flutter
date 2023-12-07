@@ -1,6 +1,5 @@
-import 'dart:ui';
+// ignore_for_file: use_build_context_synchronously
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -187,7 +186,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                               bottom: 0,
                               left: screenWidth * 0.025,
                               child: BlurryContainer(
-                                blur: 10,
+                                blur: 5,
                                 width: screenWidth * 0.95,
                                 height: screenHeight * 0.225,
                                 elevation: 5,
@@ -210,7 +209,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                             AutoSizeText(
                                               user.fname,
                                               maxFontSize: 25,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 25,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
@@ -235,7 +234,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                                       ? "View more"
                                                       : "Edit",
                                                   maxFontSize: 12,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.w500,
@@ -246,8 +245,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                           ],
                                         ),
                                         Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
                                           children: [
                                             AutoSizeText(
                                               user.bio.isEmpty
@@ -260,17 +257,16 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                                 fontWeight: FontWeight.w300,
                                               ),
                                             ),
-                                            const Expanded(
-                                              child: Divider(
-                                                thickness: 1,
-                                                color: Colors.black12,
-                                              ),
-                                            ),
                                           ],
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: screenHeight * 0.03),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    const Divider(
+                                      thickness: 1,
+                                      color: Colors.black12,
+                                    ),
+                                    SizedBox(height: screenHeight * 0.01),
                                     Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: screenWidth * 0.05),
@@ -512,7 +508,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                           ],
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: screenHeight,
                         child: TabBarView(
                           physics: const NeverScrollableScrollPhysics(),
@@ -830,47 +826,58 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                 ],
               ),
               itemCount: user.photos.length,
-              itemBuilder: (context, index) => InkWell(
-                onTap: () async {
-                  await showDialog(
-                      // barrierDismissible: false,
-                      context: context,
-                      builder: (context) {
-                        return Center(
-                          child: Material(
-                            elevation: 5,
-                            borderRadius: BorderRadius.circular(5),
-                            clipBehavior: Clip.antiAlias,
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              height: screenHeight * 0.60,
-                              width: screenWidth,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        icon: const Icon(Icons.close),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: screenWidth,
-                                    height: screenHeight * 0.50,
-                                    child: PhotoViewGallery.builder(
-                                      itemCount: user.photos.length,
-                                      builder: (context, i) {
-                                        return PhotoViewGalleryPageOptions(
+              findChildIndexCallback: (key) {
+                final valueKey = key as ValueKey;
+                final index = user.photos
+                    .indexWhere((element) => element == valueKey.value);
+                if (index == -1) return null;
+                return index;
+              },
+              itemBuilder: (context, index) => StatefulBuilder(
+                builder: (context, setState) => InkWell(
+                  key: ValueKey(user.photos[index]),
+                  onTap: () async {
+                    PageController photoViewController =
+                        PageController(initialPage: index);
+                    await showDialog(
+                        // barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return Center(
+                            child: Material(
+                              elevation: 5,
+                              borderRadius: BorderRadius.circular(5),
+                              clipBehavior: Clip.antiAlias,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                height: screenHeight * 0.60,
+                                width: screenWidth,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          icon: const Icon(Icons.close),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: screenWidth,
+                                      height: screenHeight * 0.50,
+                                      child: PhotoViewGallery.builder(
+                                        itemCount: user.photos.length,
+                                        builder: (context, i) =>
+                                            PhotoViewGalleryPageOptions(
                                           imageProvider:
                                               CachedNetworkImageProvider(
-                                            user.photos[index],
+                                            user.photos[i],
                                           ),
                                           minScale:
                                               PhotoViewComputedScale.contained *
@@ -878,58 +885,133 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                                           maxScale:
                                               PhotoViewComputedScale.covered *
                                                   2,
-                                        );
-                                      },
-                                      scrollPhysics:
-                                          const NeverScrollableScrollPhysics(),
-                                      backgroundDecoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(20),
                                         ),
-                                        color: Theme.of(context).canvasColor,
-                                      ),
-                                      enableRotation: true,
-                                      loadingBuilder: (context, event) =>
-                                          Center(
-                                        child: SizedBox(
-                                          width: 30.0,
-                                          height: 30.0,
-                                          child: CircularProgressIndicator(
-                                              backgroundColor: Colors.orange,
-                                              value: event == null
-                                                  ? 0
-                                                  : (event.cumulativeBytesLoaded
-                                                          .toDouble() /
-                                                      event.expectedTotalBytes!
-                                                          .toDouble())),
+                                        pageController: photoViewController,
+                                        // onPageChanged: (idx) {
+                                        //   setState(() {
+                                        //     //FIXME: not working
+                                        //     index = idx;
+                                        //   });
+                                        // },
+                                        // pageOptions: [
+                                        //   PhotoViewGalleryPageOptions(
+                                        //     imageProvider:
+                                        //         CachedNetworkImageProvider(
+                                        //       user.photos[index],
+                                        //     ),
+                                        //     minScale: PhotoViewComputedScale
+                                        //             .contained *
+                                        //         0.8,
+                                        //     maxScale:
+                                        //         PhotoViewComputedScale.covered *
+                                        //             2,
+                                        //   ),
+                                        // ],
+                                        // scrollPhysics:
+                                        //     const NeverScrollableScrollPhysics(),
+                                        backgroundDecoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(20),
+                                          ),
+                                          color: Theme.of(context).canvasColor,
+                                        ),
+                                        enableRotation: true,
+                                        loadingBuilder: (context, event) =>
+                                            Center(
+                                          child: SizedBox(
+                                            width: 30.0,
+                                            height: 30.0,
+                                            child: CircularProgressIndicator(
+                                                backgroundColor: Colors.orange,
+                                                value: event == null
+                                                    ? 0
+                                                    : (event.cumulativeBytesLoaded
+                                                            .toDouble() /
+                                                        event
+                                                            .expectedTotalBytes!
+                                                            .toDouble())),
+                                          ),
                                         ),
                                       ),
+                                      // child: PhotoViewGallery.builder(
+                                      //   itemCount: user.photos.length,
+                                      //   pageController: photoViewController,
+                                      //   onPageChanged: (idx) {
+                                      //     // setState(() {
+                                      //     //   print("page change");
+                                      //     //   index = idx;
+                                      //     // });
+                                      //   },
+                                      //   builder: (context, i) {
+                                      //     print("initial page");
+                                      //     var aa = index;
+                                      //     index = i;
+                                      //     i = aa;
+
+                                      //     return PhotoViewGalleryPageOptions(
+                                      //       imageProvider:
+                                      //           CachedNetworkImageProvider(
+                                      //         user.photos[i],
+                                      //       ),
+                                      //       minScale:
+                                      //           PhotoViewComputedScale.contained *
+                                      //               0.8,
+                                      //       maxScale:
+                                      //           PhotoViewComputedScale.covered *
+                                      //               2,
+                                      //     );
+                                      //   },
+                                      //   // scrollPhysics:
+                                      //   //     const NeverScrollableScrollPhysics(),
+                                      //   backgroundDecoration: BoxDecoration(
+                                      //     borderRadius: const BorderRadius.all(
+                                      //       Radius.circular(20),
+                                      //     ),
+                                      //     color: Theme.of(context).canvasColor,
+                                      //   ),
+                                      //   enableRotation: true,
+                                      //   loadingBuilder: (context, event) =>
+                                      //       Center(
+                                      //     child: SizedBox(
+                                      //       width: 30.0,
+                                      //       height: 30.0,
+                                      //       child: CircularProgressIndicator(
+                                      //           backgroundColor: Colors.orange,
+                                      //           value: event == null
+                                      //               ? 0
+                                      //               : (event.cumulativeBytesLoaded
+                                      //                       .toDouble() /
+                                      //                   event.expectedTotalBytes!
+                                      //                       .toDouble())),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      });
-                },
-                onLongPress: sUser.id.isNotEmpty
-                    ? () {}
-                    : () {
-                        newDialogDelete(context, screenHeight, screenWidth,
-                            [user.photos[index]], "photos");
-                      },
-                child: Container(
-                  width: screenWidth,
-                  height: screenHeight * 0.05,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: user.photos[index],
-                      fit: BoxFit.cover,
+                          );
+                        });
+                  },
+                  onLongPress: sUser.id.isNotEmpty
+                      ? () {}
+                      : () {
+                          newDialogDelete(context, screenHeight, screenWidth,
+                              [user.photos[index]], "photos");
+                        },
+                  child: Container(
+                    width: screenWidth,
+                    height: screenHeight * 0.05,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        imageUrl: user.photos[index],
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -940,8 +1022,6 @@ class _MediaProfilePageState extends State<MediaProfilePage>
 
   Container emptyVideosContainer(
       double screenWidth, double screenHeight, user, String text) {
-    print("video area");
-    print(user.thumbnailVideo);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
       height: screenHeight * 0.52,
@@ -1098,18 +1178,16 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                       border: Border.all(
                         color: Colors.grey,
                       )),
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.audio_file,
-                          size: 50,
-                          color: Colors.grey,
-                        ),
-                        Text("Audio ${index + 1}"),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.audio_file,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
+                      Text("Audio ${index + 1}"),
+                    ],
                   ),
                 ),
               ),
@@ -1307,8 +1385,8 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                     // Navigator.pushNamedAndRemoveUntil(context,
                     //     BottomNavigationPage.routeName, (route) => false);
                   },
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Icon(MyFlutterApp.switchuser),
                       SizedBox(width: 15),
                       Text("Switch Account"),

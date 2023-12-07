@@ -1,7 +1,7 @@
 import 'package:first_app/auth/other_services.dart';
 import 'package:first_app/common/common.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/model/job_post_model.dart';
-import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 
 class SShortlistedJobPage extends StatefulWidget {
@@ -63,7 +63,7 @@ class _SShortlistedJobPageState extends State<SShortlistedJobPage> {
     return Scaffold(
       body: (_shortlistedJobs == null)
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : _shortlistedJobs!.isEmpty
               ? const Center(

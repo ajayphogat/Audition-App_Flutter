@@ -1,10 +1,8 @@
 import 'package:first_app/auth/auth_service.dart';
 import 'package:first_app/auth/other_services.dart';
-import 'package:first_app/common/data.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/provider/job_post_provider.dart';
-import 'package:first_app/provider/studio_provider.dart';
-import 'package:first_app/studio_code/sconstants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
@@ -134,7 +132,7 @@ class _StudioDescriptionPageState extends State<StudioDescriptionPage>
       ),
       body: jobData.studio['_id'].isEmpty
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : SingleChildScrollView(
               // controller: _scrollController,

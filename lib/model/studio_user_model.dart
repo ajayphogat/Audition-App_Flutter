@@ -7,14 +7,14 @@ class StudioModel {
   final String email;
   final String number;
   final String password;
-  final String token;
+  String? token;
   final String location;
   final String profilePic;
   final int views;
   final String projectDesc;
   final String aboutDesc;
   final List<dynamic> followers;
-  final List<dynamic> post;
+  List<dynamic>? post;
   String? totalApplicants;
   String? totalShortlisted;
   String? totalAccepted;
@@ -51,7 +51,7 @@ class StudioModel {
     required this.email,
     required this.number,
     required this.password,
-    required this.token,
+    this.token,
     required this.location,
     required this.profilePic,
     required this.views,
@@ -146,14 +146,16 @@ class StudioModel {
       email: map['email'] as String,
       number: map['number'] as String,
       password: map['password'] as String,
-      token: map['token'] as String,
+      token: map['token'] != null ? map['token'] as String : null,
       location: map['location'] as String,
       profilePic: map['profilePic'] as String,
       views: map['views'] as int,
       projectDesc: map['projectDesc'] as String,
       aboutDesc: map['aboutDesc'] as String,
       followers: List<dynamic>.from(map['followers'] as List<dynamic>),
-      post: List<dynamic>.from(map['post'] as List<dynamic>),
+      post: map['post'] != null
+          ? List<dynamic>.from(map['post'] as List<dynamic>)
+          : null,
       totalApplicants: map['totalApplicants'] != null
           ? map['totalApplicants'] as String
           : null,

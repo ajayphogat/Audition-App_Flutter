@@ -234,7 +234,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         if (account == "Audition") {
                           await forgotPassword(context, (_phone.text).trim());
                         } else {
-                          await forgotPassword(context, (_phone.text).trim());
+                          await forgotPasswordStudio(
+                              context, (_phone.text).trim());
                         }
                       },
                 child: Container(

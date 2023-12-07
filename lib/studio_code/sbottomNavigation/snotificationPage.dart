@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:first_app/auth/databaseService.dart';
+import 'package:first_app/constants.dart';
 import 'package:first_app/provider/studio_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -60,7 +61,7 @@ class _SNotificationPageState extends State<SNotificationPage> {
     return Scaffold(
       body: allNotifications == null
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : allNotifications!.isEmpty
               ? const Center(

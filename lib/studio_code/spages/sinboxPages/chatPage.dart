@@ -115,7 +115,7 @@ class _ChatPageState extends State<ChatPage> {
                 maxWidth: screenWidth * 0.7,
               ),
               child: widget.message == ""
-                  ? const CircularProgressIndicator()
+                  ? const CircularProgressIndicator(color: greenColor)
                   : InkWell(
                       onTap: () async {
                         await showDialog(

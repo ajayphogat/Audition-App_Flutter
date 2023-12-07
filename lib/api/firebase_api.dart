@@ -1,141 +1,4 @@
-// import 'dart:convert';
-
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:first_app/bottomNavigation/bottomNavigationBar.dart';
-// import 'package:first_app/main.dart';
-// import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:flutter/material.dart';
-
-// Future<void> handleBackgroundMessage(RemoteMessage message) async {
-//   print('Title: ${message.notification?.title}');
-//   print('Bdoy: ${message.notification?.body}');
-//   print('Payload: ${message.data}');
-// }
-
-// class FirebaseApi {
-//   final _firebaseMessaging = FirebaseMessaging.instance;
-
-//   final _androidChannel = const AndroidNotificationChannel(
-//     'high_importance_channel',
-//     'High Importance Notifications',
-//     description: 'This Channel is used for important notifications',
-//     importance: Importance.max,
-//   );
-
-//   final _localNotifications = FlutterLocalNotificationsPlugin();
-
-//   void handleMessage(RemoteMessage? message) async {
-//     if (message == null) return;
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     String? tokenAudition = prefs.getString("x-auth-token");
-//     String? tokenStudio = prefs.getString("x-studio-token");
-
-//     print("================message================");
-//     print(message);
-//     if ((tokenAudition != null && tokenAudition.isNotEmpty) &&
-//         (tokenStudio == null || tokenStudio.isEmpty)) {
-//       navigatorKey.currentState?.push(
-//         MaterialPageRoute(
-//           builder: (context) => BottomNavigationPage(
-//             pageNumber: 2,
-//           ),
-//         ),
-//       );
-//     } else {
-//       navigatorKey.currentState?.push(
-//         MaterialPageRoute(
-//           builder: (context) => SBottomNavigationPage(
-//             pageNumber: 2,
-//           ),
-//         ),
-//       );
-//     }
-//   }
-
-//   Future<String> getDeviceToken() async {
-//     var token = await _firebaseMessaging.getToken();
-//     return token!;
-//   }
-
-//   Future initPushNotifications() async {
-//     await FirebaseMessaging.instance
-//         .setForegroundNotificationPresentationOptions(
-//       alert: true,
-//       badge: true,
-//       sound: true,
-//     );
-
-//     FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
-//     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
-//     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-//     FirebaseMessaging.onMessage.listen((message) {
-//       final notification = message.notification;
-//       if (notification == null) return;
-
-//       print("Local Notification Show");
-//       print(notification.title);
-//       print(notification.body);
-//       print(notification.body);
-//       print("payload");
-//       print(message);
-//       _localNotifications.show(
-//         notification.hashCode,
-//         notification.title,
-//         notification.body,
-//         NotificationDetails(
-//           android: AndroidNotificationDetails(
-//             _androidChannel.id,
-//             _androidChannel.name,
-//             channelDescription: _androidChannel.description,
-//             priority: Priority.max,
-//             icon: '@drawable/launcher_icon',
-//           ),
-//         ),
-//         payload: jsonEncode(message.toMap()),
-//       );
-//     });
-//   }
-
-//   Future initLocalNotifications() async {
-//     const iOS = DarwinInitializationSettings();
-//     const android = AndroidInitializationSettings('@drawable/launcher_icon');
-//     // const android = AndroidInitializationSettings('@drawable/ic_launcher');
-//     const settings = InitializationSettings(
-//       android: android,
-//       iOS: iOS,
-//     );
-//     await _localNotifications.initialize(settings,
-//         onDidReceiveNotificationResponse: (payload) {
-//       if (payload != null) {
-//         final message = RemoteMessage.fromMap(jsonDecode(payload.toString()));
-//         handleMessage(message);
-//       }
-//     });
-//     print("========Local Notifications initialized========");
-//     final platform = _localNotifications.resolvePlatformSpecificImplementation<
-//         AndroidFlutterLocalNotificationsPlugin>();
-//     await platform?.requestPermission();
-
-//     await platform?.createNotificationChannel(_androidChannel);
-//   }
-
-//   Future<void> initNotifications() async {
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     await _firebaseMessaging.requestPermission();
-//     final fCMToken = await _firebaseMessaging.getToken();
-//     print("fCMToken: " + fCMToken!);
-//     await prefs.setString('fCMToken', fCMToken);
-//     initPushNotifications();
-//     initLocalNotifications();
-//   }
-// }
-
-import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
-
 import 'package:app_settings/app_settings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:first_app/main.dart';
@@ -144,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../bottomNavigation/bottomNavigationBar.dart';
 import '../pages/categorySection/categoryDetailPage.dart';
 import '../provider/user_provider.dart';
@@ -166,13 +28,10 @@ class NotificationService {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('user granted permission');
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
-      print('user granted provisional permission');
     } else {
       AppSettings.openAppSettings();
-      print('user denied permission');
     }
   }
 
@@ -210,7 +69,6 @@ class NotificationService {
   void isTokenRefresh() async {
     messaging.onTokenRefresh.listen((event) {
       event.toString();
-      print('refresh');
     });
   }
 
@@ -219,27 +77,19 @@ class NotificationService {
     FirebaseMessaging.onMessage.listen((message) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? currentGroup = prefs.getString('currentGroup');
-      print(message.notification!.title.toString());
-      print(message.notification!.body.toString());
 
       // navigatorKey.currentState!.widget.pages.last.child
       if (Platform.isAndroid) {
-        print("currentGroup");
-        print(currentGroup);
         if (currentGroup != null) {
           if (currentGroup != message.notification!.title.toString()) {
             initLocalNotifications(context, message);
             showNotification(message);
-          } else {
-            print("else 1");
-          }
+          } else {}
         } else {
-          print("else 2");
           initLocalNotifications(context, message);
           showNotification(message);
         }
       } else {
-        print("else 3");
         showNotification(message);
       }
     });
@@ -306,16 +156,13 @@ class NotificationService {
   }
 
   void handelMessage(BuildContext context, RemoteMessage message) async {
-    print("new message");
-    print(message);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? tokenAudition = prefs.getString("x-auth-token");
-    String? tokenStudio = prefs.getString("x-studio-token");
+    var user = Provider.of<UserProvider>(context, listen: false).user;
+    var studioUser = Provider.of<StudioProvider>(context, listen: false).user;
 
     // Write Redirect Funtion here
     if (message.data['type'] == 'chat') {
-      if ((tokenAudition != null && tokenAudition.isNotEmpty) &&
-          (tokenStudio == null || tokenStudio.isEmpty)) {
+      // For chat messages
+      if (user.id.isNotEmpty && studioUser.id.isEmpty) {
         navigatorKey.currentState?.push(
           MaterialPageRoute(
             builder: (context) => const BottomNavigationPage(
@@ -333,8 +180,8 @@ class NotificationService {
         );
       }
     } else if (message.data['type'] == 'new job') {
-      if ((tokenAudition != null && tokenAudition.isNotEmpty) &&
-          (tokenStudio == null || tokenStudio.isEmpty)) {
+      // When a studio that a artist has followed has posted a new job => from studio to audition user
+      if (user.id.isNotEmpty && studioUser.id.isEmpty) {
         if (message.data['category'] == 'Actor') {
           navigatorKey.currentState!.pushNamed(
             CategoryDetailPage.routeName,
@@ -388,16 +235,58 @@ class NotificationService {
         }
       }
     } else if (message.data['type'] == 'job status') {
-      if ((tokenAudition != null && tokenAudition.isNotEmpty) &&
-          (tokenStudio == null || tokenStudio.isEmpty)) {
+      // from Studio to audition user for accepting or rejecting job status
+      if ((user.id.isNotEmpty && studioUser.id.isEmpty) &&
+          (message.data['page'] == 'accepted')) {
         navigatorKey.currentState?.push(
           MaterialPageRoute(
             builder: (context) => const BottomNavigationPage(
               pageNumber: 1,
+              page: 2,
+            ),
+          ),
+        );
+      } else if ((user.id.isNotEmpty && studioUser.id.isEmpty) &&
+          (message.data['page'] == 'shortlisted')) {
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(
+            builder: (context) => const BottomNavigationPage(
+              pageNumber: 1,
+              page: 1,
+            ),
+          ),
+        );
+      } else if ((user.id.isNotEmpty && studioUser.id.isEmpty) &&
+          (message.data['page'] == 'declined')) {
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(
+            builder: (context) => const BottomNavigationPage(
+              pageNumber: 1,
+              page: 3,
             ),
           ),
         );
       }
+    } else if (message.data['type'] == 'job applied') {
+      // push notification from audition to studio for job applied
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) => const SBottomNavigationPage(
+            pageNumber: 1,
+            page: 1,
+          ),
+        ),
+      );
+    } else if (message.data['type'] == 'interview') {
+      // from Studio panel to Audition user(app) for interview
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) => const BottomNavigationPage(
+            pageNumber: 2,
+            inboxPage: 1,
+          ),
+        ),
+      );
     }
   }
 }

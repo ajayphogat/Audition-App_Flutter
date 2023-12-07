@@ -1,3 +1,4 @@
+import 'package:first_app/constants.dart';
 import 'package:flutter/material.dart';
 
 class FirstSplashScreenNew extends StatefulWidget {
@@ -23,12 +24,17 @@ class _FirstSplashScreenNewState extends State<FirstSplashScreenNew> {
             width: screenWidth,
             height: screenHeight,
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
-            child: Image.asset("asset/images/illustration/findNew.png"),
+            // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+            child: Image.asset(
+              "asset/images/illustration/gif.gif",
+              height: screenHeight * 0.4,
+              fit: BoxFit.fitHeight,
+            ),
+            // child: Image.asset("asset/images/illustration/findNew.png"),
             // child: Image.asset("asset/images/illustration/find.png"),
           ),
           Positioned(
-            bottom: screenHeight * 0.20,
+            bottom: screenHeight * 0.25,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -44,7 +50,7 @@ class _FirstSplashScreenNewState extends State<FirstSplashScreenNew> {
             ),
           ),
           const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(color: greenColor),
           ),
         ],
       ),

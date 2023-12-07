@@ -1,3 +1,4 @@
+import 'package:first_app/constants.dart';
 import 'package:first_app/provider/studio_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,7 @@ class _FollowersPageState extends State<FollowersPage> {
       ),
       body: sUser.id == null
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: greenColor),
             )
           : sUser.followers.isEmpty
               ? const Center(

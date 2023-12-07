@@ -6,6 +6,7 @@ import 'package:first_app/common/data.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/categorySection/categoryDetailPage.dart';
+import 'package:first_app/utils/first_char_capital.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
@@ -376,6 +377,7 @@ Widget gridViewContainer(
   return Card(
     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
     elevation: 5,
+    // color: status ? Colors.white : Colors.grey.shade200,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
@@ -404,7 +406,7 @@ Widget gridViewContainer(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                s1,
+                CharCapital.firstCharCapital(s1),
                 // data.studioName,
                 // data.description,
                 style: TextStyle(
@@ -450,7 +452,7 @@ Widget gridViewContainer(
                 minFontSize: 8,
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.red,
+                  color: Colors.grey,
                   fontWeight: FontWeight.normal,
                 ),
               ),
@@ -1123,7 +1125,7 @@ Material basicTextFormField(double screenWidth, double screenHeight,
     borderRadius: BorderRadius.circular(8),
     child: Container(
       width: screenWidth,
-      height: screenHeight * 0.05,
+      height: screenHeight * 0.055,
       alignment: Alignment.center,
       padding:
           EdgeInsets.only(left: screenWidth * 0.04, bottom: screenWidth * 0.01),
@@ -1133,6 +1135,9 @@ Material basicTextFormField(double screenWidth, double screenHeight,
       ),
       child: TextFormField(
         controller: controller,
+        // style: TextStyle(
+        //   fontSize: 14,
+        // ),
         // validator: (String? value) {
         //   if (value == null || value.isEmpty) {
         //     return "Please fill this";
@@ -1141,9 +1146,10 @@ Material basicTextFormField(double screenWidth, double screenHeight,
         //   }
         // },
         decoration: InputDecoration(
+          // isDense: true,
           hintText: hintText,
           hintStyle: const TextStyle(
-            fontSize: 15,
+            fontSize: 14,
             color: placeholderTextColor,
           ),
           border: InputBorder.none,
@@ -1238,7 +1244,7 @@ Future<dynamic> circularProgressIndicatorNew(BuildContext context) {
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.white,
               ),
-              child: const CircularProgressIndicator(),
+              child: const CircularProgressIndicator(color: greenColor),
             ),
           ),
         );

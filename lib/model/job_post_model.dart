@@ -19,6 +19,7 @@ class JobModel {
   final List<dynamic> accepted;
   final List<dynamic> declined;
   final List<dynamic> bookmark;
+  final List<dynamic> interview;
   final bool status;
   String? auditionDate;
   String? lastDate;
@@ -44,6 +45,7 @@ class JobModel {
     required this.accepted,
     required this.declined,
     required this.bookmark,
+    required this.interview,
     required this.status,
     this.auditionDate,
     this.lastDate,
@@ -72,6 +74,7 @@ class JobModel {
       'accepted': accepted,
       'declined': declined,
       'bookmark': bookmark,
+      'interview': interview,
       'status': status,
       'auditionDate': auditionDate,
       'lastDate': lastDate,
@@ -101,6 +104,7 @@ class JobModel {
       accepted: List<dynamic>.from(map['accepted'] as List<dynamic>),
       declined: List<dynamic>.from(map['declined'] as List<dynamic>),
       bookmark: List<dynamic>.from(map['bookmark'] as List<dynamic>),
+      interview: List<dynamic>.from(map['interview'] as List<dynamic>),
       status: map['status'] as bool,
       isFollowed: map['isFollowed'] != null ? map['isFollowed'] as bool : null,
       auditionDate:
@@ -137,6 +141,7 @@ class JobModel1 {
   final List<dynamic> accepted;
   final List<dynamic> declined;
   final List<dynamic> bookmark;
+  final List<dynamic> interview;
   final bool status;
   String? auditionDate;
   String? lastDate;
@@ -164,6 +169,7 @@ class JobModel1 {
     required this.accepted,
     required this.declined,
     required this.bookmark,
+    required this.interview,
     required this.status,
     this.auditionDate,
     this.lastDate,
@@ -194,6 +200,7 @@ class JobModel1 {
       'accepted': accepted,
       'declined': declined,
       'bookmark': bookmark,
+      'interview': interview,
       'status': status,
       'auditionDate': auditionDate,
       'lastDate': lastDate,
@@ -225,6 +232,7 @@ class JobModel1 {
       accepted: List<dynamic>.from(map['accepted'] as List<dynamic>),
       declined: List<dynamic>.from(map['declined'] as List<dynamic>),
       bookmark: List<dynamic>.from(map['bookmark'] as List<dynamic>),
+      interview: List<dynamic>.from(map['interview'] as List<dynamic>),
       status: map['status'] as bool,
       isFollowed: map['isFollowed'] != null ? map['isFollowed'] as bool : null,
       auditionDate:
