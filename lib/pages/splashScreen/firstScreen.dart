@@ -55,7 +55,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Made to be Found",
+                    "Your next big break",
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.w900,
