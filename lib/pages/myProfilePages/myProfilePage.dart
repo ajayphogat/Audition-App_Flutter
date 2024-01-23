@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/auth/auth_service.dart';
+import 'package:first_app/common/alert_dialog.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/appearancePage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/basicInfoPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/creditsPage.dart';
-import 'package:first_app/pages/myProfilePages/detailPages/membershipPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/skillsPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/socialMediaPage.dart';
 import 'package:first_app/pages/myProfilePages/detailPages/subscriptionPage.dart';
@@ -37,8 +36,6 @@ class _MyProfilePageState extends State<MyProfilePage>
 
   late TextEditingController _bioController;
   final AuthService authService = AuthService();
-
-  final _firebaseStorage = FirebaseStorage.instance;
 
   Future<void> changeBio() async {
     await authService.changeBio(bio: _bioController.text, context: context);
@@ -106,7 +103,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                   ? "Details"
                                   : "My Details",
                               maxFontSize: 22,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 22,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -169,7 +166,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                               title: AutoSizeText(
                                 user.fname,
                                 maxFontSize: 20,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -192,7 +189,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                         Navigator.pushNamed(
                                             context, BasicInfoPage.routeName);
                                       },
-                                      child: AutoSizeText(
+                                      child: const AutoSizeText(
                                         "Edit",
                                         maxFontSize: 12,
                                         style: TextStyle(
@@ -223,7 +220,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      AutoSizeText(
+                                      const AutoSizeText(
                                         "Age",
                                         maxFontSize: 12,
                                         style: TextStyle(
@@ -251,7 +248,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      AutoSizeText(
+                                      const AutoSizeText(
                                         "Height",
                                         maxFontSize: 12,
                                         style: TextStyle(
@@ -279,7 +276,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      AutoSizeText(
+                                      const AutoSizeText(
                                         "Weight",
                                         maxFontSize: 12,
                                         style: TextStyle(
@@ -322,7 +319,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    AutoSizeText(
+                                    const AutoSizeText(
                                       "Subscription",
                                       maxFontSize: 16,
                                       style: TextStyle(
@@ -332,48 +329,56 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       ),
                                     ),
                                     SizedBox(height: screenHeight * 0.02),
-                                    AutoSizeText(
-                                      user.subscriptionName == "Free"
-                                          ? "You are currently using the monthly ${user.subscriptionName} plan. Upgrade your subscription plan to continue using the app."
-                                          : "You are currently using the monthly ${user.subscriptionName} plan.",
-                                      maxFontSize: 12,
-                                      minFontSize: 10,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    SizedBox(height: screenHeight * 0.02),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                    const Row(
+                                      mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.pushNamed(context,
-                                                SubscriptionPage.routeName);
-                                          },
-                                          child: Container(
-                                            width: screenWidth * 0.4,
-                                            height: screenHeight * 0.04,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
-                                              color: greenColor,
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: AutoSizeText(
-                                              "View plans",
-                                              maxFontSize: 14,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
+                                        AutoSizeText(
+                                          // FIXME: Uncomment this code in future for subscriptions
+                                          // user.subscriptionName == "Free"
+                                          //     ? "You are currently using the monthly ${user.subscriptionName} plan. Upgrade your subscription plan to continue using the app."
+                                          //     : "You are currently using the monthly ${user.subscriptionName} plan.",
+                                          "You are currently using the monthly Free plan.",
+                                          maxFontSize: 12,
+                                          minFontSize: 10,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ],
                                     ),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    // FIXME: Uncomment this code in future for subscriptions
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: [
+                                    //     InkWell(
+                                    //       onTap: () {
+                                    //         Navigator.pushNamed(context,
+                                    //             SubscriptionPage.routeName);
+                                    //       },
+                                    //       child: Container(
+                                    //         width: screenWidth * 0.4,
+                                    //         height: screenHeight * 0.04,
+                                    //         decoration: BoxDecoration(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(3),
+                                    //           color: greenColor,
+                                    //         ),
+                                    //         alignment: Alignment.center,
+                                    //         child: const AutoSizeText(
+                                    //           "View plans",
+                                    //           maxFontSize: 14,
+                                    //           style: TextStyle(
+                                    //             fontSize: 14,
+                                    //             color: Colors.white,
+                                    //             fontWeight: FontWeight.w600,
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -503,7 +508,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  AutoSizeText(
+                                  const AutoSizeText(
                                     "Short bio",
                                     maxFontSize: 16,
                                     style: TextStyle(
@@ -520,7 +525,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             showBio(context, screenWidth,
                                                 screenHeight);
                                           },
-                                          child: AutoSizeText(
+                                          child: const AutoSizeText(
                                             "Edit",
                                             maxFontSize: 12,
                                             style: TextStyle(
@@ -564,7 +569,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  AutoSizeText(
+                                  const AutoSizeText(
                                     "Info",
                                     maxFontSize: 16,
                                     style: TextStyle(
@@ -580,7 +585,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             Navigator.pushNamed(context,
                                                 AppearancePage.routeName);
                                           },
-                                          child: AutoSizeText(
+                                          child: const AutoSizeText(
                                             "Edit",
                                             maxFontSize: 12,
                                             style: TextStyle(
@@ -604,7 +609,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AutoSizeText(
+                                        const AutoSizeText(
                                           "Name",
                                           maxFontSize: 14,
                                           minFontSize: 10,
@@ -617,7 +622,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                           user.fname,
                                           maxFontSize: 14,
                                           minFontSize: 10,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
@@ -631,7 +636,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AutoSizeText(
+                                        const AutoSizeText(
                                           "Age",
                                           maxFontSize: 14,
                                           minFontSize: 10,
@@ -660,7 +665,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AutoSizeText(
+                                        const AutoSizeText(
                                           "Height",
                                           maxFontSize: 14,
                                           minFontSize: 10,
@@ -691,7 +696,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AutoSizeText(
+                                        const AutoSizeText(
                                           "Body type",
                                           maxFontSize: 14,
                                           minFontSize: 10,
@@ -722,7 +727,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AutoSizeText(
+                                        const AutoSizeText(
                                           "Weight",
                                           maxFontSize: 14,
                                           minFontSize: 10,
@@ -753,7 +758,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AutoSizeText(
+                                        const AutoSizeText(
                                           "Hair color",
                                           maxFontSize: 14,
                                           minFontSize: 10,
@@ -830,11 +835,11 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 ],
                               ),
                               SizedBox(height: screenHeight * 0.02),
-                              Container(
+                              SizedBox(
                                 width: screenWidth,
                                 height: screenHeight * 0.035,
-                                child: user.skills.length == 0
-                                    ? AutoSizeText(
+                                child: user.skills.isEmpty
+                                    ? const AutoSizeText(
                                         "Empty",
                                         maxFontSize: 16,
                                         style: TextStyle(
@@ -864,7 +869,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             user.skills[index],
                                             maxFontSize: 12,
                                             minFontSize: 10,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 12,
                                               color: Colors.black,
                                             ),
@@ -1012,11 +1017,11 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 ],
                               ),
                               SizedBox(height: screenHeight * 0.02),
-                              Container(
+                              SizedBox(
                                 width: screenWidth,
                                 height: screenHeight * 0.035,
-                                child: user.socialMedia.length == 0
-                                    ? AutoSizeText(
+                                child: user.socialMedia.isEmpty
+                                    ? const AutoSizeText(
                                         "Empty",
                                         maxFontSize: 16,
                                         style: TextStyle(
@@ -1052,7 +1057,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                                 user.socialMedia[index],
                                                 maxFontSize: 12,
                                                 minFontSize: 10,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.black,
                                                 ),
@@ -1156,11 +1161,11 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 ],
                               ),
                               SizedBox(height: screenHeight * 0.02),
-                              Container(
+                              SizedBox(
                                 width: screenWidth,
                                 height: screenHeight * 0.035,
-                                child: user.credits.length == 0
-                                    ? AutoSizeText(
+                                child: user.credits.isEmpty
+                                    ? const AutoSizeText(
                                         "Empty",
                                         maxFontSize: 16,
                                         style: TextStyle(
@@ -1190,7 +1195,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                                             user.credits[index],
                                             maxFontSize: 12,
                                             minFontSize: 10,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 12,
                                               color: Colors.black,
                                             ),
@@ -1217,8 +1222,45 @@ class _MyProfilePageState extends State<MyProfilePage>
                           ? Container()
                           : InkWell(
                               onTap: () async {
-                                print("log log log");
-                                print(user.id);
+                                await ShowAlert().deleteAccount(
+                                  context: context,
+                                  height: screenHeight * 0.0235,
+                                  platform: 'audition',
+                                );
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.025,
+                                    vertical: screenHeight * 0.015,
+                                  ),
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AutoSizeText(
+                                        "Delete Account",
+                                        maxFontSize: 16,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                      SizedBox(height: screenHeight * 0.015),
+                      studioUser.id.isNotEmpty
+                          ? Container()
+                          : InkWell(
+                              onTap: () async {
                                 circularProgressIndicatorNew(context);
                                 await AuthService().logoutUser(context);
                               },

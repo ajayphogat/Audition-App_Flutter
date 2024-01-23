@@ -20,13 +20,10 @@ class _SAllJobsPageState extends State<SAllJobsPage> {
   List<JobModel>? _allJobs;
 
   getWorkingJobs() async {
-    print("search word");
-    print(widget.searchEdit.text);
     _allJobs = await otherService.getStudioJobs(
         context: context,
         search:
             widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "");
-    print(_allJobs);
     if (this.mounted) {
       setState(() {});
     }
@@ -64,7 +61,6 @@ class _SAllJobsPageState extends State<SAllJobsPage> {
                       JobModel data = _allJobs![index];
                       return InkWell(
                         onTap: () async {
-                          print(data.id);
                           circularProgressIndicatorNew(context);
                           await getStudioJobDetail_Studio(data.id);
                           // await Future.delayed(Duration(seconds: 1));

@@ -481,13 +481,13 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             Divider(
                               height: 0,
                               thickness: 1,
-                              color: Color(0xff000000).withOpacity(0.13),
+                              color: const Color(0xff000000).withOpacity(0.13),
                             ),
                             SizedBox(height: screenHeight * 0.015),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                AutoSizeText(
+                                const AutoSizeText(
                                   "\u{20B9}8000/month",
                                   maxFontSize: 18,
                                   style: TextStyle(
@@ -524,7 +524,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                               "https://samplesite.com/return",
                                           cancelURL:
                                               "https://samplesite.com/cancel",
-                                          transactions: [
+                                          transactions: const [
                                             {
                                               "amount": {
                                                 "total": "96.84",
@@ -609,15 +609,15 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              Color(0xffF4D243).withOpacity(0.56),
-                              Color(0xffF4D243).withOpacity(0),
+                              const Color(0xffF4D243).withOpacity(0.56),
+                              const Color(0xffF4D243).withOpacity(0),
                             ],
                           ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AutoSizeText(
+                            const AutoSizeText(
                               "Gold",
                               maxFontSize: 25,
                               style: TextStyle(
@@ -641,13 +641,13 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                     size: screenWidth * 0.015,
                                   ),
                                 ),
-                                AutoSizeText(
+                                const AutoSizeText(
                                   "You can apply to 70 Jobs/Month",
                                   // "Studio can post 70 Jobs/Month",
                                   maxFontSize: 14,
                                   minFontSize: 10,
                                   maxLines: 2,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
                                   ),
                                 ),

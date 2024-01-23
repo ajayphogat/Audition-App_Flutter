@@ -68,7 +68,6 @@ class _SMyProfilePageState extends State<SMyProfilePage>
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     var sUser = Provider.of<StudioProvider>(context).user;
-    print(sUser.followers);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -160,7 +159,7 @@ class _SMyProfilePageState extends State<SMyProfilePage>
                     borderRadius: BorderRadius.circular(15),
                     child: Container(
                       width: screenWidth,
-                      height: screenHeight * 0.20,
+                      height: screenHeight * 0.25,
                       padding: EdgeInsets.only(top: screenHeight * 0.03),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),

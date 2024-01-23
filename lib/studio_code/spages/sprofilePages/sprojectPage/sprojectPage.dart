@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/auth/auth_service.dart';
+import 'package:first_app/common/alert_dialog.dart';
 import 'package:first_app/common/common.dart';
 import 'package:first_app/login/mainPage.dart';
 import 'package:first_app/provider/studio_provider.dart';
@@ -115,12 +116,39 @@ class _SProjectPageState extends State<SProjectPage> {
               thickness: 10,
             ),
             InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, SSubscriptionPage.routeName);
-              },
-              child:
-                  simpleArrowColumn(screenHeight, screenWidth, "Subscription"),
-            ),
+                onTap: () async {
+
+                  await ShowAlert().deleteAccount(
+                    context: context,
+                    height: screenHeight * 0.0235,
+                    platform: 'studio',
+                  );
+                },
+                child: Column(
+                  children: [
+                    SizedBox(height: screenHeight * 0.01),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: screenWidth * 0.0636,
+                          right: screenWidth * 0.0636),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Delete Account",
+                            style: TextStyle(
+                              fontSize: screenHeight * 0.0235,
+                              color: Colors.red,
+                            ),
+                          ),
+                          const Icon(Icons.delete, color: Colors.red),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.01),
+                  ],
+                )),
             Divider(
               color: Colors.grey.shade300,
               thickness: 10,
@@ -128,20 +156,7 @@ class _SProjectPageState extends State<SProjectPage> {
             InkWell(
               onTap: () async {
                 circularProgressIndicatorNew(context);
-                navigatorPop() => Navigator.pop(context);
-                navigatorPush() => Navigator.pushNamedAndRemoveUntil(
-                    context, LoginPage.routeName, (route) => false);
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString("x-auth-token", "");
-                prefs.setString("x-studio-token", "");
-                await FirebaseAuth.instance.signOut();
-                navigatorPop();
-                navigatorPush();
-                // WidgetsBinding.instance.addPostFrameCallback((_) {
-                //   newDialogBox1(context, screenWidth, screenHeight,
-                //       "Account Reported!", "GO BACK", false, "");
-                // }
-                // );
+                await authService.logoutStudioUser(context);
               },
               child: simpleArrowColumn(screenHeight, screenWidth, "Log Out"),
             ),

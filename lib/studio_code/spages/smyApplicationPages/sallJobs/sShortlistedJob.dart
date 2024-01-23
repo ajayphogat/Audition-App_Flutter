@@ -23,14 +23,11 @@ class _SShortlistedJobPageState extends State<SShortlistedJobPage> {
   List<JobModel1>? _shortlistedJobs;
 
   getAcceptedJobs() async {
-    print("start");
     _shortlistedJobs = await otherService.showStudioJobs(
         context: context,
         working: "shortlisted",
         search:
             widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "");
-    print("heyheyheyheyhey");
-    print(_shortlistedJobs);
     if (this.mounted) {
       setState(() {});
     }
@@ -78,7 +75,6 @@ class _SShortlistedJobPageState extends State<SShortlistedJobPage> {
                       JobModel1 data = _shortlistedJobs![index];
                       return InkWell(
                         onTap: () async {
-                          print(data.id);
                           circularProgressIndicatorNew(context);
                           await getStudioJobDetail_Studio(data.id);
                           // print(data.id);

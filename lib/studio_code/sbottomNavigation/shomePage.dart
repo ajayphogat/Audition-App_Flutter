@@ -67,8 +67,6 @@ class _SHomePageState extends State<SHomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     final sUser = Provider.of<StudioProvider>(context).user;
-    print("sUser");
-    print(sUser.profilePic);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

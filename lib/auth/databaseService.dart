@@ -44,16 +44,15 @@ class DatabaseService {
   }
 
   Future logoutFCMToken() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    var fcmToken = await NotificationService().getDeviceToken();
-    print("-----userCollection-----");
-    print(userCollection);
-    print("----user id-----");
-    print(uid);
     await userCollection.doc(uid).update({
-      "fCMToken": "",
-      // "fCMToken": prefs.getString('fCMToken'),
+      "fCMToken": null,
     });
+  }
+
+  Future deleteFirebaseData() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // var fcmToken = await NotificationService().getDeviceToken();
+    await userCollection.doc(uid).delete();
   }
 
   Future<List<List<String>>> getAllUserNotifications(String userId) async {
@@ -76,7 +75,9 @@ class DatabaseService {
   }
 
   Future gettingUserData(String email) async {
+    print("heyyyy");
     await updateFCMToken();
+    print("heyyyy2");
     QuerySnapshot snapshot =
         await userCollection.where("email", isEqualTo: email).get();
     return snapshot;
@@ -199,9 +200,6 @@ class DatabaseService {
         "recentMessageTime": "",
       });
 
-      print("groupDocumentReference.id");
-      print(groupDocumentReference.id);
-
       await groupDocumentReference.update({
         "members":
             FieldValue.arrayUnion(["${uid}_$userName", "${id}_$userName2"]),
@@ -227,12 +225,9 @@ class DatabaseService {
         (userData.data() as Map<String, dynamic>)['profilePic'],
       ];
     } else {
-      print("not empty");
       var allGroupCollDocs1 = allGroupColl.docs.where((element) =>
           (element.data() as Map<String, dynamic>)['groupName'].toString() ==
           "${id}_$uid");
-      print('allGroupCollDocs1');
-      print(allGroupCollDocs1);
       if (allGroupCollDocs1.length == 1) {
         return [
           (allGroupCollDocs1.first.data() as Map<String, dynamic>)['groupId'],
@@ -351,19 +346,12 @@ class DatabaseService {
       final userData1 = userData.data() as Map<String, dynamic>?;
       List<dynamic> groups = userData1?['groups'] as List<dynamic> ?? [];
 
-      print("Contain ?");
-      print(groupName);
-      print(groups);
-      print(groups.contains(groupName));
       if (groups.contains(groupName)) {
         groups.remove(groupName);
         groups.insert(0, groupName);
-        print(groups);
       }
 
       await userCollection.doc(uid).update({'groups': groups});
-    } else {
-      print('user document does not exist');
     }
   }
 

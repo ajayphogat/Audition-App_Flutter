@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:first_app/auth/databaseService.dart';
@@ -147,7 +149,6 @@ class OtherService {
         res: res,
         onSuccess: () {
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
-            print(jsonDecode(res.body)[i]);
             categoryJobs.add(
               JobModel.fromJson(
                 jsonEncode(jsonDecode(res.body)[i]),
@@ -596,7 +597,6 @@ class OtherService {
 
       user2FCMToken = await DatabaseService().gettingUserFCMToken(studioUserId);
       if (user2FCMToken != null) {
-        print("user2FCMToken");
         httpErrorHandel(
           context: context,
           res: res,

@@ -192,7 +192,6 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
                                       onSuccess: (Map params) async {
                                         navigatePop() => Navigator.pop(context);
                                         circularProgressIndicatorNew(context);
-                                        print("onSuccess: $params");
                                         await updateSubscription(
                                             _three
                                                 ? "Silver"
@@ -207,11 +206,9 @@ class _SSubscriptionPageState extends State<SSubscriptionPage> {
                                         navigatePop();
                                       },
                                       onError: (error) {
-                                        print("onError: $error");
                                         showSnackBar(context, error.toString());
                                       },
                                       onCancel: (params) {
-                                        print("canceled: $params");
                                         showSnackBar(context, params);
                                       },
                                       returnURL:

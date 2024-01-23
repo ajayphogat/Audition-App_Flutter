@@ -176,8 +176,6 @@ class _SMessagePageState extends State<SMessagePage> {
           "${widget.userName} has sent you a message__${widget.adminProfilePic}_${DateTime.now()}");
 
       // var token = await FirebaseApi().getDeviceToken();
-      print(user2FCMToken);
-      print("user fcm: ${myFCMToken}");
       var data = {
         'to': user2FCMToken,
         'priority': 'high',
@@ -202,8 +200,6 @@ class _SMessagePageState extends State<SMessagePage> {
             "Authorization":
                 "key=AAAApcOKBAM:APA91bGGRSk9rDbs6mGdNlHICXGLfObzdulJ7lbwtzF6jwOnVKfx23GmMO3sfuvI2KNnnmsGdXjgShv7ZhHM8I4jaLmS0ljkZiQmE6UfDe-MbvEmTYvnh7IfnoqVrQh6h7GOQufJYAs-"
           });
-      print(res.statusCode);
-      print(res.body);
     }
   }
 
@@ -211,7 +207,6 @@ class _SMessagePageState extends State<SMessagePage> {
     var meUser = Provider.of<UserProvider>(context, listen: false).user;
     var ssUser = Provider.of<StudioProvider>(context, listen: false).user;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("current Group Set");
     await prefs.setString("currentGroup", getName(widget.groupName));
 
     var userID = meUser.id == null || meUser.id == "" ? ssUser.id : meUser.id;
@@ -240,7 +235,6 @@ class _SMessagePageState extends State<SMessagePage> {
     });
 
     DatabaseService().getProfilePic(widget.groupId).then((value) {
-      print(value);
     });
   }
 
@@ -268,9 +262,7 @@ class _SMessagePageState extends State<SMessagePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    print("disposed");
     clearCurrentGroup();
   }
 
@@ -278,7 +270,6 @@ class _SMessagePageState extends State<SMessagePage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    print("username: ${widget.userName}");
     var sUser = Provider.of<StudioProvider>(context).user;
 
     return Scaffold(

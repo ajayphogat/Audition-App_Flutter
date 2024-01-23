@@ -107,7 +107,6 @@ class AuthService {
             //       context,
             //       "Account created! Login with same Credentials",
             //     );
-            print(jsonDecode(res.body)['number']);
             Navigator.pushNamed(context, VerificationPage.routeName,
                 arguments: [jsonDecode(res.body), "audition"]);
             // showMessage();
@@ -150,6 +149,17 @@ class AuthService {
       if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] == 'create') {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
+                email: email.trim(), password: "${email.trim()}password"))
+            .user!;
+        if (firebaseUser != null) {
+          await DatabaseService(uid: jsonDecode(res.body)['_id'])
+              .updateUserData(fname.trim(), email.trim());
+        } else {
+          showSnackBar(context, firebaseAuth.currentUser.toString());
+        }
+      } else if (res.statusCode == 200 &&
+          jsonDecode(res.body)["created"] != 'create') {
+        firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
                 email: email.trim(), password: "${email.trim()}password"))
             .user!;
         if (firebaseUser != null) {
@@ -201,20 +211,19 @@ class AuthService {
               headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
-      print(res.statusCode);
       if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] == 'create') {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
                 email: email.trim(), password: "${email.trim()}password"))
             .user!;
-        print("after firebaseUser");
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
               .updateUserData(fname.trim(), email.trim());
         } else {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
-      } else {
+      } else if (res.statusCode == 200 &&
+          jsonDecode(res.body)["created"] != 'create') {
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
                 email: email.trim(), password: "${email.trim()}password"))
             .user!;
@@ -222,9 +231,10 @@ class AuthService {
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
               .updateUserData(fname.trim(), email.trim());
+        } else {
+          showSnackBar(context, firebaseAuth.currentUser.toString());
         }
       }
-      print("after firebase");
 
       httpErrorHandel(
           context: context,
@@ -365,8 +375,6 @@ class AuthService {
                 email: email.trim(), password: "${email.trim()}password"))
             .user!;
 
-        print(firebaseUser.uid);
-
         QuerySnapshot snapshot =
             await DatabaseService(uid: jsonDecode(res.body)['_id'])
                 .gettingUserData(email.trim());
@@ -395,7 +403,6 @@ class AuthService {
             navigator(BottomNavigationPage.routeName);
           });
     } catch (e) {
-      print(e.toString());
       showSnackBar(context, e.toString());
     }
   }
@@ -508,8 +515,6 @@ class AuthService {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var user = Provider.of<UserProvider>(context, listen: false).user;
-      print("----user id----");
-      print(user.id);
       // var studioUser = Provider.of<StudioProvider>(context, listen: false).user;
       // if (user.id.isNotEmpty && studioUser.id.isEmpty) {
       //   userid = user.id;
@@ -540,8 +545,7 @@ class AuthService {
             navigatorPush() => Navigator.pushNamedAndRemoveUntil(
                 context, LoginPage.routeName, (route) => false);
 
-            //FIXME: This logoutFCMToken is not working properly.
-            // await DatabaseService(uid: user.id).logoutFCMToken();
+            await DatabaseService(uid: user.id).logoutFCMToken();
             await FirebaseAuth.instance.signOut();
             prefs.setString("x-auth-token", "");
             prefs.setString("x-studio-token", "");
@@ -551,6 +555,182 @@ class AuthService {
           });
     } catch (e) {
       showSnackBar(context, e.toString());
+    }
+  }
+
+  // logout studio api call
+  Future<void> logoutStudioUser(BuildContext context) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var studioProvider =
+          Provider.of<StudioProvider>(context, listen: false).user;
+
+      var token = prefs.getString("x-studio-token");
+      if (token == null || token.isEmpty) {
+        await prefs.remove("x-studio-token");
+      }
+
+      http.Response res = await http
+          .post(Uri.parse("$url/api/studio/logout"), headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8",
+        "x-studio-token": token!,
+      });
+
+      httpErrorHandel(
+          context: context,
+          res: res,
+          onSuccess: () async {
+            navigatorPop() => Navigator.pop(context);
+            navigatorPush() => Navigator.pushNamedAndRemoveUntil(
+                context, LoginPage.routeName, (route) => false);
+            await DatabaseService(uid: studioProvider.id).logoutFCMToken();
+            await FirebaseAuth.instance.signOut();
+            prefs.setString("x-auth-token", "");
+            prefs.setString("x-studio-token", "");
+            showSnackBar(context, "Logged out");
+            navigatorPop();
+            navigatorPush();
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  // Delete audition account api call
+  Future<void> deleteUser(BuildContext context) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var user = Provider.of<UserProvider>(context, listen: false).user;
+
+      var token = prefs.getString("x-auth-token");
+      if (token == null || token.isEmpty) {
+        await prefs.remove("x-auth-token");
+      }
+      print("user id");
+      print(user.id);
+      http.Response res = await http.delete(
+          Uri.parse("$url/api/audition/delete-account/${user.id}"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-auth-token": token!,
+          });
+
+      navigatorPop() => Navigator.pop(context);
+      navigatorPush() => Navigator.pushNamedAndRemoveUntil(
+          context, LoginPage.routeName, (route) => false);
+
+      if (res.statusCode == 200) {
+        var studioExist = jsonDecode(res.body)['studioExist'];
+        await DatabaseService(uid: user.id).deleteFirebaseData();
+        if (!studioExist) {
+          await _deleteUserAccount(context);
+        }
+        prefs.setString("x-auth-token", "");
+        prefs.setString("x-studio-token", "");
+        showSnackBar(context, "Account Deleted Successfully");
+        navigatorPop();
+        navigatorPop();
+        navigatorPush();
+      } else if (res.statusCode == 400 || res.statusCode == 401) {
+        navigatorPop();
+        navigatorPop();
+        showSnackBar(context, jsonDecode(res.body)['msg']);
+      } else {
+        navigatorPop();
+        navigatorPop();
+        showSnackBar(context, jsonDecode(res.body)['error']);
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  // Delete studio account api call
+  Future<void> deleteUserStudio(BuildContext context) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var studioProvider =
+          Provider.of<StudioProvider>(context, listen: false).user;
+
+      var token = prefs.getString("x-studio-token");
+      if (token == null || token.isEmpty) {
+        await prefs.remove("x-studio-token");
+      }
+      http.Response res = await http.delete(
+          Uri.parse("$url/api/studio/delete-account/${studioProvider.id}"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-studio-token": token!,
+          });
+
+      navigatorPop() => Navigator.pop(context);
+      navigatorPush() => Navigator.pushNamedAndRemoveUntil(
+          context, LoginPage.routeName, (route) => false);
+
+      if (res.statusCode == 200) {
+        var auditionExist = jsonDecode(res.body)['auditionExist'];
+        await DatabaseService(uid: studioProvider.id).deleteFirebaseData();
+        if (!auditionExist) {
+          await _deleteUserAccount(context);
+        }
+        prefs.setString("x-auth-token", "");
+        prefs.setString("x-studio-token", "");
+        showSnackBar(context, "Account Deleted Successfully");
+        navigatorPop();
+        navigatorPop();
+        navigatorPush();
+      } else if (res.statusCode == 400 || res.statusCode == 401) {
+        navigatorPop();
+        navigatorPop();
+        showSnackBar(context, jsonDecode(res.body)['msg']);
+      } else {
+        navigatorPop();
+        navigatorPop();
+        showSnackBar(context, jsonDecode(res.body)['error']);
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> _deleteUserAccount(context) async {
+    try {
+      await FirebaseAuth.instance.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.toString());
+
+      if (e.code == "requires-recent-login") {
+        await _reauthenticateAndDelete();
+      } else {
+        // Handle other Firebase exceptions
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+
+      // Handle general exception
+    }
+  }
+
+  Future<void> _reauthenticateAndDelete() async {
+    try {
+      var firebaseAuth = FirebaseAuth.instance;
+      final providerData = firebaseAuth.currentUser?.providerData.first;
+
+      if (AppleAuthProvider().providerId == providerData!.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(AppleAuthProvider());
+      } else if (GoogleAuthProvider().providerId == providerData.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(GoogleAuthProvider());
+      }
+
+      await firebaseAuth.currentUser?.delete();
+    } catch (e) {
+      // Handle exceptions
     }
   }
 
@@ -1244,6 +1424,8 @@ class AuthService {
     };
     try {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
+      var studioProvider =
+          Provider.of<StudioProvider>(context, listen: false).user;
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("x-studio-token");
@@ -1268,16 +1450,19 @@ class AuthService {
             navigatePop() => Navigator.pop(context);
 
             userProvider.setUser(res.body);
+            await DatabaseService(uid: studioProvider.id).logoutFCMToken();
+            await DatabaseService(uid: jsonDecode(res.body)['_id'])
+                .updateFCMToken();
 
             await prefs.setString("x-studio-token", "");
             await prefs.setString(
                 "x-auth-token", jsonDecode(res.body)['token']);
-            if (userProvider.user.token != null &&
+            if (userProvider.user.token != null ||
                 userProvider.user.token != "") {
               navigatePop();
+              navigatePush();
             } else {
               navigatePop();
-              navigatePush();
             }
           });
     } catch (e) {
@@ -1291,6 +1476,7 @@ class AuthService {
   }) async {
     try {
       var studioProvider = Provider.of<StudioProvider>(context, listen: false);
+      var user = Provider.of<UserProvider>(context, listen: false).user;
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("x-auth-token");
@@ -1313,15 +1499,18 @@ class AuthService {
                 context, SBottomNavigationPage.routeName, (route) => false);
             navigatePop() => Navigator.pop(context);
             studioProvider.setUser(res.body);
+            await DatabaseService(uid: user.id).logoutFCMToken();
+            await DatabaseService(uid: jsonDecode(res.body)['_id'])
+                .updateFCMToken();
             await prefs.setString("x-auth-token", "");
             await prefs.setString(
                 "x-studio-token", jsonDecode(res.body)['token']);
-            if (studioProvider.user.token != null &&
+            if (studioProvider.user.token != null ||
                 studioProvider.user.token != "") {
               navigatePop();
+              navigatePush();
             } else {
               navigatePop();
-              navigatePush();
             }
           });
     } catch (e) {

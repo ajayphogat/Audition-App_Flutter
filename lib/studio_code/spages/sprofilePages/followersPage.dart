@@ -20,7 +20,6 @@ class _FollowersPageState extends State<FollowersPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     var sUser = Provider.of<StudioProvider1>(context).user;
-    print(sUser.followers.length);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

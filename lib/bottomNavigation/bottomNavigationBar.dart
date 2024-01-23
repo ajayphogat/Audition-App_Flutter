@@ -69,7 +69,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       ),
       bottomNavigationBar: Container(
         width: screenWidth,
-        height: screenHeight * 0.065,
+        height: screenHeight * 0.07,
         margin: EdgeInsets.only(bottom: screenHeight * 0.01),
         // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
         decoration: BoxDecoration(
@@ -111,9 +111,9 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
             key: _key,
             backgroundColor: primaryColor,
             type: BottomNavigationBarType.fixed,
-            selectedItemColor: thirdColor,
+            selectedItemColor: primaryColor,
             unselectedItemColor: Colors.black,
-            selectedIconTheme: const IconThemeData(color: thirdColor),
+            selectedIconTheme: const IconThemeData(color: primaryColor),
             unselectedIconTheme: const IconThemeData(color: Colors.black),
             showSelectedLabels: false,
             showUnselectedLabels: false,
@@ -130,7 +130,8 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                   radius: screenHeight * 0.02,
                   backgroundColor: greenColor,
                   child: const Icon(
-                    MyFlutterApp.home,
+                    MyFlutterApp.home_outline,
+                    color: primaryColor,
                   ),
                 ),
                 label: "Home",
@@ -145,6 +146,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                   backgroundColor: greenColor,
                   child: const Icon(
                     MyFlutterApp.paper_outline,
+                    color: primaryColor,
                   ),
                 ),
                 label: "My Applications",
@@ -159,6 +161,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                   backgroundColor: greenColor,
                   child: const Icon(
                     MyFlutterApp.message_outline,
+                    color: primaryColor,
                   ),
                 ),
                 label: "Inbox",
@@ -171,6 +174,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                   backgroundColor: greenColor,
                   child: const Icon(
                     MyFlutterApp.profile_outline,
+                    color: primaryColor,
                   ),
                 ),
                 label: "My Profile",

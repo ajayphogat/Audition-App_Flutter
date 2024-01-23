@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -126,8 +128,6 @@ class BottomMediaUp {
                 .putFile(profilePic!)
                 .whenComplete(() {});
             var downloadUrl = await snapshot.ref.getDownloadURL();
-            print(snapshot.state);
-            print(downloadUrl);
             await uploadProfilePic(context, downloadUrl, whichUser);
           } catch (e) {
             showsnack(e);
@@ -179,12 +179,8 @@ class BottomMediaUp {
               .ref()
               .child('images/$userId/${userId}_${DateTime.now()}_$fileName')
               .putFile(file)
-              .whenComplete(() {
-            print("completed");
-          });
+              .whenComplete(() {});
           var downloadUrl = await snapshot.ref.getDownloadURL();
-          print(snapshot.state);
-          print(downloadUrl);
           await uploadProfilePic(context, downloadUrl, whichUser);
         } catch (e) {
           showsnack(e.toString());
@@ -249,8 +245,6 @@ class BottomMediaUp {
                   .putFile(mediaImages!)
                   .whenComplete(() {});
               var downloadUrl = await snapshot.ref.getDownloadURL();
-              print(snapshot.state);
-              print(downloadUrl);
               await uploadMMedia(downloadUrl, mediaType);
             } catch (e) {
               showsnack(e);
@@ -300,8 +294,6 @@ class BottomMediaUp {
                 .whenComplete(() {});
             var thumbnailUrl = await thumbnailSnap.ref.getDownloadURL();
             var downloadUrl = await snapshot.ref.getDownloadURL();
-            print(snapshot.state);
-            print(downloadUrl);
 
             await uploadMMedia(thumbnailUrl, "thumbnails");
             await uploadMMedia(downloadUrl, mediaType);
@@ -334,8 +326,6 @@ class BottomMediaUp {
                 .putFile(mediaImages!)
                 .whenComplete(() {});
             var downloadUrl = await snapshot.ref.getDownloadURL();
-            print(snapshot.state);
-            print(downloadUrl);
 
             await uploadMMedia(downloadUrl, mediaType);
           } catch (e) {
@@ -387,8 +377,6 @@ class BottomMediaUp {
                 .putFile(mediaImages!)
                 .whenComplete(() {});
             var downloadUrl = await snapshot.ref.getDownloadURL();
-            print(snapshot.state);
-            print(downloadUrl);
 
             await uploadMMedia(downloadUrl, mediaType);
           } catch (e) {
@@ -439,12 +427,8 @@ class BottomMediaUp {
               .child(
                   'images/$userId/photos/${userId}_${DateTime.now()}_$fileName')
               .putFile(file)
-              .whenComplete(() {
-            print("completed");
-          });
+              .whenComplete(() {});
           var downloadUrl = await snapshot.ref.getDownloadURL();
-          print(snapshot.state);
-          print(downloadUrl);
           await uploadMMedia(downloadUrl);
         } catch (e) {
           showsnack(e.toString());
@@ -460,6 +444,5 @@ class BottomMediaUp {
   Future<void> uploadMedia(context, String photos, String mediaType) async {
     await authService.uploadMedia(
         context: context, media: photos, mediaType: mediaType);
-    print("upload media Done");
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -150,7 +152,6 @@ class NotificationService {
 
     // When app is in background
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      print("on open");
       handelMessage(context, event);
     });
   }

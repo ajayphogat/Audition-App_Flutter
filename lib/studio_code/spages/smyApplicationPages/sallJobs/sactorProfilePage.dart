@@ -67,7 +67,6 @@ class _SActorProfilePageState extends State<SActorProfilePage> {
                         var data = newArgs[index];
                         return InkWell(
                           onTap: () async {
-                            print(data["_id"]);
                             circularProgressIndicatorNew(context);
                             await getArtistData(data["_id"], jobId);
                           },

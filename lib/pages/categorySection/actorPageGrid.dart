@@ -71,7 +71,6 @@ class _ActorGridPageState extends State<ActorGridPage> {
                     itemBuilder: (context, index) {
                       JobModel data = _categoryJobs![index];
                       var showApplied = data.applicants.contains(user.id);
-                      print("abcd");
                       return InkWell(
                         onTap: () async {
                           circularProgressIndicatorNew(context);

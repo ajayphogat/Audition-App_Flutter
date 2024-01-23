@@ -23,14 +23,11 @@ class _SAcceptedJobPageState extends State<SAcceptedJobPage> {
   List<JobModel1>? _acceptedJobs;
 
   getAcceptedJobs() async {
-    print("start");
     _acceptedJobs = await otherService.showStudioJobs(
       context: context,
       working: "accepted",
       search: widget.searchEdit.text.isNotEmpty ? widget.searchEdit.text : "",
     );
-    print("heyheyheyheyhey");
-    print(_acceptedJobs);
     if (this.mounted) {
       setState(() {});
     }
@@ -88,7 +85,6 @@ class _SAcceptedJobPageState extends State<SAcceptedJobPage> {
                       JobModel1 data = _acceptedJobs![index];
                       return InkWell(
                         onTap: () async {
-                          print(data.id);
                           circularProgressIndicatorNew(context);
                           await getStudioJobDetail_Studio(data.id);
                           // print(data.id);

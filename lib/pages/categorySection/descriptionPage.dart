@@ -68,19 +68,14 @@ class _DescriptionPageState extends State<DescriptionPage>
   void searchInterviewDate(List<dynamic> interviews, String userid) {
     interviewData = interviews.firstWhere((item) => item['user'] == userid,
         orElse: () => null);
-    print("interviewData");
-    print(interviewData);
-    // setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     var jobData = Provider.of<JobProvider>(context, listen: false).job;
     var userD = Provider.of<UserProvider>(context, listen: false).user;
     if (jobData.interview.isNotEmpty) {
-      print(jobData.interview);
       searchInterviewDate(jobData.interview, userD.id);
     }
   }
@@ -96,8 +91,6 @@ class _DescriptionPageState extends State<DescriptionPage>
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     var jobData = Provider.of<JobProvider>(context).job;
-    print("interview");
-    print(jobData.interview);
     var userD = Provider.of<UserProvider>(context).user;
     var socialMediaLink = Uri.parse(jobData.socialMedia);
     bool isBookmarked = jobData.isBookmarked!;

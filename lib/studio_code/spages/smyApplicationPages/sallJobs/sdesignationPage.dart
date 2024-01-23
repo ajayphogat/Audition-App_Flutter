@@ -78,8 +78,6 @@ class _SDesignationPageState extends State<SDesignationPage> {
     var user = Provider.of<UserProvider>(context).user;
     var jobs = Provider.of<JobProvider1>(context).job;
     var sUser = Provider.of<StudioProvider>(context).user;
-    print("---skills----");
-    print(user.skills);
     isAccepted = jobs.isAccepted!;
     isShortlisted = jobs.isShortlisted!;
     isDeclined = jobs.isDeclined!;
@@ -285,7 +283,6 @@ class _SDesignationPageState extends State<SDesignationPage> {
                         circularProgressIndicatorNew(context);
                         List<dynamic> a = await DatabaseService(uid: sUser.id)
                             .createGroup(sUser.fname, user.id, user.fname);
-                        print(a);
                         setState(() {});
                         if (a.isEmpty) {
                           navigatorPop();

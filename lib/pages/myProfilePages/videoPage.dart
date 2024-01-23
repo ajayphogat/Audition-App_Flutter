@@ -65,7 +65,6 @@ class _MediaVideoPageState extends State<MediaVideoPage> {
                 ),
                 InkWell(
                   onTap: () async {
-                    print(user.videos.length);
                     // BottomMediaUp().showPickerMedia(context, user.id, "videos");
                     navigatorPop() => Navigator.pop(context);
                     circularProgressIndicatorNew(context);
@@ -73,8 +72,6 @@ class _MediaVideoPageState extends State<MediaVideoPage> {
                     await BottomMediaUp().pickMedia(context, user.id, "videos");
                     // setState(() {});
                     // await generateThumbnail1(user.videos);
-                    print("user video length");
-                    print(user.videos.length);
                     navigatorPop();
                   },
                   child: const Icon(MyFlutterApp.fluent_add_circle_24_filled),
@@ -135,8 +132,6 @@ class _MediaVideoPageState extends State<MediaVideoPage> {
                   ),
                   itemCount: videoThumbnailList.length,
                   itemBuilder: (context, index) {
-                    print("video thumbnail");
-                    print(videoThumbnailList[index]);
                     return InkWell(
                       onLongPress: () {
                         newDialogDelete(context, screenHeight, screenWidth, "");

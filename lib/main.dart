@@ -55,8 +55,6 @@ void main() async {
 @pragma('vm:entry-point')
 Future<void> _firebasemessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("pragma");
-  print(message.notification!.title.toString());
 }
 
 class MyAPP extends StatefulWidget {
@@ -75,7 +73,6 @@ class _MyAPPState extends State<MyAPP> {
   }
 
   void clearCurrentGroup() async {
-    print("first remove");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('currentGroup');
   }

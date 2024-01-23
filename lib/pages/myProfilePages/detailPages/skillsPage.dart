@@ -43,8 +43,6 @@ class _SkillsPageState extends State<SkillsPage> {
 
   @override
   void dispose() {
-    print("skillsList");
-    print(skillsList);
     skillsList = [];
     super.dispose();
   }
