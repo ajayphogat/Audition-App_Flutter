@@ -71,6 +71,7 @@ class _InboxState extends State<SInboxPage> with TickerProviderStateMixin {
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
+              tabAlignment: TabAlignment.start,
               indicatorColor: thirdColor,
               labelColor: thirdColor,
               unselectedLabelColor: Colors.black,

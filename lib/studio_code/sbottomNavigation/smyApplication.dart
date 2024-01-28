@@ -157,6 +157,7 @@ class _MyApplicationState extends State<SMyApplicationPage>
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
+              tabAlignment: TabAlignment.start,
               indicatorColor: thirdColor,
               labelColor: thirdColor,
               unselectedLabelColor: Colors.black,
