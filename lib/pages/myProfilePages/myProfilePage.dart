@@ -307,82 +307,80 @@ class _MyProfilePageState extends State<MyProfilePage>
                           ],
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.015),
-                      studioUser.id.isNotEmpty
-                          ? Container()
-                          : Card(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: screenWidth * 0.025,
-                                  vertical: screenHeight * 0.015,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const AutoSizeText(
-                                      "Subscription",
-                                      maxFontSize: 16,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: screenHeight * 0.02),
-                                    const Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        AutoSizeText(
-                                          // FIXME: Uncomment this code in future for subscriptions
-                                          // user.subscriptionName == "Free"
-                                          //     ? "You are currently using the monthly ${user.subscriptionName} plan. Upgrade your subscription plan to continue using the app."
-                                          //     : "You are currently using the monthly ${user.subscriptionName} plan.",
-                                          "You are currently using the monthly Free plan.",
-                                          maxFontSize: 12,
-                                          minFontSize: 10,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: screenHeight * 0.02),
-                                    // FIXME: Uncomment this code in future for subscriptions
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.end,
-                                    //   children: [
-                                    //     InkWell(
-                                    //       onTap: () {
-                                    //         Navigator.pushNamed(context,
-                                    //             SubscriptionPage.routeName);
-                                    //       },
-                                    //       child: Container(
-                                    //         width: screenWidth * 0.4,
-                                    //         height: screenHeight * 0.04,
-                                    //         decoration: BoxDecoration(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(3),
-                                    //           color: greenColor,
-                                    //         ),
-                                    //         alignment: Alignment.center,
-                                    //         child: const AutoSizeText(
-                                    //           "View plans",
-                                    //           maxFontSize: 14,
-                                    //           style: TextStyle(
-                                    //             fontSize: 14,
-                                    //             color: Colors.white,
-                                    //             fontWeight: FontWeight.w600,
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                      // SizedBox(height: screenHeight * 0.015),
+                      // studioUser.id.isNotEmpty
+                      //     ? Container()
+                          // : Card(
+                          //     child: Padding(
+                          //       padding: EdgeInsets.symmetric(
+                          //         horizontal: screenWidth * 0.025,
+                          //         vertical: screenHeight * 0.015,
+                          //       ),
+                          //       child: Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           const AutoSizeText(
+                          //             "Subscription",
+                          //             maxFontSize: 16,
+                          //             style: TextStyle(
+                          //               fontSize: 16,
+                          //               color: Colors.black,
+                          //               fontWeight: FontWeight.bold,
+                          //             ),
+                          //           ),
+                          //           SizedBox(height: screenHeight * 0.02),
+                          //           const Row(
+                          //             mainAxisSize: MainAxisSize.max,
+                          //             children: [
+                          //               AutoSizeText(
+                          //                 // user.subscriptionName == "Free"
+                          //                 //     ? "You are currently using the monthly ${user.subscriptionName} plan. Upgrade your subscription plan to continue using the app."
+                          //                 //     : "You are currently using the monthly ${user.subscriptionName} plan.",
+                          //                 "You are currently using the monthly Free plan.",
+                          //                 maxFontSize: 12,
+                          //                 minFontSize: 10,
+                          //                 style: TextStyle(
+                          //                   fontSize: 12,
+                          //                   color: Colors.black,
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //           SizedBox(height: screenHeight * 0.02),
+                          //           // Row(
+                          //           //   mainAxisAlignment: MainAxisAlignment.end,
+                          //           //   children: [
+                          //           //     InkWell(
+                          //           //       onTap: () {
+                          //           //         Navigator.pushNamed(context,
+                          //           //             SubscriptionPage.routeName);
+                          //           //       },
+                          //           //       child: Container(
+                          //           //         width: screenWidth * 0.4,
+                          //           //         height: screenHeight * 0.04,
+                          //           //         decoration: BoxDecoration(
+                          //           //           borderRadius:
+                          //           //               BorderRadius.circular(3),
+                          //           //           color: greenColor,
+                          //           //         ),
+                          //           //         alignment: Alignment.center,
+                          //           //         child: const AutoSizeText(
+                          //           //           "View plans",
+                          //           //           maxFontSize: 14,
+                          //           //           style: TextStyle(
+                          //           //             fontSize: 14,
+                          //           //             color: Colors.white,
+                          //           //             fontWeight: FontWeight.w600,
+                          //           //           ),
+                          //           //         ),
+                          //           //       ),
+                          //           //     ),
+                          //           //   ],
+                          //           // ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ),
                       // SizedBox(height: screenHeight * 0.015),
                       // Card(
                       //   child: Padding(

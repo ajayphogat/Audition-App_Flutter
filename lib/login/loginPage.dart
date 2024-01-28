@@ -6,6 +6,7 @@ import 'package:first_app/customize/my_flutter_app_icons.dart';
 import 'package:first_app/login/forgotPassword.dart';
 import 'package:first_app/login/signUpPage.dart';
 import 'package:first_app/studio_code/sbottomNavigation/sbottomNavigationBar.dart';
+import 'package:first_app/webview_page/webview_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -463,6 +464,56 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: screenHeight * 0.05),
+                  Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const WebViewPage(
+                                    pageName: "Privacy Policy",
+                                    url:
+                                        "https://www.freeprivacypolicy.com/live/8174feee-02be-4b05-8785-3091a5c15ce1",
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Privacy Policy",
+                              style: TextStyle(
+                                color: greenColor,
+                                fontSize: screenHeight * 0.016,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const WebViewPage(
+                                    pageName: "Terms and Conditions",
+                                    url:
+                                        "https://www.termsandconditionsgenerator.com/live.php?token=sAHVs2VCzqHRjIJbeoOsixtWdwjMNjiK",
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Terms and Conditions",
+                              style: TextStyle(
+                                color: greenColor,
+                                fontSize: screenHeight * 0.016,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                   SizedBox(height: screenHeight * 0.1),
                 ],
               ),
