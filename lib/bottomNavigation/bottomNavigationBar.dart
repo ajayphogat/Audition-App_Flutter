@@ -72,6 +72,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         height: screenHeight * 0.075,
         margin: EdgeInsets.only(bottom: screenHeight * 0.01),
         // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
           boxShadow: const [
