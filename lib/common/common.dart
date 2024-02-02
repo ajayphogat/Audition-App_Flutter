@@ -1354,7 +1354,7 @@ AppBar profileAppBar1(double screenHeight, double screenWidth,
     actions: [
       SizedBox(
         width: screenWidth,
-        height: screenHeight * 0.08,
+        height: screenHeight * 0.1,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

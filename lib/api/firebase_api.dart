@@ -60,10 +60,18 @@ class NotificationService {
     );
   }
 
-  //TODO: Run this function at the starting and update the token in the firebase database and use it later to send
   // Get Device Token
   Future<String> getDeviceToken() async {
-    String? token = await messaging.getToken();
+    String? token;
+    if (Platform.isIOS) {
+      token = await messaging.getAPNSToken();
+      if (token == null) {
+        await Future.delayed(const Duration(seconds: 1));
+        token = await messaging.getAPNSToken();
+      }
+    } else {
+      token = await messaging.getToken();
+    }
     return token!;
   }
 

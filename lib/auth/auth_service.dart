@@ -44,7 +44,7 @@ class AuthService {
       var user = UserModel(
         id: "",
         fname: fname,
-        email: email,
+        email: email.toLowerCase().trim(),
         number: number,
         password: password,
         category: "",
@@ -135,7 +135,7 @@ class AuthService {
                   "number": number,
                   "otp": otp,
                   "fname": fname,
-                  "email": email,
+                  "email": email.toLowerCase().trim(),
                   "password": password,
                 },
               ),
@@ -149,22 +149,22 @@ class AuthService {
       if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] == 'create') {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
+                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
             .user!;
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
-              .updateUserData(fname.trim(), email.trim());
+              .updateUserData(fname.trim(), email.toLowerCase().trim());
         } else {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
       } else if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] != 'create') {
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
+                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
             .user!;
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
-              .updateUserData(fname.trim(), email.trim());
+              .updateUserData(fname.trim(), email.toLowerCase().trim());
         } else {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
@@ -204,7 +204,7 @@ class AuthService {
                   "number": number,
                   "otp": otp,
                   "fname": fname,
-                  "email": email,
+                  "email": email.toLowerCase().trim(),
                   "password": password,
                 },
               ),
@@ -214,23 +214,23 @@ class AuthService {
       if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] == 'create') {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
+                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
             .user!;
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
-              .updateUserData(fname.trim(), email.trim());
+              .updateUserData(fname.trim(), email.toLowerCase().trim());
         } else {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
       } else if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] != 'create') {
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
+                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
             .user!;
 
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
-              .updateUserData(fname.trim(), email.trim());
+              .updateUserData(fname.trim(), email.toLowerCase().trim());
         } else {
           showSnackBar(context, firebaseAuth.currentUser.toString());
         }
@@ -328,7 +328,7 @@ class AuthService {
       var user = UserModel(
         id: "",
         fname: "",
-        email: email,
+        email: email.toLowerCase().trim(),
         number: "",
         password: password,
         category: "",
@@ -372,12 +372,13 @@ class AuthService {
 
       if (res.statusCode == 200) {
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
+                email: email.toLowerCase().trim(),
+                password: "${email.toLowerCase().trim()}password"))
             .user!;
 
         QuerySnapshot snapshot =
             await DatabaseService(uid: jsonDecode(res.body)['_id'])
-                .gettingUserData(email.trim());
+                .gettingUserData(email.toLowerCase().trim());
       }
 
       httpErrorHandelForLoginSignup(
@@ -1535,7 +1536,7 @@ class AuthService {
       var user = StudioModel(
         id: "",
         fname: fname,
-        email: email,
+        email: email.toLowerCase().trim(),
         number: number,
         password: password,
         token: "",
@@ -1595,7 +1596,7 @@ class AuthService {
       var user = StudioModel(
         id: "",
         fname: "",
-        email: email,
+        email: email.toLowerCase().trim(),
         number: "",
         password: password,
         token: "",
@@ -1616,12 +1617,13 @@ class AuthService {
 
       if (res.statusCode == 200) {
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.trim(), password: "${email.trim()}password"))
+                email: email.toLowerCase().trim(),
+                password: "${email.toLowerCase().trim()}password"))
             .user!;
 
         QuerySnapshot snapshot =
             await DatabaseService(uid: jsonDecode(res.body)['_id'])
-                .gettingUserData(email.trim());
+                .gettingUserData(email.toLowerCase().trim());
       }
 
       httpErrorHandelForLoginSignup(

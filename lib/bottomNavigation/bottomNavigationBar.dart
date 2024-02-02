@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:first_app/bottomNavigation/inbox.dart';
 import 'package:first_app/bottomNavigation/myApplication.dart';
 import 'package:first_app/constants.dart';
@@ -67,123 +69,246 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         index: _page,
         children: pages,
       ),
-      bottomNavigationBar: Container(
-        width: screenWidth,
-        height: screenHeight * 0.075,
-        margin: EdgeInsets.only(bottom: screenHeight * 0.01),
-        // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          boxShadow: const [
-            BoxShadow(
-              offset: Offset(3, 3),
-              blurRadius: 5,
-              spreadRadius: 2,
-              color: Colors.black12,
-            ),
-          ],
-          // color: Colors.red,
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: WillPopScope(
-          onWillPop: () async {
-            if (_page > 0) {
-              Navigator.popAndPushNamed(
-                  context, BottomNavigationPage.routeName);
-              setState(() {
-                _page = 0;
-              });
-              return false;
-            } else if (_page == 0) {
-              final timegap = DateTime.now().difference(pre_backPress);
-              pre_backPress = DateTime.now();
+      bottomNavigationBar: Platform.isIOS
+          ? SafeArea(
+              child: Container(
+                width: screenWidth,
+                height: screenHeight * 0.075,
+                margin: EdgeInsets.only(bottom: screenHeight * 0.01),
+                // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  boxShadow: const [
+                    BoxShadow(
+                      offset: Offset(3, 3),
+                      blurRadius: 5,
+                      spreadRadius: 2,
+                      color: Colors.black12,
+                    ),
+                  ],
+                  // color: Colors.red,
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: WillPopScope(
+                  onWillPop: () async {
+                    if (_page > 0) {
+                      Navigator.popAndPushNamed(
+                          context, BottomNavigationPage.routeName);
+                      setState(() {
+                        _page = 0;
+                      });
+                      return false;
+                    } else if (_page == 0) {
+                      final timegap = DateTime.now().difference(pre_backPress);
+                      pre_backPress = DateTime.now();
 
-              if (timegap >= const Duration(seconds: 2)) {
-                showSnackBar(context, "Press Back button again to Exit");
-                return false;
-              } else {
-                return true;
-              }
-            }
-            return false;
-          },
-          child: BottomNavigationBar(
-            key: _key,
-            backgroundColor: primaryColor,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: primaryColor,
-            unselectedItemColor: Colors.black,
-            selectedIconTheme: const IconThemeData(color: primaryColor),
-            unselectedIconTheme: const IconThemeData(color: Colors.black),
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            selectedLabelStyle: const TextStyle(fontFamily: fontFamily),
-            unselectedLabelStyle: const TextStyle(fontFamily: fontFamily),
-            selectedFontSize: 1,
-            unselectedFontSize: 1,
-            currentIndex: _page,
-            onTap: updatePage,
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(MyFlutterApp.home_outline),
-                activeIcon: CircleAvatar(
-                  radius: screenHeight * 0.02,
-                  backgroundColor: greenColor,
-                  child: const Icon(
-                    MyFlutterApp.home_outline,
-                    color: primaryColor,
+                      if (timegap >= const Duration(seconds: 2)) {
+                        showSnackBar(
+                            context, "Press Back button again to Exit");
+                        return false;
+                      } else {
+                        return true;
+                      }
+                    }
+                    return false;
+                  },
+                  child: BottomNavigationBar(
+                    key: _key,
+                    backgroundColor: primaryColor,
+                    type: BottomNavigationBarType.fixed,
+                    selectedItemColor: primaryColor,
+                    unselectedItemColor: Colors.black,
+                    selectedIconTheme: const IconThemeData(color: primaryColor),
+                    unselectedIconTheme:
+                        const IconThemeData(color: Colors.black),
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    selectedLabelStyle: const TextStyle(fontFamily: fontFamily),
+                    unselectedLabelStyle:
+                        const TextStyle(fontFamily: fontFamily),
+                    selectedFontSize: 1,
+                    unselectedFontSize: 1,
+                    currentIndex: _page,
+                    onTap: updatePage,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: const Icon(MyFlutterApp.home_outline),
+                        activeIcon: CircleAvatar(
+                          radius: screenHeight * 0.02,
+                          backgroundColor: greenColor,
+                          child: const Icon(
+                            MyFlutterApp.home_outline,
+                            color: primaryColor,
+                          ),
+                        ),
+                        label: "Home",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: const Icon(MyFlutterApp.paper_outline),
+                        // icon: Icon(_page == 1
+                        //     ? MyFlutterApp.paper
+                        //     : MyFlutterApp.paper_outline),
+                        activeIcon: CircleAvatar(
+                          radius: screenHeight * 0.02,
+                          backgroundColor: greenColor,
+                          child: const Icon(
+                            MyFlutterApp.paper_outline,
+                            color: primaryColor,
+                          ),
+                        ),
+                        label: "My Applications",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: const Icon(MyFlutterApp.message_outline),
+                        // icon: Icon(_page == 2
+                        //     ? MyFlutterApp.message
+                        //     : MyFlutterApp.message_outline),
+                        activeIcon: CircleAvatar(
+                          radius: screenHeight * 0.02,
+                          backgroundColor: greenColor,
+                          child: const Icon(
+                            MyFlutterApp.message_outline,
+                            color: primaryColor,
+                          ),
+                        ),
+                        label: "Inbox",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: const Icon(MyFlutterApp.profile_outline),
+                        // : MyFlutterApp.profile_outline),
+                        activeIcon: CircleAvatar(
+                          radius: screenHeight * 0.02,
+                          backgroundColor: greenColor,
+                          child: const Icon(
+                            MyFlutterApp.profile_outline,
+                            color: primaryColor,
+                          ),
+                        ),
+                        label: "My Profile",
+                      ),
+                    ],
                   ),
                 ),
-                label: "Home",
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(MyFlutterApp.paper_outline),
-                // icon: Icon(_page == 1
-                //     ? MyFlutterApp.paper
-                //     : MyFlutterApp.paper_outline),
-                activeIcon: CircleAvatar(
-                  radius: screenHeight * 0.02,
-                  backgroundColor: greenColor,
-                  child: const Icon(
-                    MyFlutterApp.paper_outline,
-                    color: primaryColor,
+            )
+          : Container(
+              width: screenWidth,
+              height: screenHeight * 0.075,
+              margin: EdgeInsets.only(bottom: screenHeight * 0.01),
+              // padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: const [
+                  BoxShadow(
+                    offset: Offset(3, 3),
+                    blurRadius: 5,
+                    spreadRadius: 2,
+                    color: Colors.black12,
                   ),
-                ),
-                label: "My Applications",
+                ],
+                // color: Colors.red,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(MyFlutterApp.message_outline),
-                // icon: Icon(_page == 2
-                //     ? MyFlutterApp.message
-                //     : MyFlutterApp.message_outline),
-                activeIcon: CircleAvatar(
-                  radius: screenHeight * 0.02,
-                  backgroundColor: greenColor,
-                  child: const Icon(
-                    MyFlutterApp.message_outline,
-                    color: primaryColor,
-                  ),
+              clipBehavior: Clip.antiAlias,
+              child: WillPopScope(
+                onWillPop: () async {
+                  if (_page > 0) {
+                    Navigator.popAndPushNamed(
+                        context, BottomNavigationPage.routeName);
+                    setState(() {
+                      _page = 0;
+                    });
+                    return false;
+                  } else if (_page == 0) {
+                    final timegap = DateTime.now().difference(pre_backPress);
+                    pre_backPress = DateTime.now();
+
+                    if (timegap >= const Duration(seconds: 2)) {
+                      showSnackBar(context, "Press Back button again to Exit");
+                      return false;
+                    } else {
+                      return true;
+                    }
+                  }
+                  return false;
+                },
+                child: BottomNavigationBar(
+                  key: _key,
+                  backgroundColor: primaryColor,
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: primaryColor,
+                  unselectedItemColor: Colors.black,
+                  selectedIconTheme: const IconThemeData(color: primaryColor),
+                  unselectedIconTheme: const IconThemeData(color: Colors.black),
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  selectedLabelStyle: const TextStyle(fontFamily: fontFamily),
+                  unselectedLabelStyle: const TextStyle(fontFamily: fontFamily),
+                  selectedFontSize: 1,
+                  unselectedFontSize: 1,
+                  currentIndex: _page,
+                  onTap: updatePage,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: const Icon(MyFlutterApp.home_outline),
+                      activeIcon: CircleAvatar(
+                        radius: screenHeight * 0.02,
+                        backgroundColor: greenColor,
+                        child: const Icon(
+                          MyFlutterApp.home_outline,
+                          color: primaryColor,
+                        ),
+                      ),
+                      label: "Home",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(MyFlutterApp.paper_outline),
+                      // icon: Icon(_page == 1
+                      //     ? MyFlutterApp.paper
+                      //     : MyFlutterApp.paper_outline),
+                      activeIcon: CircleAvatar(
+                        radius: screenHeight * 0.02,
+                        backgroundColor: greenColor,
+                        child: const Icon(
+                          MyFlutterApp.paper_outline,
+                          color: primaryColor,
+                        ),
+                      ),
+                      label: "My Applications",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(MyFlutterApp.message_outline),
+                      // icon: Icon(_page == 2
+                      //     ? MyFlutterApp.message
+                      //     : MyFlutterApp.message_outline),
+                      activeIcon: CircleAvatar(
+                        radius: screenHeight * 0.02,
+                        backgroundColor: greenColor,
+                        child: const Icon(
+                          MyFlutterApp.message_outline,
+                          color: primaryColor,
+                        ),
+                      ),
+                      label: "Inbox",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(MyFlutterApp.profile_outline),
+                      // : MyFlutterApp.profile_outline),
+                      activeIcon: CircleAvatar(
+                        radius: screenHeight * 0.02,
+                        backgroundColor: greenColor,
+                        child: const Icon(
+                          MyFlutterApp.profile_outline,
+                          color: primaryColor,
+                        ),
+                      ),
+                      label: "My Profile",
+                    ),
+                  ],
                 ),
-                label: "Inbox",
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(MyFlutterApp.profile_outline),
-                // : MyFlutterApp.profile_outline),
-                activeIcon: CircleAvatar(
-                  radius: screenHeight * 0.02,
-                  backgroundColor: greenColor,
-                  child: const Icon(
-                    MyFlutterApp.profile_outline,
-                    color: primaryColor,
-                  ),
-                ),
-                label: "My Profile",
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
