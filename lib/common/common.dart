@@ -1303,10 +1303,11 @@ AppBar profileAppBar(double screenHeight, double screenWidth,
           children: [
             Container(
               margin: EdgeInsets.only(
-                  left: screenWidth * 0.02,
-                  right: screenWidth * 0.02,
-                  top: screenHeight * 0.02,
-                  bottom: screenHeight * 0.005),
+                left: screenWidth * 0.02,
+                right: screenWidth * 0.02,
+                top: screenHeight * 0.02,
+                bottom: screenHeight * 0.005,
+              ),
               height: screenHeight * 0.02,
               child: IconButton(
                 padding: EdgeInsets.zero,

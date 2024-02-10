@@ -35,11 +35,9 @@ class DatabaseService {
   }
 
   Future updateFCMToken() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
     var fcmToken = await NotificationService().getDeviceToken();
     return await userCollection.doc(uid).update({
       "fCMToken": fcmToken,
-      // "fCMToken": prefs.getString('fCMToken'),
     });
   }
 
@@ -74,13 +72,9 @@ class DatabaseService {
     });
   }
 
-  Future gettingUserData(String email) async {
-    print("heyyyy");
+  Future<void> gettingUserData(String email) async {
     await updateFCMToken();
-    print("heyyyy2");
-    QuerySnapshot snapshot =
-        await userCollection.where("email", isEqualTo: email).get();
-    return snapshot;
+    await userCollection.where("email", isEqualTo: email).get();
   }
 
   Future gettingUserFCMToken(String userID) async {

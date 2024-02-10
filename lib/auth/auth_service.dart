@@ -149,7 +149,8 @@ class AuthService {
       if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] == 'create') {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
-                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
+                email: email.toLowerCase().trim(),
+                password: "${email.toLowerCase().trim()}password"))
             .user!;
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
@@ -160,7 +161,8 @@ class AuthService {
       } else if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] != 'create') {
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
+                email: email.toLowerCase().trim(),
+                password: "${email.toLowerCase().trim()}password"))
             .user!;
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
@@ -214,7 +216,8 @@ class AuthService {
       if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] == 'create') {
         firebaseUser = (await firebaseAuth.createUserWithEmailAndPassword(
-                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
+                email: email.toLowerCase().trim(),
+                password: "${email.toLowerCase().trim()}password"))
             .user!;
         if (firebaseUser != null) {
           await DatabaseService(uid: jsonDecode(res.body)['_id'])
@@ -225,7 +228,8 @@ class AuthService {
       } else if (res.statusCode == 200 &&
           jsonDecode(res.body)["created"] != 'create') {
         firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.toLowerCase().trim(), password: "${email.toLowerCase().trim()}password"))
+                email: email.toLowerCase().trim(),
+                password: "${email.toLowerCase().trim()}password"))
             .user!;
 
         if (firebaseUser != null) {
@@ -323,7 +327,6 @@ class AuthService {
     bool? saveToken,
   }) async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    User firebaseUser;
     try {
       var user = UserModel(
         id: "",
@@ -371,14 +374,14 @@ class AuthService {
           });
 
       if (res.statusCode == 200) {
-        firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.toLowerCase().trim(),
-                password: "${email.toLowerCase().trim()}password"))
-            .user!;
+        // Signin user with Email and Password
+        await firebaseAuth.signInWithEmailAndPassword(
+            email: email.toLowerCase().trim(),
+            password: "${email.toLowerCase().trim()}password");
 
-        QuerySnapshot snapshot =
-            await DatabaseService(uid: jsonDecode(res.body)['_id'])
-                .gettingUserData(email.toLowerCase().trim());
+        // Update FCM Token in user Database
+        await DatabaseService(uid: jsonDecode(res.body)['_id'])
+            .gettingUserData(email.toLowerCase().trim());
       }
 
       httpErrorHandelForLoginSignup(
@@ -396,8 +399,6 @@ class AuthService {
             } else {
               await prefs.setBool('tokenSaved', false);
             }
-            await prefs.setString(
-                "x-firebase-token", FirebaseAuth.instance.currentUser!.uid);
             await prefs.setString(
                 "x-auth-token", jsonDecode(res.body)['token']);
             await prefs.remove("x-studio-token");
@@ -1591,7 +1592,6 @@ class AuthService {
     bool? saveToken,
   }) async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    User firebaseUser;
     try {
       var user = StudioModel(
         id: "",
@@ -1616,14 +1616,14 @@ class AuthService {
           });
 
       if (res.statusCode == 200) {
-        firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
-                email: email.toLowerCase().trim(),
-                password: "${email.toLowerCase().trim()}password"))
-            .user!;
+        // Signin user with Email and Password
+        await firebaseAuth.signInWithEmailAndPassword(
+            email: email.toLowerCase().trim(),
+            password: "${email.toLowerCase().trim()}password");
 
-        QuerySnapshot snapshot =
-            await DatabaseService(uid: jsonDecode(res.body)['_id'])
-                .gettingUserData(email.toLowerCase().trim());
+        // Update FCM Token in user database
+        await DatabaseService(uid: jsonDecode(res.body)['_id'])
+            .gettingUserData(email.toLowerCase().trim());
       }
 
       httpErrorHandelForLoginSignup(
