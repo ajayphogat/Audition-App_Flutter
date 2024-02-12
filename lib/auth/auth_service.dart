@@ -380,8 +380,8 @@ class AuthService {
             password: "${email.toLowerCase().trim()}password");
 
         // Update FCM Token in user Database
-        // await DatabaseService(uid: jsonDecode(res.body)['_id'])
-        //     .gettingUserData(email.toLowerCase().trim());
+        await DatabaseService(uid: jsonDecode(res.body)['_id'])
+            .gettingUserData(email.toLowerCase().trim());
       }
 
       httpErrorHandelForLoginSignup(
@@ -1622,8 +1622,8 @@ class AuthService {
             password: "${email.toLowerCase().trim()}password");
 
         // Update FCM Token in user database
-        // await DatabaseService(uid: jsonDecode(res.body)['_id'])
-        //     .gettingUserData(email.toLowerCase().trim());
+        await DatabaseService(uid: jsonDecode(res.body)['_id'])
+            .gettingUserData(email.toLowerCase().trim());
       }
 
       httpErrorHandelForLoginSignup(
