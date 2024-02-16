@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_visible_for_testing_member
 
 import 'dart:io';
 
@@ -68,7 +68,11 @@ class BottomMediaUp {
                       onTap: () async {
                         circularProgressIndicatorNew(context);
                         // await uploadImageGallary(userId);
-                        await pickMedia(context, userId, mediaType);
+                        await pickMedia(
+                          context: context,
+                          userId: userId,
+                          mediaType: mediaType,
+                        );
                         Navigator.pop(context);
                         Navigator.pop(context);
                       }),
@@ -198,8 +202,11 @@ class BottomMediaUp {
         context: context, profilePicUrl: url, user: user);
   }
 
-  Future pickMedia(
-      BuildContext context, String userId, String mediaType) async {
+  Future pickMedia({
+    required BuildContext context,
+    required String userId,
+    required String mediaType,
+  }) async {
     showsnack(e) => showSnackBar(context, e.toString());
     uploadMMedia(String downloadUrl, String text) =>
         uploadMedia(context, downloadUrl, text);
@@ -208,13 +215,24 @@ class BottomMediaUp {
 
     if (mediaType == "photos") {
       try {
-        var files = await FilePicker.platform.pickFiles(
-          type: FileType.custom,
-          allowMultiple: false,
-          allowedExtensions: ['jpeg', 'jpg', 'png'],
+        // var files = await FilePicker.platform.pickFiles(
+        //   type: FileType.custom,
+        //   allowMultiple: false,
+        //   allowedExtensions: ['jpeg', 'jpg', 'png'],
+        // );
+        var files = await ImagePicker.platform.getImageFromSource(
+          source: ImageSource.gallery,
         );
-        if (files != null && files.files.isNotEmpty) {
-          mediaImages = File(files.files[0].path!);
+
+        // pickFiles(
+        //   type: FileType.custom,
+        //   allowMultiple: false,
+        //   allowedExtensions: ['jpeg', 'jpg', 'png'],
+        // );
+        // if (files != null && files.files.isNotEmpty) {
+        //   mediaImages = File(files.files[0].path!);
+        if (files != null) {
+          mediaImages = File(files.path);
 
           // Crop Image
           CroppedFile? cropped = await ImageCropper()

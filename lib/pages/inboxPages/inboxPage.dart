@@ -194,7 +194,12 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            subtitle: message![index].substring(0, 5) == 'https'
+                            subtitle: (message![index].length > 5 &&
+                                        message![index].substring(0, 5) ==
+                                            'https') ||
+                                    (message![index].length > 4 &&
+                                        message![index].substring(0, 4) ==
+                                            'http')
                                 ? const Row(
                                     children: [
                                       Icon(
@@ -202,6 +207,7 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                                         size: 18,
                                         color: Colors.black54,
                                       ),
+                                      // FIXME: We have to show this only for attachments or files not for links
                                       Text(
                                         "File",
                                       ),

@@ -619,8 +619,11 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                       onTap: () async {
                         navigatorPop() => Navigator.pop(context);
                         circularProgressIndicatorNew(context);
-                        await BottomMediaUp()
-                            .pickMedia(context, user.id, "documents");
+                        await BottomMediaUp().pickMedia(
+                          context: context,
+                          userId: user.id,
+                          mediaType: "documents",
+                        );
                         navigatorPop();
                       },
                       child:
@@ -667,8 +670,11 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                       onTap: () async {
                         navigatorPop() => Navigator.pop(context);
                         circularProgressIndicatorNew(context);
-                        await BottomMediaUp()
-                            .pickMedia(context, user.id, "audios");
+                        await BottomMediaUp().pickMedia(
+                          context: context,
+                          userId: user.id,
+                          mediaType: "audios",
+                        );
                         navigatorPop();
                       },
                       child:
@@ -715,8 +721,11 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                       onTap: () async {
                         navigatorPop() => Navigator.pop(context);
                         circularProgressIndicatorNew(context);
-                        await BottomMediaUp()
-                            .pickMedia(context, user.id, "videos");
+                        await BottomMediaUp().pickMedia(
+                          context: context,
+                          userId: user.id,
+                          mediaType: "videos",
+                        );
                         navigatorPop();
                       },
                       child:

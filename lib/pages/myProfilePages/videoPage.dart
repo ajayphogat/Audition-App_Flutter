@@ -69,7 +69,11 @@ class _MediaVideoPageState extends State<MediaVideoPage> {
                     navigatorPop() => Navigator.pop(context);
                     circularProgressIndicatorNew(context);
                     // videoThumbnailList = [];
-                    await BottomMediaUp().pickMedia(context, user.id, "videos");
+                    await BottomMediaUp().pickMedia(
+                      context: context,
+                      userId: user.id,
+                      mediaType: "videos",
+                    );
                     // setState(() {});
                     // await generateThumbnail1(user.videos);
                     navigatorPop();
