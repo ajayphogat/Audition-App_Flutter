@@ -82,6 +82,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                         decoration: const BoxDecoration(
                           // color: Colors.red,
                           image: DecorationImage(
+                            fit: BoxFit.fitWidth,
                             image: AssetImage(
                               "asset/images/uiImages/media_appbar.png",
                             ),

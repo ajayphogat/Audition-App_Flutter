@@ -39,6 +39,8 @@
     <string>FindingYou require access Photo Library to upload profile photo from Photos</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>FindingYou require access Photo Library to upload profile photo from Photos</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>FindingYou require access Media Library to upload audio</string>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
     <key>UIBackgroundModes</key>
@@ -60,6 +62,11 @@
         <string>UIInterfaceOrientationLandscapeRight</string>
         <string>UIInterfaceOrientationPortrait</string>
         <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    </array>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
     </array>
     <key>BGTaskSchedulerPermittedIdentifiers</key>
     <array>

@@ -328,6 +328,7 @@ class _SMyProfilePageState extends State<SMyProfilePage>
                 TabBar(
                   controller: _tabController,
                   isScrollable: true,
+                  tabAlignment: TabAlignment.center,
                   indicatorColor: thirdColor,
                   labelColor: thirdColor,
                   unselectedLabelColor: Colors.black,

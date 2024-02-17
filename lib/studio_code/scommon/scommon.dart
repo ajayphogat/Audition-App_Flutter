@@ -410,6 +410,7 @@ AppBar simpleAppBar(double screenHeight, double screenWidth,
   return AppBar(
     toolbarHeight: screenHeight * 0.10,
     backgroundColor: Colors.white,
+    automaticallyImplyLeading: false,
     actions: [
       SizedBox(
         width: screenWidth,

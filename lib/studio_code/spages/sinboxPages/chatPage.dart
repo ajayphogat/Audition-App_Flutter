@@ -129,7 +129,7 @@ class _ChatPageState extends State<ChatPage> {
                                   clipBehavior: Clip.antiAlias,
                                   child: Container(
                                     padding: const EdgeInsets.all(10),
-                                    height: screenHeight * 0.60,
+                                    height: screenHeight * 0.605,
                                     width: screenWidth,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),

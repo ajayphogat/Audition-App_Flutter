@@ -64,7 +64,7 @@ class _SBottomNavigationPageState extends State<SBottomNavigationPage> {
       bottomNavigationBar: Platform.isIOS
           ? SafeArea(
               child: SizedBox(
-                height: screenHeight * 0.065,
+                height: screenHeight * 0.085,
                 child: WillPopScope(
                   onWillPop: () async {
                     if (_page > 0) {

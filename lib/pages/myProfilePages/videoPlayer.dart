@@ -44,7 +44,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               clipBehavior: Clip.antiAlias,
               child: Container(
                 padding: const EdgeInsets.all(10),
-                height: screenHeight * 0.65,
+                height: screenHeight * 0.68,
                 width: screenWidth,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),

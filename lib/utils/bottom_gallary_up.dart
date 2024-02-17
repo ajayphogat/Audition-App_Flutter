@@ -327,9 +327,9 @@ class BottomMediaUp {
     } else if (mediaType == "audios") {
       try {
         var files = await FilePicker.platform.pickFiles(
-          type: FileType.audio,
+          type: FileType.custom,
           allowMultiple: false,
-          // allowedExtensions: ['mp4', 'mov', 'avi', 'mkv'],
+          allowedExtensions: ['mp3'],
         );
         if (files != null && files.files.isNotEmpty) {
           mediaImages = File(files.files[0].path!);

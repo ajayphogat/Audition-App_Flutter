@@ -188,7 +188,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                               child: BlurryContainer(
                                 blur: 5,
                                 width: screenWidth * 0.95,
-                                height: screenHeight * 0.225,
+                                height: screenHeight * 0.25,
                                 elevation: 5,
                                 color: Colors.white.withOpacity(
                                   0.7,
@@ -859,7 +859,7 @@ class _MediaProfilePageState extends State<MediaProfilePage>
                               clipBehavior: Clip.antiAlias,
                               child: Container(
                                 padding: const EdgeInsets.all(10),
-                                height: screenHeight * 0.60,
+                                height: screenHeight * 0.62,
                                 width: screenWidth,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),

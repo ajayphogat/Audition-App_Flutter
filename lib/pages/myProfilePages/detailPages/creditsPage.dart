@@ -130,6 +130,7 @@ class _CreditsPageState extends State<CreditsPage> {
                 SizedBox(height: screenHeight * 0.03),
                 const Text(
                   "You don't have any credits added yet",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: fontFamily,
@@ -186,7 +187,6 @@ class _CreditsPageState extends State<CreditsPage> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
             ),
             child: Column(
               children: [

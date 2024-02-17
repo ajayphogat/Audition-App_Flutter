@@ -394,7 +394,7 @@ class _SHomePageState extends State<SHomePage> {
                     ),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.18,
+                    height: screenHeight * 0.19,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),

@@ -152,7 +152,7 @@ class _MyApplicationState extends State<SMyApplicationPage>
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(screenHeight * 0.01),
           child: Container(
-            height: screenHeight * 0.035,
+            height: screenHeight * 0.04,
             alignment: Alignment.centerLeft,
             child: TabBar(
               controller: _tabController,

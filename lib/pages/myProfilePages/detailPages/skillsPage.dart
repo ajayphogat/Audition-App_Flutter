@@ -194,7 +194,6 @@ class _SkillsPageState extends State<SkillsPage> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
             ),
             child: Column(
               children: [

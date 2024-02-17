@@ -1351,11 +1351,11 @@ AppBar profileAppBar1(double screenHeight, double screenWidth,
   return AppBar(
     automaticallyImplyLeading: false,
     backgroundColor: Colors.white,
-    toolbarHeight: screenHeight * 0.105,
+    toolbarHeight: screenHeight * 0.12,
     actions: [
       SizedBox(
         width: screenWidth,
-        height: screenHeight * 0.105,
+        height: screenHeight * 0.12,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

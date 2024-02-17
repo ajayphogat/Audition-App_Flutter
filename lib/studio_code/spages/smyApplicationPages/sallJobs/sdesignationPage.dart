@@ -339,7 +339,7 @@ class _SDesignationPageState extends State<SDesignationPage> {
                           ),
                         ),
                         Container(
-                          width: screenWidth * 0.8,
+                          width: screenWidth * 0.78,
                           // color: Colors.red,
                           margin: const EdgeInsets.only(left: 5),
                           child: Text(
