@@ -5,7 +5,6 @@ import 'package:app_settings/app_settings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:first_app/main.dart';
 import 'package:first_app/provider/studio_provider.dart';
-import 'package:first_app/utils/showSnackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
