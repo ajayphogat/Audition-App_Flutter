@@ -36,9 +36,11 @@ class DatabaseService {
 
   Future updateFCMToken() async {
     var fcmToken = await NotificationService().getDeviceToken();
+    print(fcmToken);
     return await userCollection.doc(uid).update({
       "fCMToken": fcmToken,
     });
+
   }
 
   Future logoutFCMToken() async {

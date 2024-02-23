@@ -63,15 +63,29 @@ class NotificationService {
   // Get Device Token
   Future<String> getDeviceToken() async {
     String? token;
+
+
+    // messaging.getToken().then((String? token) async {
+    //   if (token == null) {
+    //   } else {
+    //     token = token;
+    //  print(token);
+    //   }
+    // }).catchError((error) {
+    //   print(error.toString());
+    // });
+
     if (Platform.isIOS) {
-      token = await messaging.getAPNSToken();
+      token = await messaging.getToken();
       if (token == null) {
         await Future.delayed(const Duration(seconds: 1));
-        token = await messaging.getAPNSToken();
+        token = await messaging.getToken();
+
       }
     } else {
       token = await messaging.getToken();
     }
+    print(token);
     return token!;
   }
 

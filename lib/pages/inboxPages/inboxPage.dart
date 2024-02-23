@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/auth/databaseService.dart';
 import 'package:first_app/constants.dart';
 import 'package:first_app/provider/user_provider.dart';
@@ -87,6 +91,9 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
   @override
   void initState() {
     var user = Provider.of<UserProvider>(context, listen: false).user;
+    Timer.periodic(Duration(seconds: 2), (timer) {
+      getUserGroups(user.id);
+    });
     getUserGroups(user.id);
     super.initState();
   }
@@ -113,10 +120,14 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                   return getUserGroups(pp);
                 },
                 child: ListView.separated(
+                  key: Key("${Random().nextDouble()}"),
                   itemCount: snapshot.data['groups'].length,
                   itemBuilder: (context, index) {
-                    var newTime = TimeAgo.timeAgoSinceDate(
+                    String newTime = "";
+                    if(recentMsgTime != null && recentMsgTime![0] != ""){
+                      newTime = TimeAgo.timeAgoSinceDate(
                         int.parse(recentMsgTime![index]));
+                    }
                     // int reverseIndex = snapshot.data['groups'].length - index - 1;
                     // var newDate = DateTime.fromMillisecondsSinceEpoch(
                     //     int.parse(recentMsgTime![index]));
@@ -194,7 +205,9 @@ class _InboxMessagePageState extends State<InboxMessagePage> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            subtitle: (message![index].length > 5 &&
+                            subtitle: (message!.isEmpty) ? Text(
+                              ""
+                            ) : (message![index].length > 5 &&
                                         message![index].substring(0, 5) ==
                                             'https') ||
                                     (message![index].length > 4 &&

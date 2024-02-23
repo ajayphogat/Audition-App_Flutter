@@ -373,6 +373,7 @@ class AuthService {
             "Content-Type": "application/json; charset=UTF-8",
           });
 
+          print(res.statusCode);
       if (res.statusCode == 200) {
         // Signin user with Email and Password
         await firebaseAuth.signInWithEmailAndPassword(
@@ -624,7 +625,9 @@ class AuthService {
       if (res.statusCode == 200) {
         var studioExist = jsonDecode(res.body)['studioExist'];
         await DatabaseService(uid: user.id).deleteFirebaseData();
+        print("Studio Exist: $studioExist");
         if (!studioExist) {
+          print("yes");
           await _deleteUserAccount(context);
         }
         prefs.setString("x-auth-token", "");
@@ -1614,6 +1617,8 @@ class AuthService {
           headers: <String, String>{
             "Content-Type": "application/json; charset=UTF-8",
           });
+
+      print(res.statusCode);
 
       if (res.statusCode == 200) {
         // Signin user with Email and Password
